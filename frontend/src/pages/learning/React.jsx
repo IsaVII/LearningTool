@@ -1,18 +1,40 @@
+import ContentCard from "../../components/ContentCard";
+import PracticeTopicCard from "../../components/PracticeTopicCard";
+
+const practiceTopics = [
+  {
+    title: "Components & JSX",
+    description: "Learn to create and render components",
+  },
+  {
+    title: "Props & State",
+    description: "Manage data flow in components",
+  },
+  {
+    title: "Hooks",
+    description: "Master React hooks",
+  },
+  {
+    title: "Performance",
+    description: "Optimize React applications",
+  },
+];
+
 function React() {
   return (
     <>
-      <h1 className="text-4xl text-slate-700 mb-4">React Fundamentals</h1>
+      <h1 className="text-4xl text-heading mb-4">React Fundamentals</h1>
 
-      <section className="bg-white rounded-lg p-8 shadow-sm">
-        <h2 className="text-3xl text-slate-700 mt-8 mb-4">What is React?</h2>
-        <p className="text-gray-500 leading-relaxed mb-4">
+      <ContentCard>
+        <h2 className="text-3xl text-heading mt-8 mb-4">What is React?</h2>
+        <p className="text-muted leading-relaxed mb-4">
           React is a JavaScript library for building user interfaces with
           reusable components. It makes creating interactive UIs painless by
           managing component state and rendering efficiently.
         </p>
 
-        <h3 className="text-2xl text-slate-800 mt-6 mb-3">Core Concepts</h3>
-        <ul className="text-gray-500 leading-relaxed pl-6">
+        <h3 className="text-2xl text-heading-alt mt-6 mb-3">Core Concepts</h3>
+        <ul className="text-muted leading-relaxed pl-6">
           <li className="mb-2">
             <strong>Components:</strong> Reusable pieces of UI
           </li>
@@ -30,15 +52,17 @@ function React() {
           </li>
         </ul>
 
-        <h3 className="text-2xl text-slate-800 mt-6 mb-3">React Hooks</h3>
-        <p className="text-gray-500 leading-relaxed mb-4">
+        <h3 className="text-2xl text-heading-alt mt-6 mb-3">React Hooks</h3>
+        <p className="text-muted leading-relaxed mb-4">
           Hooks let you use state and other React features in function
           components. Common hooks include useState, useEffect, useContext, and
           useReducer.
         </p>
 
-        <h3 className="text-2xl text-slate-800 mt-6 mb-3">Getting Started</h3>
-        <ol className="text-gray-500 leading-relaxed pl-6">
+        <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+          Getting Started
+        </h3>
+        <ol className="text-muted leading-relaxed pl-6">
           <li className="mb-2">Create components with JSX</li>
           <li className="mb-2">Use useState to manage state</li>
           <li className="mb-2">Use useEffect for side effects</li>
@@ -46,32 +70,19 @@ function React() {
           <li className="mb-2">Compose components together</li>
         </ol>
 
-        <h3 className="text-2xl text-slate-800 mt-6 mb-3">Practice Topics</h3>
+        <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+          Practice Topics
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <div className="bg-gray-50 border-l-4 border-blue-500 p-6 rounded transition-all duration-300 hover:bg-gray-100 hover:translate-x-1">
-            <h4 className="m-0 mb-2 text-slate-700">Components & JSX</h4>
-            <p className="m-0 text-sm text-gray-500">
-              Learn to create and render components
-            </p>
-          </div>
-          <div className="bg-gray-50 border-l-4 border-blue-500 p-6 rounded transition-all duration-300 hover:bg-gray-100 hover:translate-x-1">
-            <h4 className="m-0 mb-2 text-slate-700">Props & State</h4>
-            <p className="m-0 text-sm text-gray-500">
-              Manage data flow in components
-            </p>
-          </div>
-          <div className="bg-gray-50 border-l-4 border-blue-500 p-6 rounded transition-all duration-300 hover:bg-gray-100 hover:translate-x-1">
-            <h4 className="m-0 mb-2 text-slate-700">Hooks</h4>
-            <p className="m-0 text-sm text-gray-500">Master React hooks</p>
-          </div>
-          <div className="bg-gray-50 border-l-4 border-blue-500 p-6 rounded transition-all duration-300 hover:bg-gray-100 hover:translate-x-1">
-            <h4 className="m-0 mb-2 text-slate-700">Performance</h4>
-            <p className="m-0 text-sm text-gray-500">
-              Optimize React applications
-            </p>
-          </div>
+          {practiceTopics.map((topic) => (
+            <PracticeTopicCard
+              key={topic.title}
+              title={topic.title}
+              description={topic.description}
+            />
+          ))}
         </div>
-      </section>
+      </ContentCard>
     </>
   );
 }

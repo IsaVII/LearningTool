@@ -1,5 +1,36 @@
 @import "tailwindcss";
 
+/*
+ * Tailwind v4 theme tokens.
+ * Anything defined here under --color-* is turned into matching
+ * Tailwind utilities automatically (e.g. --color-accent -> bg-accent,
+ * text-accent, border-accent, ...). Change a value here and every
+ * className using that token updates with it - no more hunting down
+ * hardcoded bg-blue-500 / text-slate-700 / etc. across components.
+ */
+@theme {
+  --color-heading: #334155;
+  /* was: slate-700 - brand/heading color */
+  --color-heading-alt: #1e293b;
+  /* was: slate-800 - sub-heading color */
+  --color-accent: #3b82f6;
+  /* was: blue-500 - links, badges, hover accents */
+  --color-surface: #ffffff;
+  /* was: white - card backgrounds */
+  --color-surface-alt: #f9fafb;
+  /* was: gray-50 - practice topic card bg */
+  --color-surface-alt-hover: #f3f4f6;
+  /* was: gray-100 - practice topic card hover */
+  --color-surface-muted: #e5e7eb;
+  /* was: gray-200 - topics grid background */
+  --color-line: #e5e7eb;
+  /* was: gray-200 - card borders */
+  --color-muted: #6b7280;
+  /* was: gray-500 - body copy */
+  --color-subtle: #9ca3af;
+  /* was: gray-400 - secondary meta text */
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -16,6 +47,15 @@
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
+
+  /* Legacy App.css palette, pulled out into variables */
+  --app-bg: #f5f6fa;
+  --app-text: #2c3e50;
+  --legacy-code-bg: #f1f2f6;
+  --link-color: #3498db;
+  --scrollbar-track: #f1f2f6;
+  --scrollbar-thumb: #bdc3c7;
+  --scrollbar-thumb-hover: #95a5a6;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
@@ -35,7 +75,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #9ca3af;
-    --text-h: #f3f4f6;
+    --text-h: #616f8b;
     --bg: #16171d;
     --border: #2e303a;
     --code-bg: #1f2028;
