@@ -1,0 +1,22 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "title": "Redux",
+      "description": "Learn state management with Redux",
+      "route": "/redux",
+      "screenshot": "/images/redux.png",
+      "difficulty": "beginner",
+      "estimatedTime": "2 hours"
+    },
+    {
+      "id": 2,
+      "title": "React",
+      "description": "Master React fundamentals and advanced concepts",
+      "route": "/react",
+      "screenshot": "/images/react.png",
+      "difficulty": "beginner",
+      "estimatedTime": "3 hours"
+    }
+  ]
+}
