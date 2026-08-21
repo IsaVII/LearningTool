@@ -1,0 +1,64 @@
+{
+  "title": "React Fundamentals",
+  "introduction": {
+    "heading": "What is React?",
+    "description": "React is a JavaScript library for building user interfaces with reusable components. It makes creating interactive UIs painless by managing component state and rendering efficiently."
+  },
+  "coreConcepts": {
+    "heading": "Core Concepts",
+    "concepts": [
+      {
+        "title": "Components",
+        "description": "Reusable pieces of UI"
+      },
+      {
+        "title": "JSX",
+        "description": "Syntax extension for writing UI"
+      },
+      {
+        "title": "Props",
+        "description": "Pass data to components"
+      },
+      {
+        "title": "State",
+        "description": "Manage component data"
+      },
+      {
+        "title": "Hooks",
+        "description": "Add functionality to function components"
+      }
+    ]
+  },
+  "hooks": {
+    "heading": "React Hooks",
+    "description": "Hooks let you use state and other React features in function components. Common hooks include useState, useEffect, useContext, and useReducer."
+  },
+  "gettingStarted": {
+    "heading": "Getting Started",
+    "steps": [
+      "Create components with JSX",
+      "Use useState to manage state",
+      "Use useEffect for side effects",
+      "Pass props between components",
+      "Compose components together"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Components & JSX",
+      "description": "Learn to create and render components"
+    },
+    {
+      "title": "Props & State",
+      "description": "Manage data flow in components"
+    },
+    {
+      "title": "Hooks",
+      "description": "Master React hooks"
+    },
+    {
+      "title": "Performance",
+      "description": "Optimize React applications"
+    }
+  ]
+}
