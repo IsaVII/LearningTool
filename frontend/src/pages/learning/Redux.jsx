@@ -1,76 +1,52 @@
 import ContentCard from "../../components/ContentCard";
 import PracticeTopicCard from "../../components/PracticeTopicCard";
-
-const practiceTopics = [
-  {
-    title: "Basic Store Setup",
-    description: "Learn how to configure a Redux store",
-  },
-  {
-    title: "Creating Slices",
-    description: "Understand Redux Toolkit slices",
-  },
-  {
-    title: "Using Hooks",
-    description: "Master useSelector and useDispatch",
-  },
-  {
-    title: "Async Operations",
-    description: "Handle async logic with thunks",
-  },
-];
+import reduxContent from "../../data/reduxContent.json";
 
 function Redux() {
   return (
     <>
-      <h1 className="text-4xl text-heading mb-4">Redux Fundamentals</h1>
+      <h1 className="text-4xl text-heading mb-4">{reduxContent.title}</h1>
 
       <ContentCard>
-        <h2 className="text-3xl text-heading mt-8 mb-4">What is Redux?</h2>
+        <h2 className="text-3xl text-heading mt-8 mb-4">
+          {reduxContent.introduction.heading}
+        </h2>
         <p className="text-muted leading-relaxed mb-4">
-          Redux is a predictable state container for JavaScript applications. It
-          helps you write applications that behave consistently and are easy to
-          test.
+          {reduxContent.introduction.description}
         </p>
 
-        <h3 className="text-2xl text-heading-alt mt-6 mb-3">Core Concepts</h3>
+        <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+          {reduxContent.coreConcepts.heading}
+        </h3>
         <ul className="text-muted leading-relaxed pl-6">
-          <li className="mb-2">
-            <strong>Store:</strong> Single source of truth for your app state
-          </li>
-          <li className="mb-2">
-            <strong>Actions:</strong> Plain objects describing what happened
-          </li>
-          <li className="mb-2">
-            <strong>Reducers:</strong> Pure functions that return new state
-          </li>
-          <li className="mb-2">
-            <strong>Selectors:</strong> Functions to extract state slices
-          </li>
+          {reduxContent.coreConcepts.concepts.map((concept) => (
+            <li key={concept.title} className="mb-2">
+              <strong>{concept.title}:</strong> {concept.description}
+            </li>
+          ))}
         </ul>
 
-        <h3 className="text-2xl text-heading-alt mt-6 mb-3">Redux Toolkit</h3>
+        <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+          {reduxContent.toolkit.heading}
+        </h3>
         <p className="text-muted leading-relaxed mb-4">
-          Redux Toolkit simplifies Redux development by providing helpful
-          utilities like configureStore and createSlice that reduce boilerplate
-          code.
+          {reduxContent.toolkit.description}
         </p>
 
         <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-          Getting Started
+          {reduxContent.gettingStarted.heading}
         </h3>
         <ol className="text-muted leading-relaxed pl-6">
-          <li className="mb-2">Create a Redux store with configureStore</li>
-          <li className="mb-2">Create slices to define reducers and actions</li>
-          <li className="mb-2">Use useSelector to read state in components</li>
-          <li className="mb-2">Use useDispatch to dispatch actions</li>
+          {reduxContent.gettingStarted.steps.map((step, index) => (
+            <li key={index} className="mb-2">
+              {step}
+            </li>
+          ))}
         </ol>
 
-        <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-          Practice Topics
-        </h3>
+        <h3 className="text-2xl text-heading-alt mt-6 mb-3">Practice Topics</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          {practiceTopics.map((topic) => (
+          {reduxContent.practiceTopics.map((topic) => (
             <PracticeTopicCard
               key={topic.title}
               title={topic.title}

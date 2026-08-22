@@ -1,0 +1,59 @@
+{
+  "title": "Redux Fundamentals",
+  "introduction": {
+    "heading": "What is Redux?",
+    "description": "Redux is a predictable state container for JavaScript applications. It helps you write applications that behave consistently and are easy to test."
+  },
+  "coreConcepts": {
+    "heading": "Core Concepts",
+    "concepts": [
+      {
+        "title": "Store",
+        "description": "Single source of truth for your app state"
+      },
+      {
+        "title": "Actions",
+        "description": "Plain objects describing what happened"
+      },
+      {
+        "title": "Reducers",
+        "description": "Pure functions that return new state"
+      },
+      {
+        "title": "Selectors",
+        "description": "Functions to extract state slices"
+      }
+    ]
+  },
+  "toolkit": {
+    "heading": "Redux Toolkit",
+    "description": "Redux Toolkit simplifies Redux development by providing helpful utilities like configureStore and createSlice that reduce boilerplate code."
+  },
+  "gettingStarted": {
+    "heading": "Getting Started",
+    "steps": [
+      "Create a Redux store with configureStore",
+      "Create slices to define reducers and actions",
+      "Use useSelector to read state in components",
+      "Use useDispatch to dispatch actions"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Basic Store Setup",
+      "description": "Learn how to configure a Redux store"
+    },
+    {
+      "title": "Creating Slices",
+      "description": "Understand Redux Toolkit slices"
+    },
+    {
+      "title": "Using Hooks",
+      "description": "Master useSelector and useDispatch"
+    },
+    {
+      "title": "Async Operations",
+      "description": "Handle async logic with thunks"
+    }
+  ]
+}
