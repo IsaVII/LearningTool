@@ -5,6 +5,7 @@ import CodeBlock from "../../components/CodeBlock";
 import DataFlowDemo from "../../components/redux-demos/DataFlowDemo";
 import HooksSeparationDemo from "../../components/redux-demos/HooksSeparationDemo";
 import SliceActionLogDemo from "../../components/redux-demos/SliceActionLogDemo";
+import StepByStepExample from "../../components/StepByStepExample";
 import StoreCounterDemo from "../../components/redux-demos/StoreCounterDemo";
 import reduxContent from "../../data/reduxContent.json";
 
@@ -69,6 +70,20 @@ const counterSlice = createSlice({
     incremented: (state) => { state.value += 1 },
   },
 });`}</CodeBlock>
+
+        {reduxContent.fullExample && (
+          <>
+            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+              {reduxContent.fullExample.heading}
+            </h3>
+            <StepByStepExample
+              title={reduxContent.fullExample.title}
+              description={reduxContent.fullExample.description}
+              code={reduxContent.fullExample.code}
+              steps={reduxContent.fullExample.steps}
+            />
+          </>
+        )}
 
         <h3 className="text-2xl text-heading-alt mt-6 mb-3">
           {reduxContent.gettingStarted.heading}

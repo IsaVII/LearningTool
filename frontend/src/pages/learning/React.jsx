@@ -4,6 +4,7 @@ import CounterDemo from "../../components/react-demos/CounterDemo";
 import HooksIntroDemo from "../../components/react-demos/HooksIntroDemo";
 import PropsDemo from "../../components/react-demos/PropsDemo";
 import RenderCountDemo from "../../components/react-demos/RenderCountDemo";
+import StepByStepExample from "../../components/StepByStepExample";
 import StopwatchDemo from "../../components/react-demos/StopwatchDemo";
 import reactContent from "../../data/reactContent.json";
 
@@ -48,6 +49,20 @@ function React() {
           {reactContent.hooks.description}
         </p>
         <HooksIntroDemo />
+
+        {reactContent.fullExample && (
+          <>
+            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+              {reactContent.fullExample.heading}
+            </h3>
+            <StepByStepExample
+              title={reactContent.fullExample.title}
+              description={reactContent.fullExample.description}
+              code={reactContent.fullExample.code}
+              steps={reactContent.fullExample.steps}
+            />
+          </>
+        )}
 
         <h3 className="text-2xl text-heading-alt mt-6 mb-3">
           {reactContent.gettingStarted.heading}

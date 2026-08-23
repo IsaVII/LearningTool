@@ -55,5 +55,100 @@
       "title": "Async Operations",
       "description": "Handle async logic with thunks"
     }
-  ]
+  ],
+  "fullExample": {
+    "heading": "Full Example, Step by Step",
+    "title": "A slice, a store, and a connected component",
+    "description": "This example spans the three files a typical Redux Toolkit feature is made of. Click through the steps to see how a click travels from the component all the way back to the store.",
+    "code": [
+      "// counterSlice.js - defines one slice of state",
+      "import { createSlice } from \"@reduxjs/toolkit\";",
+      "",
+      "const counterSlice = createSlice({",
+      "  name: \"counter\",",
+      "  initialState: { value: 0 },",
+      "  reducers: {",
+      "    incremented: (state) => {",
+      "      state.value += 1;",
+      "    },",
+      "  },",
+      "});",
+      "",
+      "export const { incremented } = counterSlice.actions;",
+      "export default counterSlice.reducer;",
+      "",
+      "// store.js - combines every slice into one store",
+      "import { configureStore } from \"@reduxjs/toolkit\";",
+      "import counterReducer from \"./counterSlice\";",
+      "",
+      "export const store = configureStore({",
+      "  reducer: { counter: counterReducer },",
+      "});",
+      "",
+      "// Counter.jsx - a component connected to the store",
+      "import { useDispatch, useSelector } from \"react-redux\";",
+      "import { incremented } from \"./counterSlice\";",
+      "",
+      "function Counter() {",
+      "  const value = useSelector((state) => state.counter.value);",
+      "  const dispatch = useDispatch();",
+      "",
+      "  return (",
+      "    <button onClick={() => dispatch(incremented())}>",
+      "      Count: {value}",
+      "    </button>",
+      "  );",
+      "}"
+    ],
+    "steps": [
+      {
+        "label": "Create a slice",
+        "lines": [
+          4,
+          12
+        ],
+        "explanation": "createSlice bundles a name, an initialState, and a set of reducers into one object. Each key in reducers becomes both an action type (\"counter/incremented\") and a reducer function for handling it."
+      },
+      {
+        "label": "Export the action creator and reducer",
+        "lines": [
+          14,
+          15
+        ],
+        "explanation": "createSlice automatically generates an action creator for every reducer you defined. incremented() returns a plain action object like { type: \"counter/incremented\" } - the reducer is exported separately as the slice's default export."
+      },
+      {
+        "label": "Register the reducer in the store",
+        "lines": [
+          21,
+          23
+        ],
+        "explanation": "configureStore builds the single store for the whole app. The counter key here decides where this slice's data lives in state - it becomes state.counter."
+      },
+      {
+        "label": "Read state with a selector",
+        "lines": [
+          30,
+          30
+        ],
+        "explanation": "useSelector runs a small function against the current store state and returns just the piece the component needs. It also re-renders the component automatically whenever that piece changes."
+      },
+      {
+        "label": "Get a dispatch function",
+        "lines": [
+          31,
+          31
+        ],
+        "explanation": "useDispatch gives the component access to the store's dispatch function - the only way to send an action to the store."
+      },
+      {
+        "label": "Dispatch an action on click",
+        "lines": [
+          34,
+          36
+        ],
+        "explanation": "Clicking the button dispatches incremented(). The store runs the counter reducer, calculates the new state, and every component reading state.counter.value - including this one - re-renders with the updated count."
+      }
+    ]
+  }
 }

@@ -60,5 +60,108 @@
       "title": "Performance",
       "description": "Optimize React applications"
     }
-  ]
+  ],
+  "fullExample": {
+    "heading": "Full Example, Step by Step",
+    "title": "A small React app: state, props, and an effect",
+    "description": "This example ties together the core concepts above in one realistic component. Click through the steps to see which lines each one is talking about.",
+    "code": [
+      "import { useEffect, useState } from \"react\";",
+      "",
+      "// A small presentational component - it only reads the \"name\" prop,",
+      "// it never touches state directly.",
+      "function Greeting({ name }) {",
+      "  return <h2>Hello, {name}!</h2>;",
+      "}",
+      "",
+      "function App() {",
+      "  // useState gives this component its own piece of memory that",
+      "  // survives between re-renders.",
+      "  const [name, setName] = useState(\"Explorer\");",
+      "  const [count, setCount] = useState(0);",
+      "",
+      "  // useEffect runs after React commits this render to the screen.",
+      "  // Because count is in the dependency array, it only re-runs",
+      "  // when count actually changes.",
+      "  useEffect(() => {",
+      "    document.title = `Clicked ${count} times`;",
+      "  }, [count]);",
+      "",
+      "  return (",
+      "    <div>",
+      "      <input",
+      "        value={name}",
+      "        onChange={(e) => setName(e.target.value)}",
+      "      />",
+      "",
+      "      <Greeting name={name} />",
+      "",
+      "      <button onClick={() => setCount(count + 1)}>",
+      "        Clicked {count} times",
+      "      </button>",
+      "    </div>",
+      "  );",
+      "}",
+      "",
+      "export default App;"
+    ],
+    "steps": [
+      {
+        "label": "Import the hooks you need",
+        "lines": [
+          1,
+          1
+        ],
+        "explanation": "useState and useEffect are named exports from the \"react\" package. You only import the hooks a file actually uses."
+      },
+      {
+        "label": "Build a presentational component",
+        "lines": [
+          3,
+          7
+        ],
+        "explanation": "Greeting is just a function that returns JSX. It receives name as a prop and renders it - it has no state of its own, so the same input always produces the same output."
+      },
+      {
+        "label": "Create state with useState",
+        "lines": [
+          12,
+          13
+        ],
+        "explanation": "useState(initialValue) returns a [value, setter] pair. Calling the setter (setName, setCount) tells React this component's data changed and schedules a re-render with the new value."
+      },
+      {
+        "label": "Run side effects with useEffect",
+        "lines": [
+          15,
+          20
+        ],
+        "explanation": "The function passed to useEffect runs after React updates the screen. The dependency array [count] tells React to only re-run it when count changes, instead of after every render."
+      },
+      {
+        "label": "Pass data down as props",
+        "lines": [
+          24,
+          29
+        ],
+        "explanation": "The input's value and onChange are wired to the name state, and that same name is passed into <Greeting name={name} /> as a prop - data flows down from parent to child."
+      },
+      {
+        "label": "Handle events and update state",
+        "lines": [
+          31,
+          33
+        ],
+        "explanation": "onClick is a plain event handler. Calling setCount(count + 1) updates state, which makes App - and anything reading count - re-render with the new value."
+      },
+      {
+        "label": "Export the component",
+        "lines": [
+          38,
+          38
+        ],
+        "explanation": "export default makes App importable from other files, e.g. by the file that mounts it into the page with ReactDOM.createRoot(...).render(<App />)."
+      }
+    ]
+  }
 }
