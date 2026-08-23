@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CodeBlock from "./CodeBlock";
+import CodeBlock from "../CodeBlock";
 
 function StopwatchDemo() {
   const [seconds, setSeconds] = useState(0);
@@ -21,9 +21,9 @@ function StopwatchDemo() {
   return (
     <div className="bg-surface-alt border border-line rounded p-6">
       <p className="text-muted mb-4">
-        The effect starts an interval whenever <code>running</code> is true,
-        and its cleanup function clears that interval whenever{" "}
-        <code>running</code> changes or the component unmounts.
+        The effect starts an interval whenever <code>running</code> is true, and
+        its cleanup function clears that interval whenever <code>running</code>{" "}
+        changes or the component unmounts.
       </p>
 
       <div className="flex items-center gap-4 mb-4">

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRandomValue } from "../../redux/asyncValueSlice";
-import CodeBlock from "./CodeBlock";
+import CodeBlock from "../CodeBlock";
 
 function AsyncThunkDemo() {
   const { value, status } = useSelector((state) => state.asyncValue);
@@ -10,10 +10,9 @@ function AsyncThunkDemo() {
   return (
     <div className="bg-surface-alt border border-line rounded p-6">
       <p className="text-muted mb-4">
-        Dispatching this thunk immediately fires a <code>pending</code>{" "}
-        action, then a <code>fulfilled</code> action once the simulated
-        request resolves - all without the component managing any loading
-        state itself.
+        Dispatching this thunk immediately fires a <code>pending</code> action,
+        then a <code>fulfilled</code> action once the simulated request resolves
+        - all without the component managing any loading state itself.
       </p>
 
       <div className="flex items-center gap-4 mb-4">

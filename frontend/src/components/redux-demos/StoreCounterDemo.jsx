@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { decremented, incremented } from "../../redux/counterSlice";
-import CodeBlock from "./CodeBlock";
+import CodeBlock from "../CodeBlock";
 
 function StoreCounterDemo() {
   const value = useSelector((state) => state.counter.value);
@@ -22,9 +22,8 @@ function StoreCounterDemo() {
   return (
     <div className="bg-surface-alt border border-line rounded p-6">
       <p className="text-muted mb-4">
-        Every button below dispatches a plain action object to the same
-        store. <code>state.counter.value</code> is currently{" "}
-        <strong>{value}</strong>.
+        Every button below dispatches a plain action object to the same store.{" "}
+        <code>state.counter.value</code> is currently <strong>{value}</strong>.
       </p>
 
       <div className="flex flex-wrap gap-3 mb-4">

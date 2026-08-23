@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CodeBlock from "./CodeBlock";
+import CodeBlock from "../CodeBlock";
 
 function CounterDemo() {
   const [count, setCount] = useState(0);

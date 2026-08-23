@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { incrementedByAmount } from "../../redux/counterSlice";
-import CodeBlock from "./CodeBlock";
+import CodeBlock from "../CodeBlock";
 
 function SliceActionLogDemo() {
   const [amount, setAmount] = useState(5);
@@ -12,11 +12,10 @@ function SliceActionLogDemo() {
   return (
     <div className="bg-surface-alt border border-line rounded p-6">
       <p className="text-muted mb-4">
-        <code>createSlice</code> generates the{" "}
-        <code>incrementedByAmount</code> action creator for you. Every action
-        dispatched anywhere on this page - including from the other demos -
-        gets logged below, since the store runs its reducers for every
-        single action.
+        <code>createSlice</code> generates the <code>incrementedByAmount</code>{" "}
+        action creator for you. Every action dispatched anywhere on this page -
+        including from the other demos - gets logged below, since the store runs
+        its reducers for every single action.
       </p>
 
       <div className="flex flex-wrap items-center gap-3 mb-4">

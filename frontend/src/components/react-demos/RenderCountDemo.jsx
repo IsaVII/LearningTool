@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import CodeBlock from "./CodeBlock";
+import CodeBlock from "../CodeBlock";
 
 function RenderCounter({ label }) {
   // Logging inside an effect (not during render) is a side effect done the
@@ -25,10 +25,10 @@ function RenderCountDemo() {
   return (
     <div className="bg-surface-alt border border-line rounded p-6">
       <p className="text-muted mb-4">
-        Open your browser console, then click the button below. It only
-        changes unrelated state in the parent - the plain child logs a new
-        line on every click, but the <code>memo</code>-wrapped child stays
-        silent because its own props never change.
+        Open your browser console, then click the button below. It only changes
+        unrelated state in the parent - the plain child logs a new line on every
+        click, but the <code>memo</code>-wrapped child stays silent because its
+        own props never change.
       </p>
 
       <div className="flex flex-wrap gap-4 mb-4">

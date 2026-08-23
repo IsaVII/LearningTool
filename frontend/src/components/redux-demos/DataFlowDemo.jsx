@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { liked } from "../../redux/likeSlice";
-import CodeBlock from "./CodeBlock";
+import CodeBlock from "../CodeBlock";
 
 function DataFlowDemo() {
   const count = useSelector((state) => state.like.count);
@@ -9,9 +9,9 @@ function DataFlowDemo() {
   return (
     <div className="bg-surface-alt border border-line rounded p-6">
       <p className="text-muted mb-4">
-        Clicking the button dispatches a plain action object. The store runs
-        the reducer, calculates the new state, and this component re-renders
-        because it reads that state with <code>useSelector</code>.
+        Clicking the button dispatches a plain action object. The store runs the
+        reducer, calculates the new state, and this component re-renders because
+        it reads that state with <code>useSelector</code>.
       </p>
 
       <div className="flex items-center gap-4 mb-4">

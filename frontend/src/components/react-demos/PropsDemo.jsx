@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CodeBlock from "./CodeBlock";
+import CodeBlock from "../CodeBlock";
 
 function Greeting({ name, color }) {
   return (
@@ -16,9 +16,9 @@ function PropsDemo() {
   return (
     <div className="bg-surface-alt border border-line rounded p-6">
       <p className="text-muted mb-4">
-        <code>Greeting</code> never touches this state directly, it only
-        reads the <code>name</code> and <code>color</code> props it's handed
-        by its parent.
+        <code>Greeting</code> never touches this state directly, it only reads
+        the <code>name</code> and <code>color</code> props it's handed by its
+        parent.
       </p>
 
       <div className="flex flex-wrap gap-4 mb-4">

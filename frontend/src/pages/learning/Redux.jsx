@@ -1,7 +1,7 @@
 import ContentCard from "../../components/ContentCard";
 import PracticeTopicCard from "../../components/PracticeTopicCard";
 import AsyncThunkDemo from "../../components/redux-demos/AsyncThunkDemo";
-import CodeBlock from "../../components/redux-demos/CodeBlock";
+import CodeBlock from "../../components/CodeBlock";
 import DataFlowDemo from "../../components/redux-demos/DataFlowDemo";
 import HooksSeparationDemo from "../../components/redux-demos/HooksSeparationDemo";
 import SliceActionLogDemo from "../../components/redux-demos/SliceActionLogDemo";
@@ -43,9 +43,9 @@ function Redux() {
         </ul>
 
         <p className="text-muted leading-relaxed mt-4 mb-4">
-          Every Redux update follows the same one-way cycle: the UI
-          dispatches an action, the store runs the reducer to calculate a
-          new state, and the UI reads that new state.
+          Every Redux update follows the same one-way cycle: the UI dispatches
+          an action, the store runs the reducer to calculate a new state, and
+          the UI reads that new state.
         </p>
         <DataFlowDemo />
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CodeBlock from "./CodeBlock";
+import CodeBlock from "../CodeBlock";
 
 function HooksIntroDemo() {
   const [title, setTitle] = useState("Learning Tool");
@@ -16,9 +16,8 @@ function HooksIntroDemo() {
   return (
     <div className="bg-surface-alt border border-line rounded p-6">
       <p className="text-muted mb-4">
-        This <code>useEffect</code> runs whenever <code>title</code> changes
-        and syncs it to the browser tab. Type below, then check the tab
-        title.
+        This <code>useEffect</code> runs whenever <code>title</code> changes and
+        syncs it to the browser tab. Type below, then check the tab title.
       </p>
 
       <input

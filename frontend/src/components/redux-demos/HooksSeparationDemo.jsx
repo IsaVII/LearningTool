@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { decremented, incremented } from "../../redux/counterSlice";
-import CodeBlock from "./CodeBlock";
+import CodeBlock from "../CodeBlock";
 
 function ValueDisplay() {
   // Only reads state - this component never dispatches anything.
