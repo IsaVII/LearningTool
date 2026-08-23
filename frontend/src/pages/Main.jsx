@@ -13,7 +13,7 @@ function Main() {
 
       <section className="py-8 px-4">
         <h2 className="text-3xl mb-8 text-heading">Available Topics</h2>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 bg-surface-muted">
+        <div className="w-full max-w-210 justify-self-center grid grid-cols-1 md:grid-cols-2 gap-8 ">
           {learningContent.topics.map((topic) => (
             <TopicCard key={topic.id} topic={topic} />
           ))}

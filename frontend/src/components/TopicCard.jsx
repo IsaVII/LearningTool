@@ -4,7 +4,7 @@ function TopicCard({ topic }) {
   return (
     <Link
       to={topic.route}
-      className="bg-surface border border-line rounded-lg p-6 no-underline text-inherit transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-lg hover:border-accent"
+      className="bg-surface border border-line rounded-lg no-underline text-inherit transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-lg hover:border-accent"
     >
       <div className="flex justify-between items-start mb-4">
         <h3 className="m-0 text-heading">{topic.title}</h3>
