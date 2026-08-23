@@ -23,7 +23,7 @@ function CodeBlock({ children, showLineNumbers = false, highlightLines = [] }) {
         per line) get laid out as flex-row items side by side instead of
         stacking - i.e. every line ends up on the same visual row.
       */}
-      <code style={{ display: "block" }}>
+      <code style={{ display: "block", width: "fit-content" }}>
         {lines.map((line, i) => {
           const lineNumber = i + 1;
           const isHighlighted = highlightSet.has(lineNumber);
@@ -31,7 +31,7 @@ function CodeBlock({ children, showLineNumbers = false, highlightLines = [] }) {
           return (
             <div
               key={lineNumber}
-              className={`flex w-full ${
+              className={`flex w-fit min-w-full ${
                 isHighlighted
                   ? "bg-white/10 -mx-4 px-4 border-l-2 border-accent"
                   : ""
