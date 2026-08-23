@@ -62,19 +62,21 @@ const KEYWORDS_CONTROL = new Set([
 
 const LITERALS = new Set(["true", "false", "null", "undefined"]);
 
-// Colors match VS Code's default "Dark+" theme.
+// Colors match VS Code's default "Dark+" theme - defined once as CSS
+// variables in index.css (--color-syntax-*) and exposed here as the
+// matching Tailwind utilities.
 const TOKEN_COLORS = {
-  comment: "text-[#6A9955] italic",
-  string: "text-[#CE9178]",
-  number: "text-[#B5CEA8]",
-  control: "text-[#C586C0]",
-  declaration: "text-[#569CD6]",
-  literal: "text-[#569CD6]",
-  tag: "text-[#569CD6]",
-  component: "text-[#4EC9B0]",
-  call: "text-[#DCDCAA]",
-  attribute: "text-[#9CDCFE]",
-  plain: "text-[#D4D4D4]",
+  comment: "text-syntax-comment italic",
+  string: "text-syntax-string",
+  number: "text-syntax-number",
+  control: "text-syntax-control",
+  declaration: "text-syntax-declaration",
+  literal: "text-syntax-declaration",
+  tag: "text-syntax-declaration",
+  component: "text-syntax-component",
+  call: "text-syntax-call",
+  attribute: "text-syntax-attribute",
+  plain: "text-syntax-plain",
 };
 
 const TOKEN_REGEX = new RegExp(

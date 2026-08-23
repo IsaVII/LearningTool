@@ -31,14 +31,34 @@
   /* was: gray-400 - secondary meta text */
   --color-navbar: #334155;
   /* fixed brand slate used for header/footer bg - stays constant across themes */
+
+  /*
+   * Syntax-highlighting palette (VS Code "Dark+" colors). Intentionally
+   * NOT re-themed by light/dark mode - CodeBlock always renders like a
+   * code editor, same as VS Code itself does regardless of your OS theme.
+   * Pulled out here (instead of inline hex in the components) so every
+   * color in the app lives in one place.
+   */
+
+  --color-syntax-comment: #6a9955;
+  --color-syntax-string: #ce9178;
+  --color-syntax-number: #b5cea8;
+  --color-syntax-control: #c586c0;
+  --color-syntax-declaration: #569cd6;
+  --color-syntax-component: #4ec9b0;
+  --color-syntax-call: #afaf76;
+  --color-syntax-attribute: #9cdcfe;
+  --color-syntax-plain: #9b9b9b;
+  --color-syntax-line-number: #6e7681;
 }
 
 :root {
+  --test: #afaf76;
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
   --border: #e5e4e7;
-  --code-bg: #f4f3ec;
+  --code-bg: #49473c;
   --accent: #aa3bff;
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
@@ -50,10 +70,17 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  /* Legacy App.css palette, pulled out into variables */
+
+
+  /*
+   * Legacy App.css palette, pulled out into variables. These ARE
+   * theme-aware - see the light/dark blocks below, which override every
+   * one of them. (Previously they were only ever defined here, so
+   * body/code/scrollbar colors silently ignored the toggle - fixed now.)
+   */
   --app-bg: #f5f6fa;
   --app-text: #2c3e50;
-  --legacy-code-bg: #f1f2f6;
+  --legacy-code-bg: #858999;
   --link-color: #3498db;
   --scrollbar-track: #f1f2f6;
   --scrollbar-thumb: #bdc3c7;
@@ -108,6 +135,14 @@
     --color-line: #3a3c48;
     --color-muted: #9ca3af;
     --color-subtle: #71717a;
+
+    --app-bg: #16171d;
+    --app-text: #cbd5e1;
+    --legacy-code-bg: #1f2028;
+    --link-color: #60a5fa;
+    --scrollbar-track: #1f2028;
+    --scrollbar-thumb: #4b4d58;
+    --scrollbar-thumb-hover: #6b6e7a;
   }
 
   :root:not(.light) #social .button-icon {
@@ -139,6 +174,14 @@
   --color-line: #3a3c48;
   --color-muted: #9ca3af;
   --color-subtle: #71717a;
+
+  --app-bg: #16171d;
+  --app-text: #cbd5e1;
+  --legacy-code-bg: #1f2028;
+  --link-color: #60a5fa;
+  --scrollbar-track: #1f2028;
+  --scrollbar-thumb: #4b4d58;
+  --scrollbar-thumb-hover: #6b6e7a;
 }
 
 :root.dark #social .button-icon {
@@ -151,7 +194,7 @@
   --text-h: #08060d;
   --bg: #fff;
   --border: #e5e4e7;
-  --code-bg: #f4f3ec;
+  --code-bg: #f1f0e6;
   --accent: #aa3bff;
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
@@ -169,6 +212,14 @@
   --color-line: #e5e7eb;
   --color-muted: #6b7280;
   --color-subtle: #9ca3af;
+
+  --app-bg: #f5f6fa;
+  --app-text: #2c3e50;
+  --legacy-code-bg: #eeeeee;
+  --link-color: #3498db;
+  --scrollbar-track: #f1f2f6;
+  --scrollbar-thumb: #bdc3c7;
+  --scrollbar-thumb-hover: #95a5a6;
 }
 
 body {

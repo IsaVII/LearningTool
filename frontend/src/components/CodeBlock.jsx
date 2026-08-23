@@ -38,7 +38,7 @@ function CodeBlock({ children, showLineNumbers = false, highlightLines = [] }) {
               }`}
             >
               {showLineNumbers && (
-                <span className="select-none text-right pr-4 mr-2 text-[#6e7681] w-7 shrink-0">
+                <span className="select-none text-right pr-4 mr-2 text-syntax-line-number w-7 shrink-0">
                   {lineNumber}
                 </span>
               )}
