@@ -29,6 +29,8 @@
   /* was: gray-500 - body copy */
   --color-subtle: #9ca3af;
   /* was: gray-400 - secondary meta text */
+  --color-navbar: #334155;
+  /* fixed brand slate used for header/footer bg - stays constant across themes */
 }
 
 :root {
@@ -72,8 +74,18 @@
   }
 }
 
+/*
+ * Dark mode strategy:
+ * - By default we follow the OS/browser preference via
+ *   `prefers-color-scheme`, scoped to `:not(.light)` so it backs off the
+ *   moment the user makes an explicit choice.
+ * - Clicking the toggle in the header adds `.dark` or `.light` to <html>,
+ *   which overrides the browser default regardless of system preference.
+ * - `main.jsx`/`index.html` reads the saved choice (or system preference)
+ *   before paint so there's no flash of the wrong theme.
+ */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light) {
     --text: #9ca3af;
     --text-h: #616f8b;
     --bg: #16171d;
@@ -85,11 +97,78 @@
     --social-bg: rgba(47, 48, 58, 0.5);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+    --color-heading: #e2e8f0;
+    --color-heading-alt: #f8fafc;
+    --color-accent: #60a5fa;
+    --color-surface: #1e2029;
+    --color-surface-alt: #262836;
+    --color-surface-alt-hover: #2f3140;
+    --color-surface-muted: #2e303a;
+    --color-line: #3a3c48;
+    --color-muted: #9ca3af;
+    --color-subtle: #71717a;
   }
 
-  #social .button-icon {
+  :root:not(.light) #social .button-icon {
     filter: invert(1) brightness(2);
   }
+}
+
+:root.dark {
+  color-scheme: dark;
+  --text: #9ca3af;
+  --text-h: #616f8b;
+  --bg: #16171d;
+  --border: #2e303a;
+  --code-bg: #1f2028;
+  --accent: #c084fc;
+  --accent-bg: rgba(192, 132, 252, 0.15);
+  --accent-border: rgba(192, 132, 252, 0.5);
+  --social-bg: rgba(47, 48, 58, 0.5);
+  --shadow:
+    rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+  --color-heading: #e2e8f0;
+  --color-heading-alt: #f8fafc;
+  --color-accent: #60a5fa;
+  --color-surface: #1e2029;
+  --color-surface-alt: #262836;
+  --color-surface-alt-hover: #2f3140;
+  --color-surface-muted: #2e303a;
+  --color-line: #3a3c48;
+  --color-muted: #9ca3af;
+  --color-subtle: #71717a;
+}
+
+:root.dark #social .button-icon {
+  filter: invert(1) brightness(2);
+}
+
+:root.light {
+  color-scheme: light;
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #fff;
+  --border: #e5e4e7;
+  --code-bg: #f4f3ec;
+  --accent: #aa3bff;
+  --accent-bg: rgba(170, 59, 255, 0.1);
+  --accent-border: rgba(170, 59, 255, 0.5);
+  --social-bg: rgba(244, 243, 236, 0.5);
+  --shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --color-heading: #334155;
+  --color-heading-alt: #1e293b;
+  --color-accent: #3b82f6;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f9fafb;
+  --color-surface-alt-hover: #f3f4f6;
+  --color-surface-muted: #e5e7eb;
+  --color-line: #e5e7eb;
+  --color-muted: #6b7280;
+  --color-subtle: #9ca3af;
 }
 
 body {

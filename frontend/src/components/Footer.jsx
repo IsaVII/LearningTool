@@ -2,7 +2,7 @@ import FooterLink from "./FooterLink";
 
 function Footer() {
   return (
-    <footer className="bg-heading text-white py-8 mt-16 text-center">
+    <footer className="bg-navbar text-white py-8 mt-16 text-center">
       <div className="max-w-5xl mx-auto px-4">
         <p>
           &copy; {new Date().getFullYear()} Learning Tool. All rights reserved.
