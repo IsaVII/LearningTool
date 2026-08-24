@@ -110,7 +110,3 @@ Lesson content lives in JSON so the copy can change without touching component c
 3. Build any interactive demos in a new `src/components/<topic>-demos/` folder.
 4. Create `src/pages/learning/<Topic>.jsx`, following the pattern in `Git.jsx`, `React.jsx`, or `Redux.jsx`. When rendering `<PracticeTopicCard>` for each practice topic, pass `topicKey="<the same key from step 1>"` so its sub-topic checkboxes save correctly.
 5. Register the route in `src/App.jsx` and add a link in `src/components/Header.jsx`.
-
-## License
-
-No license has been specified for this project yet.
