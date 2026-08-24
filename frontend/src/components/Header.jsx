@@ -119,7 +119,7 @@ function Header() {
             </svg>
           </span>
           <h1 className="m-0 text-xl font-semibold tracking-tight">
-            Learning Tool
+            WebDev Playground
           </h1>
         </Link>
 
@@ -130,8 +130,9 @@ function Header() {
             aria-label="Home"
             aria-current={isHome ? "page" : undefined}
             className={`grid place-items-center w-9 h-9 rounded-full transition-colors duration-200 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
-              isHome ? "text-accent" : "text-white"
+              isHome ? "text-accent" : ""
             }`}
+            style={{ color: isHome ? undefined : "var(--header-icon-color)" }}
             title="Home"
           >
             <HomeIcon />
@@ -152,6 +153,7 @@ function Header() {
             aria-expanded={menuOpen}
             aria-controls="topics-menu"
             className="relative grid place-items-center w-9 h-9 rounded-full transition-colors duration-200 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+            style={{ color: "var(--header-icon-color)" }}
           >
             <span className="relative block w-5 h-4" aria-hidden="true">
               <span
@@ -179,7 +181,9 @@ function Header() {
         onClick={() => setMenuOpen(false)}
         aria-hidden="true"
         className={`fixed inset-0 bg-black/30 transition-opacity duration-300 ${
-          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          menuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
       />
 
@@ -194,10 +198,16 @@ function Header() {
             : "opacity-0 scale-95 -translate-y-1 pointer-events-none"
         }`}
       >
-        <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-white/40">
+        <p
+          className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-white/40"
+          style={{ color: "var(--menu-text-color)" }}
+        >
           Topics
         </p>
-        <ul className="list-none m-0 p-2 flex flex-col">
+        <ul
+          className="list-none m-0 p-2 flex flex-col"
+          style={{ color: "var(--menu-text-color)" }}
+        >
           {TOPICS.map((topic) => (
             <li key={topic.to}>
               <NavLink

@@ -7,11 +7,6 @@ function Footer() {
         <p>
           &copy; {new Date().getFullYear()} Learning Tool. All rights reserved.
         </p>
-        <div className="flex gap-8 justify-center mt-4">
-          <FooterLink href="#privacy">Privacy Policy</FooterLink>
-          <FooterLink href="#terms">Terms of Service</FooterLink>
-          <FooterLink href="#contact">Contact</FooterLink>
-        </div>
       </div>
     </footer>
   );

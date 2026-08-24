@@ -4,10 +4,13 @@ import TopicCard from "../components/TopicCard";
 function Main() {
   return (
     <>
-      <section className="text-center py-12 mb-12">
-        <h1 className="text-4xl mb-4 text-heading">Welcome to Learning Tool</h1>
-        <p className="text-lg text-muted">
-          Master modern web development concepts through interactive learning
+      <section className="flex flex-col items-center text-center py-2 mb-12">
+        <h1 className="text-4xl mb-2 text-heading">
+          Welcome to the WebDev Playground
+        </h1>
+        <p className="text-lg text-muted w-2/3">
+          Get an overview over modern web development concepts through
+          interactive learning or use the playground as a cheat sheet.
         </p>
       </section>
 

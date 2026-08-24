@@ -29,7 +29,7 @@
   /* was: gray-500 - body copy */
   --color-subtle: #9ca3af;
   /* was: gray-400 - secondary meta text */
-  --color-navbar: #334155;
+  --color-navbar: #f8fafc;
   /* fixed brand slate used for header/footer bg - stays constant across themes */
 
   /*
@@ -74,6 +74,8 @@
   --difficulty-beginner: #60a5fa;
   --difficulty-intermediate: #a855f7;
   --difficulty-advanced: #7c3aed;
+  --header-icon-color: #ffffff;
+  --menu-text-color: #ffffff;
 
   /*
    * Legacy App.css palette, pulled out into variables. These ARE
@@ -84,7 +86,6 @@
   --app-bg: #f5f6fa;
   --app-text: #2c3e50;
   --legacy-code-bg: #858999;
-  --link-color: #3498db;
   --scrollbar-track: #f1f2f6;
   --scrollbar-thumb: #bdc3c7;
   --scrollbar-thumb-hover: #95a5a6;
@@ -130,7 +131,7 @@
 
     --color-heading: #e2e8f0;
     --color-heading-alt: #f8fafc;
-    --color-accent: #60a5fa;
+    --color-accent: #c8e1ff;
     --color-surface: #1e2029;
     --color-surface-alt: #262836;
     --color-surface-alt-hover: #2f3140;
@@ -138,6 +139,9 @@
     --color-line: #3a3c48;
     --color-muted: #9ca3af;
     --color-subtle: #71717a;
+    --color-navbar: #666b8a;
+    --header-icon-color: #ffffff;
+    --menu-text-color: #ffffff;
 
     --app-bg: #16171d;
     --app-text: #cbd5e1;
@@ -169,7 +173,7 @@
 
   --color-heading: #e2e8f0;
   --color-heading-alt: #f8fafc;
-  --color-accent: #60a5fa;
+  --color-accent: #aad0ff;
   --color-surface: #1e2029;
   --color-surface-alt: #262836;
   --color-surface-alt-hover: #2f3140;
@@ -177,11 +181,14 @@
   --color-line: #3a3c48;
   --color-muted: #9ca3af;
   --color-subtle: #71717a;
+  --color-navbar: #1a1b21;
+  --header-icon-color: #ffffff;
+  --menu-text-color: #ffffff;
 
   --app-bg: #16171d;
   --app-text: #cbd5e1;
   --legacy-code-bg: #1f2028;
-  --link-color: #60a5fa;
+  --link-color: #b8d8ff;
   --scrollbar-track: #1f2028;
   --scrollbar-thumb: #4b4d58;
   --scrollbar-thumb-hover: #6b6e7a;
@@ -194,7 +201,7 @@
 :root.light {
   color-scheme: light;
   --text: #6b6375;
-  --text-h: #08060d;
+  --text-h: #433786;
   --bg: #fff;
   --border: #e5e4e7;
   --code-bg: #f1f0e6;
@@ -205,9 +212,9 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --color-heading: #334155;
-  --color-heading-alt: #1e293b;
-  --color-accent: #3b82f6;
+  --color-heading: #526886;
+  --color-heading-alt: #4d6996;
+  --color-accent: #070708;
   --color-surface: #ffffff;
   --color-surface-alt: #f9fafb;
   --color-surface-alt-hover: #f3f4f6;
@@ -215,11 +222,14 @@
   --color-line: #e5e7eb;
   --color-muted: #6b7280;
   --color-subtle: #9ca3af;
+  --color-navbar: #b9c1ee;
+  --header-icon-color: #334155;
+  --menu-text-color: #1f2937;
 
   --app-bg: #f5f6fa;
   --app-text: #2c3e50;
   --legacy-code-bg: #eeeeee;
-  --link-color: #3498db;
+  --link-color: #484d8d;
   --scrollbar-track: #f1f2f6;
   --scrollbar-thumb: #bdc3c7;
   --scrollbar-thumb-hover: #95a5a6;
