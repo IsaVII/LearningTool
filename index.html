@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>frontend</title>
+    <script>
+      // Applied synchronously, before first paint, so the page never
+      // flashes the "wrong" theme while React is still loading. Mirrors
+      // the logic in src/components/ThemeToggle.jsx.
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.classList.add(theme);
+        } catch (e) {
+          // localStorage/matchMedia unavailable (e.g. privacy mode) - fall
+          // back to the CSS `prefers-color-scheme` media query.
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-CGQChofy.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-B3KrBox0.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
