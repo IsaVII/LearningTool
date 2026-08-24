@@ -1,10 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-function NavLink({ to, children }) {
+function NavLink({ to, children, onClick, className = "" }) {
+  const { pathname } = useLocation();
+  const isActive = pathname === to;
+
   return (
     <Link
       to={to}
-      className="text-white no-underline hover:text-accent transition-colors duration-300"
+      onClick={onClick}
+      aria-current={isActive ? "page" : undefined}
+      className={`relative no-underline transition-colors duration-200 ${
+        isActive ? "text-accent" : "text-white/90 hover:text-accent"
+      } ${className}`}
     >
       {children}
     </Link>
