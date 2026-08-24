@@ -35,6 +35,15 @@
       "screenshot": "/images/http.png",
       "difficulty": "intermediate",
       "estimatedTime": "3 hours"
+    },
+    {
+      "id": 5,
+      "title": "Git",
+      "description": "Track changes, branch, and collaborate with the version control system every dev uses",
+      "route": "/git",
+      "screenshot": "/images/git.png",
+      "difficulty": "beginner",
+      "estimatedTime": "2.5 hours"
     }
   ]
 }

@@ -1,0 +1,155 @@
+{
+  "title": "Git Fundamentals",
+  "introduction": {
+    "heading": "What is Git?",
+    "description": "Git is a distributed version control system that tracks changes to files over time. Every clone of a repository is a full copy of its history, not just a pointer to a central server, which means you can commit, branch, and inspect history entirely offline, then sync with others - GitHub, GitLab, a teammate's machine - whenever you're ready."
+  },
+  "coreConcepts": {
+    "heading": "Core Concepts",
+    "concepts": [
+      {
+        "title": "Repository",
+        "description": "A project folder plus its full history, stored in a hidden .git directory"
+      },
+      {
+        "title": "Commit",
+        "description": "A saved snapshot of the project at a point in time, with a message and a unique hash"
+      },
+      {
+        "title": "Branch",
+        "description": "A movable pointer to a commit, letting you work on something without touching main"
+      },
+      {
+        "title": "HEAD",
+        "description": "A pointer to whichever commit or branch you currently have checked out"
+      },
+      {
+        "title": "Remote",
+        "description": "A version of the repository hosted elsewhere - typically named origin - that you push to and pull from"
+      },
+      {
+        "title": "Merge conflict",
+        "description": "What happens when Git can't automatically combine changes to the same lines and asks you to decide"
+      }
+    ]
+  },
+  "threeStates": {
+    "heading": "The Three States",
+    "description": "Every tracked file in Git sits in one of three places: the working directory (your actual files, as you edit them), the staging area / index (changes you've marked with git add, ready to be committed), and the repository (changes that are safely recorded with git commit). Understanding this pipeline - edit, stage, commit - explains almost everything else Git does."
+  },
+  "gettingStarted": {
+    "heading": "Getting Started",
+    "steps": [
+      "Install Git from git-scm.com, then confirm it with git --version",
+      "Set your identity once with git config --global user.name and user.email",
+      "Start a new repo with git init, or copy an existing one with git clone <url>",
+      "Check what's changed at any time with git status and git log",
+      "Add a .gitignore before your first commit so build output and secrets never get tracked"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Clone & Remotes",
+      "description": "Copy a repository locally, then keep it in sync with git push and git pull"
+    },
+    {
+      "title": "Staging & Committing",
+      "description": "Move changes from the working directory to staging with add, then save them with commit"
+    },
+    {
+      "title": "Branching & Merging",
+      "description": "Work in isolation on a branch, then bring the changes back into main"
+    },
+    {
+      "title": "Rebase",
+      "description": "Replay one branch's commits onto another for a cleaner, linear history"
+    },
+    {
+      "title": "Stash",
+      "description": "Shelve uncommitted changes temporarily without making a commit"
+    },
+    {
+      "title": "Reset & Revert",
+      "description": "Undo history locally with reset, or undo it safely on shared branches with revert"
+    },
+    {
+      "title": "Cherry-pick",
+      "description": "Apply one specific commit from another branch without merging everything"
+    },
+    {
+      "title": "Resolving Conflicts",
+      "description": "Work through competing edits to the same lines when a merge can't auto-resolve"
+    },
+    {
+      "title": ".gitignore",
+      "description": "Tell Git which files and folders to never track in the first place"
+    }
+  ],
+  "fullExample": {
+    "heading": "Full Example, Step by Step",
+    "title": "A typical feature workflow: branch, commit, sync, publish",
+    "description": "This is the day-to-day loop most Git users repeat constantly. Click through the steps to see which lines each one is talking about.",
+    "code": [
+      "# 1. Get a local copy of a shared repository",
+      "git clone https://github.com/team/project.git",
+      "cd project",
+      "",
+      "# 2. Create a branch so main stays untouched while you work",
+      "git checkout -b feature/login-form",
+      "",
+      "# 3. Edit files, then stage the ones you want to commit",
+      "git add src/LoginForm.jsx",
+      "",
+      "# 4. Record a snapshot of the staged changes",
+      "git commit -m \"Add login form component\"",
+      "",
+      "# 5. Bring in anything teammates pushed to main while you worked",
+      "git checkout main",
+      "git pull origin main",
+      "",
+      "# 6. Bring those updates into your feature branch too",
+      "git checkout feature/login-form",
+      "git rebase main",
+      "",
+      "# 7. Publish the branch so others - and a pull request - can see it",
+      "git push origin feature/login-form"
+    ],
+    "steps": [
+      {
+        "label": "Clone the repository",
+        "lines": [1, 3],
+        "explanation": "git clone downloads the full repository, including its entire history, and checks out its default branch into a new local folder."
+      },
+      {
+        "label": "Create a feature branch",
+        "lines": [5, 5],
+        "explanation": "git checkout -b creates a new branch pointing at the current commit and switches to it in one step, so your changes stay isolated from main."
+      },
+      {
+        "label": "Stage your changes",
+        "lines": [7, 8],
+        "explanation": "git add moves a file's current changes into the staging area - a draft of exactly what the next commit will contain."
+      },
+      {
+        "label": "Commit the snapshot",
+        "lines": [10, 11],
+        "explanation": "git commit permanently records whatever is staged, along with a message explaining why the change was made."
+      },
+      {
+        "label": "Pull the latest main",
+        "lines": [13, 15],
+        "explanation": "git pull fetches new commits from the remote and merges them into your current branch - here, catching main up with what teammates pushed."
+      },
+      {
+        "label": "Rebase your branch",
+        "lines": [17, 19],
+        "explanation": "git rebase replays your feature branch's commits on top of the updated main, so the final history looks like you started from the latest code."
+      },
+      {
+        "label": "Push the branch",
+        "lines": [21, 22],
+        "explanation": "git push uploads your branch and its commits to the remote, making it visible to teammates and ready for a pull request."
+      }
+    ]
+  }
+}
