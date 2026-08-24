@@ -26,6 +26,15 @@
       "screenshot": "/images/node.png",
       "difficulty": "beginner",
       "estimatedTime": "2.5 hours"
+    },
+    {
+      "id": 4,
+      "title": "HTTP & Web APIs",
+      "description": "Bridge Node and the browser: requests, REST, fetch, and more",
+      "route": "/http",
+      "screenshot": "/images/http.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 hours"
     }
   ]
 }

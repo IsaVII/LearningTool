@@ -1,6 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Http from "./pages/learning/Http";
 import Main from "./pages/Main";
 import Node from "./pages/learning/Node";
 import Redux from "./pages/learning/Redux";
@@ -19,6 +20,7 @@ function App() {
             <Route path="/redux" element={<Redux />} />
             <Route path="/react" element={<React />} />
             <Route path="/node" element={<Node />} />
+            <Route path="/http" element={<Http />} />
           </Routes>
         </main>
         <Footer />

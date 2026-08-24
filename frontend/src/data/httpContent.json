@@ -1,0 +1,162 @@
+{
+  "title": "HTTP & Web APIs",
+  "introduction": {
+    "heading": "What Is HTTP?",
+    "description": "HTTP (HyperText Transfer Protocol) is the language browsers and servers use to talk to each other. Every time a page loads, a button triggers a fetch, or an app checks for new data, a client sends an HTTP request and a server sends back an HTTP response. Node.js can speak both sides of that conversation - it can be the server handling requests (as you saw with the built-in http module) and, through the Fetch API, the client sending them. This page covers the rest of the picture: how requests and responses are structured, how REST APIs are commonly designed around them, and the browser APIs - Fetch, AbortController, WebSockets, and Server-Sent Events - used to talk to them from client-side JavaScript."
+  },
+  "coreConcepts": {
+    "heading": "Core Concepts",
+    "concepts": [
+      {
+        "title": "Request & Response",
+        "description": "A client sends a request (method, URL, headers, optional body); a server sends back a response (status code, headers, optional body). Every HTTP interaction is one round trip of this cycle"
+      },
+      {
+        "title": "Methods",
+        "description": "GET, POST, PUT, PATCH, and DELETE signal intent - reading data, creating it, replacing it, partially updating it, or removing it"
+      },
+      {
+        "title": "Status Codes",
+        "description": "A three-digit number in the response that summarizes what happened: 2xx success, 3xx redirect, 4xx client error, 5xx server error"
+      },
+      {
+        "title": "Headers",
+        "description": "Key/value metadata sent with a request or response - content type, authorization, caching rules, and more - separate from the body"
+      },
+      {
+        "title": "Cookies",
+        "description": "Small pieces of state a server asks the browser to store via a Set-Cookie header, which the browser then re-attaches automatically on later requests to that origin"
+      },
+      {
+        "title": "CORS",
+        "description": "Cross-Origin Resource Sharing - a browser security mechanism that blocks a page from reading responses from a different origin unless the server explicitly allows it"
+      },
+      {
+        "title": "REST",
+        "description": "An architectural style that maps CRUD operations onto HTTP methods and URLs representing resources, e.g. GET /users/7 or DELETE /posts/3"
+      },
+      {
+        "title": "JSON",
+        "description": "JavaScript Object Notation - the de facto data format for API request and response bodies, parsed with JSON.parse and produced with JSON.stringify"
+      }
+    ]
+  },
+  "lifecycle": {
+    "heading": "The Request/Response Cycle",
+    "description": "Behind a single fetch() call, several things happen in order: the browser resolves the domain to an IP address (DNS), opens a connection to the server (TCP, plus a TLS handshake for HTTPS), sends the request line, headers, and body, waits while the server processes it, and finally receives the response line, headers, and body back. Fetch (and the browser) handle all of this for you - but knowing the steps makes it much easier to reason about latency, caching, and why a request might fail before it ever reaches your server code."
+  },
+  "gettingStarted": {
+    "heading": "Getting Started",
+    "steps": [
+      "Open any site's DevTools Network tab and reload the page - every request/response pair is right there: method, status, headers, and body",
+      "Try fetch(\"https://api.example.com\") in the browser console - it returns a Promise that resolves to a Response object",
+      "Call response.json() (also a Promise) to parse the body as JSON once the response arrives",
+      "Wrap fetch in try/catch and check response.ok - fetch only rejects on network failure, not on 4xx/5xx status codes",
+      "Reach for a public test API like jsonplaceholder.typicode.com when you want to practice REST calls without running your own server"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Methods & Status Codes",
+      "description": "Send different HTTP methods and see which status code comes back and why"
+    },
+    {
+      "title": "Headers & Cookies",
+      "description": "Attach request headers and watch the server set a cookie in its response"
+    },
+    {
+      "title": "CORS",
+      "description": "See why the browser blocks - or allows - a cross-origin request"
+    },
+    {
+      "title": "REST & JSON",
+      "description": "Perform CRUD operations against a resource, sent and received as JSON"
+    },
+    {
+      "title": "Fetch & AbortController",
+      "description": "Cancel an in-flight fetch before it resolves, instead of waiting it out"
+    },
+    {
+      "title": "Authentication",
+      "description": "Log in to get a token, then use it to reach a route that would otherwise 401"
+    },
+    {
+      "title": "WebSockets",
+      "description": "Open a persistent, two-way connection instead of one request per message"
+    },
+    {
+      "title": "Server-Sent Events (SSE)",
+      "description": "Subscribe to a one-way stream of events the server pushes over time"
+    }
+  ],
+  "fullExample": {
+    "heading": "Full Example, Step by Step",
+    "title": "A real-world fetch: headers, JSON, errors, and a timeout",
+    "description": "This ties the concepts above together in one realistic function. Click through the steps to see which lines each one is talking about.",
+    "code": [
+      "async function getUser(id, { signal } = {}) {",
+      "  const controller = new AbortController();",
+      "  const timeout = setTimeout(() => controller.abort(), 5000);",
+      "",
+      "  try {",
+      "    const response = await fetch(`/api/users/${id}`, {",
+      "      method: \"GET\",",
+      "      headers: {",
+      "        Accept: \"application/json\",",
+      "        Authorization: `Bearer ${getToken()}`,",
+      "      },",
+      "      signal: signal ?? controller.signal,",
+      "    });",
+      "",
+      "    if (!response.ok) {",
+      "      throw new Error(`Request failed: ${response.status}`);",
+      "    }",
+      "",
+      "    const user = await response.json();",
+      "    return user;",
+      "  } catch (error) {",
+      "    if (error.name === \"AbortError\") {",
+      "      console.log(\"Request timed out or was cancelled\");",
+      "    } else {",
+      "      console.error(\"Fetch failed:\", error.message);",
+      "    }",
+      "    throw error;",
+      "  } finally {",
+      "    clearTimeout(timeout);",
+      "  }",
+      "}"
+    ],
+    "steps": [
+      {
+        "label": "Create an AbortController",
+        "lines": [2, 3],
+        "explanation": "An AbortController gives you a signal you can trigger later. Here it's paired with setTimeout so the request cancels itself if the server takes longer than 5 seconds."
+      },
+      {
+        "label": "Call fetch with options",
+        "lines": [6, 12],
+        "explanation": "fetch's second argument configures the request: method, headers (including Authorization for authenticated routes), and the abort signal that lets this request be cancelled."
+      },
+      {
+        "label": "Check response.ok",
+        "lines": [14, 16],
+        "explanation": "fetch only rejects on network-level failures (offline, DNS, CORS). A 404 or 500 still resolves successfully - response.ok (true only for 2xx) is how you catch those yourself."
+      },
+      {
+        "label": "Parse the JSON body",
+        "lines": [18, 19],
+        "explanation": "response.json() is itself async - it reads and parses the response stream, so it needs its own await."
+      },
+      {
+        "label": "Distinguish abort from other errors",
+        "lines": [21, 27],
+        "explanation": "When a request is aborted, fetch rejects with an error whose name is \"AbortError\" - checking for it lets you tell a deliberate cancellation apart from a real failure."
+      },
+      {
+        "label": "Always clear the timer",
+        "lines": [28, 30],
+        "explanation": "finally runs whether the request succeeded, failed, or was aborted, so the timeout never fires late and aborts a request that already finished."
+      }
+    ]
+  }
+}

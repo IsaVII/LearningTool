@@ -15,6 +15,7 @@ function Header() {
             <NavLink to="/redux">Redux</NavLink>
             <NavLink to="/react">React</NavLink>
             <NavLink to="/node">Node.js</NavLink>
+            <NavLink to="/http">HTTP & Web APIs</NavLink>
           </nav>
           <ThemeToggle />
         </div>
