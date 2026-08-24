@@ -102,23 +102,8 @@ function Header() {
           to="/"
           className="group flex items-center gap-2.5 no-underline text-white"
         >
-          <span className="grid place-items-center w-9 h-9 rounded-lg bg-accent/20 text-accent transition-colors duration-200 group-hover:bg-accent/30">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="w-5 h-5"
-              aria-hidden="true"
-            >
-              <path d="M12 3 2 8l10 5 10-5-10-5Z" />
-              <path d="M6 10.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-5.5" />
-            </svg>
-          </span>
-          <h1 className="m-0 text-xl font-semibold tracking-tight">
+          <img src="book.png" alt="Book Icon" className="w-7 h-7" />
+          <h1 className="m-0 text-1xl font-semibold tracking-tight">
             WebDev Playground
           </h1>
         </Link>

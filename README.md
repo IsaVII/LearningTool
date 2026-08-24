@@ -16,16 +16,16 @@ Topics are laid out in a suggested learning order, and you can check off topics 
 
 Topics are ordered to roughly match how you'd want to learn them - language fundamentals first, then the tools and concepts that build on top of them.
 
-| # | Topic | What you'll learn |
-| --- | --- | --- |
-| 1 | **JavaScript Basics** *(coming soon)* | Variables & scope, functions & closures, arrays/objects, destructuring, promises, and async/await |
-| 2 | **TypeScript Basics** *(coming soon)* | Static types, interfaces, generics, and typing functions/components on top of JavaScript |
-| 3 | **Git** | Cloning, staging & committing, branching & merging, rebase, stash, and resolving conflicts |
-| 4 | **HTTP & Web APIs** | Methods & status codes, headers & cookies, CORS, REST/JSON, fetch, auth, WebSockets, and SSE |
-| 5 | **Node.js** | The runtime and event loop, modules, the built-in `http` module, and streams |
-| 6 | **React** | Components, JSX, props, state, hooks, and performance with `memo` |
-| 7 | **Redux** | Actions, reducers, `configureStore`, `createSlice`, and async thunks |
-| 8 | **Unit Tests** | Unit, integration, and component testing, mocking, spies, fixtures, and TDD |
+| #   | Topic                                 | What you'll learn                                                                                 |
+| --- | ------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 1   | **JavaScript Basics** _(coming soon)_ | Variables & scope, functions & closures, arrays/objects, destructuring, promises, and async/await |
+| 2   | **TypeScript Basics** _(coming soon)_ | Static types, interfaces, generics, and typing functions/components on top of JavaScript          |
+| 3   | **Git**                               | Cloning, staging & committing, branching & merging, rebase, stash, and resolving conflicts        |
+| 4   | **HTTP & Web APIs**                   | Methods & status codes, headers & cookies, CORS, REST/JSON, fetch, auth, WebSockets, and SSE      |
+| 5   | **Node.js**                           | The runtime and event loop, modules, the built-in `http` module, and streams                      |
+| 6   | **React**                             | Components, JSX, props, state, hooks, and performance with `memo`                                 |
+| 7   | **Redux**                             | Actions, reducers, `configureStore`, `createSlice`, and async thunks                              |
+| 8   | **Unit Tests**                        | Unit, integration, and component testing, mocking, spies, fixtures, and TDD                       |
 
 > The **JavaScript Basics** and **TypeScript Basics** pages are currently placeholders describing what's planned - full lessons and demos are coming.
 
@@ -69,8 +69,7 @@ Under the hood this lives in `src/context/ProgressContext.jsx`, which reads/writ
 ## Project Structure
 
 ```
-frontend/
-└── src/
+  src/
     ├── components/          # Shared UI (Header, Footer, CodeBlock, TopicCard, ...)
     │   ├── git-demos/         # Interactive demos for the Git page
     │   ├── http-demos/        # Interactive demos for the HTTP page

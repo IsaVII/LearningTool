@@ -1,33 +1,36 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
-    <script>
-      // Applied synchronously, before first paint, so the page never
-      // flashes the "wrong" theme while React is still loading. Mirrors
-      // the logic in src/components/ThemeToggle.jsx.
-      (function () {
-        try {
-          var stored = localStorage.getItem("theme");
-          var theme =
-            stored === "light" || stored === "dark"
-              ? stored
-              : window.matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark"
-                : "light";
-          document.documentElement.classList.add(theme);
-        } catch (e) {
-          // localStorage/matchMedia unavailable (e.g. privacy mode) - fall
-          // back to the CSS `prefers-color-scheme` media query.
-        }
-      })();
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/book.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebDev-Playground</title>
+  <script>
+    // Applied synchronously, before first paint, so the page never
+    // flashes the "wrong" theme while React is still loading. Mirrors
+    // the logic in src/components/ThemeToggle.jsx.
+    (function () {
+      try {
+        var stored = localStorage.getItem("theme");
+        var theme =
+          stored === "light" || stored === "dark" ?
+          stored :
+          window.matchMedia("(prefers-color-scheme: dark)").matches ?
+          "dark" :
+          "light";
+        document.documentElement.classList.add(theme);
+      } catch (e) {
+        // localStorage/matchMedia unavailable (e.g. privacy mode) - fall
+        // back to the CSS `prefers-color-scheme` media query.
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>
