@@ -1,0 +1,157 @@
+{
+  "title": "Node.js Fundamentals",
+  "introduction": {
+    "heading": "What is Node.js?",
+    "description": "Node.js is a JavaScript runtime built on Chrome's V8 engine that lets you run JavaScript outside the browser - on servers, in command-line tools, and anywhere else you need it. It's non-blocking and event-driven by design, which makes it a natural fit for servers and tools that spend a lot of time waiting on I/O: network requests, file reads, database queries."
+  },
+  "coreConcepts": {
+    "heading": "Core Concepts",
+    "concepts": [
+      {
+        "title": "Runtime",
+        "description": "Runs JavaScript outside the browser, on top of Google's V8 engine"
+      },
+      {
+        "title": "Modules",
+        "description": "Split code across files with require/module.exports or import/export"
+      },
+      {
+        "title": "Event Loop",
+        "description": "Handles async work without blocking the single JavaScript thread"
+      },
+      {
+        "title": "npm",
+        "description": "Install and manage packages from the world's largest software registry"
+      },
+      {
+        "title": "Streams",
+        "description": "Process data piece by piece instead of loading it all into memory"
+      }
+    ]
+  },
+  "runtime": {
+    "heading": "The Event Loop",
+    "description": "Node.js runs your JavaScript on a single thread, but it doesn't sit idle waiting on slow work like a file read or a network request. It hands that work off and keeps going, then comes back to run callbacks, resolved promises, and timers once they're ready. The order it runs them in - synchronous code, then microtasks, then macrotasks like setTimeout - is the event loop."
+  },
+  "gettingStarted": {
+    "heading": "Getting Started",
+    "steps": [
+      "Install Node.js from nodejs.org, or manage versions with nvm",
+      "Run a file directly with node app.js - no build step required",
+      "Run npm init to create a package.json for your project",
+      "Install packages with npm install <package> and require or import them",
+      "Reach for built-in modules like fs, http, and path before installing a package for the job"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Modules",
+      "description": "Split code across files with require and module.exports"
+    },
+    {
+      "title": "File System",
+      "description": "Read files without blocking the rest of your program"
+    },
+    {
+      "title": "HTTP Servers",
+      "description": "Handle incoming requests with the built-in http module"
+    },
+    {
+      "title": "Streams",
+      "description": "Process data in chunks instead of all at once"
+    }
+  ],
+  "fullExample": {
+    "heading": "Full Example, Step by Step",
+    "title": "A small HTTP server: modules, streams, and the event loop",
+    "description": "This example ties together the core concepts above in one realistic file. Click through the steps to see which lines each one is talking about.",
+    "code": [
+      "const http = require(\"http\");",
+      "",
+      "// In-memory quotes list - loaded once when the module starts, and",
+      "// shared by every request this server handles for as long as the",
+      "// process keeps running.",
+      "let quotes = [\"Node.js runs JavaScript outside the browser.\"];",
+      "",
+      "const server = http.createServer((req, res) => {",
+      "  if (req.method === \"GET\" && req.url === \"/quotes\") {",
+      "    res.writeHead(200, { \"Content-Type\": \"application/json\" });",
+      "    res.end(JSON.stringify(quotes));",
+      "    return;",
+      "  }",
+      "",
+      "  if (req.method === \"POST\" && req.url === \"/quotes\") {",
+      "    let body = \"\";",
+      "",
+      "    req.on(\"data\", (chunk) => {",
+      "      body += chunk;",
+      "    });",
+      "",
+      "    req.on(\"end\", () => {",
+      "      quotes.push(JSON.parse(body).quote);",
+      "      res.writeHead(201);",
+      "      res.end(\"Saved\");",
+      "    });",
+      "",
+      "    return;",
+      "  }",
+      "",
+      "  res.writeHead(404);",
+      "  res.end(\"Not found\");",
+      "});",
+      "",
+      "server.listen(3000, () => {",
+      "  console.log(\"Server running at http://localhost:3000\");",
+      "});",
+      "",
+      "module.exports = server;"
+    ],
+    "steps": [
+      {
+        "label": "Require a built-in module",
+        "lines": [1, 1],
+        "explanation": "require(\"http\") pulls in one of Node's built-in modules - it ships with Node itself, so there's nothing to install."
+      },
+      {
+        "label": "Keep state in memory",
+        "lines": [3, 6],
+        "explanation": "A top-level variable lives for as long as the process runs, and is shared by every request this same server instance handles."
+      },
+      {
+        "label": "Create the server",
+        "lines": [8, 8],
+        "explanation": "createServer takes a callback that Node invokes once for every incoming request, handing it a request object to read and a response object to write to."
+      },
+      {
+        "label": "Handle a GET request",
+        "lines": [9, 13],
+        "explanation": "writeHead sets the status code and headers, then end() sends the body and finishes the response."
+      },
+      {
+        "label": "Read a POST body as a stream",
+        "lines": [15, 20],
+        "explanation": "req is a readable stream, not a ready-made string - the body arrives in chunks, so you listen for \"data\" events and concatenate them yourself."
+      },
+      {
+        "label": "Act once the stream ends",
+        "lines": [22, 26],
+        "explanation": "The \"end\" event fires after the last chunk arrives - only then is it safe to parse the full body and respond."
+      },
+      {
+        "label": "Fall back for unknown routes",
+        "lines": [31, 32],
+        "explanation": "Any request that didn't match an earlier branch falls through to this default 404 response."
+      },
+      {
+        "label": "Start listening",
+        "lines": [35, 37],
+        "explanation": "listen(port, callback) hands control to Node's event loop. The callback runs once, when the server is ready to accept connections, and the process then stays alive waiting for requests."
+      },
+      {
+        "label": "Export for reuse",
+        "lines": [39, 39],
+        "explanation": "module.exports makes this file's server importable elsewhere with require(\"./server\") - the same require() from step 1, now pointing at your own file instead of a built-in."
+      }
+    ]
+  }
+}

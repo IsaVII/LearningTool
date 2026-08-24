@@ -17,6 +17,15 @@
       "screenshot": "/images/react.png",
       "difficulty": "beginner",
       "estimatedTime": "3 hours"
+    },
+    {
+      "id": 3,
+      "title": "Node.js",
+      "description": "Run JavaScript on the server with Node's core modules",
+      "route": "/node",
+      "screenshot": "/images/node.png",
+      "difficulty": "beginner",
+      "estimatedTime": "2.5 hours"
     }
   ]
 }
