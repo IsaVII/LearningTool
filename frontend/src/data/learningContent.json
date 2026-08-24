@@ -44,6 +44,15 @@
       "screenshot": "/images/git.png",
       "difficulty": "beginner",
       "estimatedTime": "2.5 hours"
+    },
+    {
+      "id": 6,
+      "title": "Unit Tests",
+      "description": "Write and run tests: unit, integration, component, mocks, spies, and TDD",
+      "route": "/testing",
+      "screenshot": "/images/testing.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 hours"
     }
   ]
 }

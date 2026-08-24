@@ -17,6 +17,7 @@ function Header() {
             <NavLink to="/node">Node.js</NavLink>
             <NavLink to="/http">HTTP & Web APIs</NavLink>
             <NavLink to="/git">Git</NavLink>
+            <NavLink to="/testing">Unit Tests</NavLink>
           </nav>
           <ThemeToggle />
         </div>

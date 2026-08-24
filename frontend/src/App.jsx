@@ -7,6 +7,7 @@ import Main from "./pages/Main";
 import Node from "./pages/learning/Node";
 import Redux from "./pages/learning/Redux";
 import React from "./pages/learning/React";
+import Testing from "./pages/learning/Testing";
 
 import "./App.css";
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/node" element={<Node />} />
             <Route path="/http" element={<Http />} />
             <Route path="/git" element={<Git />} />
+            <Route path="/testing" element={<Testing />} />
           </Routes>
         </main>
         <Footer />
