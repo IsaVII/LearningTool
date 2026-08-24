@@ -27,7 +27,12 @@ function TopicCard({ topic }) {
           <h3 className="m-0 text-heading">{topic.title}</h3>
         </div>
         <div className="flex flex-col items-end gap-1 shrink-0">
-          <div className="bg-accent text-white rounded-full text-xs font-bold uppercase px-1 py-1">
+          <div
+            className="text-white rounded-full text-xs font-bold uppercase px-2 py-1"
+            style={{
+              backgroundColor: `var(--difficulty-${topic.difficulty.toLowerCase()})`,
+            }}
+          >
             {topic.difficulty}
           </div>
           {topic.comingSoon && (
@@ -45,8 +50,8 @@ function TopicCard({ topic }) {
         ) : (
           completedSubtopics > 0 && (
             <span>
-              {completedSubtopics} sub-topic{completedSubtopics === 1 ? "" : "s"}{" "}
-              done
+              {completedSubtopics} sub-topic
+              {completedSubtopics === 1 ? "" : "s"} done
             </span>
           )
         )}
