@@ -1,5 +1,5 @@
 import ContentCard from "../../components/ContentCard";
-import typescriptContent from "../../data/typescriptContent.json";
+import typescriptContent from "../../data/learning/typescriptContent.json";
 
 function TypeScript() {
   return (

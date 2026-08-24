@@ -81,14 +81,16 @@ Under the hood this lives in `src/context/ProgressContext.jsx`, which reads/writ
     │   └── ProgressContext.jsx  # Topic/sub-topic completion state, backed by a cookie
     ├── data/                 # JSON content that drives each lesson
     │   ├── learningContent.json  # Topics shown on the home page, in learning order
-    │   ├── javascriptContent.json  # Placeholder content
-    │   ├── typescriptContent.json  # Placeholder content
-    │   ├── gitContent.json
-    │   ├── httpContent.json
-    │   ├── nodeContent.json
-    │   ├── reactContent.json
-    │   ├── reduxContent.json
-    │   └── testingContent.json
+    │   ├── learning/
+    │   │   ├── javascriptContent.json  # Placeholder content
+    │   │   ├── typescriptContent.json  # Placeholder content
+    │   │   ├── gitContent.json
+    │   │   ├── httpContent.json
+    │   │   ├── nodeContent.json
+    │   │   ├── reactContent.json
+    │   │   ├── reduxContent.json
+    │   │   └── testingContent.json
+    │   └── cheatsheets/
     ├── pages/
     │   ├── Main.jsx          # Home page, lists topics
     │   └── learning/         # One page per topic (JavaScript.jsx, Git.jsx, React.jsx, ...)
@@ -104,7 +106,7 @@ Lesson content lives in JSON so the copy can change without touching component c
 ## Adding a New Topic
 
 1. Add an entry to `src/data/learningContent.json` in the right spot for the learning order, including a unique `key` (used to store its progress-tracking checkbox state, e.g. `"key": "git"`).
-2. Create a `src/data/<topic>Content.json` file with the same shape as the existing ones (`introduction`, `coreConcepts`, `gettingStarted`, `practiceTopics`, `fullExample`, ...).
+2. Create a `src/data/learning/<topic>Content.json` file with the same shape as the existing ones (`introduction`, `coreConcepts`, `gettingStarted`, `practiceTopics`, `fullExample`, ...).
 3. Build any interactive demos in a new `src/components/<topic>-demos/` folder.
 4. Create `src/pages/learning/<Topic>.jsx`, following the pattern in `Git.jsx`, `React.jsx`, or `Redux.jsx`. When rendering `<PracticeTopicCard>` for each practice topic, pass `topicKey="<the same key from step 1>"` so its sub-topic checkboxes save correctly.
 5. Register the route in `src/App.jsx` and add a link in `src/components/Header.jsx`.

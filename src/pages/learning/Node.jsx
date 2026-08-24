@@ -6,7 +6,7 @@ import ModuleDemo from "../../components/node-demos/ModuleDemo";
 import PracticeTopicCard from "../../components/PracticeTopicCard";
 import StepByStepExample from "../../components/StepByStepExample";
 import StreamDemo from "../../components/node-demos/StreamDemo";
-import nodeContent from "../../data/nodeContent.json";
+import nodeContent from "../../data/learning/nodeContent.json";
 
 // Maps each practice topic (by title, from nodeContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the

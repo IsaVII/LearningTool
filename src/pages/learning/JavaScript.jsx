@@ -1,5 +1,5 @@
 import ContentCard from "../../components/ContentCard";
-import javascriptContent from "../../data/javascriptContent.json";
+import javascriptContent from "../../data/learning/javascriptContent.json";
 
 function JavaScript() {
   return (

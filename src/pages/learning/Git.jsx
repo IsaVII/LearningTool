@@ -10,7 +10,7 @@ import ResetRevertDemo from "../../components/git-demos/ResetRevertDemo";
 import StagingCommitDemo from "../../components/git-demos/StagingCommitDemo";
 import StashDemo from "../../components/git-demos/StashDemo";
 import StepByStepExample from "../../components/StepByStepExample";
-import gitContent from "../../data/gitContent.json";
+import gitContent from "../../data/learning/gitContent.json";
 
 // Maps each practice topic (by title, from gitContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the

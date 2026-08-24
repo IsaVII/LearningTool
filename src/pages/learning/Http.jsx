@@ -3,7 +3,7 @@ import ContentCard from "../../components/ContentCard";
 import CorsDemo from "../../components/http-demos/CorsDemo";
 import FetchAbortDemo from "../../components/http-demos/FetchAbortDemo";
 import HeadersCookiesDemo from "../../components/http-demos/HeadersCookiesDemo";
-import httpContent from "../../data/httpContent.json";
+import httpContent from "../../data/learning/httpContent.json";
 import MethodsStatusDemo from "../../components/http-demos/MethodsStatusDemo";
 import PracticeTopicCard from "../../components/PracticeTopicCard";
 import RequestResponseDemo from "../../components/http-demos/RequestResponseDemo";

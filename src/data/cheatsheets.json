@@ -1,0 +1,15 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "key": "githubpages",
+      "title": "Github Pages for React",
+      "description": "Deploying React applications using GitHub Pages and VS Code",
+      "route": "/githubpages",
+      "screenshot": "/images/githubpages.png",
+      "difficulty": "beginner",
+      "estimatedTime": "10 minutes",
+      "comingSoon": true
+    }
+]
+}

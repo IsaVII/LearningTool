@@ -12,7 +12,7 @@ import StepByStepExample from "../../components/StepByStepExample";
 import TddDemo from "../../components/testing-demos/TddDemo";
 import TestPyramidDemo from "../../components/testing-demos/TestPyramidDemo";
 import UnitTestDemo from "../../components/testing-demos/UnitTestDemo";
-import testingContent from "../../data/testingContent.json";
+import testingContent from "../../data/learning/testingContent.json";
 
 // Maps each practice topic (by title, from testingContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the
@@ -89,8 +89,8 @@ function Testing() {
 
         <h3 className="text-2xl text-heading-alt mt-6 mb-3">Practice Topics</h3>
         <p className="text-muted text-sm mb-4">
-          Click a topic to open a small failing test - fix it and hit
-          &quot;Run tests&quot;.
+          Click a topic to open a small failing test - fix it and hit &quot;Run
+          tests&quot;.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
           {testingContent.practiceTopics.map((topic) => {

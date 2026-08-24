@@ -1,4 +1,5 @@
 import learningContent from "../data/learningContent.json";
+import cheatSheets from "../data/cheatSheets.json";
 import TopicCard from "../components/TopicCard";
 
 function Main() {
@@ -18,6 +19,15 @@ function Main() {
         <h2 className="text-3xl mb-8 text-heading">Available Topics</h2>
         <div className="w-full max-w-210 justify-self-center grid grid-cols-1 md:grid-cols-2 gap-8 ">
           {learningContent.topics.map((topic) => (
+            <TopicCard key={topic.id} topic={topic} />
+          ))}
+        </div>
+      </section>
+
+      <section className="py-8 px-4">
+        <h2 className="text-3xl mb-8 text-heading">Cheat Sheets</h2>
+        <div className="w-full max-w-210 justify-self-center grid grid-cols-1 md:grid-cols-2 gap-8 ">
+          {cheatSheets.topics.map((topic) => (
             <TopicCard key={topic.id} topic={topic} />
           ))}
         </div>

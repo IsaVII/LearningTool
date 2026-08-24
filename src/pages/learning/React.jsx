@@ -6,7 +6,7 @@ import PropsDemo from "../../components/react-demos/PropsDemo";
 import RenderCountDemo from "../../components/react-demos/RenderCountDemo";
 import StepByStepExample from "../../components/StepByStepExample";
 import StopwatchDemo from "../../components/react-demos/StopwatchDemo";
-import reactContent from "../../data/reactContent.json";
+import reactContent from "../../data/learning/reactContent.json";
 
 // Maps each practice topic (by title, from reactContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the

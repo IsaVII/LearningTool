@@ -7,7 +7,7 @@ import HooksSeparationDemo from "../../components/redux-demos/HooksSeparationDem
 import SliceActionLogDemo from "../../components/redux-demos/SliceActionLogDemo";
 import StepByStepExample from "../../components/StepByStepExample";
 import StoreCounterDemo from "../../components/redux-demos/StoreCounterDemo";
-import reduxContent from "../../data/reduxContent.json";
+import reduxContent from "../../data/learning/reduxContent.json";
 
 // Maps each practice topic (by title, from reduxContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the

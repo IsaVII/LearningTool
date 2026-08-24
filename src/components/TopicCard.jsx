@@ -9,7 +9,7 @@ function TopicCard({ topic }) {
   return (
     <Link
       to={topic.route}
-      className={`relative bg-surface border rounded-lg no-underline text-inherit transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-lg hover:border-accent ${
+      className={`relative bg-surface border rounded-lg no-underline text-inherit  transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-lg hover:border-accent ${
         done ? "border-accent" : "border-line"
       }`}
     >
