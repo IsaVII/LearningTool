@@ -106,6 +106,7 @@ const counterSlice = createSlice({
             return (
               <PracticeTopicCard
                 key={topic.title}
+                topicKey="redux"
                 title={topic.title}
                 description={topic.description}
                 demo={Demo ? <Demo /> : null}

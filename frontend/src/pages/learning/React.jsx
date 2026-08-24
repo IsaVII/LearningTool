@@ -85,6 +85,7 @@ function React() {
             return (
               <PracticeTopicCard
                 key={topic.title}
+                topicKey="react"
                 title={topic.title}
                 description={topic.description}
                 demo={Demo ? <Demo /> : null}

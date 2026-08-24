@@ -98,6 +98,7 @@ function Testing() {
             return (
               <PracticeTopicCard
                 key={topic.title}
+                topicKey="testing"
                 title={topic.title}
                 description={topic.description}
                 demo={Demo ? <Demo /> : null}

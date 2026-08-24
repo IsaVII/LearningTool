@@ -1,0 +1,15 @@
+{
+  "title": "TypeScript Basics",
+  "introduction": {
+    "heading": "Coming Soon",
+    "description": "This lesson is on the way. TypeScript Basics will cover static types, interfaces, generics, and how TypeScript catches bugs before your code ever runs - building directly on the JavaScript Basics topic."
+  },
+  "plannedTopics": [
+    "Basic types & type inference",
+    "Interfaces & type aliases",
+    "Typing functions (params & return values)",
+    "Generics",
+    "Union & intersection types",
+    "Typing React components & props"
+  ]
+}

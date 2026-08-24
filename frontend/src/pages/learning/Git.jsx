@@ -93,6 +93,7 @@ function Git() {
             return (
               <PracticeTopicCard
                 key={topic.title}
+                topicKey="git"
                 title={topic.title}
                 description={topic.description}
                 demo={Demo ? <Demo /> : null}

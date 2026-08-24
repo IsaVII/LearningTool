@@ -1,0 +1,16 @@
+{
+  "title": "JavaScript Basics",
+  "introduction": {
+    "heading": "Coming Soon",
+    "description": "This lesson is on the way. JavaScript Basics will cover variables and scope, functions and closures, arrays and objects, destructuring, template literals, and asynchronous code with promises and async/await - the foundation every other topic in this app builds on."
+  },
+  "plannedTopics": [
+    "Variables, scope & hoisting",
+    "Functions, arrow functions & closures",
+    "Arrays & objects",
+    "Destructuring & spread/rest",
+    "Template literals",
+    "Promises & async/await",
+    "The event loop, briefly"
+  ]
+}

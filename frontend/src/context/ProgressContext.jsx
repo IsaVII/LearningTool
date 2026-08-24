@@ -1,0 +1,130 @@
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { getCookie, setCookie } from "../utils/cookies";
+
+// Everything the user has checked off lives in a single cookie, so
+// progress survives a refresh (and a new tab) without any backend.
+const COOKIE_NAME = "learningToolProgress";
+const EMPTY_PROGRESS = { topics: {}, subtopics: {} };
+
+function readProgressFromCookie() {
+  const raw = getCookie(COOKIE_NAME);
+  if (!raw) return EMPTY_PROGRESS;
+
+  try {
+    const parsed = JSON.parse(raw);
+    return {
+      topics: parsed.topics ?? {},
+      subtopics: parsed.subtopics ?? {},
+    };
+  } catch {
+    // Malformed/old cookie - fall back to a clean slate instead of crashing.
+    return EMPTY_PROGRESS;
+  }
+}
+
+const ProgressContext = createContext(null);
+
+/**
+ * Tracks which topics (home page cards) and sub-topics (the practice
+ * topics/demos inside each lesson) the user has checked off. State is
+ * kept in memory and mirrored to a cookie on every change.
+ */
+export function ProgressProvider({ children }) {
+  const [progress, setProgress] = useState(readProgressFromCookie);
+
+  useEffect(() => {
+    setCookie(COOKIE_NAME, JSON.stringify(progress));
+  }, [progress]);
+
+  const toggleTopic = useCallback((topicKey) => {
+    if (!topicKey) return;
+    setProgress((prev) => ({
+      ...prev,
+      topics: { ...prev.topics, [topicKey]: !prev.topics[topicKey] },
+    }));
+  }, []);
+
+  const toggleSubtopic = useCallback((topicKey, subtopicTitle) => {
+    if (!topicKey || !subtopicTitle) return;
+    setProgress((prev) => {
+      const topicSubtopics = prev.subtopics[topicKey] ?? {};
+      return {
+        ...prev,
+        subtopics: {
+          ...prev.subtopics,
+          [topicKey]: {
+            ...topicSubtopics,
+            [subtopicTitle]: !topicSubtopics[subtopicTitle],
+          },
+        },
+      };
+    });
+  }, []);
+
+  const isTopicDone = useCallback(
+    (topicKey) => Boolean(progress.topics[topicKey]),
+    [progress.topics],
+  );
+
+  const isSubtopicDone = useCallback(
+    (topicKey, subtopicTitle) =>
+      Boolean(progress.subtopics[topicKey]?.[subtopicTitle]),
+    [progress.subtopics],
+  );
+
+  // Number of checked-off sub-topics for a given topic - handy for showing
+  // "3 sub-topics done" on the home page card without needing to know the
+  // total up front.
+  const getTopicSubtopicCount = useCallback(
+    (topicKey) => {
+      const topicSubtopics = progress.subtopics[topicKey];
+      if (!topicSubtopics) return 0;
+      return Object.values(topicSubtopics).filter(Boolean).length;
+    },
+    [progress.subtopics],
+  );
+
+  const resetProgress = useCallback(() => {
+    setProgress(EMPTY_PROGRESS);
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      isTopicDone,
+      toggleTopic,
+      isSubtopicDone,
+      toggleSubtopic,
+      getTopicSubtopicCount,
+      resetProgress,
+    }),
+    [
+      isTopicDone,
+      toggleTopic,
+      isSubtopicDone,
+      toggleSubtopic,
+      getTopicSubtopicCount,
+      resetProgress,
+    ],
+  );
+
+  return (
+    <ProgressContext.Provider value={value}>
+      {children}
+    </ProgressContext.Provider>
+  );
+}
+
+export function useProgress() {
+  const context = useContext(ProgressContext);
+  if (!context) {
+    throw new Error("useProgress must be used within a ProgressProvider");
+  }
+  return context;
+}

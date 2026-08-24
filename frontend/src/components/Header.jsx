@@ -4,11 +4,13 @@ import NavLink from "./NavLink";
 import ThemeToggle from "./ThemeToggle";
 
 const TOPICS = [
-  { to: "/redux", label: "Redux" },
-  { to: "/react", label: "React" },
-  { to: "/node", label: "Node.js" },
-  { to: "/http", label: "HTTP & Web APIs" },
+  { to: "/javascript", label: "JavaScript Basics" },
+  { to: "/typescript", label: "TypeScript Basics" },
   { to: "/git", label: "Git" },
+  { to: "/http", label: "HTTP & Web APIs" },
+  { to: "/node", label: "Node.js" },
+  { to: "/react", label: "React" },
+  { to: "/redux", label: "Redux" },
   { to: "/testing", label: "Unit Tests" },
 ];
 

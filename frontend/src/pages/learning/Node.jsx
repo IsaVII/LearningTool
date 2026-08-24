@@ -85,6 +85,7 @@ function Node() {
             return (
               <PracticeTopicCard
                 key={topic.title}
+                topicKey="node"
                 title={topic.title}
                 description={topic.description}
                 demo={Demo ? <Demo /> : null}
