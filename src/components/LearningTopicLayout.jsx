@@ -96,10 +96,10 @@ function LearningTopicLayout({
           <h3 className="text-2xl text-heading-alt mt-6 mb-3">
             {gettingStarted.heading}
           </h3>
-          <ol className="text-muted leading-relaxed pl-6">
+          <ol className="text-muted leading-relaxed pl-6 text-left">
             {gettingStarted.steps.map((step, index) => (
               <li key={index} className="mb-2">
-                {step}
+                • {step}
               </li>
             ))}
           </ol>
