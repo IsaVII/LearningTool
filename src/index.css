@@ -1,45 +1,30 @@
 @import "tailwindcss";
 
+/* ========================================
+   TAILWIND V4 THEME TOKENS
+   ======================================== */
 /*
- * Tailwind v4 theme tokens.
- * Anything defined here under --color-* is turned into matching
- * Tailwind utilities automatically (e.g. --color-accent -> bg-accent,
- * text-accent, border-accent, ...). Change a value here and every
- * className using that token updates with it - no more hunting down
- * hardcoded bg-blue-500 / text-slate-700 / etc. across components.
+ * Variables defined under --color-* become Tailwind utilities automatically
+ * (e.g. --color-accent → bg-accent, text-accent, border-accent).
+ * This ensures all colors are centralized and reusable across components.
  */
 @theme {
+  /* Light mode defaults - overridden in dark mode sections below */
   --color-heading: #334155;
-  /* was: slate-700 - brand/heading color */
   --color-heading-alt: #1e293b;
-  /* was: slate-800 - sub-heading color */
   --color-accent: #3b82f6;
-  /* was: blue-500 - links, badges, hover accents */
   --color-surface: #ffffff;
-  /* was: white - card backgrounds */
   --color-surface-alt: #f9fafb;
-  /* was: gray-50 - practice topic card bg */
   --color-surface-alt-hover: #f3f4f6;
-  /* was: gray-100 - practice topic card hover */
   --color-surface-muted: #e5e7eb;
-  /* was: gray-200 - topics grid background */
   --color-line: #e5e7eb;
-  /* was: gray-200 - card borders */
   --color-muted: #6b7280;
-  /* was: gray-500 - body copy */
   --color-subtle: #9ca3af;
-  /* was: gray-400 - secondary meta text */
   --color-navbar: #f8fafc;
-  /* fixed brand slate used for header/footer bg - stays constant across themes */
+  --color-menu-text: #1f2937;
+  --color-header-icon: #334155;
 
-  /*
-   * Syntax-highlighting palette (VS Code "Dark+" colors). Intentionally
-   * NOT re-themed by light/dark mode - CodeBlock always renders like a
-   * code editor, same as VS Code itself does regardless of your OS theme.
-   * Pulled out here (instead of inline hex in the components) so every
-   * color in the app lives in one place.
-   */
-
+  /* Syntax highlighting - fixed colors, not theme-aware */
   --color-syntax-comment: #6a9955;
   --color-syntax-string: #ce9178;
   --color-syntax-number: #b5cea8;
@@ -52,44 +37,41 @@
   --color-syntax-line-number: #6e7681;
 }
 
+/* ========================================
+   ROOT VARIABLES - LIGHT MODE (DEFAULT)
+   ======================================== */
 :root {
-  --test: #afaf76;
+  /* Font stacks */
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  /* Core theme colors */
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
   --border: #e5e4e7;
-  --code-bg: #49473c;
+  --code-bg: #f1f0e6;
   --accent: #aa3bff;
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-
+  /* Difficulty badges */
   --difficulty-beginner: #60a5fa;
   --difficulty-intermediate: #a855f7;
   --difficulty-advanced: #7c3aed;
-  --header-icon-color: #ffffff;
-  --menu-text-color: #ffffff;
 
-  /*
-   * Legacy App.css palette, pulled out into variables. These ARE
-   * theme-aware - see the light/dark blocks below, which override every
-   * one of them. (Previously they were only ever defined here, so
-   * body/code/scrollbar colors silently ignored the toggle - fixed now.)
-   */
+  /* App layout */
   --app-bg: #f5f6fa;
   --app-text: #2c3e50;
-  --legacy-code-bg: #858999;
+  --link-color: #484d8d;
+
+  /* Scrollbar */
   --scrollbar-track: #f1f2f6;
   --scrollbar-thumb: #bdc3c7;
   --scrollbar-thumb-hover: #95a5a6;
 
+  /* Typography settings */
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
@@ -105,18 +87,17 @@
   }
 }
 
+/* ========================================
+   DARK MODE - SYSTEM PREFERENCE
+   ======================================== */
 /*
- * Dark mode strategy:
- * - By default we follow the OS/browser preference via
- *   `prefers-color-scheme`, scoped to `:not(.light)` so it backs off the
- *   moment the user makes an explicit choice.
- * - Clicking the toggle in the header adds `.dark` or `.light` to <html>,
- *   which overrides the browser default regardless of system preference.
- * - `main.jsx`/`index.html` reads the saved choice (or system preference)
- *   before paint so there's no flash of the wrong theme.
+ * Applies dark mode when OS/browser prefers dark AND user hasn't
+ * explicitly chosen light mode via the theme toggle.
  */
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
+    color-scheme: dark;
+
     --text: #9ca3af;
     --text-h: #616f8b;
     --bg: #16171d;
@@ -125,9 +106,7 @@
     --accent: #c084fc;
     --accent-bg: rgba(192, 132, 252, 0.15);
     --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
 
     --color-heading: #e2e8f0;
     --color-heading-alt: #f8fafc;
@@ -140,13 +119,13 @@
     --color-muted: #9ca3af;
     --color-subtle: #71717a;
     --color-navbar: #666b8a;
-    --header-icon-color: #ffffff;
-    --menu-text-color: #ffffff;
+    --color-menu-text: #ffffff;
+    --color-header-icon: #ffffff;
 
     --app-bg: #16171d;
     --app-text: #cbd5e1;
-    --legacy-code-bg: #1f2028;
     --link-color: #60a5fa;
+
     --scrollbar-track: #1f2028;
     --scrollbar-thumb: #4b4d58;
     --scrollbar-thumb-hover: #6b6e7a;
@@ -157,8 +136,16 @@
   }
 }
 
+/* ========================================
+   DARK MODE - EXPLICIT USER CHOICE
+   ======================================== */
+/*
+ * Applied when user explicitly toggles to dark mode.
+ * Overrides system preference.
+ */
 :root.dark {
   color-scheme: dark;
+
   --text: #9ca3af;
   --text-h: #616f8b;
   --bg: #16171d;
@@ -167,9 +154,7 @@
   --accent: #c084fc;
   --accent-bg: rgba(192, 132, 252, 0.15);
   --accent-border: rgba(192, 132, 252, 0.5);
-  --social-bg: rgba(47, 48, 58, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+  --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
 
   --color-heading: #e2e8f0;
   --color-heading-alt: #f8fafc;
@@ -182,13 +167,13 @@
   --color-muted: #9ca3af;
   --color-subtle: #71717a;
   --color-navbar: #1a1b21;
-  --header-icon-color: #ffffff;
-  --menu-text-color: #ffffff;
+  --color-menu-text: #ffffff;
+  --color-header-icon: #ffffff;
 
   --app-bg: #16171d;
   --app-text: #cbd5e1;
-  --legacy-code-bg: #1f2028;
   --link-color: #b8d8ff;
+
   --scrollbar-track: #1f2028;
   --scrollbar-thumb: #4b4d58;
   --scrollbar-thumb-hover: #6b6e7a;
@@ -198,8 +183,17 @@
   filter: invert(1) brightness(2);
 }
 
+/* ========================================
+   LIGHT MODE - EXPLICIT USER CHOICE
+   ======================================== */
+/*
+ * Applied when user explicitly toggles to light mode.
+ * Overrides dark system preference. Most values match :root defaults,
+ * but kept separate for explicit override behavior.
+ */
 :root.light {
   color-scheme: light;
+
   --text: #6b6375;
   --text-h: #433786;
   --bg: #fff;
@@ -208,9 +202,7 @@
   --accent: #aa3bff;
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
   --color-heading: #526886;
   --color-heading-alt: #4d6996;
@@ -223,18 +215,21 @@
   --color-muted: #6b7280;
   --color-subtle: #9ca3af;
   --color-navbar: #b9c1ee;
-  --header-icon-color: #334155;
-  --menu-text-color: #1f2937;
+  --color-menu-text: #1f2937;
+  --color-header-icon: #334155;
 
   --app-bg: #f5f6fa;
   --app-text: #2c3e50;
-  --legacy-code-bg: #eeeeee;
   --link-color: #484d8d;
+
   --scrollbar-track: #f1f2f6;
   --scrollbar-thumb: #bdc3c7;
   --scrollbar-thumb-hover: #95a5a6;
 }
 
+/* ========================================
+   BASE STYLES
+   ======================================== */
 body {
   margin: 0;
 }
@@ -251,9 +246,12 @@ body {
   box-sizing: border-box;
 }
 
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
 h1,
 h2 {
-  font-family: var(--heading);
+  font-family: var(--sans);
   font-weight: 500;
   color: var(--text-h);
 }
@@ -284,6 +282,9 @@ p {
   margin: 0;
 }
 
+/* ========================================
+   CODE STYLES
+   ======================================== */
 code,
 .counter {
   font-family: var(--mono);

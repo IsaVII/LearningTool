@@ -29,7 +29,9 @@ function applyTheme(theme) {
  * index.html for how the flash of the wrong theme is avoided on load.
  */
 function ThemeToggle() {
-  const [theme, setTheme] = useState(() => getStoredTheme() ?? getSystemTheme());
+  const [theme, setTheme] = useState(
+    () => getStoredTheme() ?? getSystemTheme(),
+  );
 
   useEffect(() => {
     applyTheme(theme);
@@ -66,8 +68,7 @@ function ThemeToggle() {
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}
       aria-pressed={isDark}
-      className="grid place-items-center w-9 h-9 rounded-full transition-colors duration-300 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
-      style={{ color: "var(--header-icon-color)" }}
+      className="grid place-items-center w-9 h-9 rounded-full transition-colors duration-300 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 text-header-icon"
     >
       {isDark ? (
         // Sun icon - shown when dark mode is active, click to go light.

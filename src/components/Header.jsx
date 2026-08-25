@@ -95,12 +95,12 @@ function Header() {
   const isHome = pathname === "/";
 
   return (
-    <header className="sticky top-0 z-50 bg-navbar text-white shadow-lg shadow-black/10 border-b border-white/10">
+    <header className="sticky top-0 z-50 bg-navbar text-menu-text shadow-lg shadow-black/10 border-b border-white/10">
       <div className="max-w-5xl mx-auto flex justify-between items-center px-4 py-3">
         {/* Brand */}
         <Link
           to="/"
-          className="group flex items-center gap-2.5 no-underline text-white"
+          className="group flex items-center gap-2.5 no-underline text-menu-text"
         >
           <img src="book.png" alt="Book Icon" className="w-7 h-7" />
           <h1 className="m-0 text-1xl font-semibold tracking-tight">
@@ -114,10 +114,9 @@ function Header() {
             to="/"
             aria-label="Home"
             aria-current={isHome ? "page" : undefined}
-            className={`grid place-items-center w-9 h-9 rounded-full transition-colors duration-200 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
-              isHome ? "text-accent" : ""
+            className={`grid place-items-center w-9 h-9 rounded-full transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
+              isHome ? "text-accent" : "text-header-icon"
             }`}
-            style={{ color: isHome ? undefined : "var(--header-icon-color)" }}
             title="Home"
           >
             <HomeIcon />
@@ -137,8 +136,7 @@ function Header() {
             aria-label={menuOpen ? "Close menu" : "Open topics menu"}
             aria-expanded={menuOpen}
             aria-controls="topics-menu"
-            className="relative grid place-items-center w-9 h-9 rounded-full transition-colors duration-200 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
-            style={{ color: "var(--header-icon-color)" }}
+            className="relative grid place-items-center w-9 h-9 rounded-full transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 text-header-icon"
           >
             <span className="relative block w-5 h-4" aria-hidden="true">
               <span
@@ -183,16 +181,10 @@ function Header() {
             : "opacity-0 scale-95 -translate-y-1 pointer-events-none"
         }`}
       >
-        <p
-          className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-white/40"
-          style={{ color: "var(--menu-text-color)" }}
-        >
+        <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-menu-text/40">
           Topics
         </p>
-        <ul
-          className="list-none m-0 p-2 flex flex-col"
-          style={{ color: "var(--menu-text-color)" }}
-        >
+        <ul className="list-none m-0 p-2 flex flex-col">
           {TOPICS.map((topic) => (
             <li key={topic.to}>
               <NavLink
