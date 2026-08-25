@@ -43,7 +43,10 @@ function SliceActionLogDemo() {
           <ul className="text-sm font-mono text-muted space-y-1">
             {entries.map((entry, index) => (
               <li key={index}>
-                <span className="text-subtle">{entry.at}</span> — {entry.type}
+                <span className="text-subtle">
+                  {entry.timestamp || entry.at}
+                </span>{" "}
+                — {entry.action || entry.type}
               </li>
             ))}
           </ul>

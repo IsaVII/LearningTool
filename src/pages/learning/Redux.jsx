@@ -1,9 +1,17 @@
 import AsyncThunkDemo from "../../components/redux-demos/AsyncThunkDemo";
 import CodeBlock from "../../components/CodeBlock";
 import DataFlowDemo from "../../components/redux-demos/DataFlowDemo";
+import DevToolsDemo from "../../components/redux-demos/DevToolsDemo";
+import EntityAdapterDemo from "../../components/redux-demos/EntityAdapterDemo";
+import ExtraReducersDemo from "../../components/redux-demos/ExtraReducersDemo";
 import HooksSeparationDemo from "../../components/redux-demos/HooksSeparationDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
+import MemoizedSelectorsDemo from "../../components/redux-demos/MemoizedSelectorsDemo";
+import MiddlewareDemo from "../../components/redux-demos/MiddlewareDemo";
+import PayloadPreparationDemo from "../../components/redux-demos/PayloadPreparationDemo";
+import PerformancePatternsDemo from "../../components/redux-demos/PerformancePatternsDemo";
 import reduxContent from "../../data/learning/reduxContent.json";
+import RtkQueryDemo from "../../components/redux-demos/RtkQueryDemo";
 import SliceActionLogDemo from "../../components/redux-demos/SliceActionLogDemo";
 import StoreCounterDemo from "../../components/redux-demos/StoreCounterDemo";
 
@@ -15,6 +23,14 @@ const practiceDemos = {
   "Creating Slices": SliceActionLogDemo,
   "Using Hooks": HooksSeparationDemo,
   "Async Operations": AsyncThunkDemo,
+  Middleware: MiddlewareDemo,
+  "Memoized Selectors": MemoizedSelectorsDemo,
+  ExtraReducers: ExtraReducersDemo,
+  "Payload Preparation": PayloadPreparationDemo,
+  "Entity Adapter": EntityAdapterDemo,
+  "RTK Query Basics": RtkQueryDemo,
+  "DevTools Integration": DevToolsDemo,
+  "Performance Patterns": PerformancePatternsDemo,
 };
 
 function Redux() {

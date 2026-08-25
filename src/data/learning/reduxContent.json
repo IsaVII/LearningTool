@@ -2,58 +2,100 @@
   "title": "Redux Fundamentals",
   "introduction": {
     "heading": "What is Redux?",
-    "description": "Redux is a predictable state container for JavaScript applications. It helps you write applications that behave consistently and are easy to test."
+    "description": "Redux is a predictable state container for JavaScript applications - it enforces a strict unidirectional data flow where every state change is traceable back to a single action. Instead of scattering state updates across components, all state lives in one store, all changes happen through dispatched actions, and all logic that computes the next state lives in pure reducer functions. That constraint - explicit actions, pure reducers, single store - is what makes Redux apps easy to reason about, test, and debug."
   },
   "coreConcepts": {
     "heading": "Core Concepts",
     "concepts": [
       {
         "title": "Store",
-        "description": "Single source of truth for your app state"
+        "description": "Single source of truth holding the entire app state tree - created once with configureStore and accessed via useSelector or getState()"
       },
       {
         "title": "Actions",
-        "description": "Plain objects describing what happened"
+        "description": "Plain objects describing what happened, always with a type string and optionally a payload - the only way to trigger a state change"
       },
       {
         "title": "Reducers",
-        "description": "Pure functions that return new state"
+        "description": "Pure functions taking (state, action) and returning new state - no side effects, no API calls, just state in, new state out"
       },
       {
         "title": "Selectors",
-        "description": "Functions to extract state slices"
+        "description": "Functions extracting specific pieces from the state tree - keep them memoized with createSelector to avoid unnecessary re-renders"
+      },
+      {
+        "title": "Middleware",
+        "description": "Extension points between dispatching an action and it reaching the reducer - intercept, log, delay, or transform actions before the store sees them"
+      },
+      {
+        "title": "Immutability",
+        "description": "Reducers must return new objects instead of mutating the old state - Redux Toolkit uses Immer under the hood so you can write code that looks like mutations"
       }
     ]
   },
   "toolkit": {
     "heading": "Redux Toolkit",
-    "description": "Redux Toolkit simplifies Redux development by providing helpful utilities like configureStore and createSlice that reduce boilerplate code."
+    "description": "Redux Toolkit is the official, opinionated toolset for efficient Redux development. It wraps configureStore around the original createStore to include middleware and DevTools by default, provides createSlice to generate action creators and reducers in one go, includes createAsyncThunk for async logic, createEntityAdapter for normalized state, and even RTK Query - a complete data-fetching and caching solution. If you're starting a new Redux project, always start with Redux Toolkit; it's the modern way to write Redux."
   },
   "gettingStarted": {
     "heading": "Getting Started",
     "steps": [
-      "Create a Redux store with configureStore",
-      "Create slices to define reducers and actions",
-      "Use useSelector to read state in components",
-      "Use useDispatch to dispatch actions"
+      "Install @reduxjs/toolkit and react-redux, then wrap your app in a Provider pointing at the store",
+      "Create slices with createSlice - each one bundles a name, initialState, and reducers that define how state changes in response to actions",
+      "Use useSelector((state) => state.slice.field) to read state in components - it subscribes automatically and re-renders only when that piece changes",
+      "Use useDispatch to get the dispatch function, then call dispatch(actionCreator()) to send an action to the store",
+      "Reach for createAsyncThunk when you need to dispatch actions based on a promise's lifecycle (pending, fulfilled, rejected)",
+      "Add the Redux DevTools extension to your browser and open it alongside your app - every action, every state change, with time-travel debugging built in"
     ]
   },
   "practiceTopics": [
     {
       "title": "Basic Store Setup",
-      "description": "Learn how to configure a Redux store"
+      "description": "Learn how to configure a Redux store and dispatch actions"
     },
     {
       "title": "Creating Slices",
-      "description": "Understand Redux Toolkit slices"
+      "description": "Understand how createSlice bundles actions and reducers"
     },
     {
       "title": "Using Hooks",
-      "description": "Master useSelector and useDispatch"
+      "description": "Master useSelector and useDispatch for connecting components"
     },
     {
       "title": "Async Operations",
-      "description": "Handle async logic with thunks"
+      "description": "Handle async logic with createAsyncThunk"
+    },
+    {
+      "title": "Middleware",
+      "description": "Intercept actions with custom middleware"
+    },
+    {
+      "title": "Memoized Selectors",
+      "description": "Optimize performance with createSelector from Reselect"
+    },
+    {
+      "title": "ExtraReducers",
+      "description": "Listen to actions from other slices or thunks"
+    },
+    {
+      "title": "Payload Preparation",
+      "description": "Customize action payloads with prepare callbacks"
+    },
+    {
+      "title": "Entity Adapter",
+      "description": "Manage normalized collections with createEntityAdapter"
+    },
+    {
+      "title": "RTK Query Basics",
+      "description": "Fetch and cache data automatically with RTK Query"
+    },
+    {
+      "title": "DevTools Integration",
+      "description": "Debug with time-travel and action replay"
+    },
+    {
+      "title": "Performance Patterns",
+      "description": "Batch updates and optimize re-renders"
     }
   ],
   "fullExample": {
