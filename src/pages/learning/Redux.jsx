@@ -1,13 +1,11 @@
-import ContentCard from "../../components/ContentCard";
-import PracticeTopicCard from "../../components/PracticeTopicCard";
 import AsyncThunkDemo from "../../components/redux-demos/AsyncThunkDemo";
 import CodeBlock from "../../components/CodeBlock";
 import DataFlowDemo from "../../components/redux-demos/DataFlowDemo";
 import HooksSeparationDemo from "../../components/redux-demos/HooksSeparationDemo";
-import SliceActionLogDemo from "../../components/redux-demos/SliceActionLogDemo";
-import StepByStepExample from "../../components/StepByStepExample";
-import StoreCounterDemo from "../../components/redux-demos/StoreCounterDemo";
+import LearningTopicLayout from "../../components/LearningTopicLayout";
 import reduxContent from "../../data/learning/reduxContent.json";
+import SliceActionLogDemo from "../../components/redux-demos/SliceActionLogDemo";
+import StoreCounterDemo from "../../components/redux-demos/StoreCounterDemo";
 
 // Maps each practice topic (by title, from reduxContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the
@@ -21,42 +19,21 @@ const practiceDemos = {
 
 function Redux() {
   return (
-    <>
-      <h1 className="text-4xl text-heading mb-4">{reduxContent.title}</h1>
-
-      <ContentCard>
-        <h2 className="text-3xl text-heading mt-8 mb-4">
-          {reduxContent.introduction.heading}
-        </h2>
-        <p className="text-muted leading-relaxed mb-4">
-          {reduxContent.introduction.description}
-        </p>
-
-        <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-          {reduxContent.coreConcepts.heading}
-        </h3>
-        <ul className="text-muted leading-relaxed pl-6">
-          {reduxContent.coreConcepts.concepts.map((concept) => (
-            <li key={concept.title} className="mb-2">
-              <strong>{concept.title}:</strong> {concept.description}
-            </li>
-          ))}
-        </ul>
-
-        <p className="text-muted leading-relaxed mt-4 mb-4">
-          Every Redux update follows the same one-way cycle: the UI dispatches
-          an action, the store runs the reducer to calculate a new state, and
-          the UI reads that new state.
-        </p>
-        <DataFlowDemo />
-
-        <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-          {reduxContent.toolkit.heading}
-        </h3>
-        <p className="text-muted leading-relaxed mb-4">
-          {reduxContent.toolkit.description}
-        </p>
-        <CodeBlock>{`// configureStore replaces createStore + manual middleware setup
+    <LearningTopicLayout
+      title={reduxContent.title}
+      introduction={reduxContent.introduction}
+      coreConcepts={reduxContent.coreConcepts}
+      sections={[
+        {
+          description:
+            "Every Redux update follows the same one-way cycle: the UI dispatches an action, the store runs the reducer to calculate a new state, and the UI reads that new state.",
+          content: <DataFlowDemo />,
+        },
+        {
+          heading: reduxContent.toolkit.heading,
+          description: reduxContent.toolkit.description,
+          content: (
+            <CodeBlock>{`// configureStore replaces createStore + manual middleware setup
 const store = configureStore({
   reducer: { counter: counterReducer },
 });
@@ -70,52 +47,15 @@ const counterSlice = createSlice({
     incremented: (state) => { state.value += 1 },
   },
 });`}</CodeBlock>
-
-        {reduxContent.fullExample && (
-          <>
-            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-              {reduxContent.fullExample.heading}
-            </h3>
-            <StepByStepExample
-              title={reduxContent.fullExample.title}
-              description={reduxContent.fullExample.description}
-              code={reduxContent.fullExample.code}
-              steps={reduxContent.fullExample.steps}
-            />
-          </>
-        )}
-
-        <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-          {reduxContent.gettingStarted.heading}
-        </h3>
-        <ol className="text-muted leading-relaxed pl-6">
-          {reduxContent.gettingStarted.steps.map((step, index) => (
-            <li key={index} className="mb-2">
-              {step}
-            </li>
-          ))}
-        </ol>
-
-        <h3 className="text-2xl text-heading-alt mt-6 mb-3">Practice Topics</h3>
-        <p className="text-muted text-sm mb-4">
-          Click a topic to open a live, editable example.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          {reduxContent.practiceTopics.map((topic) => {
-            const Demo = practiceDemos[topic.title];
-            return (
-              <PracticeTopicCard
-                key={topic.title}
-                topicKey="redux"
-                title={topic.title}
-                description={topic.description}
-                demo={Demo ? <Demo /> : null}
-              />
-            );
-          })}
-        </div>
-      </ContentCard>
-    </>
+          ),
+        },
+      ]}
+      fullExample={reduxContent.fullExample}
+      gettingStarted={reduxContent.gettingStarted}
+      practiceTopics={reduxContent.practiceTopics}
+      practiceDemos={practiceDemos}
+      topicKey="redux"
+    />
   );
 }
 

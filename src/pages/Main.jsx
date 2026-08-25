@@ -5,7 +5,7 @@ import TopicCard from "../components/TopicCard";
 function Main() {
   return (
     <>
-      <section className="flex flex-col items-center text-center py-2 mb-12">
+      <section className="flex flex-col items-center text-center py-2 mb-3">
         <h1 className="text-4xl mb-2 text-heading">
           Welcome to the WebDev Playground
         </h1>

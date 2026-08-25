@@ -9,12 +9,12 @@ function TopicCard({ topic }) {
   return (
     <Link
       to={topic.route}
-      className={`relative bg-surface border rounded-lg no-underline text-inherit  transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-lg hover:border-accent ${
+      className={`relative bg-surface border rounded-lg no-underline text-inherit  transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-lg   hover:bg-surface-alt-hover ${
         done ? "border-accent" : "border-line"
       }`}
     >
       <div className="flex justify-between items-start mb-4 p-2">
-        <div className="flex items-start gap-2">
+        <div className="flex items-start gap-4">
           <input
             type="checkbox"
             checked={done}
