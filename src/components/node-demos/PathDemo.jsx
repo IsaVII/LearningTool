@@ -106,25 +106,25 @@ function PathDemo() {
         </button>
         <button
           onClick={resolve}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           path.resolve()
         </button>
         <button
           onClick={dirname}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           path.dirname()
         </button>
         <button
           onClick={basename}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           path.basename()
         </button>
         <button
           onClick={extname}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           path.extname()
         </button>

@@ -94,31 +94,31 @@ function BufferDemo() {
         </button>
         <button
           onClick={toString}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           .toString()
         </button>
         <button
           onClick={encoding}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           Encodings
         </button>
         <button
           onClick={alloc}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           Buffer.alloc()
         </button>
         <button
           onClick={concat}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           Buffer.concat()
         </button>
         <button
           onClick={slice}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           .slice()
         </button>

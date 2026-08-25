@@ -81,31 +81,31 @@ function EventsDemo() {
         </button>
         <button
           onClick={() => emit("data", { value: 42 })}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           .emit(&quot;data&quot;)
         </button>
         <button
           onClick={() => addListener("error")}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           .on(&quot;error&quot;)
         </button>
         <button
           onClick={() => emit("error", { message: "Oops!" })}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           .emit(&quot;error&quot;)
         </button>
         <button
           onClick={() => once("ready")}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           .once(&quot;ready&quot;)
         </button>
         <button
           onClick={() => removeListener("data")}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           .off(&quot;data&quot;)
         </button>

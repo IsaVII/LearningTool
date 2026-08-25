@@ -89,19 +89,19 @@ function ChildProcessDemo() {
         </button>
         <button
           onClick={spawn}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           spawn()
         </button>
         <button
           onClick={fork}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           fork()
         </button>
         <button
           onClick={execFile}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           execFile()
         </button>

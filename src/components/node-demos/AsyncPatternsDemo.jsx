@@ -110,31 +110,31 @@ function AsyncPatternsDemo() {
         </button>
         <button
           onClick={runPromise}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           Promises
         </button>
         <button
           onClick={runAsyncAwait}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           Async/Await
         </button>
         <button
           onClick={runPromiseAll}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           Promise.all()
         </button>
         <button
           onClick={runPromiseRace}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           Promise.race()
         </button>
         <button
           onClick={runErrorHandling}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           Error Handling
         </button>

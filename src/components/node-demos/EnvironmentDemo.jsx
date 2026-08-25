@@ -55,13 +55,13 @@ function EnvironmentDemo() {
         </button>
         <button
           onClick={() => readEnv("PORT")}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           Read PORT
         </button>
         <button
           onClick={checkProduction}
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           Check isProd
         </button>
@@ -71,7 +71,7 @@ function EnvironmentDemo() {
               env.NODE_ENV === "production" ? "development" : "production",
             )
           }
-          className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors"
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
         >
           Toggle Env
         </button>

@@ -42,20 +42,21 @@ function NpmDemo() {
       <div className="flex flex-wrap gap-3 mb-4">
         <button
           onClick={initProject}
-          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity"
+          disabled={scripts.length > 0}
+          className="bg-accent text-white px-4 py-2 rounded hover:opacity-90 transition-opacity disabled:opacity-50"
         >
           npm init
         </button>
         <button
           onClick={() => installPackage("express", "^4.18.2")}
-          disabled={Object.keys(dependencies).length === 0}
+          disabled={scripts.length === 0}
           className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors disabled:opacity-50"
         >
           install express
         </button>
         <button
           onClick={() => installPackage("lodash", "^4.17.21")}
-          disabled={Object.keys(dependencies).length === 0}
+          disabled={scripts.length === 0}
           className="bg-surface border border-line text-heading px-3 py-2 rounded hover:border-accent transition-colors disabled:opacity-50"
         >
           install lodash
