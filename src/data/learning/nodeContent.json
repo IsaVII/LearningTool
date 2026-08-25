@@ -59,6 +59,42 @@
     {
       "title": "Streams",
       "description": "Process data in chunks instead of all at once"
+    },
+    {
+      "title": "NPM & Packages",
+      "description": "Manage dependencies and run scripts with package.json"
+    },
+    {
+      "title": "Environment Variables",
+      "description": "Configure apps with process.env and dotenv"
+    },
+    {
+      "title": "Path Module",
+      "description": "Handle file paths correctly across operating systems"
+    },
+    {
+      "title": "Error Handling",
+      "description": "Handle sync, async, and unhandled errors properly"
+    },
+    {
+      "title": "Events",
+      "description": "Build event-driven code with EventEmitter"
+    },
+    {
+      "title": "Buffers",
+      "description": "Work with binary data and encodings"
+    },
+    {
+      "title": "Child Processes",
+      "description": "Run external programs with exec, spawn, and fork"
+    },
+    {
+      "title": "Async Patterns",
+      "description": "Master callbacks, promises, and async/await"
+    },
+    {
+      "title": "Process & OS",
+      "description": "Access runtime info, args, and platform details"
     }
   ],
   "fullExample": {
