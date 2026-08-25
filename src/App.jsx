@@ -10,6 +10,7 @@ import Redux from "./pages/learning/Redux";
 import React from "./pages/learning/React";
 import Testing from "./pages/learning/Testing";
 import TypeScript from "./pages/learning/TypeScript";
+import WebSockets from "./pages/learning/WebSockets";
 
 import "./App.css";
 
@@ -28,6 +29,7 @@ function App() {
             <Route path="/node" element={<Node />} />
             <Route path="/react" element={<React />} />
             <Route path="/redux" element={<Redux />} />
+            <Route path="/websockets" element={<WebSockets />} />
             <Route path="/testing" element={<Testing />} />
           </Routes>
         </main>
