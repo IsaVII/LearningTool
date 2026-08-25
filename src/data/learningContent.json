@@ -72,8 +72,18 @@
       "difficulty": "beginner",
       "estimatedTime": "2 hours"
     },
-    {
+      {
       "id": 8,
+      "key": "websockets",
+      "title": "WebSockets",
+      "description": "Learn real-time communication with WebSockets",
+      "route": "/websockets",
+      "screenshot": "/images/websockets.png",
+      "difficulty": "beginner",
+      "estimatedTime": "2 hours"
+    },
+    {
+      "id": 9,
       "key": "testing",
       "title": "Unit Tests",
       "description": "Write and run tests: unit, integration, component, mocks, spies, and TDD",
