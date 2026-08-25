@@ -1,107 +1,150 @@
-# Learning Tool
+# WebDev Learning Playground
 
-An interactive web app for learning modern web development - from **JavaScript** and **TypeScript** fundamentals up through **Git**, **HTTP**, **Node.js**, **React**, **Redux**, and **Testing** - through short explanations, real syntax-highlighted code, and live, editable demos you can play with right in the page.
+A modern, interactive learning platform for mastering full-stack web development concepts through **structured lessons**, **live demos**, and **progress tracking** — all without needing a backend.
 
-Topics are laid out in a suggested learning order, and you can check off topics and individual sub-topics as you go - your progress is saved in your browser and picks up right where you left off.
+Learn **JavaScript**, **TypeScript**, **Git**, **HTTP & APIs**, **Node.js**, **React**, **Redux**, and **Testing** at your own pace with hands-on examples you can edit and experiment with directly in the browser.
 
-## Features
+---
 
-- 📚 **Structured lessons** - each topic covers core concepts, a full worked example, and a getting-started checklist
-- 🕹️ **Live demos** - click through interactive widgets (a counter, a stopwatch, a simulated HTTP server, an event loop visualizer, ...) that show the concept in action, not just in prose
-- 🧭 **Step-by-step code walkthroughs** - click a step to highlight exactly which lines of a realistic example it's talking about
-- ✅ **Progress tracking** - check off topics on the home page and individual sub-topics/demos inside each lesson; progress is saved in a cookie, so it's remembered across visits without needing an account or backend
-- 🌗 **Light/dark theme**, data-driven content, and a small footprint (no backend required)
+## Key Features
 
-## Topics
+- ** Structured Lessons** — Each topic includes core concepts, real-world examples, and step-by-step walkthroughs
+- ** Interactive Demos** — Live, editable widgets (counters, stopwatches, HTTP simulators, event loop visualizers) show concepts in action
+- ** Code Walkthroughs** — Click through realistic examples to highlight which lines implement each concept
+- ** Progress Tracking** — Check off topics and sub-topics as you learn; progress is saved locally in your browser
+- ** Light & Dark Themes** — Easy on the eyes, any time of day
+- ** Data-Driven Content** — All lessons defined in JSON; easy to update and extend
+- ** Zero Backend** — No server, no account, no sign-up — everything runs locally
 
-Topics are ordered to roughly match how you'd want to learn them - language fundamentals first, then the tools and concepts that build on top of them.
+---
 
-| #   | Topic                                 | What you'll learn                                                                                 |
-| --- | ------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| 1   | **JavaScript Basics** _(coming soon)_ | Variables & scope, functions & closures, arrays/objects, destructuring, promises, and async/await |
-| 2   | **TypeScript Basics** _(coming soon)_ | Static types, interfaces, generics, and typing functions/components on top of JavaScript          |
-| 3   | **Git**                               | Cloning, staging & committing, branching & merging, rebase, stash, and resolving conflicts        |
-| 4   | **HTTP & Web APIs**                   | Methods & status codes, headers & cookies, CORS, REST/JSON, fetch, auth, WebSockets, and SSE      |
-| 5   | **Node.js**                           | The runtime and event loop, modules, the built-in `http` module, and streams                      |
-| 6   | **React**                             | Components, JSX, props, state, hooks, and performance with `memo`                                 |
-| 7   | **Redux**                             | Actions, reducers, `configureStore`, `createSlice`, and async thunks                              |
-| 8   | **Unit Tests**                        | Unit, integration, and component testing, mocking, spies, fixtures, and TDD                       |
+## Learning Path
 
-> The **JavaScript Basics** and **TypeScript Basics** pages are currently placeholders describing what's planned - full lessons and demos are coming.
+Topics are ordered to build from fundamentals up to advanced patterns:
+
+| Step | Topic                                 | Concepts Covered                                                                             |
+| ---- | ------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 1    | **JavaScript Basics** _(coming soon)_ | Variables, scope, functions, closures, arrays, objects, destructuring, promises, async/await |
+| 2    | **TypeScript Basics** _(coming soon)_ | Static types, interfaces, generics, typing functions & components                            |
+| 3    | **Git**                               | Cloning, staging, committing, branching, merging, rebase, stash, conflict resolution         |
+| 4    | **HTTP & Web APIs**                   | Methods, status codes, headers, cookies, CORS, REST/JSON, fetch, auth, WebSockets, SSE       |
+| 5    | **Node.js**                           | Event loop, modules, built-in HTTP module, streams                                           |
+| 6    | **React**                             | Components, JSX, props, state, hooks, performance optimization with `memo`                   |
+| 7    | **Redux**                             | Actions, reducers, `configureStore`, `createSlice`, async thunks                             |
+| 8    | **Unit Testing**                      | Unit, integration, and component testing; mocking; spies; fixtures; TDD                      |
+
+> **JavaScript Basics** and **TypeScript Basics** are currently placeholders — full lessons and demos coming soon.
+
+---
 
 ## Tech Stack
 
-- [React 19](https://react.dev/) + [React Router](https://reactrouter.com/)
-- [Redux Toolkit](https://redux-toolkit.js.org/) / [React Redux](https://react-redux.js.org/)
-- [Tailwind CSS 4](https://tailwindcss.com/)
-- [Vite](https://vite.dev/) for dev/build tooling, [oxlint](https://oxc.rs/docs/guide/usage/linter.html) for linting
+Built with modern, production-grade tools:
 
-## Getting Started
+- **[React 19](https://react.dev/)** + **[React Router](https://reactrouter.com/)** — Component-based UI & routing
+- **[Redux Toolkit](https://redux-toolkit.js.org/)** + **[React Redux](https://react-redux.js.org/)** — Predictable state management
+- **[Tailwind CSS 4](https://tailwindcss.com/)** — Utility-first styling
+- **[Vite](https://vite.dev/)** — Lightning-fast dev server & production builds
+- **[oxlint](https://oxc.rs/docs/guide/usage/linter.html)** — Fast, zero-config linting
+
+---
+
+## Quick Start
+
+Clone or download the project, then:
 
 ```bash
-cd frontend
 npm install
 npm run dev
 ```
 
-Then open the URL Vite prints (typically `http://localhost:5173`).
+Open the URL Vite prints (typically `http://localhost:5173`).
 
-Other useful scripts, run from `frontend/`:
+### Other Useful Commands
 
 ```bash
-npm run build    # production build, output to frontend/dist
-npm run preview  # preview the production build locally
-npm run lint     # lint with oxlint
+npm run build    # Production build → dist/
+npm run preview  # Preview production build locally
+npm run lint     # Run oxlint
 ```
+
+---
 
 ## Progress Tracking
 
-Every topic on the home page and every sub-topic (practice topic/demo) inside a lesson has a checkbox next to it. Checking one off:
+Every topic and sub-topic has a checkbox. Checking it off:
 
-- Marks it as done with a visual checkmark
-- Is saved automatically to a cookie (`learningToolProgress`) in your browser, so it's remembered the next time you visit
-- Doesn't require an account, sign-in, or backend - everything stays on your machine
+✓ Marks the topic as complete  
+✓ Saves automatically to `learningToolProgress` cookie  
+✓ Persists across browser sessions (no account needed)  
+✓ Stays local to your device (nothing sent to servers)
 
-Clearing your browser cookies (or the site's cookies specifically) resets your progress. There's no sync between devices/browsers, since nothing is sent to a server.
+**Reset progress:** Clear your browser cookies.
 
-Under the hood this lives in `src/context/ProgressContext.jsx`, which reads/writes the cookie via the small helpers in `src/utils/cookies.js` and exposes a `useProgress()` hook (`isTopicDone`, `toggleTopic`, `isSubtopicDone`, `toggleSubtopic`, ...) to any component that needs it.
+### How It Works
+
+- **Storage:** `src/context/ProgressContext.jsx` manages state via cookies
+- **API:** `useProgress()` hook provides `isTopicDone()`, `toggleTopic()`, etc.
+- **Utilities:** `src/utils/cookies.js` handles low-level get/set/delete
+
+---
 
 ## Project Structure
 
 ```
-  src/
-    ├── components/          # Shared UI (Header, Footer, CodeBlock, TopicCard, ...)
-    │   ├── git-demos/         # Interactive demos for the Git page
-    │   ├── http-demos/        # Interactive demos for the HTTP page
-    │   ├── node-demos/        # Interactive demos for the Node.js page
-    │   ├── react-demos/       # Interactive demos for the React page
-    │   ├── redux-demos/       # Interactive demos for the Redux page
-    │   └── testing-demos/     # Interactive demos for the Testing page
-    ├── context/
-    │   └── ProgressContext.jsx  # Topic/sub-topic completion state, backed by a cookie
-    ├── data/                 # JSON content that drives each lesson
-    │   ├── learningContent.json  # Topics shown on the home page, in learning order
-    │   ├── learning/
-    │   │   ├── javascriptContent.json  # Placeholder content
-    │   │   ├── typescriptContent.json  # Placeholder content
-    │   │   ├── gitContent.json
-    │   │   ├── httpContent.json
-    │   │   ├── nodeContent.json
-    │   │   ├── reactContent.json
-    │   │   ├── reduxContent.json
-    │   │   └── testingContent.json
-    │   └── cheatsheets/
-    ├── pages/
-    │   ├── Main.jsx          # Home page, lists topics
-    │   └── learning/         # One page per topic (JavaScript.jsx, Git.jsx, React.jsx, ...)
-    ├── redux/                # Redux store + slices used by the Redux demos
-    ├── utils/
-    │   └── cookies.js        # Tiny get/set/delete cookie helpers
-    ├── App.jsx               # Routes
-    └── main.jsx              # Entry point
+src/
+├── components/                    # Reusable UI components
+│   ├── CodeBlock.jsx
+│   ├── Header.jsx, Footer.jsx
+│   ├── TopicCard.jsx, ContentCard.jsx
+│   ├── git-demos/                 # Interactive Git lessons
+│   ├── http-demos/                # HTTP & API demos
+│   ├── javascript-demos/          # JavaScript concept demos
+│   ├── node-demos/                # Node.js runtime demos
+│   ├── react-demos/               # React hooks & components
+│   ├── redux-demos/               # Redux state management
+│   ├── typescript-demos/          # TypeScript examples
+│   ├── testing-demos/             # Testing patterns
+│   └── websockets-demos/          # WebSocket examples
+├── context/
+│   └── ProgressContext.jsx        # Progress state & cookie management
+├── data/                          # JSON-driven content
+│   ├── learningContent.json       # Topic metadata & ordering
+│   ├── cheatsheets.json
+│   └── learning/
+│       ├── javascriptContent.json
+│       ├── typescriptContent.json
+│       ├── gitContent.json
+│       ├── httpContent.json
+│       ├── nodeContent.json
+│       ├── reactContent.json
+│       ├── reduxContent.json
+│       └── testingContent.json
+├── pages/
+│   ├── Main.jsx                   # Home page (lists topics)
+│   └── learning/                  # Topic pages (Git.jsx, React.jsx, ...)
+├── redux/
+│   ├── store.js
+│   └── [slices].js                # Slices for demos & progress
+├── utils/
+│   ├── cookies.js                 # Cookie utilities
+│   └── [other helpers]
+├── App.jsx                        # Router setup
+├── App.css, index.css
+└── main.jsx                       # Entry point
 ```
 
-Lesson content lives in JSON so the copy can change without touching component code; the interactive demos are real, hand-written components mapped to a lesson's "practice topics" by title.
+---
+
+## Goals & Vision
+
+This project is designed to:
+
+- Provide a **self-paced, visual learning experience** for modern web development
+- Show concepts through **working code and interactive examples**, not just documentation
+- Make it **easy to extend** with new topics (just add JSON + React components)
+- Demonstrate **modern React patterns** (hooks, context, Redux, testing)
+- Serve as a **reference and playground** for hands-on learning
 
 ## Adding a New Topic
 
@@ -110,3 +153,7 @@ Lesson content lives in JSON so the copy can change without touching component c
 3. Build any interactive demos in a new `src/components/<topic>-demos/` folder.
 4. Create `src/pages/learning/<Topic>.jsx`, following the pattern in `Git.jsx`, `React.jsx`, or `Redux.jsx`. When rendering `<PracticeTopicCard>` for each practice topic, pass `topicKey="<the same key from step 1>"` so its sub-topic checkboxes save correctly.
 5. Register the route in `src/App.jsx` and add a link in `src/components/Header.jsx`.
+
+```
+
+```
