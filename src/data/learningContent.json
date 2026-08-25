@@ -8,8 +8,7 @@
       "route": "/javascript",
       "screenshot": "/images/javascript.png",
       "difficulty": "beginner",
-      "estimatedTime": "3 hours",
-      "comingSoon": true
+      "estimatedTime": "3 hours"
     },
     {
       "id": 2,

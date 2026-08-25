@@ -1,35 +1,44 @@
-import ContentCard from "../../components/ContentCard";
+import ArrayMethodsDemo from "../../components/javascript-demos/ArrayMethodsDemo";
+import AsyncAwaitDemo from "../../components/javascript-demos/AsyncAwaitDemo";
+import ClosureDemo from "../../components/javascript-demos/ClosureDemo";
+import DestructuringDemo from "../../components/javascript-demos/DestructuringDemo";
+import EventLoopDemo from "../../components/javascript-demos/EventLoopDemo";
 import javascriptContent from "../../data/learning/javascriptContent.json";
+import LearningTopicLayout from "../../components/LearningTopicLayout";
+import ScopeDemo from "../../components/javascript-demos/ScopeDemo";
+import TemplateLiteralDemo from "../../components/javascript-demos/TemplateLiteralDemo";
+
+// Maps each practice topic (by title, from javascriptContent.json) to a
+// live, interactive demo. Keeping this separate from the JSON data means
+// the content stays data-driven while the runnable examples stay real code.
+const practiceDemos = {
+  "Variables & Scope": ScopeDemo,
+  Closures: ClosureDemo,
+  "Arrays & Objects": ArrayMethodsDemo,
+  "Destructuring & Spread/Rest": DestructuringDemo,
+  "Template Literals": TemplateLiteralDemo,
+  "Promises & Async/Await": AsyncAwaitDemo,
+};
 
 function JavaScript() {
   return (
-    <>
-      <h1 className="text-4xl text-heading mb-4">{javascriptContent.title}</h1>
-
-      <ContentCard>
-        <span className="inline-block bg-accent/15 text-accent text-xs font-bold uppercase tracking-wide rounded-full px-3 py-1 mb-4">
-          Coming Soon
-        </span>
-
-        <h2 className="text-3xl text-heading mt-4 mb-4">
-          {javascriptContent.introduction.heading}
-        </h2>
-        <p className="text-muted leading-relaxed mb-6">
-          {javascriptContent.introduction.description}
-        </p>
-
-        <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-          What&apos;s planned
-        </h3>
-        <ul className="text-muted leading-relaxed pl-6 list-disc">
-          {javascriptContent.plannedTopics.map((item) => (
-            <li key={item} className="mb-2">
-              {item}
-            </li>
-          ))}
-        </ul>
-      </ContentCard>
-    </>
+    <LearningTopicLayout
+      title={javascriptContent.title}
+      introduction={javascriptContent.introduction}
+      coreConcepts={javascriptContent.coreConcepts}
+      sections={[
+        {
+          heading: javascriptContent.eventLoop.heading,
+          description: javascriptContent.eventLoop.description,
+          content: <EventLoopDemo />,
+        },
+      ]}
+      fullExample={javascriptContent.fullExample}
+      gettingStarted={javascriptContent.gettingStarted}
+      practiceTopics={javascriptContent.practiceTopics}
+      practiceDemos={practiceDemos}
+      topicKey="javascript"
+    />
   );
 }
 

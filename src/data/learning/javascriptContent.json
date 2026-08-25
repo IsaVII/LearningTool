@@ -1,16 +1,157 @@
 {
   "title": "JavaScript Basics",
   "introduction": {
-    "heading": "Coming Soon",
-    "description": "This lesson is on the way. JavaScript Basics will cover variables and scope, functions and closures, arrays and objects, destructuring, template literals, and asynchronous code with promises and async/await - the foundation every other topic in this app builds on."
+    "heading": "What is JavaScript?",
+    "description": "JavaScript is the language that runs in every browser and, via Node.js, on servers too - it's how a page reacts to clicks, fetches data, and updates itself without a full reload. It's dynamically typed (a variable can hold any kind of value), runs your code top to bottom on a single thread, and leans on functions and closures more than classes to organize logic. Everything else in this app - TypeScript, React, Node, Redux - is JavaScript with something layered on top, so the concepts here are the foundation for all of it."
   },
-  "plannedTopics": [
-    "Variables, scope & hoisting",
-    "Functions, arrow functions & closures",
-    "Arrays & objects",
-    "Destructuring & spread/rest",
-    "Template literals",
-    "Promises & async/await",
-    "The event loop, briefly"
-  ]
+  "coreConcepts": {
+    "heading": "Core Concepts",
+    "concepts": [
+      {
+        "title": "Variables & Scope",
+        "description": "var is function-scoped and hoisted to the top of its function; let and const are block-scoped and unreachable before their declaration line runs"
+      },
+      {
+        "title": "Functions & Closures",
+        "description": "A function remembers the variables that were in scope where it was defined, even after the outer function that created it has already returned"
+      },
+      {
+        "title": "Arrays & Objects",
+        "description": "Ordered lists and named fields, the two building blocks for structured data - methods like map, filter, and reduce transform them without a manual loop"
+      },
+      {
+        "title": "Destructuring & Spread/Rest",
+        "description": "Pull values out of an array or object by position or name with destructuring, or go the other way and expand/collect values with the same ... syntax"
+      },
+      {
+        "title": "Template Literals",
+        "description": "Backtick strings that embed real expressions with ${...} and can span multiple lines, replacing most manual string concatenation"
+      },
+      {
+        "title": "Promises & Async/Await",
+        "description": "A Promise represents a value that isn't ready yet; async/await is syntax that lets promise-based code read top-to-bottom like synchronous code"
+      }
+    ]
+  },
+  "eventLoop": {
+    "heading": "The Event Loop, Briefly",
+    "description": "JavaScript itself is single-threaded - only one line of your code runs at a time. Asynchronous work like timers, network requests, and promises doesn't block that thread; it's handed off, and the callback comes back through a queue once your current code finishes. Promises jump ahead of timers, so a resolved .then() always runs before a setTimeout(fn, 0), even though both are \"async\"."
+  },
+  "gettingStarted": {
+    "heading": "Getting Started",
+    "steps": [
+      "Open your browser's DevTools console (or run node in a terminal) and start typing - no build step or install required",
+      "Declare variables with const by default, and let only when you know you'll reassign it; avoid var in new code",
+      "Reach for array methods - map, filter, reduce, find - before reaching for a manual for loop",
+      "Destructure function parameters and returned objects instead of reaching into them field by field",
+      "Use template literals (`Hello ${name}`) instead of string concatenation with +",
+      "Prefer async/await over raw .then() chains once you have more than one dependent asynchronous step"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Variables & Scope",
+      "description": "Run the same loop with var and let and watch the callbacks disagree"
+    },
+    {
+      "title": "Closures",
+      "description": "Build two independent counters from the same function and bump them separately"
+    },
+    {
+      "title": "Arrays & Objects",
+      "description": "Apply map, filter, and reduce to the same array without mutating it"
+    },
+    {
+      "title": "Destructuring & Spread/Rest",
+      "description": "Pull values out of arrays and objects, then expand or collect them back up"
+    },
+    {
+      "title": "Template Literals",
+      "description": "Edit a couple of fields and watch an interpolated string rebuild itself live"
+    },
+    {
+      "title": "Promises & Async/Await",
+      "description": "Fetch the same fake data with a .then() chain and with await and compare"
+    }
+  ],
+  "fullExample": {
+    "heading": "Full Example, Step by Step",
+    "title": "A task tracker: closures, spread/rest, destructuring, and async/await",
+    "description": "This ties the core concepts above together in one realistic file: a closure keeping private state, rest and spread keeping updates immutable, a template literal for output, and an async function that awaits inside a loop. Click through the steps to see which lines each one is talking about.",
+    "code": [
+      "function createTaskTracker() {",
+      "  let tasks = [];",
+      "",
+      "  return {",
+      "    add(title, ...tags) {",
+      "      const task = { id: tasks.length + 1, title, tags, done: false };",
+      "      tasks = [...tasks, task];",
+      "      return task;",
+      "    },",
+      "    complete(id) {",
+      "      tasks = tasks.map((t) => (t.id === id ? { ...t, done: true } : t));",
+      "    },",
+      "    summary() {",
+      "      const { length } = tasks;",
+      "      const done = tasks.filter((t) => t.done).length;",
+      "      return `${done}/${length} tasks done`;",
+      "    },",
+      "  };",
+      "}",
+      "",
+      "async function loadAndTrack(urls) {",
+      "  const tracker = createTaskTracker();",
+      "",
+      "  for (const url of urls) {",
+      "    const response = await fetch(url);",
+      "    const { title } = await response.json();",
+      "    tracker.add(title, \"fetched\");",
+      "  }",
+      "",
+      "  return tracker.summary();",
+      "}",
+      "",
+      "const tracker = createTaskTracker();",
+      "tracker.add(\"Write tests\", \"code\");",
+      "tracker.complete(1);",
+      "console.log(tracker.summary()); // \"1/1 tasks done\""
+    ],
+    "steps": [
+      {
+        "label": "Close over local state",
+        "lines": [1, 4],
+        "explanation": "tasks is declared inside createTaskTracker and never exposed directly - the object returned on line 4 keeps referencing it after the outer function has finished running. That's a closure."
+      },
+      {
+        "label": "Collect extra arguments with rest",
+        "lines": [5, 5],
+        "explanation": "...tags gathers every argument after title into a real array, so add(\"Ship it\", \"urgent\", \"code\") ends up with tags = [\"urgent\", \"code\"]."
+      },
+      {
+        "label": "Add without mutating the original array",
+        "lines": [6, 9],
+        "explanation": "[...tasks, task] builds a brand-new array instead of pushing onto the old one in place, so nothing else holding a reference to the previous tasks array gets surprised by a change."
+      },
+      {
+        "label": "Update one item without mutating it",
+        "lines": [10, 12],
+        "explanation": "map returns a new array, and { ...t, done: true } copies every field off the matching task and overrides just done, leaving the original task object untouched."
+      },
+      {
+        "label": "Destructure and interpolate",
+        "lines": [13, 17],
+        "explanation": "const { length } = tasks pulls a single named field off an object; the template literal `${done}/${length} tasks done` embeds both values directly into the string."
+      },
+      {
+        "label": "Await inside a loop",
+        "lines": [23, 27],
+        "explanation": "for...of combined with await pauses each iteration until fetch and response.json() resolve, and const { title } destructures the field straight out of the resolved JSON."
+      },
+      {
+        "label": "Use the closure",
+        "lines": [32, 35],
+        "explanation": "tracker holds a tasks array no outside code can touch directly - every read or write here goes through add, complete, or summary, exactly the API the closure was built to expose."
+      }
+    ]
+  }
 }
