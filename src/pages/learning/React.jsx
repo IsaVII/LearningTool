@@ -1,6 +1,8 @@
 import CounterDemo from "../../components/react-demos/CounterDemo";
+import CustomHookDemo from "../../components/react-demos/CustomHookDemo";
 import HooksIntroDemo from "../../components/react-demos/HooksIntroDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
+import ListRenderingDemo from "../../components/react-demos/ListRenderingDemo";
 import PropsDemo from "../../components/react-demos/PropsDemo";
 import reactContent from "../../data/learning/reactContent.json";
 import RenderCountDemo from "../../components/react-demos/RenderCountDemo";
@@ -13,6 +15,8 @@ const practiceDemos = {
   "Components & JSX": CounterDemo,
   "Props & State": PropsDemo,
   Hooks: StopwatchDemo,
+  "Lists & Conditional Rendering": ListRenderingDemo,
+  "Custom Hooks": CustomHookDemo,
   Performance: RenderCountDemo,
 };
 

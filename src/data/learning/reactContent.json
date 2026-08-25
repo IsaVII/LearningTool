@@ -2,63 +2,76 @@
   "title": "React Fundamentals",
   "introduction": {
     "heading": "What is React?",
-    "description": "React is a JavaScript library for building user interfaces with reusable components. It makes creating interactive UIs painless by managing component state and rendering efficiently."
+    "description": "React is a JavaScript library for building user interfaces out of components - small, reusable functions that each return a description of what should appear on screen. Instead of manually updating the DOM as data changes, you describe the UI for a given piece of state and React figures out the minimal set of DOM changes needed to match it. That one idea - UI as a function of state - is what makes React components predictable and easy to compose into larger apps."
   },
   "coreConcepts": {
     "heading": "Core Concepts",
     "concepts": [
       {
         "title": "Components",
-        "description": "Reusable pieces of UI"
+        "description": "Independent, reusable pieces of UI written as plain JavaScript functions - a component takes props in and returns JSX describing what should appear on screen"
       },
       {
         "title": "JSX",
-        "description": "Syntax extension for writing UI"
+        "description": "A syntax extension that lets you write HTML-like markup directly in JavaScript; it compiles down to plain function calls that build a tree of elements, and any {expression} inside it is real JavaScript"
       },
       {
         "title": "Props",
-        "description": "Pass data to components"
+        "description": "Data passed from a parent component to a child, always read-only from the child's side - a component can't change its own props, only ask its parent to pass different ones"
       },
       {
         "title": "State",
-        "description": "Manage component data"
+        "description": "Data a component owns and can update itself with useState; changing it schedules a re-render so the UI stays in sync with the latest value"
       },
       {
         "title": "Hooks",
-        "description": "Add functionality to function components"
+        "description": "Functions starting with use that let function components tap into state, side effects, and other React features - called at a component's top level, in the same order, on every render"
+      },
+      {
+        "title": "Rendering Lists & Conditionals",
+        "description": "Turn an array into elements with .map() and a stable key prop per item, and show or hide UI with &&, ternaries, or an early return - both are just JavaScript, not special syntax"
       }
     ]
   },
   "hooks": {
     "heading": "React Hooks",
-    "description": "Hooks let you use state and other React features in function components. Common hooks include useState, useEffect, useContext, and useReducer."
+    "description": "Hooks are how function components get state, side effects, and other capabilities that used to require class components. useState holds a value across renders and re-renders the component when it changes. useEffect runs code after React commits a render to the screen, and only re-runs when something in its dependency array actually changed; a function returned from an effect is its cleanup, which runs before the next effect and when the component unmounts. Hooks can only be called at a component's top level - never inside a condition, loop, or nested function - so React can match up the same hooks in the same order on every render."
   },
   "gettingStarted": {
     "heading": "Getting Started",
     "steps": [
-      "Create components with JSX",
-      "Use useState to manage state",
-      "Use useEffect for side effects",
-      "Pass props between components",
-      "Compose components together"
+      "Create a component as a function that returns JSX - give both the file and the function a capitalized name so React can tell it apart from a plain HTML tag",
+      "Add local, changing data with useState(initialValue), and always call its setter instead of reassigning the variable directly",
+      "Pass data down to children as props, and pass a function down as a prop when a child needs to notify its parent that something happened",
+      "Reach for useEffect only to sync with something outside React - the DOM, a timer, a subscription - and return a cleanup function whenever the effect sets one of those up",
+      "Render lists with array.map(), giving each item a stable key prop drawn from your data - never the array index if the list can be reordered or filtered",
+      "Reach for React.memo, useMemo, or useCallback only after you've noticed an actual performance problem, not by default"
     ]
   },
   "practiceTopics": [
     {
       "title": "Components & JSX",
-      "description": "Learn to create and render components"
+      "description": "Render a component and watch it re-render automatically as its state changes"
     },
     {
       "title": "Props & State",
-      "description": "Manage data flow in components"
+      "description": "See data flow one-way from a parent's state down into a child's props"
     },
     {
       "title": "Hooks",
-      "description": "Master React hooks"
+      "description": "Start and stop an interval with useEffect, and watch its cleanup run"
+    },
+    {
+      "title": "Lists & Conditional Rendering",
+      "description": "Add and remove items from a list rendered with .map() and stable keys"
+    },
+    {
+      "title": "Custom Hooks",
+      "description": "Reuse the same stateful logic in two components via one custom hook"
     },
     {
       "title": "Performance",
-      "description": "Optimize React applications"
+      "description": "Compare a plain component to a memoized one across unrelated re-renders"
     }
   ],
   "fullExample": {
@@ -108,58 +121,37 @@
     "steps": [
       {
         "label": "Import the hooks you need",
-        "lines": [
-          1,
-          1
-        ],
+        "lines": [1, 1],
         "explanation": "useState and useEffect are named exports from the \"react\" package. You only import the hooks a file actually uses."
       },
       {
         "label": "Build a presentational component",
-        "lines": [
-          3,
-          7
-        ],
+        "lines": [3, 7],
         "explanation": "Greeting is just a function that returns JSX. It receives name as a prop and renders it - it has no state of its own, so the same input always produces the same output."
       },
       {
         "label": "Create state with useState",
-        "lines": [
-          12,
-          13
-        ],
+        "lines": [12, 13],
         "explanation": "useState(initialValue) returns a [value, setter] pair. Calling the setter (setName, setCount) tells React this component's data changed and schedules a re-render with the new value."
       },
       {
         "label": "Run side effects with useEffect",
-        "lines": [
-          15,
-          20
-        ],
+        "lines": [15, 20],
         "explanation": "The function passed to useEffect runs after React updates the screen. The dependency array [count] tells React to only re-run it when count changes, instead of after every render."
       },
       {
         "label": "Pass data down as props",
-        "lines": [
-          24,
-          29
-        ],
+        "lines": [24, 29],
         "explanation": "The input's value and onChange are wired to the name state, and that same name is passed into <Greeting name={name} /> as a prop - data flows down from parent to child."
       },
       {
         "label": "Handle events and update state",
-        "lines": [
-          31,
-          33
-        ],
+        "lines": [31, 33],
         "explanation": "onClick is a plain event handler. Calling setCount(count + 1) updates state, which makes App - and anything reading count - re-render with the new value."
       },
       {
         "label": "Export the component",
-        "lines": [
-          38,
-          38
-        ],
+        "lines": [38, 38],
         "explanation": "export default makes App importable from other files, e.g. by the file that mounts it into the page with ReactDOM.createRoot(...).render(<App />)."
       }
     ]
