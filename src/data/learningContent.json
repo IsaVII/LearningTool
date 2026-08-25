@@ -19,8 +19,7 @@
       "route": "/typescript",
       "screenshot": "/images/typescript.png",
       "difficulty": "beginner",
-      "estimatedTime": "2.5 hours",
-      "comingSoon": true
+      "estimatedTime": "2.5 hours"
     },
     {
       "id": 3,

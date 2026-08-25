@@ -36,6 +36,20 @@ const KEYWORDS_DECLARATION = new Set([
   "await",
   "this",
   "super",
+  "interface",
+  "type",
+  "enum",
+  "namespace",
+  "declare",
+  "abstract",
+  "readonly",
+  "public",
+  "private",
+  "protected",
+  "implements",
+  "keyof",
+  "as",
+  "satisfies",
 ]);
 
 const KEYWORDS_CONTROL = new Set([

@@ -1,15 +1,137 @@
 {
   "title": "TypeScript Basics",
   "introduction": {
-    "heading": "Coming Soon",
-    "description": "This lesson is on the way. TypeScript Basics will cover static types, interfaces, generics, and how TypeScript catches bugs before your code ever runs - building directly on the JavaScript Basics topic."
+    "heading": "What is TypeScript?",
+    "description": "TypeScript is JavaScript with a type system layered on top. You describe the shape data should have - a string, a User with an id and a name, a function that takes two numbers - and the TypeScript compiler checks that your code actually matches those shapes before it ever runs. Every valid JavaScript file is already valid TypeScript; you opt into stricter checking incrementally, one file or one annotation at a time."
   },
-  "plannedTopics": [
-    "Basic types & type inference",
-    "Interfaces & type aliases",
-    "Typing functions (params & return values)",
-    "Generics",
-    "Union & intersection types",
-    "Typing React components & props"
-  ]
+  "coreConcepts": {
+    "heading": "Core Concepts",
+    "concepts": [
+      {
+        "title": "Static Typing",
+        "description": "Types are checked while you write code, not while it runs - a mismatched type is a red squiggle in your editor, not a 2am production error"
+      },
+      {
+        "title": "Type Inference",
+        "description": "TypeScript figures out most types on its own from the value you assign - you only annotate where it can't guess or where being explicit helps"
+      },
+      {
+        "title": "Interfaces & Type Aliases",
+        "description": "Name the shape of an object once with interface or type, then reuse that name anywhere the shape applies"
+      },
+      {
+        "title": "Structural Typing",
+        "description": "A value matches a type if its shape matches, regardless of what it was declared as - TypeScript checks the fields you have, not the label on the box"
+      },
+      {
+        "title": "Generics",
+        "description": "Write a function or type once with a placeholder type parameter like <T>, and let each call site fill in the real type"
+      },
+      {
+        "title": "Compiling to JavaScript",
+        "description": "The TypeScript compiler (tsc) strips the types away and outputs plain JavaScript - types exist only at compile time, with zero runtime cost"
+      }
+    ]
+  },
+  "typeChecking": {
+    "heading": "Catching Bugs Before Runtime",
+    "description": "In plain JavaScript, passing the wrong kind of value to a function is usually silent until something breaks - maybe immediately, maybe three steps later, maybe only for one particular user. TypeScript moves that check earlier: it walks through your code without running it and flags any place a value doesn't match what a type expects, right in your editor and again when you try to compile."
+  },
+  "gettingStarted": {
+    "heading": "Getting Started",
+    "steps": [
+      "Install TypeScript into a project with npm install --save-dev typescript",
+      "Run npx tsc --init to generate a tsconfig.json with sensible defaults",
+      "Rename .js files to .ts (or .jsx to .tsx for files with JSX) to opt them into type checking",
+      "Run npx tsc to compile, or use a build tool (Vite, esbuild, webpack) that compiles TypeScript for you",
+      "Turn on \"strict\": true in tsconfig.json as early as you can - it catches far more than the defaults",
+      "Adopt it incrementally in an existing JS codebase with \"allowJs\": true and \"checkJs\": true before converting files outright"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Basic Types & Inference",
+      "description": "See what TypeScript infers on its own, and where a mismatched value gets flagged"
+    },
+    {
+      "title": "Interfaces & Type Aliases",
+      "description": "Define the shape of an object and check a value against it field by field"
+    },
+    {
+      "title": "Typing Functions",
+      "description": "Give a function's parameters and return value types, and see which calls TypeScript accepts"
+    },
+    {
+      "title": "Generics",
+      "description": "Write one function that works with many types, with the real type filled in per call"
+    },
+    {
+      "title": "Union & Intersection Types",
+      "description": "Combine types with | and &, then narrow a union down before using it"
+    }
+  ],
+  "fullExample": {
+    "heading": "Full Example, Step by Step",
+    "title": "A typed function working with an interface and a generic helper",
+    "description": "This ties the core concepts above together in one realistic file: an interface describing a shape, a function typed against it, and a small generic helper reused for something unrelated. Click through the steps to see which lines each one is talking about.",
+    "code": [
+      "interface Task {",
+      "  id: number;",
+      "  title: string;",
+      "  done: boolean;",
+      "  dueDate?: string; // optional - not every task has one",
+      "}",
+      "",
+      "function formatTask(task: Task): string {",
+      "  const status = task.done ? \"✓\" : \"○\";",
+      "  const due = task.dueDate ? ` (due ${task.dueDate})` : \"\";",
+      "  return `${status} ${task.title}${due}`;",
+      "}",
+      "",
+      "function pluck<T, K extends keyof T>(items: T[], key: K): T[K][] {",
+      "  return items.map((item) => item[key]);",
+      "}",
+      "",
+      "const tasks: Task[] = [",
+      "  { id: 1, title: \"Write tests\", done: false },",
+      "  { id: 2, title: \"Ship it\", done: true, dueDate: \"2026-09-01\" },",
+      "];",
+      "",
+      "console.log(tasks.map(formatTask));",
+      "console.log(pluck(tasks, \"title\")); // string[]",
+      "console.log(pluck(tasks, \"done\"));  // boolean[]"
+    ],
+    "steps": [
+      {
+        "label": "Describe the shape",
+        "lines": [1, 6],
+        "explanation": "interface Task names a shape once: every Task has an id, a title, and a done flag. The ? on dueDate marks it optional - a Task is still valid without it."
+      },
+      {
+        "label": "Type a function's parameter",
+        "lines": [8, 8],
+        "explanation": "task: Task means only an object matching that shape can be passed in - calling formatTask(\"hello\") would be a compile error, not a runtime surprise."
+      },
+      {
+        "label": "Handle an optional field safely",
+        "lines": [9, 10],
+        "explanation": "Because dueDate is typed as string | undefined, TypeScript won't let you use it without first checking it's there - the ternary here is that check."
+      },
+      {
+        "label": "Write a generic helper",
+        "lines": [13, 15],
+        "explanation": "T is \"whatever type of item is in the array\" and K extends keyof T restricts key to an actual property name on T - so pluck(tasks, \"nope\") would fail to compile."
+      },
+      {
+        "label": "Type an array of objects",
+        "lines": [17, 20],
+        "explanation": "Task[] means every element in the array is checked against the Task shape - leaving out title, for example, would be flagged right here."
+      },
+      {
+        "label": "Let inference do the rest",
+        "lines": [23, 24],
+        "explanation": "pluck's return type isn't written anywhere - TypeScript works out T[K][] from how pluck is called, so tasks.title lines up with string[] and tasks.done with boolean[] automatically."
+      }
+    ]
+  }
 }
