@@ -44,9 +44,9 @@
     },
     {
       "id": 5,
-      "title": "Deploy",
-      "description": "Run the deploy script. This triggers predeploy (a fresh production build), then gh-pages pushes that build to a gh-pages branch on GitHub, creating the branch if it doesn't exist yet.",
-      "code": "npm run deploy",
+      "title": "Build and Deploy",
+      "description": "Run the build and afterwards the deploy script. This triggers predeploy (a fresh production build), then gh-pages pushes that build to a gh-pages branch on GitHub, creating the branch if it doesn't exist yet.",
+      "code": "npm run build\nnpm run deploy",
       "language": "bash",
       "note": "Run this again any time you want to publish a new version - it's the only step you'll normally repeat."
     },
