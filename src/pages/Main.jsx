@@ -1,5 +1,5 @@
 import learningContent from "../data/learningContent.json";
-import cheatSheets from "../data/cheatSheets.json";
+import cheatSheets from "../data/cheatsheets.json";
 import TopicCard from "../components/TopicCard";
 import { useProgress } from "../context/ProgressContext";
 

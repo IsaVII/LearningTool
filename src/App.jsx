@@ -2,6 +2,7 @@ import { Route, HashRouter as Router, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Git from "./pages/learning/Git";
+import GithubPages from "./pages/cheatsheets/GithubPages";
 import Http from "./pages/learning/Http";
 import JavaScript from "./pages/learning/JavaScript";
 import Main from "./pages/Main";
@@ -31,6 +32,7 @@ function App() {
             <Route path="/redux" element={<Redux />} />
             <Route path="/websockets" element={<WebSockets />} />
             <Route path="/testing" element={<Testing />} />
+            <Route path="/githubpages" element={<GithubPages />} />
           </Routes>
         </main>
         <Footer />
