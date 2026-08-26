@@ -1,6 +1,7 @@
 import ContentCard from "./ContentCard";
 import PracticeTopicCard from "./PracticeTopicCard";
 import StepByStepExample from "./StepByStepExample";
+import { useProgress } from "../context/ProgressContext";
 
 /**
  * Shared page layout for every topic under src/pages/learning/. Each page
@@ -30,9 +31,19 @@ function LearningTopicLayout({
   practiceTopicsIntro = "Click a topic to open a live, editable example.",
   topicKey,
 }) {
+  const { getTopicSubtopicCount } = useProgress();
+  const checkedCount = getTopicSubtopicCount(topicKey);
+  const totalCount = practiceTopics?.length || 0;
   return (
     <>
-      <h1 className="text-4xl text-heading mb-4">{title}</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-4xl text-heading">{title}</h1>
+        {totalCount > 0 && (
+          <div className="text-lg text-muted font-semibold">
+            Progress {checkedCount} of {totalCount}
+          </div>
+        )}
+      </div>
 
       <ContentCard>
         <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">

@@ -91,6 +91,11 @@ export function ProgressProvider({ children }) {
     [progress.subtopics],
   );
 
+  // Total number of checked main topics
+  const getTotalCheckedTopics = useCallback(() => {
+    return Object.values(progress.topics).filter(Boolean).length;
+  }, [progress.topics]);
+
   const resetProgress = useCallback(() => {
     setProgress(EMPTY_PROGRESS);
   }, []);
@@ -102,6 +107,7 @@ export function ProgressProvider({ children }) {
       isSubtopicDone,
       toggleSubtopic,
       getTopicSubtopicCount,
+      getTotalCheckedTopics,
       resetProgress,
     }),
     [
@@ -110,6 +116,7 @@ export function ProgressProvider({ children }) {
       isSubtopicDone,
       toggleSubtopic,
       getTopicSubtopicCount,
+      getTotalCheckedTopics,
       resetProgress,
     ],
   );

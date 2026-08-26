@@ -1,8 +1,13 @@
 import learningContent from "../data/learningContent.json";
 import cheatSheets from "../data/cheatSheets.json";
 import TopicCard from "../components/TopicCard";
+import { useProgress } from "../context/ProgressContext";
 
 function Main() {
+  const { getTotalCheckedTopics } = useProgress();
+  const checkedTopics = getTotalCheckedTopics();
+  const totalTopics = learningContent.topics.length;
+
   return (
     <>
       <section className="flex flex-col items-center text-center py-2 mb-3">
@@ -16,7 +21,12 @@ function Main() {
       </section>
 
       <section className="py-8 px-4">
-        <h2 className="text-3xl mb-8 text-heading">Available Topics</h2>
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl text-heading">Available Topics</h2>
+          <div className="text-lg text-muted font-semibold">
+            Progress {checkedTopics} of {totalTopics}
+          </div>
+        </div>
         <div className="w-full max-w-210 justify-self-center grid grid-cols-1 md:grid-cols-2 gap-8 ">
           {learningContent.topics.map((topic) => (
             <TopicCard key={topic.id} topic={topic} />
