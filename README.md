@@ -1,6 +1,6 @@
 # WebDev Learning Playground
 
-A modern, interactive learning platform for mastering full-stack web development concepts through **structured lessons**, **live demos**, and **progress tracking** — all without needing a backend.
+A frontend-only modern, interactive learning platform for mastering full-stack web development concepts through **structured lessons**, **live demos**, and **progress tracking**.
 
 Learn **JavaScript**, **TypeScript**, **Git**, **HTTP & APIs**, **Node.js**, **React**, **Redux**, and **Testing** at your own pace with hands-on examples you can edit and experiment with directly in the browser.
 
@@ -8,13 +8,13 @@ Learn **JavaScript**, **TypeScript**, **Git**, **HTTP & APIs**, **Node.js**, **R
 
 ## Key Features
 
-- **Structured Lessons** — Each topic includes core concepts, real-world examples, and step-by-step walkthroughs
-- **Interactive Demos** — Live, editable widgets (counters, stopwatches, HTTP simulators, event loop visualizers) show concepts in action
-- **Code Walkthroughs** — Click through realistic examples to highlight which lines implement each concept
-- **Progress Tracking** — Check off topics and sub-topics as you learn; progress is saved locally in your browser
-- **Light & Dark Themes** — Easy on the eyes, any time of day
-- **Data-Driven Content** — All lessons defined in JSON; easy to update and extend
-- **Zero Backend** — No server, no account, no sign-up — everything runs locally
+- **Structured Lessons**: Each topic includes core concepts, real-world examples, and step-by-step walkthroughs
+- **Interactive Demos**: Live, editable widgets (counters, stopwatches, HTTP simulators, event loop visualizers) show concepts in action
+- **Code Walkthroughs**: Click through realistic examples to highlight which lines implement each concept
+- **Progress Tracking**: Check off topics and sub-topics as you learn; progress is saved locally in your browser
+- **Light & Dark Themes**: Easy on the eyes, any time of day
+- **Data-Driven Content**: All lessons defined in JSON; easy to update and extend
+- **Zero Backend**: No server, no account, no sign-up — everything runs locally
 
 ---
 
