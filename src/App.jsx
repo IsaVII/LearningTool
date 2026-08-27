@@ -1,19 +1,27 @@
+import { lazy, Suspense } from "react";
 import { Route, HashRouter as Router, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Git from "./pages/learning/Git";
-import GithubPages from "./pages/cheatsheets/GithubPages";
-import Http from "./pages/learning/Http";
-import JavaScript from "./pages/learning/JavaScript";
 import Main from "./pages/Main";
-import Node from "./pages/learning/Node";
-import Redux from "./pages/learning/Redux";
-import React from "./pages/learning/React";
-import Testing from "./pages/learning/Testing";
-import TypeScript from "./pages/learning/TypeScript";
-import WebSockets from "./pages/learning/WebSockets";
+import PageLoader from "./components/PageLoader";
 
 import "./App.css";
+
+// Route-based code splitting: Main (the landing page) loads eagerly since
+// it's what every visitor hits first, but every other page - each topic
+// lesson and cheat sheet - is only fetched when its route is actually
+// visited. This keeps the initial bundle small; syntax highlighting, demo
+// components, etc. for a page nobody opens never has to be downloaded.
+const JavaScript = lazy(() => import("./pages/learning/JavaScript"));
+const TypeScript = lazy(() => import("./pages/learning/TypeScript"));
+const Git = lazy(() => import("./pages/learning/Git"));
+const Http = lazy(() => import("./pages/learning/Http"));
+const Node = lazy(() => import("./pages/learning/Node"));
+const React = lazy(() => import("./pages/learning/React"));
+const Redux = lazy(() => import("./pages/learning/Redux"));
+const WebSockets = lazy(() => import("./pages/learning/WebSockets"));
+const Testing = lazy(() => import("./pages/learning/Testing"));
+const GithubPages = lazy(() => import("./pages/cheatsheets/GithubPages"));
 
 function App() {
   return (
@@ -21,19 +29,21 @@ function App() {
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-8">
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/javascript" element={<JavaScript />} />
-            <Route path="/typescript" element={<TypeScript />} />
-            <Route path="/git" element={<Git />} />
-            <Route path="/http" element={<Http />} />
-            <Route path="/node" element={<Node />} />
-            <Route path="/react" element={<React />} />
-            <Route path="/redux" element={<Redux />} />
-            <Route path="/websockets" element={<WebSockets />} />
-            <Route path="/testing" element={<Testing />} />
-            <Route path="/githubpages" element={<GithubPages />} />
-          </Routes>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route path="/javascript" element={<JavaScript />} />
+              <Route path="/typescript" element={<TypeScript />} />
+              <Route path="/git" element={<Git />} />
+              <Route path="/http" element={<Http />} />
+              <Route path="/node" element={<Node />} />
+              <Route path="/react" element={<React />} />
+              <Route path="/redux" element={<Redux />} />
+              <Route path="/websockets" element={<WebSockets />} />
+              <Route path="/testing" element={<Testing />} />
+              <Route path="/githubpages" element={<GithubPages />} />
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>
