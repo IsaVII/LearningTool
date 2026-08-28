@@ -8,6 +8,10 @@ function Footer() {
           &copy; {new Date().getFullYear()} Learning Tool. All rights reserved.
         </p>
       </div>
+
+      <FooterLink href="/cookie-policy" className="hover:underline">
+        Cookie Policy
+      </FooterLink>
     </footer>
   );
 }

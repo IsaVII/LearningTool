@@ -2,8 +2,10 @@ import { lazy, Suspense } from "react";
 import { Route, HashRouter as Router, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import CookieConsent from "./components/CookieConsent";
 import Main from "./pages/Main";
 import PageLoader from "./components/PageLoader";
+import CookiePolicy from "./pages/CookiePolicy";
 
 import "./App.css";
 
@@ -31,6 +33,7 @@ function App() {
         <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-8">
           <Suspense fallback={<PageLoader />}>
             <Routes>
+              <Route path="/cookie-policy" element={<CookiePolicy />} />
               <Route path="/" element={<Main />} />
               <Route path="/javascript" element={<JavaScript />} />
               <Route path="/typescript" element={<TypeScript />} />
@@ -46,6 +49,7 @@ function App() {
           </Suspense>
         </main>
         <Footer />
+        <CookieConsent />
       </div>
     </Router>
   );
