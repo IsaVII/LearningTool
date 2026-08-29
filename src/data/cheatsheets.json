@@ -2,6 +2,16 @@
   "topics": [
     {
       "id": 1,
+      "key": "projectsetup",
+      "title": "React + Redux Project Setup",
+      "description": "Complete guide to setting up a modern React project with Redux, Tailwind CSS, and routing",
+      "route": "/projectsetup",
+      "screenshot": "/images/projectsetup.png",
+      "difficulty": "beginner",
+      "estimatedTime": "15 minutes"
+    },
+    {
+      "id": 2,
       "key": "githubpages",
       "title": "Github Pages for React",
       "description": "Deploying React applications using GitHub Pages and VS Code",

@@ -20,6 +20,9 @@ function CheatSheetLayout({
   introduction,
   prerequisites = [],
   steps = [],
+  folderStructure,
+  backendSetup,
+  whatYouMightBeMissing,
   gettingStarted,
   source,
 }) {
@@ -98,20 +101,80 @@ function CheatSheetLayout({
           ))}
         </div>
 
-        {gettingStarted && (
+        {folderStructure && (
           <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
             <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-              {gettingStarted.heading}
+              {folderStructure.heading}
             </h3>
-            <ol className="text-muted leading-relaxed pl-6 text-left">
-              {gettingStarted.steps.map((step, index) => (
-                <li key={index} className="mb-2">
-                  • {step}
-                </li>
-              ))}
-            </ol>
+            {folderStructure.description && (
+              <p className="text-muted leading-relaxed mb-3 text-left">
+                {folderStructure.description}
+              </p>
+            )}
+            <pre className="bg-surface text-muted text-sm p-3 rounded overflow-x-auto text-left">
+              <code>{folderStructure.structure}</code>
+            </pre>
           </div>
         )}
+
+        {backendSetup && (
+          <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
+            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+              {backendSetup.heading}
+            </h3>
+            {backendSetup.description && (
+              <p className="text-muted leading-relaxed mb-4 text-left">
+                {backendSetup.description}
+              </p>
+            )}
+            <div className="flex flex-col gap-3">
+              {backendSetup.steps.map((step, index) => (
+                <div
+                  key={index}
+                  className="bg-content2 border-l-4 border-content2-border p-3 pl-4"
+                >
+                  <p className="text-heading-alt font-semibold text-sm mb-2">
+                    {step.step}
+                  </p>
+                  <CodeBlock>{step.code}</CodeBlock>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {whatYouMightBeMissing && (
+          <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
+            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+              {whatYouMightBeMissing.heading}
+            </h3>
+            {whatYouMightBeMissing.categories.map((category, catIndex) => (
+              <div key={catIndex} className="mb-4 text-left">
+                <h4 className="text-heading font-semibold mb-2">
+                  📦 {category.title}
+                </h4>
+                <ul className="text-muted text-sm pl-5 list-disc space-y-1">
+                  {category.items.map((item, itemIndex) => (
+                    <li key={itemIndex}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
+          <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+            {gettingStarted.heading}
+          </h3>
+          <ol className="text-muted leading-relaxed pl-6 text-left">
+            {gettingStarted.steps.map((step, index) => (
+              <li key={index} className="mb-2">
+                • {step}
+              </li>
+            ))}
+          </ol>
+        </div>
 
         {source && (
           <p className="text-subtle text-sm mt-4">

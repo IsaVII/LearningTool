@@ -1,0 +1,203 @@
+{
+  "title": "React + Redux Project Setup",
+  "introduction": {
+    "heading": "Setting Up a Modern React & Redux Project with Vite",
+    "description": "A complete guide to scaffolding a production-ready React application with Redux state management, Tailwind CSS, routing, and folder structure. This covers the essential packages and configurations needed to start developing immediately."
+  },
+  "prerequisites": [
+    "Node.js 16+ and npm installed",
+    "A text editor (VS Code, etc.)",
+    "Basic familiarity with npm and command line"
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "title": "Create a Vite React Project",
+      "description": "Use Vite to scaffold a new React project. Vite is much faster than Create React App and is the modern standard for new React projects.",
+      "code": "npm create vite@latest frontend -- --template react",
+      "language": "bash",
+      "note": "Replace 'frontend' with your desired project name. The --template react flag ensures you get a React setup."
+    },
+    {
+      "id": 2,
+      "title": "Navigate to Project & Install Dependencies",
+      "description": "Enter the project directory and install the base dependencies that come with Vite React.",
+      "code": "cd frontend\nnpm install",
+      "language": "bash"
+    },
+    {
+      "id": 3,
+      "title": "Install Redux State Management",
+      "description": "Redux Toolkit simplifies Redux setup with less boilerplate. react-redux binds Redux to React components via hooks.",
+      "code": "npm install @reduxjs/toolkit react-redux",
+      "language": "bash",
+      "note": "Redux Toolkit includes Redux, Redux Thunk for async actions, and Immer for immutable updates."
+    },
+    {
+      "id": 4,
+      "title": "Install Tailwind CSS with Vite Plugin (Optional)",
+      "description": "Tailwind CSS provides utility-first styling. The @tailwindcss/vite plugin enables faster builds with Vite.",
+      "code": "npm install tailwindcss postcss autoprefixer @tailwindcss/vite",
+      "language": "bash"
+    },
+    {
+      "id": 5,
+      "title": "Configure Tailwind in vite.config.js (Optional)",
+      "description": "Add the Tailwind plugin to your Vite configuration for proper PostCSS processing.",
+      "code": "import { defineConfig } from 'vite'\nimport react from '@vitejs/plugin-react'\nimport tailwindcss from '@tailwindcss/vite'\n\nexport default defineConfig({\n  plugins: [tailwindcss(), react()],\n})",
+      "language": "javascript",
+      "highlightLines": [3, 6],
+      "note": "The order matters: tailwindcss() should come before react()."
+    },
+    {
+      "id": 6,
+      "title": "Add Tailwind Directives to CSS (Optional)",
+      "description": "Update your main CSS file (usually src/index.css) to include Tailwind's utility layers.",
+      "code": "@tailwind base;\n@tailwind components;\n@tailwind utilities;",
+      "language": "css",
+      "note": "Replace any existing CSS content in your main CSS file with these directives."
+    },
+    {
+      "id": 7,
+      "title": "Install React Router for Navigation",
+      "description": "React Router enables client-side routing for multi-page navigation without server requests.",
+      "code": "npm install react-router-dom",
+      "language": "bash"
+    },
+    {
+      "id": 8,
+      "title": "Create Redux Store Structure",
+      "description": "Set up your Redux store with slices. Create a store.js file to configure Redux.",
+      "code": "// src/redux/store.js\nimport { configureStore } from '@reduxjs/toolkit';\n\nexport const store = configureStore({\n  reducer: {\n    // Add your slices here\n    // example: exampleSlice,\n  },\n});",
+      "language": "javascript",
+      "note": "You'll add more slices (reducer files) as you build features."
+    },
+    {
+      "id": 9,
+      "title": "Wrap Your App with Redux Provider",
+      "description": "Connect Redux to your React app by wrapping the root component with the Redux Provider.",
+      "code": "// src/main.jsx\nimport React from 'react'\nimport ReactDOM from 'react-dom/client'\nimport { Provider } from 'react-redux'\nimport App from './App.jsx'\nimport { store } from './redux/store'\nimport './index.css'\n\nReactDOM.createRoot(document.getElementById('root')).render(\n  <React.StrictMode>\n    <Provider store={store}>\n      <App />\n    </Provider>\n  </React.StrictMode>,\n)",
+      "language": "javascript",
+      "highlightLines": [4, 6, 10, 11]
+    },
+    {
+      "id": 10,
+      "title": "Create Routes with React Router",
+      "description": "Set up basic routing in your App component.",
+      "code": "// src/App.jsx\nimport { BrowserRouter as Router, Routes, Route } from 'react-router-dom'\nimport Home from './pages/Home'\nimport About from './pages/About'\n\nfunction App() {\n  return (\n    <Router>\n      <Routes>\n        <Route path=\"/\" element={<Home />} />\n        <Route path=\"/about\" element={<About />} />\n      </Routes>\n    </Router>\n  )\n}\n\nexport default App",
+      "language": "javascript"
+    },
+    {
+      "id": 11,
+      "title": "Optional: Add Development Tools",
+      "description": "Install packages that improve development experience (ESLint, Prettier, Redux DevTools).",
+      "code": "npm install --save-dev eslint prettier\nnpm install @reduxjs/toolkit redux-devtools",
+      "language": "bash",
+      "note": "ESLint finds bugs, Prettier formats code. Redux DevTools helps debug Redux state changes."
+    },
+    {
+      "id": 12,
+      "title": "Optional: Environment Variables Setup",
+      "description": "Create a .env.local file for API keys and environment-specific configuration (not committed to git).",
+      "code": "# .env.local\nVITE_API_URL=http://localhost:3000/api\nVITE_API_KEY=your_key_here",
+      "language": "bash",
+      "note": "In Vite, variables must start with VITE_ to be accessible in the client. Access them as import.meta.env.VITE_API_URL"
+    }
+  ],
+  "folderStructure": {
+    "heading": "Recommended Folder Structure",
+    "description": "This structure scales well for medium-sized applications:",
+    "structure": "frontend/\n├── src/\n│   ├── components/        # Reusable React components\n│   │   ├── Header.jsx\n│   │   ├── Footer.jsx\n│   │   └── ...\n│   ├── pages/             # Full page components\n│   │   ├── Home.jsx\n│   │   ├── About.jsx\n│   │   └── ...\n│   ├── redux/             # Redux state management\n│   │   ├── store.js\n│   │   ├── slices/        # Redux slices\n│   │   │   ├── userSlice.js\n│   │   │   ├── authSlice.js\n│   │   │   └── ...\n│   │   └── ...\n│   ├── hooks/             # Custom React hooks\n│   │   ├── useAuth.js\n│   │   └── ...\n│   ├── utils/             # Utility functions\n│   │   ├── api.js         # API calls\n│   │   ├── constants.js\n│   │   └── helpers.js\n│   ├── styles/            # Global styles\n│   │   └── globals.css\n│   ├── App.jsx\n│   ├── main.jsx\n│   └── index.css\n├── public/\n├── .env.local             # Environment variables (gitignored)\n├── .env.example           # Template for .env.local\n├── .gitignore\n├── vite.config.js\n├── package.json\n└── README.md"
+  },
+  "backendSetup": {
+    "heading": "Optional: Backend Project Setup",
+    "description": "If you need a backend server (Node.js/Express), create it alongside your frontend:",
+    "steps": [
+      {
+        "step": "Create backend directory",
+        "code": "mkdir backend && cd backend && npm init -y"
+      },
+      {
+        "step": "Install Express and essentials",
+        "code": "npm install express cors dotenv axios"
+      },
+      {
+        "step": "Basic Express server",
+        "code": "// backend/server.js\nconst express = require('express');\nconst cors = require('cors');\nconst app = express();\n\napp.use(cors());\napp.use(express.json());\n\napp.get('/api/data', (req, res) => {\n  res.json({ message: 'Hello from backend!' });\n});\n\napp.listen(3000, () => console.log('Server on port 3000'));"
+      }
+    ]
+  },
+  "whatYouMightBeMissing": {
+    "heading": "What Else You Might Want",
+    "categories": [
+      {
+        "title": "API & Data Fetching",
+        "items": [
+          "axios (npm install axios) - Promise-based HTTP client",
+          "fetch API (built-in) - Native browser API",
+          "React Query / TanStack Query - Server state management"
+        ]
+      },
+      {
+        "title": "Code Quality & Formatting",
+        "items": [
+          "ESLint (npm install --save-dev eslint) - Code linting",
+          "Prettier (npm install --save-dev prettier) - Code formatting",
+          "husky (pre-commit hooks) - Run tests before committing"
+        ]
+      },
+      {
+        "title": "Testing",
+        "items": [
+          "Vitest (npm install --save-dev vitest) - Unit testing",
+          "React Testing Library (npm install --save-dev @testing-library/react) - Component testing",
+          "Playwright (npm install --save-dev @playwright/test) - E2E testing"
+        ]
+      },
+      {
+        "title": "UI & Styling",
+        "items": [
+          "Headless UI (npm install @headlessui/react) - Accessible UI components",
+          "React Icons (npm install react-icons) - Icon library",
+          "Framer Motion (npm install framer-motion) - Animation library"
+        ]
+      },
+      {
+        "title": "Development & Debugging",
+        "items": [
+          "Redux DevTools (npm install redux-devtools) - Debug Redux state",
+          "React Developer Tools (browser extension) - React debugging",
+          "Vite Plugin Inspect - Analyze Vite plugins"
+        ]
+      },
+      {
+        "title": "TypeScript (Optional but Recommended)",
+        "items": [
+          "Create project with: npm create vite@latest frontend -- --template react-ts",
+          "npm install --save-dev typescript @types/react @types/react-dom",
+          "Strongly typed Redux actions and reducers"
+        ]
+      }
+    ]
+  },
+  "gettingStarted": {
+    "heading": "Quick Start Checklist",
+    "steps": [
+      "npm create vite@latest frontend -- --template react",
+      "cd frontend && npm install",
+      "npm install @reduxjs/toolkit react-redux react-router-dom",
+      "npm install tailwindcss postcss autoprefixer @tailwindcss/vite",
+      "Update vite.config.js with Tailwind plugin",
+      "Add Tailwind directives to src/index.css",
+      "Create src/redux/store.js",
+      "Wrap App with Redux Provider in main.jsx",
+      "Create pages/ and components/ folders",
+      "npm run dev (start development server)",
+      "🎉 Ready to build!"
+    ]
+  },
+  "source": {
+    "label": "Vite Official Docs",
+    "url": "https://vitejs.dev/"
+  }
+}
