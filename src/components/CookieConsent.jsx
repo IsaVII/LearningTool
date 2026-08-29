@@ -40,14 +40,11 @@ export default function CookieConsent() {
   return (
     <>
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/50 z-40 transition-opacity"
-        onClick={handleAccept}
-      />
+      <div className="fixed inset-0 bg-black/50 z-40 transition-opacity" />
 
       {/* Modal */}
       <div
-        className="fixed bottom-0 left-0 right-0 md:bottom-4 md:left-4 md:right-auto md:max-w-md bg-surface shadow-2xl rounded-t-lg md:rounded-lg z-50 animate-slide-up"
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 w-11/12 max-w-md bg-surface shadow-2xl rounded-lg z-50 animate-slide-up"
         style={{ border: "1px solid var(--border)" }}
       >
         <div className="p-6">
