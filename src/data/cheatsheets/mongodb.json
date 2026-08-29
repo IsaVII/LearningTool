@@ -1,0 +1,138 @@
+{
+  "title": "MongoDB Setup & Connection",
+  "introduction": {
+    "heading": "MongoDB Setup, Configuration & Troubleshooting",
+    "description": "A comprehensive guide to setting up MongoDB Atlas, connecting from your Node.js application, configuring network access, and resolving common connection issues. Includes DNS fixes for connection errors and proper configuration for cloud deployments like Render."
+  },
+  "prerequisites": [
+    "Node.js and npm installed",
+    "MongoDB Atlas account (free tier available at mongodb.com)",
+    "Basic understanding of databases and connection strings",
+    "Dotenv (.env file) for storing credentials"
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "title": "Create MongoDB Atlas Account & Cluster",
+      "description": "Set up a free MongoDB Atlas account and create your first database cluster.",
+      "code": "1. Go to https://www.mongodb.com/cloud/atlas\n2. Click \"Sign Up\" and create an account\n3. Create a new project\n4. Create a new Cluster (M0 tier is free)\n5. Wait for cluster to be deployed (usually 1-2 minutes)\n6. Go to 'Database Access' and create a database user\n7. Set a password and save the credentials\n8. Go to 'Network Access' and configure IP whitelist",
+      "language": "bash",
+      "note": "Keep your database credentials secure! Store them in .env file, never in code."
+    },
+    {
+      "id": 2,
+      "title": "Configure Network Access (IP Whitelist)",
+      "description": "Add allowed IP addresses to MongoDB Atlas to enable connections from your application.",
+      "code": "Steps to configure IP Access List:\n1. Go to MongoDB Atlas Dashboard\n2. Click 'Network Access' in the left sidebar\n3. Click 'Add IP Address' button\n4. Choose one of the options:\n   - Current IP Address: Adds your current IP (good for development)\n   - Allow Access from Anywhere: Add 0.0.0.0/0 (allows all IPs)\n5. Click 'Confirm'\n\nFor RENDER or cloud deployments:\n- Click 'Add IP Address'\n- Select 'Allow Access from Anywhere'\n- Enter 0.0.0.0/0 in the IP address field\n- Click 'Confirm'\n- This allows connections from any IP address",
+      "language": "bash",
+      "highlightLines": [10],
+      "note": "For development use 'Allow Access from Anywhere' (0.0.0.0/0). For production, add specific IPs of your servers."
+    },
+    {
+      "id": 3,
+      "title": "Get Your Connection String",
+      "description": "Retrieve the MongoDB connection string from Atlas to use in your application.",
+      "code": "1. Go to MongoDB Atlas Dashboard\n2. Click 'Clusters' in the left sidebar\n3. Click 'Connect' button on your cluster\n4. Choose 'Connect your application'\n5. Select 'Node.js' and version '3.0 or later'\n6. Copy the connection string\n   Example: mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/database_name\n7. Replace <password> with your actual database password\n8. Store in your .env file as DATABASE_URL",
+      "language": "bash",
+      "note": "Never hardcode the connection string! Always use environment variables."
+    },
+    {
+      "id": 4,
+      "title": "Install MongoDB Connection Packages",
+      "description": "Install Mongoose (recommended ODM) for MongoDB connection and schema management.",
+      "code": "npm install mongoose dotenv",
+      "language": "bash",
+      "subSteps": [
+        {
+          "title": ".env Configuration",
+          "description": "Create a .env file in your project root with MongoDB credentials.",
+          "code": "# MongoDB Connection String\nDATABASE_URL=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/myapp?retryWrites=true&w=majority\n\n# Alternative for local MongoDB\n# DATABASE_URL=mongodb://localhost:27017/myapp\n\n# Node Environment\nNODE_ENV=development\n\n# Server Port\nPORT=3000",
+          "language": "bash",
+          "note": "Add .env to your .gitignore file! Create .env.example with dummy values for documentation."
+        },
+        {
+          "title": "Basic Connection Setup",
+          "description": "Connect to MongoDB in your main application file.",
+          "code": "require('dotenv').config();\nconst mongoose = require('mongoose');\n\n// Connect to MongoDB\nmongoose.connect(process.env.DATABASE_URL)\n  .then(() => {\n    console.log('✓ Connected to MongoDB');\n  })\n  .catch((err) => {\n    console.error('✗ MongoDB connection error:', err);\n    process.exit(1); // Exit if connection fails\n  });\n\n// Handle connection events\nmongoose.connection.on('connected', () => {\n  console.log('Mongoose connected to MongoDB');\n});\n\nmongoose.connection.on('error', (err) => {\n  console.error('Mongoose connection error:', err);\n});\n\nmongoose.connection.on('disconnected', () => {\n  console.log('Mongoose disconnected from MongoDB');\n});",
+          "language": "javascript",
+          "highlightLines": [5, 9, 15, 22, 26]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Troubleshooting Connection Errors - DNS Fix",
+      "description": "Resolve 'ENOTFOUND' and DNS-related connection errors by configuring DNS servers.",
+      "code": "If you get error like:\n- ENOTFOUND: cluster0.xxxxx.mongodb.net\n- getaddrinfo ENOTFOUND\n- Connection timeout errors\n\nAdd this at the very top of your main file (before any MongoDB code):",
+      "language": "bash",
+      "subSteps": [
+        {
+          "title": "DNS Fix Implementation",
+          "description": "Configure DNS servers to resolve MongoDB connection issues.",
+          "code": "// Add this at the VERY TOP of your app.js or server.js file\nimport dns from \"node:dns/promises\";\ndns.setServers([\"1.1.1.1\"]);\n\n// OR if using require():\nconst dns = require('node:dns/promises');\ndns.setServers([\"1.1.1.1\"]);\n\n// Then proceed with dotenv and mongoose\nrequire('dotenv').config();\nconst mongoose = require('mongoose');\n\n// Now your MongoDB connection should work\nmongoose.connect(process.env.DATABASE_URL)\n  .then(() => {\n    console.log('✓ Connected to MongoDB');\n  })\n  .catch((err) => {\n    console.error('✗ MongoDB connection error:', err);\n  });",
+          "language": "javascript",
+          "highlightLines": [2, 3, 14],
+          "note": "Place the DNS configuration BEFORE any other MongoDB or network operations. 1.1.1.1 is Cloudflare's DNS server."
+        },
+        {
+          "title": "Why This Works",
+          "description": "Understanding the DNS fix for MongoDB connection issues.",
+          "code": "DNS Resolution Problem:\n- MongoDB Atlas uses domain names (cluster0.xxxxx.mongodb.net)\n- Your system needs to resolve these to IP addresses via DNS\n- Sometimes default DNS servers are slow or unreliable\n- This causes 'ENOTFOUND' or timeout errors\n\nSolution:\n- Use Cloudflare's public DNS (1.1.1.1)\n- Also works: Google (8.8.8.8) or Quad9 (9.9.9.9)\n- This is a proven workaround for Node.js DNS issues\n\nAlternative DNS Servers:\n1. Cloudflare: 1.1.1.1 (recommended)\n2. Google: 8.8.8.8\n3. Quad9: 9.9.9.9\n4. OpenDNS: 208.67.222.222",
+          "language": "bash",
+          "note": "This fix is especially useful on shared hosting or cloud platforms like Render."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "MongoDB Atlas IP Whitelist for Render",
+      "description": "Configure MongoDB Atlas network access specifically for Render deployment.",
+      "code": "When deploying to Render:\n\n1. MongoDB Atlas Dashboard\n2. Click 'Network Access'\n3. Click 'Add IP Address'\n4. In the IP Address field: Enter 0.0.0.0/0\n5. Click 'Confirm'\n6. Click 'Add IP Address' again if you want to also add your local machine\n7. Your local machine IP: Click 'Add Current IP Address'\n\n0.0.0.0/0 means:\n- Allow connections from ANY IP address\n- Use this for cloud deployments (Render, Heroku, AWS, etc.)\n- Less secure than specific IPs, but necessary for dynamic IPs",
+      "language": "bash",
+      "highlightLines": [7],
+      "note": "Isa* — *2026-05-22 14:35: Add 0.0.0.0/0 into the IP Access List in MongoDB for RENDER"
+    },
+    {
+      "id": 7,
+      "title": "Define Mongoose Schemas & Models",
+      "description": "Create data schemas and models for your MongoDB collections.",
+      "code": "const mongoose = require('mongoose');\n\n// Define a user schema\nconst userSchema = new mongoose.Schema({\n  username: {\n    type: String,\n    required: [true, 'Username is required'],\n    unique: true,\n    trim: true,\n    minlength: 3\n  },\n  email: {\n    type: String,\n    required: true,\n    unique: true,\n    lowercase: true,\n    match: [/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/, 'Please provide a valid email']\n  },\n  password: {\n    type: String,\n    required: true,\n    minlength: 6,\n    select: false // Don't include password in queries by default\n  },\n  role: {\n    type: String,\n    enum: ['user', 'admin'],\n    default: 'user'\n  },\n  createdAt: {\n    type: Date,\n    default: Date.now\n  },\n  updatedAt: {\n    type: Date,\n    default: Date.now\n  }\n});\n\n// Create and export the model\nconst User = mongoose.model('User', userSchema);\nmodule.exports = User;",
+      "language": "javascript",
+      "highlightLines": [8, 23, 26, 41]
+    },
+    {
+      "id": 8,
+      "title": "Basic CRUD Operations",
+      "description": "Create, Read, Update, and Delete documents in MongoDB using Mongoose.",
+      "code": "const User = require('./models/User'); // Import your model\n\n// CREATE - Add a new user\nconst createUser = async (userData) => {\n  try {\n    const newUser = new User(userData);\n    const savedUser = await newUser.save();\n    return savedUser;\n  } catch (error) {\n    console.error('Error creating user:', error);\n  }\n};\n\n// READ - Get user by ID\nconst getUserById = async (userId) => {\n  try {\n    const user = await User.findById(userId);\n    return user;\n  } catch (error) {\n    console.error('Error fetching user:', error);\n  }\n};\n\n// READ - Get all users\nconst getAllUsers = async () => {\n  try {\n    const users = await User.find();\n    return users;\n  } catch (error) {\n    console.error('Error fetching users:', error);\n  }\n};\n\n// UPDATE - Update user\nconst updateUser = async (userId, updateData) => {\n  try {\n    const updatedUser = await User.findByIdAndUpdate(\n      userId,\n      updateData,\n      { new: true, runValidators: true }\n    );\n    return updatedUser;\n  } catch (error) {\n    console.error('Error updating user:', error);\n  }\n};\n\n// DELETE - Delete user\nconst deleteUser = async (userId) => {\n  try {\n    const deletedUser = await User.findByIdAndDelete(userId);\n    return deletedUser;\n  } catch (error) {\n    console.error('Error deleting user:', error);\n  }\n};",
+      "language": "javascript",
+      "highlightLines": [6, 16, 26, 36, 47]
+    },
+    {
+      "id": 9,
+      "title": "Query Operators & Filters",
+      "description": "Use MongoDB query operators to filter and find documents efficiently.",
+      "code": "const User = require('./models/User');\n\n// Find by specific field\nconst userByEmail = await User.findOne({ email: 'user@example.com' });\n\n// Find with multiple conditions (AND)\nconst activeAdmins = await User.find({\n  role: 'admin',\n  createdAt: { $gte: new Date('2024-01-01') }\n});\n\n// OR query\nconst searchResults = await User.find({\n  $or: [\n    { username: 'john' },\n    { email: 'john@example.com' }\n  ]\n});\n\n// Comparison operators\nconst users = await User.find({\n  createdAt: {\n    $gte: startDate,  // Greater than or equal\n    $lt: endDate      // Less than\n  }\n});\n\n// Sorting and limiting\nconst recentUsers = await User.find()\n  .sort({ createdAt: -1 })  // -1 for descending, 1 for ascending\n  .limit(10)                 // Limit to 10 results\n  .skip(0);                  // Skip first 0 results (for pagination)\n\n// Selecting specific fields\nconst usernames = await User.find()\n  .select('username email')  // Include only these fields\n  .select('-password');      // Exclude password field\n\n// Common comparison operators:\n// $eq: equal\n// $ne: not equal\n// $gt: greater than\n// $gte: greater than or equal\n// $lt: less than\n// $lte: less than or equal\n// $in: value in array\n// $nin: value not in array\n// $exists: field exists\n// $type: check field type",
+      "language": "javascript",
+      "highlightLines": [4, 7, 12, 20, 28, 32, 39],
+      "note": "Always use operators like $ne, $gt, etc. for queries. Avoid hardcoding field values in conditions."
+    },
+    {
+      "id": 10,
+      "title": "Connection Pooling & Best Practices",
+      "description": "Optimize MongoDB connections with proper pooling configuration and error handling.",
+      "code": "// Advanced connection options\nconst mongoose = require('mongoose');\nrequire('dotenv').config();\n\nconst connectDB = async () => {\n  try {\n    await mongoose.connect(process.env.DATABASE_URL, {\n      // Connection pooling\n      maxPoolSize: 10,        // Maximum pool size\n      minPoolSize: 5,         // Minimum pool size\n      maxIdleTimeMS: 45000,   // Close connections after 45 seconds of inactivity\n      \n      // Timeouts\n      socketTimeoutMS: 45000,  // Socket timeout (in milliseconds)\n      serverSelectionTimeoutMS: 5000,  // Server selection timeout\n      \n      // Retry logic\n      retryWrites: true,      // Automatically retry writes\n      retryReads: true,       // Automatically retry reads\n      \n      // Other options\n      family: 4               // Use IPv4\n    });\n    \n    console.log('✓ MongoDB connected successfully');\n    return mongoose.connection;\n  } catch (error) {\n    console.error('✗ MongoDB connection failed:', error.message);\n    process.exit(1);\n  }\n};\n\n// Call this in your main app file\nconnectDB();\n\n// Best Practices:\n// 1. Use connection pooling to reuse connections\n// 2. Set appropriate timeouts for your application\n// 3. Enable retry logic for better reliability\n// 4. Close connections gracefully on app shutdown\n// 5. Use indexes on frequently queried fields\n// 6. Monitor connection pool usage",
+      "language": "javascript",
+      "highlightLines": [8, 13, 18, 22],
+      "note": "Proper pooling configuration improves performance, especially in production environments."
+    },
+    {
+      "id": 11,
+      "title": "Common Connection Errors & Solutions",
+      "description": "Troubleshoot and resolve common MongoDB connection issues.",
+      "code": "Error: connect ECONNREFUSED 127.0.0.1:27017\nSolution: MongoDB server is not running. Start MongoDB service.\n\nError: MongoAuthenticationError: authentication failed\nSolution: Wrong username/password. Check credentials in .env file.\n\nError: MongoServerError: connect ENOTFOUND\nSolution: DNS resolution failed. Add DNS configuration (see DNS Fix step).\n\nError: connect ETIMEDOUT\nSolution: \n- Network/firewall issue\n- Timeout too short (increase socketTimeoutMS)\n- Server unreachable\n\nError: FATAL ERROR: CALL_AND_RETRY_LAST Allocation failed\nSolution: Out of memory. Reduce pool size or check for memory leaks.\n\nError: MongooseError: Trying to open an unclosed connection.\nSolution: Database already connected. Remove duplicate connection calls.\n\nDebugging checklist:\n□ Check .env file has DATABASE_URL set correctly\n□ Verify MongoDB service is running\n□ Check IP whitelist in MongoDB Atlas (0.0.0.0/0 for cloud)\n□ Verify username and password are correct\n□ Test connection string manually\n□ Check network/firewall settings\n□ Review MongoDB logs for errors",
+      "language": "bash",
+      "note": "Most connection issues are related to network access, DNS, or incorrect credentials."
+    }
+  ]
+}

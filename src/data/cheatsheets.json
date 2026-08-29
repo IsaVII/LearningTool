@@ -19,6 +19,26 @@
       "screenshot": "/images/githubpages.png",
       "difficulty": "beginner",
       "estimatedTime": "10 minutes"
+    },
+    {
+      "id": 3,
+      "key": "npmlibraries",
+      "title": "Essential npm Libraries",
+      "description": "Must-have npm packages for Node.js, Express, MongoDB, authentication, and email functionality",
+      "route": "/npmlibraries",
+      "screenshot": "/images/npmlibraries.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "20 minutes"
+    },
+    {
+      "id": 4,
+      "key": "mongodb",
+      "title": "MongoDB Setup & Connection",
+      "description": "Complete guide to MongoDB setup, connection troubleshooting, and Atlas configuration",
+      "route": "/mongodb",
+      "screenshot": "/images/mongodb.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "25 minutes"
     }
 ]
 }

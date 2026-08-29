@@ -25,6 +25,8 @@ const WebSockets = lazy(() => import("./pages/learning/WebSockets"));
 const Testing = lazy(() => import("./pages/learning/Testing"));
 const ProjectSetup = lazy(() => import("./pages/cheatsheets/ProjectSetup"));
 const GithubPages = lazy(() => import("./pages/cheatsheets/GithubPages"));
+const NpmLibraries = lazy(() => import("./pages/cheatsheets/NpmLibraries"));
+const MongoDB = lazy(() => import("./pages/cheatsheets/MongoDB"));
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
               <Route path="/testing" element={<Testing />} />
               <Route path="/projectsetup" element={<ProjectSetup />} />
               <Route path="/githubpages" element={<GithubPages />} />
+              <Route path="/npmlibraries" element={<NpmLibraries />} />
+              <Route path="/mongodb" element={<MongoDB />} />
             </Routes>
           </Suspense>
         </main>

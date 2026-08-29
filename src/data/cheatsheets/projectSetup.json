@@ -1,5 +1,5 @@
 {
-  "title": "React + Redux Project Setup",
+  "title": "React + Redux Project Setup + Tailwind",
   "introduction": {
     "heading": "Setting Up a Modern React & Redux Project with Vite",
     "description": "A complete guide to scaffolding a production-ready React application with Redux state management, Tailwind CSS, routing, and folder structure. This covers the essential packages and configurations needed to start developing immediately."

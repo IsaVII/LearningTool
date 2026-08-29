@@ -25,20 +25,22 @@ function CheatSheetLayout({
   whatYouMightBeMissing,
   gettingStarted,
   source,
-}) {
+} = {}) {
   return (
     <>
       <h1 className="text-4xl text-heading mb-4">{title}</h1>
 
       <ContentCard>
-        <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
-          <h2 className="text-3xl text-heading mt-8 mb-4">
-            {introduction.heading}
-          </h2>
-          <p className="text-muted leading-relaxed mb-4 text-left">
-            {introduction.description}
-          </p>
-        </div>
+        {introduction && (
+          <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
+            <h2 className="text-3xl text-heading mt-8 mb-4">
+              {introduction.heading}
+            </h2>
+            <p className="text-muted leading-relaxed mb-4 text-left">
+              {introduction.description}
+            </p>
+          </div>
+        )}
 
         {prerequisites.length > 0 && (
           <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
@@ -96,6 +98,46 @@ function CheatSheetLayout({
                 <p className="bg-content2 border-l-4 border-content2-border text-muted text-sm p-3 pl-4 leading-relaxed text-left">
                   {step.note}
                 </p>
+              )}
+
+              {step.subSteps && step.subSteps.length > 0 && (
+                <div className="mt-4 ml-4 border-l-2 border-accent pl-4 space-y-3">
+                  {step.subSteps.map((subStep, subStepIndex) => (
+                    <div
+                      key={subStepIndex}
+                      className="bg-content2 border-l-4 border-content2-border p-3 pl-4"
+                    >
+                      <h4 className="text-lg text-heading-alt font-semibold mb-2">
+                        {subStep.id && (
+                          <span className="text-accent mr-2">
+                            {subStep.id}.
+                          </span>
+                        )}
+                        {subStep.title}
+                      </h4>
+
+                      {subStep.description && (
+                        <p className="text-muted leading-relaxed mb-3 text-left">
+                          {subStep.description}
+                        </p>
+                      )}
+
+                      {subStep.code && (
+                        <div className="mb-3">
+                          <CodeBlock highlightLines={subStep.highlightLines}>
+                            {subStep.code}
+                          </CodeBlock>
+                        </div>
+                      )}
+
+                      {subStep.note && (
+                        <p className="bg-surface border-l-4 border-content1-border text-muted text-sm p-2 pl-3 leading-relaxed text-left">
+                          {subStep.note}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           ))}
@@ -163,18 +205,20 @@ function CheatSheetLayout({
           </div>
         )}
 
-        <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
-          <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-            {gettingStarted.heading}
-          </h3>
-          <ol className="text-muted leading-relaxed pl-6 text-left">
-            {gettingStarted.steps.map((step, index) => (
-              <li key={index} className="mb-2">
-                • {step}
-              </li>
-            ))}
-          </ol>
-        </div>
+        {gettingStarted && (
+          <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
+            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+              {gettingStarted.heading}
+            </h3>
+            <ol className="text-muted leading-relaxed pl-6 text-left">
+              {gettingStarted.steps.map((step, index) => (
+                <li key={index} className="mb-2">
+                  • {step}
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
 
         {source && (
           <p className="text-subtle text-sm mt-4">
