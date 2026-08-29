@@ -55,7 +55,7 @@
           "description": "Connect to MongoDB in your main application file.",
           "code": "require('dotenv').config();\nconst mongoose = require('mongoose');\n\n// Connect to MongoDB\nmongoose.connect(process.env.DATABASE_URL)\n  .then(() => {\n    console.log('✓ Connected to MongoDB');\n  })\n  .catch((err) => {\n    console.error('✗ MongoDB connection error:', err);\n    process.exit(1); // Exit if connection fails\n  });\n\n// Handle connection events\nmongoose.connection.on('connected', () => {\n  console.log('Mongoose connected to MongoDB');\n});\n\nmongoose.connection.on('error', (err) => {\n  console.error('Mongoose connection error:', err);\n});\n\nmongoose.connection.on('disconnected', () => {\n  console.log('Mongoose disconnected from MongoDB');\n});",
           "language": "javascript",
-          "highlightLines": [5, 9, 15, 22, 26]
+          "highlightLines": [5, 9, 15, 19, 23]
         }
       ]
     },
@@ -69,9 +69,9 @@
         {
           "title": "DNS Fix Implementation",
           "description": "Configure DNS servers to resolve MongoDB connection issues.",
-          "code": "// Add this at the VERY TOP of your app.js or server.js file\nimport dns from \"node:dns/promises\";\ndns.setServers([\"1.1.1.1\"]);\n\n// OR if using require():\nconst dns = require('node:dns/promises');\ndns.setServers([\"1.1.1.1\"]);\n\n// Then proceed with dotenv and mongoose\nrequire('dotenv').config();\nconst mongoose = require('mongoose');\n\n// Now your MongoDB connection should work\nmongoose.connect(process.env.DATABASE_URL)\n  .then(() => {\n    console.log('✓ Connected to MongoDB');\n  })\n  .catch((err) => {\n    console.error('✗ MongoDB connection error:', err);\n  });",
+          "code": "// Add this at the VERY TOP of your app.js or server.js file\n\n// Option A: ES Modules (if package.json has \"type\": \"module\")\n// import dns from \"node:dns/promises\";\n// dns.setServers([\"1.1.1.1\"]);\n\n// Option B: CommonJS (require) - default in most Node projects\nconst dns = require('node:dns/promises');\ndns.setServers([\"1.1.1.1\"]);\n\n// Then proceed with dotenv and mongoose\nrequire('dotenv').config();\nconst mongoose = require('mongoose');\n\n// Now your MongoDB connection should work\nmongoose.connect(process.env.DATABASE_URL)\n  .then(() => {\n    console.log('✓ Connected to MongoDB');\n  })\n  .catch((err) => {\n    console.error('✗ MongoDB connection error:', err);\n  });",
           "language": "javascript",
-          "highlightLines": [2, 3, 14],
+          "highlightLines": [7, 8, 16],
           "note": "Place the DNS configuration BEFORE any other MongoDB or network operations. 1.1.1.1 is Cloudflare's DNS server."
         },
         {
@@ -106,7 +106,7 @@
       "description": "Create, Read, Update, and Delete documents in MongoDB using Mongoose.",
       "code": "const User = require('./models/User'); // Import your model\n\n// CREATE - Add a new user\nconst createUser = async (userData) => {\n  try {\n    const newUser = new User(userData);\n    const savedUser = await newUser.save();\n    return savedUser;\n  } catch (error) {\n    console.error('Error creating user:', error);\n  }\n};\n\n// READ - Get user by ID\nconst getUserById = async (userId) => {\n  try {\n    const user = await User.findById(userId);\n    return user;\n  } catch (error) {\n    console.error('Error fetching user:', error);\n  }\n};\n\n// READ - Get all users\nconst getAllUsers = async () => {\n  try {\n    const users = await User.find();\n    return users;\n  } catch (error) {\n    console.error('Error fetching users:', error);\n  }\n};\n\n// UPDATE - Update user\nconst updateUser = async (userId, updateData) => {\n  try {\n    const updatedUser = await User.findByIdAndUpdate(\n      userId,\n      updateData,\n      { new: true, runValidators: true }\n    );\n    return updatedUser;\n  } catch (error) {\n    console.error('Error updating user:', error);\n  }\n};\n\n// DELETE - Delete user\nconst deleteUser = async (userId) => {\n  try {\n    const deletedUser = await User.findByIdAndDelete(userId);\n    return deletedUser;\n  } catch (error) {\n    console.error('Error deleting user:', error);\n  }\n};",
       "language": "javascript",
-      "highlightLines": [6, 16, 26, 36, 47]
+      "highlightLines": [6, 16, 26, 36, 49]
     },
     {
       "id": 9,

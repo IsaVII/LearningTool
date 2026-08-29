@@ -39,6 +39,16 @@
       "screenshot": "/images/mongodb.png",
       "difficulty": "intermediate",
       "estimatedTime": "25 minutes"
+    },
+    {
+      "id": 5,
+      "key": "sql",
+      "title": "SQL Database",
+      "description": "Core SQL reference: creating tables, SELECT/INSERT/UPDATE/DELETE, JOINs, aggregation, constraints, indexes, transactions, and common errors",
+      "route": "/sql",
+      "screenshot": "/images/sql.png",
+      "difficulty": "beginner",
+      "estimatedTime": "20 minutes"
     }
 ]
 }
