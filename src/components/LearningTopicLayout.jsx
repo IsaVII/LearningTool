@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import ContentCard from "./ContentCard";
 import PracticeTopicCard from "./PracticeTopicCard";
 import StepByStepExample from "./StepByStepExample";
@@ -31,6 +32,10 @@ function LearningTopicLayout({
   practiceTopicsIntro = "Click a topic to open a live, editable example.",
   topicKey,
 }) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [title]);
+
   const { getTopicSubtopicCount } = useProgress();
   const checkedCount = getTopicSubtopicCount(topicKey);
   const totalCount = practiceTopics?.length || 0;

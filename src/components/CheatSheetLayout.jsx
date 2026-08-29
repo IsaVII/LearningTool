@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import CodeBlock from "./CodeBlock";
 import ContentCard from "./ContentCard";
 
@@ -26,6 +27,10 @@ function CheatSheetLayout({
   gettingStarted,
   source,
 } = {}) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [title]);
+
   return (
     <>
       <h1 className="text-4xl text-heading mb-4">{title}</h1>
