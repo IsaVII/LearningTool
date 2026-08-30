@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { useProgress } from "../context/ProgressContext";
 
-function TopicCard({ topic }) {
-  const { isTopicDone, toggleTopic, getTopicSubtopicCount } = useProgress();
+function TopicCard({ topic, isCheatSheet = false }) {
+  const { isTopicDone, toggleTopicWithSubtopics, getTopicSubtopicCount } =
+    useProgress();
   const done = isTopicDone(topic.key);
   const completedSubtopics = getTopicSubtopicCount(topic.key);
 
@@ -17,16 +18,21 @@ function TopicCard({ topic }) {
     >
       <div className="flex justify-between items-start mb-4">
         <div className="flex items-start gap-2">
-          <input
-            type="checkbox"
-            checked={done}
-            onChange={() => toggleTopic(topic.key)}
-            onClick={(event) => event.stopPropagation()}
-            aria-label={`Mark ${topic.title} as ${done ? "not done" : "done"}`}
-            title={done ? "Mark as not done" : "Mark as done"}
-            className="w-4 h-4 mt-1 accent-accent cursor-pointer shrink-0"
-          />
-          <h3 className="m-0 text-heading">{topic.title}</h3>
+          {!isCheatSheet && (
+            <input
+              type="checkbox"
+              checked={done}
+              onChange={() => toggleTopicWithSubtopics(topic.key)}
+              onClick={(event) => event.stopPropagation()}
+              aria-label={`Mark ${topic.title} as ${done ? "not done" : "done"}`}
+              title={done ? "Mark as not done" : "Mark as done"}
+              className="w-4 h-4 mt-1 accent-accent cursor-pointer shrink-0"
+            />
+          )}
+
+          <h3 className={`m-0 ${isCheatSheet ? "pl-0" : "pl-2"} text-heading`}>
+            {topic.title}
+          </h3>
         </div>
         <div className="flex flex-col items-end gap-1 shrink-0">
           <div

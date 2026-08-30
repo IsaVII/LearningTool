@@ -2,20 +2,47 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import NavLink from "./NavLink";
 import ThemeToggle from "./ThemeToggle";
+import { useProgress } from "../context/ProgressContext";
+import cheatsheets from "../data/cheatsheets.json";
+import learningContent from "../data/learningContent.json";
+import javascriptContent from "../data/learning/javascriptContent.json";
+import typescriptContent from "../data/learning/typescriptContent.json";
+import gitContent from "../data/learning/gitContent.json";
+import httpContent from "../data/learning/httpContent.json";
+import nodeContent from "../data/learning/nodeContent.json";
+import reactContent from "../data/learning/reactContent.json";
+import reduxContent from "../data/learning/reduxContent.json";
+import testingContent from "../data/learning/testingContent.json";
+import expressContent from "../data/learning/expressContent.json";
+import authContent from "../data/learning/authContent.json";
+import webSocketsContent from "../data/learning/websocketsContent.json";
 
-const TOPICS = [
-  { to: "/javascript", label: "JavaScript Basics" },
-  { to: "/typescript", label: "TypeScript Basics" },
-  { to: "/git", label: "Git" },
-  { to: "/http", label: "HTTP & Web APIs" },
-  { to: "/node", label: "Node.js" },
-  { to: "/react", label: "React" },
-  { to: "/redux", label: "Redux" },
-  { to: "/websockets", label: "WebSockets" },
-  { to: "/testing", label: "Unit Tests" },
-  { to: "/express", label: "Express.js" },
-  { to: "/auth", label: "Authentication & Authorization" },
-];
+// Map topic keys to their learning content (to access practice topics count)
+const CONTENT_BY_KEY = {
+  javascript: javascriptContent,
+  typescript: typescriptContent,
+  git: gitContent,
+  http: httpContent,
+  node: nodeContent,
+  react: reactContent,
+  redux: reduxContent,
+  testing: testingContent,
+  express: expressContent,
+  auth: authContent,
+  websockets: webSocketsContent,
+};
+
+const TOPICS = learningContent.topics.map((topic) => ({
+  to: topic.route,
+  label: topic.title,
+  key: topic.key,
+}));
+
+const CHEATSHEETS = cheatsheets.topics.map((topic) => ({
+  to: topic.route,
+  label: topic.title,
+  key: topic.key,
+}));
 
 function HomeIcon(props) {
   return (
@@ -55,11 +82,26 @@ function ChevronIcon() {
   );
 }
 
+function StarIcon({ className = "" }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={`w-4 h-4 shrink-0 ${className}`}
+      aria-hidden="true"
+    >
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  );
+}
+
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const toggleRef = useRef(null);
   const { pathname } = useLocation();
+  const { getTopicSubtopicCount } = useProgress();
 
   // Close the menu whenever the route changes (e.g. a topic link was
   // clicked), so navigating away always leaves the menu tucked back in.
@@ -177,31 +219,88 @@ function Header() {
       <nav
         id="topics-menu"
         ref={menuRef}
-        aria-label="Topics"
-        className={`absolute right-4 top-full mt-2 w-64 origin-top-right rounded-xl border border-white/10 bg-navbar shadow-xl shadow-black/20 transition-all duration-200 ${
+        aria-label="Topics and Cheat Sheets"
+        className={`absolute right-4 top-full mt-2 origin-top-right rounded-xl border border-white/10 bg-navbar shadow-xl shadow-black/20 transition-all duration-200 ${
           menuOpen
             ? "opacity-100 scale-100 translate-y-0"
             : "opacity-0 scale-95 -translate-y-1 pointer-events-none"
         }`}
       >
-        <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-menu-text/40">
-          Topics
-        </p>
-        <ul className="list-none m-0 p-2 flex flex-col">
-          {TOPICS.map((topic) => (
-            <li key={topic.to}>
-              <NavLink
-                to={topic.to}
-                className={`group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[15px] hover:bg-white/10 ${
-                  pathname === topic.to ? "bg-accent/15" : ""
-                }`}
-              >
-                {topic.label}
-                <ChevronIcon />
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        <div className="flex divide-x divide-white/10">
+          {/* Topics Column */}
+          <div className="flex-1 min-w-64">
+            <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-menu-text/40">
+              Topics
+            </p>
+            <ul className="list-none m-0 p-2 flex flex-col">
+              {TOPICS.map((topic) => {
+                const completedCount = getTopicSubtopicCount(topic.key);
+                const totalCount =
+                  CONTENT_BY_KEY[topic.key]?.practiceTopics?.length || 0;
+                const isPartiallyComplete =
+                  completedCount > 0 && completedCount < totalCount;
+                const isFullyComplete =
+                  completedCount > 0 && completedCount === totalCount;
+                const showStar = completedCount > 0;
+
+                return (
+                  <li key={topic.to}>
+                    <NavLink
+                      to={topic.to}
+                      className={`group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[15px] hover:bg-white/10 ${
+                        pathname === topic.to ? "bg-accent/15" : ""
+                      }`}
+                    >
+                      <span className="flex items-center gap-2 text-left">
+                        {showStar && (
+                          <StarIcon
+                            className={
+                              isFullyComplete ? "opacity-100" : "opacity-30"
+                            }
+                          />
+                        )}
+                        <span className={`${showStar ? "font-bold pl-0" : ""}`}>
+                          {topic.label}
+                        </span>
+                      </span>
+                      <ChevronIcon />
+                    </NavLink>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Cheat Sheets Column */}
+          <div className="flex-1 min-w-64">
+            <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-menu-text/40">
+              Cheat Sheets
+            </p>
+            <ul className="list-none m-0 p-2 flex flex-col">
+              {CHEATSHEETS.map((sheet) => {
+                const completedCount = getTopicSubtopicCount(sheet.key);
+                const showStar = completedCount > 0;
+
+                return (
+                  <li key={sheet.to}>
+                    <NavLink
+                      to={sheet.to}
+                      className={`group flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-[15px] hover:bg-white/10 ${
+                        pathname === sheet.to ? "bg-accent/15" : ""
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        {showStar && <StarIcon className="opacity-100" />}
+                        <span>{sheet.label}</span>
+                      </span>
+                      <ChevronIcon />
+                    </NavLink>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
       </nav>
     </header>
   );

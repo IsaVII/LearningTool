@@ -45,7 +45,7 @@ function Main() {
         <div className="stagger-children w-full max-w-210 justify-self-center grid grid-cols-1 md:grid-cols-2 gap-8 ">
           {cheatSheets.topics.map((topic, i) => (
             <Reveal key={topic.id} index={i % 4}>
-              <TopicCard topic={topic} />
+              <TopicCard topic={topic} isCheatSheet={true} />
             </Reveal>
           ))}
         </div>

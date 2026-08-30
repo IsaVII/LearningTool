@@ -7,6 +7,32 @@ import {
   useState,
 } from "react";
 import { getCookie, setCookie } from "../utils/cookies";
+import javascriptContent from "../data/learning/javascriptContent.json";
+import typescriptContent from "../data/learning/typescriptContent.json";
+import gitContent from "../data/learning/gitContent.json";
+import httpContent from "../data/learning/httpContent.json";
+import nodeContent from "../data/learning/nodeContent.json";
+import reactContent from "../data/learning/reactContent.json";
+import reduxContent from "../data/learning/reduxContent.json";
+import testingContent from "../data/learning/testingContent.json";
+import expressContent from "../data/learning/expressContent.json";
+import authContent from "../data/learning/authContent.json";
+import webSocketsContent from "../data/learning/websocketsContent.json";
+
+// Map topic keys to their learning content (to access practice topics)
+const CONTENT_BY_KEY = {
+  javascript: javascriptContent,
+  typescript: typescriptContent,
+  git: gitContent,
+  http: httpContent,
+  node: nodeContent,
+  react: reactContent,
+  redux: reduxContent,
+  testing: testingContent,
+  express: expressContent,
+  auth: authContent,
+  websockets: webSocketsContent,
+};
 
 // Everything the user has checked off lives in a single cookie, so
 // progress survives a refresh (and a new tab) without any backend.
@@ -49,6 +75,31 @@ export function ProgressProvider({ children }) {
       ...prev,
       topics: { ...prev.topics, [topicKey]: !prev.topics[topicKey] },
     }));
+  }, []);
+
+  const toggleTopicWithSubtopics = useCallback((topicKey) => {
+    if (!topicKey) return;
+    setProgress((prev) => {
+      const newTopicState = !prev.topics[topicKey];
+      const content = CONTENT_BY_KEY[topicKey];
+      const practiceTopics = content?.practiceTopics || [];
+
+      // If toggling ON, mark all subtopics as done
+      // If toggling OFF, remove all subtopics
+      const newSubtopics = { ...prev.subtopics[topicKey] };
+      practiceTopics.forEach((topic) => {
+        newSubtopics[topic.title] = newTopicState;
+      });
+
+      return {
+        ...prev,
+        topics: { ...prev.topics, [topicKey]: newTopicState },
+        subtopics: {
+          ...prev.subtopics,
+          [topicKey]: newSubtopics,
+        },
+      };
+    });
   }, []);
 
   const toggleSubtopic = useCallback((topicKey, subtopicTitle) => {
@@ -104,6 +155,7 @@ export function ProgressProvider({ children }) {
     () => ({
       isTopicDone,
       toggleTopic,
+      toggleTopicWithSubtopics,
       isSubtopicDone,
       toggleSubtopic,
       getTopicSubtopicCount,
@@ -113,6 +165,7 @@ export function ProgressProvider({ children }) {
     [
       isTopicDone,
       toggleTopic,
+      toggleTopicWithSubtopics,
       isSubtopicDone,
       toggleSubtopic,
       getTopicSubtopicCount,
