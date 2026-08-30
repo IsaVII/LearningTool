@@ -3,6 +3,8 @@ import ContentCard from "./ContentCard";
 import PracticeTopicCard from "./PracticeTopicCard";
 import StepByStepExample from "./StepByStepExample";
 import { useProgress } from "../context/ProgressContext";
+import Reveal from "./motion/Reveal";
+import TextReveal from "./motion/TextReveal";
 
 /**
  * Shared page layout for every topic under src/pages/learning/. Each page
@@ -42,7 +44,7 @@ function LearningTopicLayout({
   return (
     <>
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-4xl text-heading">{title}</h1>
+        <TextReveal as="h1" text={title} className="text-4xl text-heading" />
         {totalCount > 0 && (
           <div className="text-lg text-muted font-semibold">
             Progress {checkedCount} of {totalCount}
@@ -51,49 +53,52 @@ function LearningTopicLayout({
       </div>
 
       <ContentCard>
-        <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
-          <h2 className="text-3xl text-heading mt-8 mb-4">
-            {introduction.heading}
-          </h2>
-          <p className="text-muted leading-relaxed mb-4 text-left ">
-            {introduction.description}
-          </p>
-        </div>
+        <Reveal index={0}>
+          <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
+            <h2 className="text-3xl text-heading mt-8 mb-4">
+              {introduction.heading}
+            </h2>
+            <p className="text-muted leading-relaxed mb-4 text-left ">
+              {introduction.description}
+            </p>
+          </div>
+        </Reveal>
 
-        <div className="bg-content2 w-full  border-l-4  border-content2-border p-3 pl-5  mb-3   ">
-          <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-            {coreConcepts.heading}
-          </h3>
-          <ul className="text-muted leading-relaxed   text-left">
-            {coreConcepts.concepts.map((concept) => (
-              <li key={concept.title} className="mb-3">
-                <strong>{concept.title}:</strong> {concept.description}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <Reveal index={1}>
+          <div className="bg-content2 w-full  border-l-4  border-content2-border p-3 pl-5  mb-3   ">
+            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+              {coreConcepts.heading}
+            </h3>
+            <ul className="text-muted leading-relaxed   text-left">
+              {coreConcepts.concepts.map((concept) => (
+                <li key={concept.title} className="mb-3">
+                  <strong>{concept.title}:</strong> {concept.description}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
 
         {sections.map((section, index) => (
-          <div
-            key={section.heading ?? index}
-            className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 md:pr-5 mb-3 md:ml-auto"
-          >
-            {section.heading && (
-              <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-                {section.heading}
-              </h3>
-            )}
-            {section.description && (
-              <p className="text-muted leading-relaxed mb-4">
-                {section.description}
-              </p>
-            )}
-            {section.content}
-          </div>
+          <Reveal key={section.heading ?? index} index={index + 2}>
+            <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 md:pr-5 mb-3 md:ml-auto">
+              {section.heading && (
+                <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+                  {section.heading}
+                </h3>
+              )}
+              {section.description && (
+                <p className="text-muted leading-relaxed mb-4">
+                  {section.description}
+                </p>
+              )}
+              {section.content}
+            </div>
+          </Reveal>
         ))}
 
         {fullExample && (
-          <>
+          <Reveal index={sections.length + 2}>
             <div className="bg-content2 border-l-4 border-content2-border p-3 pl-5 md:pr-5 mb-3 md:ml-auto w-fit">
               <h3 className="text-2xl text-heading-alt mt-6 mb-3">
                 {fullExample.heading}
@@ -105,41 +110,47 @@ function LearningTopicLayout({
                 steps={fullExample.steps}
               />
             </div>
-          </>
+          </Reveal>
         )}
 
-        <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
-          <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-            {gettingStarted.heading}
-          </h3>
-          <ol className="text-muted leading-relaxed pl-6 text-left">
-            {gettingStarted.steps.map((step, index) => (
-              <li key={index} className="mb-2">
-                • {step}
-              </li>
-            ))}
-          </ol>
-        </div>
-        <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
-          <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-            Practice Topics
-          </h3>
-          <p className="text-muted text-sm mb-4">{practiceTopicsIntro}</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-            {practiceTopics.map((topic) => {
-              const Demo = practiceDemos[topic.title];
-              return (
-                <PracticeTopicCard
-                  key={topic.title}
-                  topicKey={topicKey}
-                  title={topic.title}
-                  description={topic.description}
-                  demo={Demo ? <Demo /> : null}
-                />
-              );
-            })}
+        <Reveal index={sections.length + 3}>
+          <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
+            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+              {gettingStarted.heading}
+            </h3>
+            <ol className="text-muted leading-relaxed pl-6 text-left">
+              {gettingStarted.steps.map((step, index) => (
+                <li key={index} className="mb-2">
+                  • {step}
+                </li>
+              ))}
+            </ol>
           </div>
-        </div>
+        </Reveal>
+
+        <Reveal index={sections.length + 4}>
+          <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
+            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+              Practice Topics
+            </h3>
+            <p className="text-muted text-sm mb-4">{practiceTopicsIntro}</p>
+            <div className="stagger-children grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+              {practiceTopics.map((topic, i) => {
+                const Demo = practiceDemos[topic.title];
+                return (
+                  <Reveal key={topic.title} index={i}>
+                    <PracticeTopicCard
+                      topicKey={topicKey}
+                      title={topic.title}
+                      description={topic.description}
+                      demo={Demo ? <Demo /> : null}
+                    />
+                  </Reveal>
+                );
+              })}
+            </div>
+          </div>
+        </Reveal>
       </ContentCard>
     </>
   );

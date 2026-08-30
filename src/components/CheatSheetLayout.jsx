@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import CodeBlock from "./CodeBlock";
 import ContentCard from "./ContentCard";
+import Reveal from "./motion/Reveal";
+import TextReveal from "./motion/TextReveal";
 
 /**
  * Shared page layout for every cheat sheet under src/pages/cheatsheets/.
@@ -33,196 +35,207 @@ function CheatSheetLayout({
 
   return (
     <>
-      <h1 className="text-4xl text-heading mb-4">{title}</h1>
+      <TextReveal as="h1" text={title} className="text-4xl text-heading mb-4" />
 
       <ContentCard>
         {introduction && (
-          <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
-            <h2 className="text-3xl text-heading mt-8 mb-4">
-              {introduction.heading}
-            </h2>
-            <p className="text-muted leading-relaxed mb-4 text-left">
-              {introduction.description}
-            </p>
-          </div>
+          <Reveal index={0}>
+            <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
+              <h2 className="text-3xl text-heading mt-8 mb-4">
+                {introduction.heading}
+              </h2>
+              <p className="text-muted leading-relaxed mb-4 text-left">
+                {introduction.description}
+              </p>
+            </div>
+          </Reveal>
         )}
 
         {prerequisites.length > 0 && (
-          <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
-            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-              Prerequisites
-            </h3>
-            <ul className="text-muted leading-relaxed text-left list-disc pl-5">
-              {prerequisites.map((item) => (
-                <li key={item} className="mb-1">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Reveal index={1}>
+            <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
+              <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+                Prerequisites
+              </h3>
+              <ul className="text-muted leading-relaxed text-left list-disc pl-5">
+                {prerequisites.map((item) => (
+                  <li key={item} className="mb-1">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
         )}
 
-        <div className="flex flex-col gap-4 mb-3">
+        <div className="stagger-children flex flex-col gap-4 mb-3">
           {steps.map((step, index) => (
-            <div
-              key={step.id ?? index}
-              className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 md:pr-5"
-            >
-              <h3 className="text-2xl text-heading-alt mt-2 mb-3 flex items-baseline gap-3">
-                <span className="text-accent font-bold">
-                  {step.id ?? index + 1}.
-                </span>
-                {step.title}
-              </h3>
+            <Reveal key={step.id ?? index} index={index + 2}>
+              <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 md:pr-5">
+                <h3 className="text-2xl text-heading-alt mt-2 mb-3 flex items-baseline gap-3">
+                  <span className="text-accent font-bold">
+                    {step.id ?? index + 1}.
+                  </span>
+                  {step.title}
+                </h3>
 
-              {step.description && (
-                <p className="text-muted leading-relaxed mb-4 text-left">
-                  {step.description}
-                </p>
-              )}
+                {step.description && (
+                  <p className="text-muted leading-relaxed mb-4 text-left">
+                    {step.description}
+                  </p>
+                )}
 
-              {step.code && (
-                <div className="mb-4">
-                  <CodeBlock highlightLines={step.highlightLines}>
-                    {step.code}
-                  </CodeBlock>
-                </div>
-              )}
+                {step.code && (
+                  <div className="mb-4">
+                    <CodeBlock highlightLines={step.highlightLines}>
+                      {step.code}
+                    </CodeBlock>
+                  </div>
+                )}
 
-              {step.substeps && step.substeps.length > 0 && (
-                <ol className="text-muted leading-relaxed pl-6 text-left mb-4 list-decimal ">
-                  {step.substeps.map((substep, substepIndex) => (
-                    <li key={substepIndex} className="mb-2 ">
-                      {substep}
-                    </li>
-                  ))}
-                </ol>
-              )}
+                {step.substeps && step.substeps.length > 0 && (
+                  <ol className="text-muted leading-relaxed pl-6 text-left mb-4 list-decimal ">
+                    {step.substeps.map((substep, substepIndex) => (
+                      <li key={substepIndex} className="mb-2 ">
+                        {substep}
+                      </li>
+                    ))}
+                  </ol>
+                )}
 
-              {step.note && (
-                <p className="bg-content2 border-l-4 border-content2-border text-muted text-sm p-3 pl-4 leading-relaxed text-left">
-                  {step.note}
-                </p>
-              )}
+                {step.note && (
+                  <p className="bg-content2 border-l-4 border-content2-border text-muted text-sm p-3 pl-4 leading-relaxed text-left">
+                    {step.note}
+                  </p>
+                )}
 
-              {step.subSteps && step.subSteps.length > 0 && (
-                <div className="mt-4 ml-4 border-l-2 border-accent pl-4 space-y-3">
-                  {step.subSteps.map((subStep, subStepIndex) => (
-                    <div
-                      key={subStepIndex}
-                      className="bg-content2 border-l-4 border-content2-border p-3 pl-4"
-                    >
-                      <h4 className="text-lg text-heading-alt font-semibold mb-2">
-                        {subStep.id && (
-                          <span className="text-accent mr-2">
-                            {subStep.id}.
-                          </span>
+                {step.subSteps && step.subSteps.length > 0 && (
+                  <div className="mt-4 ml-4 border-l-2 border-accent pl-4 space-y-3">
+                    {step.subSteps.map((subStep, subStepIndex) => (
+                      <div
+                        key={subStepIndex}
+                        className="bg-content2 border-l-4 border-content2-border p-3 pl-4"
+                      >
+                        <h4 className="text-lg text-heading-alt font-semibold mb-2">
+                          {subStep.id && (
+                            <span className="text-accent mr-2">
+                              {subStep.id}.
+                            </span>
+                          )}
+                          {subStep.title}
+                        </h4>
+
+                        {subStep.description && (
+                          <p className="text-muted leading-relaxed mb-3 text-left">
+                            {subStep.description}
+                          </p>
                         )}
-                        {subStep.title}
-                      </h4>
 
-                      {subStep.description && (
-                        <p className="text-muted leading-relaxed mb-3 text-left">
-                          {subStep.description}
-                        </p>
-                      )}
+                        {subStep.code && (
+                          <div className="mb-3">
+                            <CodeBlock highlightLines={subStep.highlightLines}>
+                              {subStep.code}
+                            </CodeBlock>
+                          </div>
+                        )}
 
-                      {subStep.code && (
-                        <div className="mb-3">
-                          <CodeBlock highlightLines={subStep.highlightLines}>
-                            {subStep.code}
-                          </CodeBlock>
-                        </div>
-                      )}
-
-                      {subStep.note && (
-                        <p className="bg-surface border-l-4 border-content1-border text-muted text-sm p-2 pl-3 leading-relaxed text-left">
-                          {subStep.note}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                        {subStep.note && (
+                          <p className="bg-surface border-l-4 border-content1-border text-muted text-sm p-2 pl-3 leading-relaxed text-left">
+                            {subStep.note}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Reveal>
           ))}
         </div>
 
         {folderStructure && (
-          <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
-            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-              {folderStructure.heading}
-            </h3>
-            {folderStructure.description && (
-              <p className="text-muted leading-relaxed mb-3 text-left">
-                {folderStructure.description}
-              </p>
-            )}
-            <pre className="bg-surface text-muted text-sm p-3 rounded overflow-x-auto text-left">
-              <code>{folderStructure.structure}</code>
-            </pre>
-          </div>
+          <Reveal index={steps.length + 2}>
+            <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
+              <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+                {folderStructure.heading}
+              </h3>
+              {folderStructure.description && (
+                <p className="text-muted leading-relaxed mb-3 text-left">
+                  {folderStructure.description}
+                </p>
+              )}
+              <pre className="bg-surface text-muted text-sm p-3 rounded overflow-x-auto text-left">
+                <code>{folderStructure.structure}</code>
+              </pre>
+            </div>
+          </Reveal>
         )}
 
         {backendSetup && (
-          <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
-            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-              {backendSetup.heading}
-            </h3>
-            {backendSetup.description && (
-              <p className="text-muted leading-relaxed mb-4 text-left">
-                {backendSetup.description}
-              </p>
-            )}
-            <div className="flex flex-col gap-3">
-              {backendSetup.steps.map((step, index) => (
-                <div
-                  key={index}
-                  className="bg-content2 border-l-4 border-content2-border p-3 pl-4"
-                >
-                  <p className="text-heading-alt font-semibold text-sm mb-2">
-                    {step.step}
-                  </p>
-                  <CodeBlock>{step.code}</CodeBlock>
-                </div>
-              ))}
+          <Reveal index={steps.length + 3}>
+            <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
+              <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+                {backendSetup.heading}
+              </h3>
+              {backendSetup.description && (
+                <p className="text-muted leading-relaxed mb-4 text-left">
+                  {backendSetup.description}
+                </p>
+              )}
+              <div className="flex flex-col gap-3">
+                {backendSetup.steps.map((step, index) => (
+                  <div
+                    key={index}
+                    className="bg-content2 border-l-4 border-content2-border p-3 pl-4"
+                  >
+                    <p className="text-heading-alt font-semibold text-sm mb-2">
+                      {step.step}
+                    </p>
+                    <CodeBlock>{step.code}</CodeBlock>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          </Reveal>
         )}
 
         {whatYouMightBeMissing && (
-          <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
-            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-              {whatYouMightBeMissing.heading}
-            </h3>
-            {whatYouMightBeMissing.categories.map((category, catIndex) => (
-              <div key={catIndex} className="mb-4 text-left">
-                <h4 className="text-heading font-semibold mb-2">
-                  📦 {category.title}
-                </h4>
-                <ul className="text-muted text-sm pl-5 list-disc space-y-1">
-                  {category.items.map((item, itemIndex) => (
-                    <li key={itemIndex}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <Reveal index={steps.length + 4}>
+            <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
+              <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+                {whatYouMightBeMissing.heading}
+              </h3>
+              {whatYouMightBeMissing.categories.map((category, catIndex) => (
+                <div key={catIndex} className="mb-4 text-left">
+                  <h4 className="text-heading font-semibold mb-2">
+                    📦 {category.title}
+                  </h4>
+                  <ul className="text-muted text-sm pl-5 list-disc space-y-1">
+                    {category.items.map((item, itemIndex) => (
+                      <li key={itemIndex}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         )}
 
         {gettingStarted && (
-          <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
-            <h3 className="text-2xl text-heading-alt mt-6 mb-3">
-              {gettingStarted.heading}
-            </h3>
-            <ol className="text-muted leading-relaxed pl-6 text-left">
-              {gettingStarted.steps.map((step, index) => (
-                <li key={index} className="mb-2">
-                  • {step}
-                </li>
-              ))}
-            </ol>
-          </div>
+          <Reveal index={steps.length + 5}>
+            <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
+              <h3 className="text-2xl text-heading-alt mt-6 mb-3">
+                {gettingStarted.heading}
+              </h3>
+              <ol className="text-muted leading-relaxed pl-6 text-left">
+                {gettingStarted.steps.map((step, index) => (
+                  <li key={index} className="mb-2">
+                    • {step}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </Reveal>
         )}
 
         {source && (
