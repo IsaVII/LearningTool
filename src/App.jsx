@@ -5,9 +5,11 @@ import Footer from "./components/Footer";
 import CookieConsent from "./components/CookieConsent";
 import Main from "./pages/Main";
 import PageLoader from "./components/PageLoader";
+import PageTransition from "./components/motion/PageTransition";
 import CookiePolicy from "./pages/CookiePolicy";
 
-import "./App.css";
+import "./styles/App.css";
+import "./styles/motion.css";
 
 // Route-based code splitting: Main (the landing page) loads eagerly since
 // it's what every visitor hits first, but every other page - each topic
@@ -38,26 +40,28 @@ function App() {
         <Header />
         <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-8">
           <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/cookie-policy" element={<CookiePolicy />} />
-              <Route path="/" element={<Main />} />
-              <Route path="/javascript" element={<JavaScript />} />
-              <Route path="/typescript" element={<TypeScript />} />
-              <Route path="/git" element={<Git />} />
-              <Route path="/http" element={<Http />} />
-              <Route path="/node" element={<Node />} />
-              <Route path="/react" element={<React />} />
-              <Route path="/redux" element={<Redux />} />
-              <Route path="/websockets" element={<WebSockets />} />
-              <Route path="/testing" element={<Testing />} />
-              <Route path="/express" element={<Express />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/projectsetup" element={<ProjectSetup />} />
-              <Route path="/githubpages" element={<GithubPages />} />
-              <Route path="/npmlibraries" element={<NpmLibraries />} />
-              <Route path="/mongodb" element={<MongoDB />} />
-              <Route path="/sql" element={<SQL />} />
-            </Routes>
+            <PageTransition>
+              <Routes>
+                <Route path="/cookie-policy" element={<CookiePolicy />} />
+                <Route path="/" element={<Main />} />
+                <Route path="/javascript" element={<JavaScript />} />
+                <Route path="/typescript" element={<TypeScript />} />
+                <Route path="/git" element={<Git />} />
+                <Route path="/http" element={<Http />} />
+                <Route path="/node" element={<Node />} />
+                <Route path="/react" element={<React />} />
+                <Route path="/redux" element={<Redux />} />
+                <Route path="/websockets" element={<WebSockets />} />
+                <Route path="/testing" element={<Testing />} />
+                <Route path="/express" element={<Express />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/projectsetup" element={<ProjectSetup />} />
+                <Route path="/githubpages" element={<GithubPages />} />
+                <Route path="/npmlibraries" element={<NpmLibraries />} />
+                <Route path="/mongodb" element={<MongoDB />} />
+                <Route path="/sql" element={<SQL />} />
+              </Routes>
+            </PageTransition>
           </Suspense>
         </main>
         <Footer />

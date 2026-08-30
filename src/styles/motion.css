@@ -1,0 +1,275 @@
+/* ============================================================
+   MOTION SYSTEM - design tokens + utility classes
+   ============================================================
+   A single source of truth for every animation in the app:
+   timing, easing, hover states, scroll reveals, parallax,
+   page transitions, and loading sequences. See MOTION_SYSTEM.md
+   for the full specification this file implements.
+
+   Everything here is gated by prefers-reduced-motion at the
+   bottom of the file - durations collapse to ~0 and transform-
+   based motion is disabled, while opacity-only crossfades are
+   kept so state changes are still perceivable.
+   ============================================================ */
+
+:root {
+  /* ---- Timing scale ----
+     Named by what they're for, not just their length, so usage
+     stays intentional instead of "whatever felt right". */
+  --duration-instant: 100ms; /* press/tap feedback */
+  --duration-micro: 180ms; /* hover states, small toggles */
+  --duration-base: 280ms; /* default UI transitions */
+  --duration-moderate: 420ms; /* reveals, card entrances */
+  --duration-deliberate: 600ms; /* page transitions, hero moments */
+  --duration-ambient: 900ms; /* large choreographed sequences */
+
+  /* ---- Easing curves ----
+     Named by feel. Pair a curve with the kind of motion it was
+     tuned for - see MOTION_SYSTEM.md for when to use each. */
+  --ease-emerge: cubic-bezier(0.16, 1, 0.3, 1); /* fast start, soft landing - reveals, entrances */
+  --ease-settle: cubic-bezier(0.4, 0, 0.2, 1); /* symmetric - hovers, toggles, most UI */
+  --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1); /* slight overshoot - press feedback, playful confirmations */
+  --ease-glide: cubic-bezier(0.65, 0, 0.35, 1); /* even, cinematic - page transitions, camera moves */
+  --ease-exit: cubic-bezier(0.7, 0, 0.84, 0); /* fast out - things leaving the screen */
+
+  /* ---- Distances ----
+     Motion should be felt, not noticed - keep travel small. */
+  --lift-sm: 2px;
+  --lift-md: 6px;
+  --reveal-distance: 24px;
+  --parallax-max: 40px;
+}
+
+/* ============================================================
+   HOVER / OBJECT TRANSFORMS
+   ============================================================ */
+
+/* Lift: the default response for anything clickable - cards,
+   buttons, thumbnails. Shadow deepens slightly to sell the lift. */
+.hover-lift {
+  transition:
+    transform var(--duration-base) var(--ease-settle),
+    box-shadow var(--duration-base) var(--ease-settle);
+}
+.hover-lift:hover,
+.hover-lift:focus-visible {
+  transform: translateY(calc(var(--lift-md) * -1));
+}
+.hover-lift:active {
+  transition-duration: var(--duration-instant);
+  transform: translateY(calc(var(--lift-sm) * -1)) scale(0.99);
+}
+
+/* Press: for buttons where a lift would feel wrong - a subtle
+   scale-down communicates "this registered your click". */
+.press-scale {
+  transition: transform var(--duration-instant) var(--ease-snap);
+}
+.press-scale:active {
+  transform: scale(0.96);
+}
+
+/* Animated underline: draws left-to-right on hover/focus instead
+   of just appearing, and reverses on the way out. */
+.hover-underline {
+  position: relative;
+}
+.hover-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -2px;
+  height: 1.5px;
+  background: currentColor;
+  transition: right var(--duration-base) var(--ease-settle);
+}
+.hover-underline:hover::after,
+.hover-underline:focus-visible::after,
+.hover-underline[aria-current="page"]::after {
+  right: 0;
+}
+
+/* ============================================================
+   TEXT REVEAL
+   ============================================================ */
+
+/* Applied per-word/char by the <TextReveal> component - each
+   piece starts clipped and offset, then eases into place with a
+   short stagger so lines feel typeset rather than faded in. */
+.text-reveal-piece {
+  display: inline-block;
+  transform: translateY(110%);
+  opacity: 0;
+  transition:
+    transform var(--duration-moderate) var(--ease-emerge),
+    opacity var(--duration-moderate) var(--ease-emerge);
+}
+.text-reveal-piece.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ============================================================
+   SCROLL REVEAL / CHOREOGRAPHY
+   ============================================================ */
+
+/* Base state for anything entering on scroll - set by
+   useScrollReveal/<Reveal>. Direction variants change which axis
+   the motion travels on; all settle to the same resting state. */
+.reveal {
+  opacity: 0;
+  transition:
+    opacity var(--duration-moderate) var(--ease-emerge),
+    transform var(--duration-moderate) var(--ease-emerge);
+  will-change: opacity, transform;
+}
+.reveal-up {
+  transform: translateY(var(--reveal-distance));
+}
+.reveal-down {
+  transform: translateY(calc(var(--reveal-distance) * -1));
+}
+.reveal-left {
+  transform: translateX(var(--reveal-distance));
+}
+.reveal-right {
+  transform: translateX(calc(var(--reveal-distance) * -1));
+}
+.reveal-scale {
+  transform: scale(0.96);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+  will-change: auto;
+}
+
+/* Stagger children of a revealed container - pair with the
+   `--stagger-index` custom property set inline per child. */
+.stagger-children > * {
+  transition-delay: calc(var(--stagger-index, 0) * 70ms);
+}
+
+/* ============================================================
+   PARALLAX / CAMERA MOVEMENT
+   ============================================================ */
+
+/* Applied by <Parallax> via inline transform (JS-driven, since
+   parallax needs the live scroll position) - this just declares
+   the transition so updates feel smooth rather than stepped, and
+   caps how far anything is allowed to travel. */
+.parallax-layer {
+  transition: transform var(--duration-instant) linear;
+  will-change: transform;
+}
+
+/* ============================================================
+   PAGE TRANSITIONS
+   ============================================================ */
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.page-transition-enter {
+  animation: page-enter var(--duration-deliberate) var(--ease-glide) both;
+}
+
+/* ============================================================
+   LOADING SEQUENCES
+   ============================================================ */
+
+@keyframes loading-bar-indeterminate {
+  0% {
+    transform: translateX(-100%) scaleX(0.4);
+  }
+  50% {
+    transform: translateX(20%) scaleX(0.6);
+  }
+  100% {
+    transform: translateX(120%) scaleX(0.4);
+  }
+}
+.loading-bar-track {
+  position: relative;
+  overflow: hidden;
+}
+.loading-bar-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  animation: loading-bar-indeterminate 1.1s var(--ease-settle) infinite;
+}
+
+@keyframes pulse-fade {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.loading-pulse {
+  animation: pulse-fade 1.4s var(--ease-settle) infinite;
+}
+
+/* ============================================================
+   ACCESSIBILITY: reduced motion
+   ============================================================
+   Nothing here removes feedback entirely - state changes still
+   need to be perceivable. It removes the motion: no travel, no
+   scaling, near-instant timing. Opacity crossfades survive since
+   they carry no vestibular risk and still signal state change. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 1ms;
+    --duration-micro: 1ms;
+    --duration-base: 1ms;
+    --duration-moderate: 1ms;
+    --duration-deliberate: 1ms;
+    --duration-ambient: 1ms;
+  }
+
+  .hover-lift:hover,
+  .hover-lift:focus-visible,
+  .hover-lift:active,
+  .press-scale:active {
+    transform: none;
+  }
+
+  .reveal,
+  .reveal-up,
+  .reveal-down,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale {
+    transform: none !important;
+    transition: opacity var(--duration-base) linear;
+  }
+
+  .text-reveal-piece {
+    transform: none;
+  }
+
+  .parallax-layer {
+    transform: none !important;
+  }
+
+  .page-transition-enter {
+    animation: none;
+  }
+
+  .loading-bar-fill {
+    animation: none;
+    transform: none;
+    width: 40%;
+  }
+}

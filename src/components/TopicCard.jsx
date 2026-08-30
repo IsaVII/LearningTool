@@ -9,12 +9,14 @@ function TopicCard({ topic }) {
   return (
     <Link
       to={topic.route}
-      className={`relative bg-surface border rounded-lg no-underline text-inherit  transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-lg   hover:bg-surface-alt-hover ${
+      className={`block ${
+        done ? "bg-surface-alt" : "bg-surface"
+      }  border rounded-lg p-4 no-underline text-inherit transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-lg hover:border-accent ${
         done ? "border-accent" : "border-line"
       }`}
     >
-      <div className="flex justify-between items-start mb-4 p-2">
-        <div className="flex items-start gap-4">
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex items-start gap-2">
           <input
             type="checkbox"
             checked={done}
@@ -43,7 +45,7 @@ function TopicCard({ topic }) {
         </div>
       </div>
       <p className="text-muted my-4">{topic.description}</p>
-      <div className="flex gap-4 text-sm text-subtle items-center px-2 pb-2">
+      <div className="flex gap-4 text-sm text-subtle items-center">
         <span>⏱️ {topic.estimatedTime}</span>
         {done ? (
           <span className="text-accent font-semibold">✓ Completed</span>
