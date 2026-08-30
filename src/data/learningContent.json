@@ -99,6 +99,16 @@
       "screenshot": "/images/express.png",
       "difficulty": "intermediate",
       "estimatedTime": "3 hours"
+    },
+    {
+      "id": 11,
+      "key": "auth",
+      "title": "Authentication & Authorization",
+      "description": "Password hashing, sessions vs JWTs, protecting routes, role-based access control, and OAuth",
+      "route": "/auth",
+      "screenshot": "/images/auth.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 hours"
     }
   ]
 }

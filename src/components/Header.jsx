@@ -14,6 +14,7 @@ const TOPICS = [
   { to: "/websockets", label: "WebSockets" },
   { to: "/testing", label: "Unit Tests" },
   { to: "/express", label: "Express.js" },
+  { to: "/auth", label: "Authentication & Authorization" },
 ];
 
 function HomeIcon(props) {

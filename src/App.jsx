@@ -24,6 +24,7 @@ const Redux = lazy(() => import("./pages/learning/Redux"));
 const WebSockets = lazy(() => import("./pages/learning/WebSockets"));
 const Testing = lazy(() => import("./pages/learning/Testing"));
 const Express = lazy(() => import("./pages/learning/Express"));
+const Auth = lazy(() => import("./pages/learning/Auth"));
 const ProjectSetup = lazy(() => import("./pages/cheatsheets/ProjectSetup"));
 const GithubPages = lazy(() => import("./pages/cheatsheets/GithubPages"));
 const NpmLibraries = lazy(() => import("./pages/cheatsheets/NpmLibraries"));
@@ -50,6 +51,7 @@ function App() {
               <Route path="/websockets" element={<WebSockets />} />
               <Route path="/testing" element={<Testing />} />
               <Route path="/express" element={<Express />} />
+              <Route path="/auth" element={<Auth />} />
               <Route path="/projectsetup" element={<ProjectSetup />} />
               <Route path="/githubpages" element={<GithubPages />} />
               <Route path="/npmlibraries" element={<NpmLibraries />} />
