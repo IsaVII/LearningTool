@@ -49,6 +49,16 @@
       "screenshot": "/images/sql.png",
       "difficulty": "beginner",
       "estimatedTime": "20 minutes"
+    },
+    {
+      "id": 6,
+      "key": "textreveal",
+      "title": "Text Reveal & Content Reveal",
+      "description": "Scroll-triggered word-by-word text reveals and fade/slide content reveals in React, built on IntersectionObserver and CSS transitions with prefers-reduced-motion support",
+      "route": "/textreveal",
+      "screenshot": "/images/textreveal.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "20 minutes"
     }
 ]
 }
