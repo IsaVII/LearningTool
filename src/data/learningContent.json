@@ -89,6 +89,16 @@
       "screenshot": "/images/testing.png",
       "difficulty": "intermediate",
       "estimatedTime": "3 hours"
+    },
+    {
+      "id": 10,
+      "key": "express",
+      "title": "Express.js",
+      "description": "Build web servers and REST APIs on Node: routing, middleware, request/response, and error handling",
+      "route": "/express",
+      "screenshot": "/images/express.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 hours"
     }
   ]
 }

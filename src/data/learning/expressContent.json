@@ -1,0 +1,183 @@
+{
+  "title": "Express.js Fundamentals",
+  "introduction": {
+    "heading": "What is Express.js?",
+    "description": "Express is a minimal, unopinionated web framework for Node.js. Node's built-in http module gives you a raw request/response pair and leaves everything else - routing, parsing bodies, serving files, handling errors - up to you. Express wraps that in a small, composable API: you describe routes, stack up middleware functions to handle cross-cutting concerns (logging, auth, parsing), and Express takes care of matching incoming requests to the right handler and running everything in order."
+  },
+  "coreConcepts": {
+    "heading": "Core Concepts",
+    "concepts": [
+      {
+        "title": "Routing",
+        "description": "Map an HTTP method + path (app.get('/users/:id', ...)) to a handler function"
+      },
+      {
+        "title": "Middleware",
+        "description": "Functions that run in sequence for a request, each able to inspect/modify it and call next()"
+      },
+      {
+        "title": "Request & Response",
+        "description": "req wraps the incoming request (params, query, body, headers); res builds the reply"
+      },
+      {
+        "title": "Router",
+        "description": "express.Router() groups related routes into their own mini-app you can mount at a path"
+      },
+      {
+        "title": "Error Handling",
+        "description": "A special 4-argument middleware (err, req, res, next) catches errors passed to next(err)"
+      }
+    ]
+  },
+  "pipeline": {
+    "heading": "The Middleware Pipeline",
+    "description": "Every request Express receives travels through a chain of middleware functions, in the exact order they were registered with app.use()/app.get()/etc. Each function can respond, modify the request, or hand off to the next one by calling next() - if it never calls next() (and doesn't send a response), the request just hangs. This ordered chain is the single most important thing to understand about Express: authentication middleware has to run before the routes it protects, error handlers have to be registered last, and a middleware that forgets next() silently breaks everything after it."
+  },
+  "gettingStarted": {
+    "heading": "Getting Started",
+    "steps": [
+      "Install Express: npm install express",
+      "Create an app with const app = express() and add middleware with app.use()",
+      "Define routes: app.get('/path', (req, res) => { ... })",
+      "Parse JSON request bodies with app.use(express.json())",
+      "Start listening: app.listen(3000, () => console.log('Server running'))",
+      "Split routes into express.Router() modules as the app grows"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Routing & Route Params",
+      "description": "Match HTTP methods and paths, and read dynamic segments and query strings"
+    },
+    {
+      "title": "Request & Response",
+      "description": "Read from req and build replies with res.json, res.status, res.send"
+    },
+    {
+      "title": "express.Router()",
+      "description": "Group related routes into their own module and mount them on the app"
+    },
+    {
+      "title": "Body Parsing",
+      "description": "Turn raw request bytes into req.body with express.json() and express.urlencoded()"
+    },
+    {
+      "title": "Error Handling",
+      "description": "Catch sync and async errors in one place with 4-argument error middleware"
+    },
+    {
+      "title": "Third-Party Middleware",
+      "description": "Drop in community middleware like cors, morgan, and helmet"
+    }
+  ],
+  "fullExample": {
+    "heading": "Full Example, Step by Step",
+    "title": "A small REST API: routing, middleware, and error handling together",
+    "description": "This example ties the core concepts above into one realistic file: a users API with logging middleware, a modular router, JSON parsing, and centralized error handling. Click through the steps to see which lines each one is talking about.",
+    "code": [
+      "const express = require(\"express\");",
+      "const app = express();",
+      "",
+      "// Built-in middleware: parses JSON request bodies into req.body",
+      "app.use(express.json());",
+      "",
+      "// Custom middleware: runs for every request, in registration order",
+      "app.use((req, res, next) => {",
+      "  console.log(`${req.method} ${req.url}`);",
+      "  next(); // hand off to the next middleware/route - don't forget this!",
+      "});",
+      "",
+      "// In-memory \"database\" for this example",
+      "let users = [{ id: 1, name: \"Ada Lovelace\" }];",
+      "",
+      "// A router groups related routes and can be mounted at a path prefix",
+      "const usersRouter = express.Router();",
+      "",
+      "usersRouter.get(\"/\", (req, res) => {",
+      "  res.json(users);",
+      "});",
+      "",
+      "usersRouter.get(\"/:id\", (req, res, next) => {",
+      "  const user = users.find((u) => u.id === Number(req.params.id));",
+      "  if (!user) return next({ status: 404, message: \"User not found\" });",
+      "  res.json(user);",
+      "});",
+      "",
+      "usersRouter.post(\"/\", (req, res, next) => {",
+      "  if (!req.body.name) {",
+      "    return next({ status: 400, message: \"name is required\" });",
+      "  }",
+      "  const user = { id: users.length + 1, name: req.body.name };",
+      "  users.push(user);",
+      "  res.status(201).json(user);",
+      "});",
+      "",
+      "app.use(\"/users\", usersRouter);",
+      "",
+      "// 404 fallback - runs if no route above matched",
+      "app.use((req, res) => {",
+      "  res.status(404).json({ error: \"Not found\" });",
+      "});",
+      "",
+      "// Error-handling middleware - 4 args is what marks it as an error handler.",
+      "// Must be registered last, after every other app.use()/route.",
+      "app.use((err, req, res, next) => {",
+      "  res.status(err.status || 500).json({ error: err.message || \"Server error\" });",
+      "});",
+      "",
+      "app.listen(3000, () => console.log(\"Server running on port 3000\"));"
+    ],
+    "steps": [
+      {
+        "label": "Create the app",
+        "lines": [1, 2],
+        "explanation": "require(\"express\") returns a function; calling it gives you an app object with .get/.post/.use/.listen - the core of every Express server."
+      },
+      {
+        "label": "Parse JSON bodies",
+        "lines": [4, 5],
+        "explanation": "express.json() is built-in middleware that reads the raw request stream and, if the Content-Type is application/json, parses it into req.body for every route below this line."
+      },
+      {
+        "label": "Log every request",
+        "lines": [7, 11],
+        "explanation": "app.use() with no path runs this middleware for every request, in the order it was registered. Calling next() is what lets the request continue to whatever's next in the chain."
+      },
+      {
+        "label": "Group routes with a Router",
+        "lines": [16, 17],
+        "explanation": "express.Router() creates a self-contained set of routes - a mini Express app - that can be developed, tested, and mounted independently of the main app."
+      },
+      {
+        "label": "Read a route param",
+        "lines": [23, 27],
+        "explanation": "req.params.id comes from the :id segment in the route path. Passing an object to next() skips straight to the error handler instead of continuing normally."
+      },
+      {
+        "label": "Read the parsed body",
+        "lines": [29, 36],
+        "explanation": "Because express.json() ran earlier in the chain, req.body.name is already a parsed value here - no manual stream reading required."
+      },
+      {
+        "label": "Mount the router",
+        "lines": [38, 38],
+        "explanation": "app.use(\"/users\", usersRouter) prefixes every route inside usersRouter with /users, so GET \"/\" inside the router becomes GET /users."
+      },
+      {
+        "label": "Catch unmatched routes",
+        "lines": [40, 43],
+        "explanation": "Middleware registered after all the routes only runs if nothing above matched - a catch-all 404."
+      },
+      {
+        "label": "Handle every error in one place",
+        "lines": [45, 49],
+        "explanation": "A middleware function with exactly 4 parameters (err, req, res, next) is treated specially by Express as an error handler, and only runs when next(err) is called anywhere upstream."
+      },
+      {
+        "label": "Start listening",
+        "lines": [51, 51],
+        "explanation": "listen(port, callback) starts the server and keeps the process alive, accepting connections on the given port."
+      }
+    ]
+  }
+}

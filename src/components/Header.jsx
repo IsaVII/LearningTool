@@ -13,6 +13,7 @@ const TOPICS = [
   { to: "/redux", label: "Redux" },
   { to: "/websockets", label: "WebSockets" },
   { to: "/testing", label: "Unit Tests" },
+  { to: "/express", label: "Express.js" },
 ];
 
 function HomeIcon(props) {
