@@ -1,91 +1,98 @@
 # WebDev Learning Playground
 
-A frontend-only modern, interactive learning platform for mastering full-stack web development concepts through **structured lessons**, **live demos**, and **progress tracking**.
+A frontend-only, interactive learning platform for mastering modern web development — through **structured lessons**, **live demos**, **step-by-step code walkthroughs**, and **task-focused cheat sheets** you can follow while actually building something.
 
-Learn **JavaScript**, **TypeScript**, **Git**, **HTTP & APIs**, **Node.js**, **React**, **Redux**, and **Testing** at your own pace with hands-on examples you can edit and experiment with directly in the browser.
+Learn **JavaScript**, **TypeScript**, **Git**, **HTTP & Web APIs**, **Node.js**, **React**, **Redux**, **WebSockets**, **Express**, **Authentication & Authorization**, and **Testing** at your own pace, with hands-on examples you can edit and experiment with directly in the browser. When you just need to *do* something rather than learn it end-to-end, the **Cheat Sheets** section gives you a numbered, copy-pasteable checklist instead.
+
+**Live demo:** https://isavii.github.io/WebDev-Playground/
 
 ---
 
 ## Key Features
 
-- **Structured Lessons**: Each topic includes core concepts, real-world examples, and step-by-step walkthroughs
-- **Interactive Demos**: Live, editable widgets (counters, stopwatches, HTTP simulators, event loop visualizers) show concepts in action
-- **Code Walkthroughs**: Click through realistic examples to highlight which lines implement each concept
-- **Progress Tracking**: Check off topics and sub-topics as you learn; progress is saved locally in your browser
-- **Light & Dark Themes**: Easy on the eyes, any time of day
-- **Data-Driven Content**: All lessons defined in JSON; easy to update and extend
-- **Zero Backend**: No server, no account, no sign-up — everything runs locally
+- **Structured Lessons** — Each topic covers core concepts, a full worked example, and a getting-started checklist
+- **Interactive Demos** — Live, editable widgets (a counter, a stopwatch, a simulated HTTP server, an event loop visualizer, a WebSocket echo server, ...) show concepts in action, not just in prose
+- **Step-by-Step Code Walkthroughs** — Click a step to highlight exactly which lines of a realistic example it's talking about
+- **Cheat Sheets** — Numbered, "how to actually do it" checklists for common setup tasks (project scaffolding, deployment, databases, UI motion), separate from the teaching-focused lessons
+- **Progress Tracking** — Check off topics on the home page and individual sub-topics/demos inside each lesson; progress is saved in your browser and picks up right where you left off
+- **Light & Dark Themes** — Easy on the eyes, any time of day
+- **Data-Driven Content** — Lesson and cheat sheet copy lives in JSON, so it can change without touching component code
+- **Zero Backend** — No server, no account, no sign-up — everything runs and persists locally in your browser
 
 ---
 
 ## Learning Path
 
-Topics are ordered to build from fundamentals up to advanced patterns:
+Topics are ordered to roughly match how you'd want to learn them — language fundamentals first, then the tools and concepts that build on top of them.
 
-| Step | Topic                                 | Concepts Covered                                                                             |
-| ---- | ------------------------------------- | -------------------------------------------------------------------------------------------- |
-| 1    | **JavaScript Basics** _(coming soon)_ | Variables, scope, functions, closures, arrays, objects, destructuring, promises, async/await |
-| 2    | **TypeScript Basics** _(coming soon)_ | Static types, interfaces, generics, typing functions & components                            |
-| 3    | **Git**                               | Cloning, staging, committing, branching, merging, rebase, stash, conflict resolution         |
-| 4    | **HTTP & Web APIs**                   | Methods, status codes, headers, cookies, CORS, REST/JSON, fetch, auth, WebSockets, SSE       |
-| 5    | **Node.js**                           | Event loop, modules, built-in HTTP module, streams                                           |
-| 6    | **React**                             | Components, JSX, props, state, hooks, performance optimization with `memo`                   |
-| 7    | **Redux**                             | Actions, reducers, `configureStore`, `createSlice`, async thunks                             |
-| 8    | **Unit Testing**                      | Unit, integration, and component testing; mocking; spies; fixtures; TDD                      |
+| # | Topic | What you'll learn |
+|---|-------|--------------------|
+| 1 | **JavaScript Basics** | Variables & scope, functions & closures, arrays/objects, destructuring, promises, and async/await |
+| 2 | **TypeScript Basics** | Static types, interfaces, generics, and typing functions/components on top of JavaScript |
+| 3 | **Git** | Cloning, staging & committing, branching & merging, rebase, stash, and resolving conflicts |
+| 4 | **HTTP & Web APIs** | Methods & status codes, headers & cookies, CORS, REST/JSON, fetch, auth, WebSockets, and SSE |
+| 5 | **Node.js** | The runtime and event loop, modules, the built-in `http` module, and streams |
+| 6 | **React** | Components, JSX, props, state, hooks, and performance with `memo` |
+| 7 | **Redux** | Actions, reducers, `configureStore`, `createSlice`, and async thunks |
+| 8 | **WebSockets** | Real-time, full-duplex communication: handshakes, events, and building an echo/broadcast server |
+| 9 | **Unit Tests** | Unit, integration, and component testing, mocking, spies, fixtures, and TDD |
+| 10 | **Express.js** | Routing, middleware, error handling, and building a REST API |
+| 11 | **Authentication & Authorization** | Sessions vs. tokens, password hashing, JWTs, protected routes, and role-based access |
 
-> **JavaScript Basics** and **TypeScript Basics** are currently placeholders — full lessons and demos coming soon.
+## Cheat Sheets
+
+Task-focused references for setup work you'd otherwise have to look up across a dozen tabs:
+
+| Cheat Sheet | What it covers |
+|-------------|-----------------|
+| **React + Redux Project Setup** | Scaffolding a modern React project with Redux, Tailwind CSS, and routing |
+| **GitHub Pages for React** | Deploying a React app to GitHub Pages from VS Code |
+| **Essential npm Libraries** | Must-have packages for Node.js, Express, MongoDB, auth, and email |
+| **MongoDB Setup & Connection** | Local/Atlas setup, connection strings, and troubleshooting |
+| **SQL Database** | Creating tables, SELECT/INSERT/UPDATE/DELETE, JOINs, aggregation, constraints, indexes, transactions |
+| **Text Reveal & Content Reveal** | A drop-in, IntersectionObserver-based scroll-reveal system for React (word-by-word text reveals plus fade/slide content reveals), with `prefers-reduced-motion` support |
 
 ---
 
 ## Tech Stack
 
-Built with modern, production-grade tools:
+- [React 19](https://react.dev/) + [React Router](https://reactrouter.com/)
+- [Redux Toolkit](https://redux-toolkit.js.org/) / [React Redux](https://react-redux.js.org/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
+- [Vite](https://vite.dev/) for dev/build tooling, [oxlint](https://oxc.rs/docs/guide/usage/linter.html) for linting
+- [gh-pages](https://www.npmjs.com/package/gh-pages) for one-command deploys
 
-- **[React 19](https://react.dev/)** + **[React Router](https://reactrouter.com/)** — Component-based UI & routing
-- **[Redux Toolkit](https://redux-toolkit.js.org/)** + **[React Redux](https://react-redux.js.org/)** — Predictable state management
-- **[Tailwind CSS 4](https://tailwindcss.com/)** — Utility-first styling
-- **[Vite](https://vite.dev/)** — Lightning-fast dev server & production builds
-- **[oxlint](https://oxc.rs/docs/guide/usage/linter.html)** — Fast, zero-config linting
-
----
-
-## Quick Start
-
-Clone or download the project, then:
+## Getting Started
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the URL Vite prints (typically `http://localhost:5173`).
+Then open the URL Vite prints (typically `http://localhost:5173`).
 
-### Other Useful Commands
+Other useful scripts:
 
 ```bash
-npm run build    # Production build → dist/
-npm run preview  # Preview production build locally
-npm run lint     # Run oxlint
+npm run build    # production build, output to dist/
+npm run preview  # preview the production build locally
+npm run lint     # lint with oxlint
+npm run deploy   # build and publish dist/ to GitHub Pages
 ```
 
 ---
 
 ## Progress Tracking
 
-Every topic and sub-topic has a checkbox. Checking it off:
+Every topic on the home page and every sub-topic (practice topic/demo) inside a lesson has a checkbox next to it. Checking one off:
 
-✓ Marks the topic as complete  
-✓ Saves automatically to `learningToolProgress` cookie  
-✓ Persists across browser sessions (no account needed)  
-✓ Stays local to your device (nothing sent to servers)
+- Marks it as done with a visual checkmark
+- Is saved automatically to a cookie (`learningToolProgress`) in your browser, so it's remembered the next time you visit
+- Doesn't require an account, sign-in, or backend — everything stays on your machine
 
-**Reset progress:** Clear your browser cookies.
+Clearing your browser cookies (or the site's cookies specifically) resets your progress. There's no sync between devices/browsers, since nothing is sent to a server.
 
-### How It Works
-
-- **Storage:** `src/context/ProgressContext.jsx` manages state via cookies
-- **API:** `useProgress()` hook provides `isTopicDone()`, `toggleTopic()`, etc.
-- **Utilities:** `src/utils/cookies.js` handles low-level get/set/delete
+Under the hood this lives in `src/context/ProgressContext.jsx`, which reads/writes the cookie via the small helpers in `src/utils/cookies.js` and exposes a `useProgress()` hook (`isTopicDone`, `toggleTopic`, `isSubtopicDone`, `toggleSubtopic`, ...) to any component that needs it.
 
 ---
 
@@ -93,58 +100,62 @@ Every topic and sub-topic has a checkbox. Checking it off:
 
 ```
 src/
-├── components/                    # Reusable UI components
-│   ├── CodeBlock.jsx
-│   ├── Header.jsx, Footer.jsx
-│   ├── TopicCard.jsx, ContentCard.jsx
-│   ├── git-demos/                 # Interactive Git lessons
-│   ├── http-demos/                # HTTP & API demos
-│   ├── javascript-demos/          # JavaScript concept demos
-│   ├── node-demos/                # Node.js runtime demos
-│   ├── react-demos/               # React hooks & components
-│   ├── redux-demos/               # Redux state management
-│   ├── typescript-demos/          # TypeScript examples
-│   ├── testing-demos/             # Testing patterns
-│   └── websockets-demos/          # WebSocket examples
+├── components/               # Shared UI (Header, Footer, CodeBlock, TopicCard, ...)
+│   ├── motion/                 # Scroll/text reveal, page transitions, parallax (see Text Reveal cheat sheet)
+│   ├── git-demos/               # Interactive demos for the Git page
+│   ├── http-demos/              # Interactive demos for the HTTP page
+│   ├── javascript-demos/        # Interactive demos for the JavaScript page
+│   ├── typescript-demos/        # Interactive demos for the TypeScript page
+│   ├── node-demos/               # Interactive demos for the Node.js page
+│   ├── react-demos/              # Interactive demos for the React page
+│   ├── redux-demos/              # Interactive demos for the Redux page
+│   ├── websockets-demos/         # Interactive demos for the WebSockets page
+│   ├── testing-demos/            # Interactive demos for the Testing page
+│   ├── express-demos/            # Interactive demos for the Express page
+│   └── auth-demos/               # Interactive demos for the Auth page
 ├── context/
-│   └── ProgressContext.jsx        # Progress state & cookie management
-├── data/                          # JSON-driven content
-│   ├── learningContent.json       # Topic metadata & ordering
-│   ├── cheatsheets.json
-│   └── learning/
-│       ├── javascriptContent.json
-│       ├── typescriptContent.json
-│       ├── gitContent.json
-│       ├── httpContent.json
-│       ├── nodeContent.json
-│       ├── reactContent.json
-│       ├── reduxContent.json
-│       └── testingContent.json
+│   └── ProgressContext.jsx     # Topic/sub-topic completion state, backed by a cookie
+├── hooks/
+│   ├── useReducedMotion.js     # Tracks prefers-reduced-motion
+│   └── useScrollReveal.js      # IntersectionObserver hook behind Reveal/TextReveal
+├── data/                      # JSON content that drives each page
+│   ├── learningContent.json      # Topics shown on the home page, in learning order
+│   ├── cheatsheets.json          # Cheat sheets shown on the home page
+│   ├── learning/
+│   │   ├── javascriptContent.json
+│   │   ├── typescriptContent.json
+│   │   ├── gitContent.json
+│   │   ├── httpContent.json
+│   │   ├── nodeContent.json
+│   │   ├── reactContent.json
+│   │   ├── reduxContent.json
+│   │   ├── webSocketsContent.json
+│   │   ├── testingContent.json
+│   │   ├── expressContent.json
+│   │   └── authContent.json
+│   └── cheatsheets/
+│       ├── projectSetup.json
+│       ├── githubPages.json
+│       ├── npmLibraries.json
+│       ├── mongodb.json
+│       ├── sql.json
+│       └── textReveal.json
 ├── pages/
-│   ├── Main.jsx                   # Home page (lists topics)
-│   └── learning/                  # Topic pages (Git.jsx, React.jsx, ...)
-├── redux/
-│   ├── store.js
-│   └── [slices].js                # Slices for demos & progress
+│   ├── Main.jsx               # Home page, lists topics + cheat sheets
+│   ├── learning/               # One page per topic (JavaScript.jsx, Git.jsx, React.jsx, ...)
+│   └── cheatsheets/             # One page per cheat sheet (SQL.jsx, MongoDB.jsx, ...)
+├── redux/                    # Redux store + slices used by the Redux demos
+├── styles/
+│   └── motion.css              # Design tokens + utility classes for every animation in the app
 ├── utils/
-│   ├── cookies.js                 # Cookie utilities
-│   └── [other helpers]
-├── App.jsx                        # Router setup
-├── App.css, index.css
-└── main.jsx                       # Entry point
+│   └── cookies.js              # Tiny get/set/delete cookie helpers
+├── App.jsx                   # Routes
+└── main.jsx                  # Entry point
 ```
 
+Lesson and cheat sheet content lives in JSON so the copy can change without touching component code; the interactive demos are real, hand-written components mapped to a lesson's "practice topics" by title. `CheatSheetLayout.jsx` and `LearningTopicLayout.jsx` hold the shared page chrome for cheat sheets and lessons respectively, so each page component is just its content JSON plus one layout call.
+
 ---
-
-## Goals & Vision
-
-This project is designed to:
-
-- Provide a **self-paced, visual learning experience** for modern web development
-- Show concepts through **working code and interactive examples**, not just documentation
-- Make it **easy to extend** with new topics (just add JSON + React components)
-- Demonstrate **modern React patterns** (hooks, context, Redux, testing)
-- Serve as a **reference and playground** for hands-on learning
 
 ## Adding a New Topic
 
@@ -154,6 +165,21 @@ This project is designed to:
 4. Create `src/pages/learning/<Topic>.jsx`, following the pattern in `Git.jsx`, `React.jsx`, or `Redux.jsx`. When rendering `<PracticeTopicCard>` for each practice topic, pass `topicKey="<the same key from step 1>"` so its sub-topic checkboxes save correctly.
 5. Register the route in `src/App.jsx` and add a link in `src/components/Header.jsx`.
 
-```
+## Adding a New Cheat Sheet
 
-```
+1. Add an entry to `src/data/cheatsheets.json` with a unique `key` and a `route` (e.g. `"key": "sql"`, `"route": "/sql"`) — the home page and header nav both pull from this file automatically.
+2. Create a `src/data/cheatsheets/<name>.json` file shaped like the existing ones: `title`, `introduction`, `prerequisites`, `steps` (each with `title`, `description`, optional `code`/`highlightLines`/`note`/`substeps`/`subSteps`), and any of the optional sections `CheatSheetLayout` supports (`folderStructure`, `backendSetup`, `whatYouMightBeMissing`, `gettingStarted`, `source`).
+3. Create `src/pages/cheatsheets/<Name>.jsx`, following the pattern in `SQL.jsx` — import the JSON and pass its fields straight into `<CheatSheetLayout>`.
+4. Register the route in `src/App.jsx` as a lazy-loaded page (see the other cheat sheet imports).
+
+---
+
+## Goals & Vision
+
+This project is designed to:
+
+- Provide a **self-paced, visual learning experience** for modern web development
+- Show concepts through **working code and interactive examples**, not just documentation
+- Give a fast, **task-focused reference** (the cheat sheets) for setup work that doesn't need a full lesson
+- Make it **easy to extend** with new topics or cheat sheets — just add JSON + a small React component
+- Demonstrate **modern React patterns** (hooks, context, Redux, testing, IntersectionObserver-driven UI)
