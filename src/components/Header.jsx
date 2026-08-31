@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import NavLink from "./NavLink";
 import ThemeToggle from "./ThemeToggle";
+import SearchBar from "./SearchBar";
 import { useProgress } from "../context/ProgressContext";
 import cheatsheets from "../data/cheatsheets.json";
 import learningContent from "../data/learningContent.json";
@@ -143,66 +144,78 @@ function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-navbar text-menu-text shadow-lg shadow-black/10 border-b border-white/10">
-      <div className="max-w-5xl mx-auto flex justify-between items-center px-4 py-3">
-        {/* Brand */}
-        <Link
-          to="/"
-          className="group flex items-center gap-2.5 no-underline text-menu-text"
-        >
-          <img src="book.png" alt="Book Icon" className="w-7 h-7" />
-          <h1 className="m-0 text-1xl font-semibold tracking-tight">
-            WebDev Playground
-          </h1>
-        </Link>
-
-        {/* Controls */}
-        <div className="flex items-center gap-1">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex justify-between items-center gap-4 px-4 py-3">
+          {/* Brand */}
           <Link
             to="/"
-            aria-label="Home"
-            aria-current={isHome ? "page" : undefined}
-            className={`grid place-items-center w-9 h-9 rounded-full transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
-              isHome ? "text-accent" : "text-header-icon"
-            }`}
-            title="Home"
+            className="group flex items-center gap-2.5 no-underline text-menu-text shrink-0"
           >
-            <HomeIcon />
+            <img src="book.png" alt="Book Icon" className="w-7 h-7" />
+            <h1 className="m-0 text-1xl font-semibold tracking-tight hidden sm:block">
+              WebDev Playground
+            </h1>
           </Link>
 
-          <span className="w-px h-6 bg-white/15 mx-1" aria-hidden="true" />
+          {/* Search Bar - Desktop */}
+          <div className="flex-1 max-w-md hidden md:block">
+            <SearchBar />
+          </div>
 
-          <ThemeToggle />
+          {/* Controls */}
+          <div className="flex items-center gap-1">
+            <Link
+              to="/"
+              aria-label="Home"
+              aria-current={isHome ? "page" : undefined}
+              className={`grid place-items-center w-9 h-9 rounded-full transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
+                isHome ? "text-accent" : "text-header-icon"
+              }`}
+              title="Home"
+            >
+              <HomeIcon />
+            </Link>
 
-          <span className="w-px h-6 bg-white/15 mx-1" aria-hidden="true" />
+            <span className="w-px h-6 bg-white/15 mx-1" aria-hidden="true" />
 
-          {/* Hamburger */}
-          <button
-            ref={toggleRef}
-            type="button"
-            onClick={() => setMenuOpen((open) => !open)}
-            aria-label={menuOpen ? "Close menu" : "Open topics menu"}
-            aria-expanded={menuOpen}
-            aria-controls="topics-menu"
-            className="relative grid place-items-center w-9 h-9 rounded-full transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 text-header-icon"
-          >
-            <span className="relative block w-5 h-4" aria-hidden="true">
-              <span
-                className={`absolute left-0 top-0 h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${
-                  menuOpen ? "top-1/2 -translate-y-1/2 rotate-45" : ""
-                }`}
-              />
-              <span
-                className={`absolute left-0 top-1/2 -translate-y-1/2 h-0.5 w-5 bg-current rounded-full transition-opacity duration-200 ${
-                  menuOpen ? "opacity-0" : "opacity-100"
-                }`}
-              />
-              <span
-                className={`absolute left-0 bottom-0 h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${
-                  menuOpen ? "bottom-1/2 translate-y-1/2 -rotate-45" : ""
-                }`}
-              />
-            </span>
-          </button>
+            <ThemeToggle />
+
+            <span className="w-px h-6 bg-white/15 mx-1" aria-hidden="true" />
+
+            {/* Hamburger */}
+            <button
+              ref={toggleRef}
+              type="button"
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-label={menuOpen ? "Close menu" : "Open topics menu"}
+              aria-expanded={menuOpen}
+              aria-controls="topics-menu"
+              className="relative grid place-items-center w-9 h-9 rounded-full transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 text-header-icon"
+            >
+              <span className="relative block w-5 h-4" aria-hidden="true">
+                <span
+                  className={`absolute left-0 top-0 h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${
+                    menuOpen ? "top-1/2 -translate-y-1/2 rotate-45" : ""
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 top-1/2 -translate-y-1/2 h-0.5 w-5 bg-current rounded-full transition-opacity duration-200 ${
+                    menuOpen ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 bottom-0 h-0.5 w-5 bg-current rounded-full transition-all duration-300 ${
+                    menuOpen ? "bottom-1/2 translate-y-1/2 -rotate-45" : ""
+                  }`}
+                />
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Search Bar - Mobile */}
+        <div className="md:hidden px-4 pb-3">
+          <SearchBar />
         </div>
       </div>
 
