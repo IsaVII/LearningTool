@@ -1,12 +1,12 @@
-import BodyParsingDemo from "../../components/express-demos/BodyParsingDemo";
-import ErrorHandlingDemo from "../../components/express-demos/ErrorHandlingDemo";
+import BodyParsingDemo from "../../components/demos/express-demos/BodyParsingDemo";
+import ErrorHandlingDemo from "../../components/demos/express-demos/ErrorHandlingDemo";
 import expressContent from "../../data/learning/expressContent.json";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
-import MiddlewarePipelineDemo from "../../components/express-demos/MiddlewarePipelineDemo";
-import RequestResponseDemo from "../../components/express-demos/RequestResponseDemo";
-import RouterDemo from "../../components/express-demos/RouterDemo";
-import RoutingDemo from "../../components/express-demos/RoutingDemo";
-import ThirdPartyMiddlewareDemo from "../../components/express-demos/ThirdPartyMiddlewareDemo";
+import MiddlewarePipelineDemo from "../../components/demos/express-demos/MiddlewarePipelineDemo";
+import RequestResponseDemo from "../../components/demos/express-demos/RequestResponseDemo";
+import RouterDemo from "../../components/demos/express-demos/RouterDemo";
+import RoutingDemo from "../../components/demos/express-demos/RoutingDemo";
+import ThirdPartyMiddlewareDemo from "../../components/demos/express-demos/ThirdPartyMiddlewareDemo";
 
 // Maps each practice topic (by title, from expressContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the

@@ -2,7 +2,7 @@
 
 A frontend-only, interactive learning platform for mastering modern web development — through **structured lessons**, **live demos**, **step-by-step code walkthroughs**, and **task-focused cheat sheets** you can follow while actually building something.
 
-Learn **JavaScript**, **TypeScript**, **Git**, **HTTP & Web APIs**, **Node.js**, **React**, **Redux**, **WebSockets**, **Express**, **Authentication & Authorization**, and **Testing** at your own pace, with hands-on examples you can edit and experiment with directly in the browser. When you just need to *do* something rather than learn it end-to-end, the **Cheat Sheets** section gives you a numbered, copy-pasteable checklist instead.
+Learn **JavaScript**, **TypeScript**, **Git**, **HTTP & Web APIs**, **Node.js**, **React**, **Redux**, **WebSockets**, **Express**, **Authentication & Authorization**, and **Testing** at your own pace, with hands-on examples you can edit and experiment with directly in the browser. When you just need to _do_ something rather than learn it end-to-end, the **Cheat Sheets** section gives you a numbered, copy-pasteable checklist instead.
 
 **Live demo:** https://isavii.github.io/WebDev-Playground/
 
@@ -25,31 +25,31 @@ Learn **JavaScript**, **TypeScript**, **Git**, **HTTP & Web APIs**, **Node.js**,
 
 Topics are ordered to roughly match how you'd want to learn them — language fundamentals first, then the tools and concepts that build on top of them.
 
-| # | Topic | What you'll learn |
-|---|-------|--------------------|
-| 1 | **JavaScript Basics** | Variables & scope, functions & closures, arrays/objects, destructuring, promises, and async/await |
-| 2 | **TypeScript Basics** | Static types, interfaces, generics, and typing functions/components on top of JavaScript |
-| 3 | **Git** | Cloning, staging & committing, branching & merging, rebase, stash, and resolving conflicts |
-| 4 | **HTTP & Web APIs** | Methods & status codes, headers & cookies, CORS, REST/JSON, fetch, auth, WebSockets, and SSE |
-| 5 | **Node.js** | The runtime and event loop, modules, the built-in `http` module, and streams |
-| 6 | **React** | Components, JSX, props, state, hooks, and performance with `memo` |
-| 7 | **Redux** | Actions, reducers, `configureStore`, `createSlice`, and async thunks |
-| 8 | **WebSockets** | Real-time, full-duplex communication: handshakes, events, and building an echo/broadcast server |
-| 9 | **Unit Tests** | Unit, integration, and component testing, mocking, spies, fixtures, and TDD |
-| 10 | **Express.js** | Routing, middleware, error handling, and building a REST API |
-| 11 | **Authentication & Authorization** | Sessions vs. tokens, password hashing, JWTs, protected routes, and role-based access |
+| #   | Topic                              | What you'll learn                                                                                 |
+| --- | ---------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 1   | **JavaScript Basics**              | Variables & scope, functions & closures, arrays/objects, destructuring, promises, and async/await |
+| 2   | **TypeScript Basics**              | Static types, interfaces, generics, and typing functions/components on top of JavaScript          |
+| 3   | **Git**                            | Cloning, staging & committing, branching & merging, rebase, stash, and resolving conflicts        |
+| 4   | **HTTP & Web APIs**                | Methods & status codes, headers & cookies, CORS, REST/JSON, fetch, auth, WebSockets, and SSE      |
+| 5   | **Node.js**                        | The runtime and event loop, modules, the built-in `http` module, and streams                      |
+| 6   | **React**                          | Components, JSX, props, state, hooks, and performance with `memo`                                 |
+| 7   | **Redux**                          | Actions, reducers, `configureStore`, `createSlice`, and async thunks                              |
+| 8   | **WebSockets**                     | Real-time, full-duplex communication: handshakes, events, and building an echo/broadcast server   |
+| 9   | **Unit Tests**                     | Unit, integration, and component testing, mocking, spies, fixtures, and TDD                       |
+| 10  | **Express.js**                     | Routing, middleware, error handling, and building a REST API                                      |
+| 11  | **Authentication & Authorization** | Sessions vs. tokens, password hashing, JWTs, protected routes, and role-based access              |
 
 ## Cheat Sheets
 
 Task-focused references for setup work you'd otherwise have to look up across a dozen tabs:
 
-| Cheat Sheet | What it covers |
-|-------------|-----------------|
-| **React + Redux Project Setup** | Scaffolding a modern React project with Redux, Tailwind CSS, and routing |
-| **GitHub Pages for React** | Deploying a React app to GitHub Pages from VS Code |
-| **Essential npm Libraries** | Must-have packages for Node.js, Express, MongoDB, auth, and email |
-| **MongoDB Setup & Connection** | Local/Atlas setup, connection strings, and troubleshooting |
-| **SQL Database** | Creating tables, SELECT/INSERT/UPDATE/DELETE, JOINs, aggregation, constraints, indexes, transactions |
+| Cheat Sheet                      | What it covers                                                                                                                                                          |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **React + Redux Project Setup**  | Scaffolding a modern React project with Redux, Tailwind CSS, and routing                                                                                                |
+| **GitHub Pages for React**       | Deploying a React app to GitHub Pages from VS Code                                                                                                                      |
+| **Essential npm Libraries**      | Must-have packages for Node.js, Express, MongoDB, auth, and email                                                                                                       |
+| **MongoDB Setup & Connection**   | Local/Atlas setup, connection strings, and troubleshooting                                                                                                              |
+| **SQL Database**                 | Creating tables, SELECT/INSERT/UPDATE/DELETE, JOINs, aggregation, constraints, indexes, transactions                                                                    |
 | **Text Reveal & Content Reveal** | A drop-in, IntersectionObserver-based scroll-reveal system for React (word-by-word text reveals plus fade/slide content reveals), with `prefers-reduced-motion` support |
 
 ---
@@ -102,17 +102,19 @@ Under the hood this lives in `src/context/ProgressContext.jsx`, which reads/writ
 src/
 ├── components/               # Shared UI (Header, Footer, CodeBlock, TopicCard, ...)
 │   ├── motion/                 # Scroll/text reveal, page transitions, parallax (see Text Reveal cheat sheet)
-│   ├── git-demos/               # Interactive demos for the Git page
-│   ├── http-demos/              # Interactive demos for the HTTP page
-│   ├── javascript-demos/        # Interactive demos for the JavaScript page
-│   ├── typescript-demos/        # Interactive demos for the TypeScript page
-│   ├── node-demos/               # Interactive demos for the Node.js page
-│   ├── react-demos/              # Interactive demos for the React page
-│   ├── redux-demos/              # Interactive demos for the Redux page
-│   ├── websockets-demos/         # Interactive demos for the WebSockets page
-│   ├── testing-demos/            # Interactive demos for the Testing page
-│   ├── express-demos/            # Interactive demos for the Express page
-│   └── auth-demos/               # Interactive demos for the Auth page
+│   └── demos/                   # Interactive demos for all learning topics
+│       ├── auth-demos/            # Authentication & Authorization demos
+│       ├── deployment-demos/      # Deployment demos
+│       ├── express-demos/         # Express.js demos
+│       ├── git-demos/             # Git demos
+│       ├── http-demos/            # HTTP & Web APIs demos
+│       ├── javascript-demos/      # JavaScript demos
+│       ├── node-demos/            # Node.js demos
+│       ├── react-demos/           # React demos
+│       ├── redux-demos/           # Redux demos
+│       ├── testing-demos/         # Testing demos
+│       ├── typescript-demos/      # TypeScript demos
+│       └── websockets-demos/      # WebSockets demos
 ├── context/
 │   └── ProgressContext.jsx     # Topic/sub-topic completion state, backed by a cookie
 ├── hooks/
@@ -161,7 +163,7 @@ Lesson and cheat sheet content lives in JSON so the copy can change without touc
 
 1. Add an entry to `src/data/learningContent.json` in the right spot for the learning order, including a unique `key` (used to store its progress-tracking checkbox state, e.g. `"key": "git"`).
 2. Create a `src/data/learning/<topic>Content.json` file with the same shape as the existing ones (`introduction`, `coreConcepts`, `gettingStarted`, `practiceTopics`, `fullExample`, ...).
-3. Build any interactive demos in a new `src/components/<topic>-demos/` folder.
+3. Build any interactive demos in a new `src/components/demos/<topic>-demos/` folder.
 4. Create `src/pages/learning/<Topic>.jsx`, following the pattern in `Git.jsx`, `React.jsx`, or `Redux.jsx`. When rendering `<PracticeTopicCard>` for each practice topic, pass `topicKey="<the same key from step 1>"` so its sub-topic checkboxes save correctly.
 5. Register the route in `src/App.jsx` and add a link in `src/components/Header.jsx`.
 

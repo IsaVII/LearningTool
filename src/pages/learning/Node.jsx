@@ -1,19 +1,19 @@
-import AsyncPatternsDemo from "../../components/node-demos/AsyncPatternsDemo";
-import BufferDemo from "../../components/node-demos/BufferDemo";
-import ChildProcessDemo from "../../components/node-demos/ChildProcessDemo";
-import EnvironmentDemo from "../../components/node-demos/EnvironmentDemo";
-import ErrorHandlingDemo from "../../components/node-demos/ErrorHandlingDemo";
-import EventLoopDemo from "../../components/node-demos/EventLoopDemo";
-import EventsDemo from "../../components/node-demos/EventsDemo";
-import FileSystemDemo from "../../components/node-demos/FileSystemDemo";
-import HttpServerDemo from "../../components/node-demos/HttpServerDemo";
+import AsyncPatternsDemo from "../../components/demos/node-demos/AsyncPatternsDemo";
+import BufferDemo from "../../components/demos/node-demos/BufferDemo";
+import ChildProcessDemo from "../../components/demos/node-demos/ChildProcessDemo";
+import EnvironmentDemo from "../../components/demos/node-demos/EnvironmentDemo";
+import ErrorHandlingDemo from "../../components/demos/node-demos/ErrorHandlingDemo";
+import EventLoopDemo from "../../components/demos/node-demos/EventLoopDemo";
+import EventsDemo from "../../components/demos/node-demos/EventsDemo";
+import FileSystemDemo from "../../components/demos/node-demos/FileSystemDemo";
+import HttpServerDemo from "../../components/demos/node-demos/HttpServerDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
-import ModuleDemo from "../../components/node-demos/ModuleDemo";
+import ModuleDemo from "../../components/demos/node-demos/ModuleDemo";
 import nodeContent from "../../data/learning/nodeContent.json";
-import NpmDemo from "../../components/node-demos/NpmDemo";
-import PathDemo from "../../components/node-demos/PathDemo";
-import ProcessDemo from "../../components/node-demos/ProcessDemo";
-import StreamDemo from "../../components/node-demos/StreamDemo";
+import NpmDemo from "../../components/demos/node-demos/NpmDemo";
+import PathDemo from "../../components/demos/node-demos/PathDemo";
+import ProcessDemo from "../../components/demos/node-demos/ProcessDemo";
+import StreamDemo from "../../components/demos/node-demos/StreamDemo";
 
 // Maps each practice topic (by title, from nodeContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the

@@ -1,12 +1,12 @@
 import authContent from "../../data/learning/authContent.json";
-import AuthFlowDemo from "../../components/auth-demos/AuthFlowDemo";
-import JwtDemo from "../../components/auth-demos/JwtDemo";
+import AuthFlowDemo from "../../components/demos/auth-demos/AuthFlowDemo";
+import JwtDemo from "../../components/demos/auth-demos/JwtDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
-import OAuthDemo from "../../components/auth-demos/OAuthDemo";
-import PasswordHashingDemo from "../../components/auth-demos/PasswordHashingDemo";
-import ProtectedRouteDemo from "../../components/auth-demos/ProtectedRouteDemo";
-import RbacDemo from "../../components/auth-demos/RbacDemo";
-import SessionsDemo from "../../components/auth-demos/SessionsDemo";
+import OAuthDemo from "../../components/demos/auth-demos/OAuthDemo";
+import PasswordHashingDemo from "../../components/demos/auth-demos/PasswordHashingDemo";
+import ProtectedRouteDemo from "../../components/demos/auth-demos/ProtectedRouteDemo";
+import RbacDemo from "../../components/demos/auth-demos/RbacDemo";
+import SessionsDemo from "../../components/demos/auth-demos/SessionsDemo";
 
 // Maps each practice topic (by title, from authContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the

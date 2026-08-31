@@ -1,14 +1,14 @@
-import BranchMergeDemo from "../../components/git-demos/BranchMergeDemo";
-import CherryPickDemo from "../../components/git-demos/CherryPickDemo";
-import CloneRemoteDemo from "../../components/git-demos/CloneRemoteDemo";
-import ConflictResolutionDemo from "../../components/git-demos/ConflictResolutionDemo";
+import BranchMergeDemo from "../../components/demos/git-demos/BranchMergeDemo";
+import CherryPickDemo from "../../components/demos/git-demos/CherryPickDemo";
+import CloneRemoteDemo from "../../components/demos/git-demos/CloneRemoteDemo";
+import ConflictResolutionDemo from "../../components/demos/git-demos/ConflictResolutionDemo";
 import gitContent from "../../data/learning/gitContent.json";
-import GitignoreDemo from "../../components/git-demos/GitignoreDemo";
+import GitignoreDemo from "../../components/demos/git-demos/GitignoreDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
-import RebaseDemo from "../../components/git-demos/RebaseDemo";
-import ResetRevertDemo from "../../components/git-demos/ResetRevertDemo";
-import StagingCommitDemo from "../../components/git-demos/StagingCommitDemo";
-import StashDemo from "../../components/git-demos/StashDemo";
+import RebaseDemo from "../../components/demos/git-demos/RebaseDemo";
+import ResetRevertDemo from "../../components/demos/git-demos/ResetRevertDemo";
+import StagingCommitDemo from "../../components/demos/git-demos/StagingCommitDemo";
+import StashDemo from "../../components/demos/git-demos/StashDemo";
 
 // Maps each practice topic (by title, from gitContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the

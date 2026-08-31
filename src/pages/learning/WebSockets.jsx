@@ -1,9 +1,9 @@
-import BroadcastDemo from "../../components/websockets-demos/BroadcastDemo";
-import HeartbeatDemo from "../../components/websockets-demos/HeartbeatDemo";
+import BroadcastDemo from "../../components/demos/websockets-demos/BroadcastDemo";
+import HeartbeatDemo from "../../components/demos/websockets-demos/HeartbeatDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
-import MessageExchangeDemo from "../../components/websockets-demos/MessageExchangeDemo";
-import ReconnectDemo from "../../components/websockets-demos/ReconnectDemo";
-import WebSocketDemo from "../../components/http-demos/WebSocketDemo";
+import MessageExchangeDemo from "../../components/demos/websockets-demos/MessageExchangeDemo";
+import ReconnectDemo from "../../components/demos/websockets-demos/ReconnectDemo";
+import WebSocketDemo from "../../components/demos/http-demos/WebSocketDemo";
 import webSocketsContent from "../../data/learning/webSocketsContent.json";
 
 // Maps each practice topic (by title, from webSocketsContent.json) to a

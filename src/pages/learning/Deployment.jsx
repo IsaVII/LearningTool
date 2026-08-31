@@ -1,10 +1,10 @@
 import deploymentContent from "../../data/learning/deploymentContent.json";
-import DeploymentPipelineDemo from "../../components/deployment-demos/DeploymentPipelineDemo";
-import EnvironmentVariablesDemo from "../../components/deployment-demos/EnvironmentVariablesDemo";
-import GithubActionsDemo from "../../components/deployment-demos/GithubActionsDemo";
+import DeploymentPipelineDemo from "../../components/demos/deployment-demos/DeploymentPipelineDemo";
+import EnvironmentVariablesDemo from "../../components/demos/deployment-demos/EnvironmentVariablesDemo";
+import GithubActionsDemo from "../../components/demos/deployment-demos/GithubActionsDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
-import PlatformComparisonDemo from "../../components/deployment-demos/PlatformComparisonDemo";
-import PreviewRollbackDemo from "../../components/deployment-demos/PreviewRollbackDemo";
+import PlatformComparisonDemo from "../../components/demos/deployment-demos/PlatformComparisonDemo";
+import PreviewRollbackDemo from "../../components/demos/deployment-demos/PreviewRollbackDemo";
 
 // Maps each practice topic (by title, from deploymentContent.json) to a
 // live, interactive demo. Keeping this separate from the JSON data means

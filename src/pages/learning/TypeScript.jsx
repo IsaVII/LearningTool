@@ -1,11 +1,11 @@
-import BasicTypesDemo from "../../components/typescript-demos/BasicTypesDemo";
-import FunctionTypingDemo from "../../components/typescript-demos/FunctionTypingDemo";
-import GenericsDemo from "../../components/typescript-demos/GenericsDemo";
-import InterfaceDemo from "../../components/typescript-demos/InterfaceDemo";
+import BasicTypesDemo from "../../components/demos/typescript-demos/BasicTypesDemo";
+import FunctionTypingDemo from "../../components/demos/typescript-demos/FunctionTypingDemo";
+import GenericsDemo from "../../components/demos/typescript-demos/GenericsDemo";
+import InterfaceDemo from "../../components/demos/typescript-demos/InterfaceDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
-import TypeCheckingDemo from "../../components/typescript-demos/TypeCheckingDemo";
+import TypeCheckingDemo from "../../components/demos/typescript-demos/TypeCheckingDemo";
 import typescriptContent from "../../data/learning/typescriptContent.json";
-import UnionIntersectionDemo from "../../components/typescript-demos/UnionIntersectionDemo";
+import UnionIntersectionDemo from "../../components/demos/typescript-demos/UnionIntersectionDemo";
 
 // Maps each practice topic (by title, from typescriptContent.json) to a
 // live, interactive demo. Keeping this separate from the JSON data means

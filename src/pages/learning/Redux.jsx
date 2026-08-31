@@ -1,19 +1,19 @@
-import AsyncThunkDemo from "../../components/redux-demos/AsyncThunkDemo";
+import AsyncThunkDemo from "../../components/demos/redux-demos/AsyncThunkDemo";
 import CodeBlock from "../../components/CodeBlock";
-import DataFlowDemo from "../../components/redux-demos/DataFlowDemo";
-import DevToolsDemo from "../../components/redux-demos/DevToolsDemo";
-import EntityAdapterDemo from "../../components/redux-demos/EntityAdapterDemo";
-import ExtraReducersDemo from "../../components/redux-demos/ExtraReducersDemo";
-import HooksSeparationDemo from "../../components/redux-demos/HooksSeparationDemo";
+import DataFlowDemo from "../../components/demos/redux-demos/DataFlowDemo";
+import DevToolsDemo from "../../components/demos/redux-demos/DevToolsDemo";
+import EntityAdapterDemo from "../../components/demos/redux-demos/EntityAdapterDemo";
+import ExtraReducersDemo from "../../components/demos/redux-demos/ExtraReducersDemo";
+import HooksSeparationDemo from "../../components/demos/redux-demos/HooksSeparationDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
-import MemoizedSelectorsDemo from "../../components/redux-demos/MemoizedSelectorsDemo";
-import MiddlewareDemo from "../../components/redux-demos/MiddlewareDemo";
-import PayloadPreparationDemo from "../../components/redux-demos/PayloadPreparationDemo";
-import PerformancePatternsDemo from "../../components/redux-demos/PerformancePatternsDemo";
+import MemoizedSelectorsDemo from "../../components/demos/redux-demos/MemoizedSelectorsDemo";
+import MiddlewareDemo from "../../components/demos/redux-demos/MiddlewareDemo";
+import PayloadPreparationDemo from "../../components/demos/redux-demos/PayloadPreparationDemo";
+import PerformancePatternsDemo from "../../components/demos/redux-demos/PerformancePatternsDemo";
 import reduxContent from "../../data/learning/reduxContent.json";
-import RtkQueryDemo from "../../components/redux-demos/RtkQueryDemo";
-import SliceActionLogDemo from "../../components/redux-demos/SliceActionLogDemo";
-import StoreCounterDemo from "../../components/redux-demos/StoreCounterDemo";
+import RtkQueryDemo from "../../components/demos/redux-demos/RtkQueryDemo";
+import SliceActionLogDemo from "../../components/demos/redux-demos/SliceActionLogDemo";
+import StoreCounterDemo from "../../components/demos/redux-demos/StoreCounterDemo";
 
 // Maps each practice topic (by title, from reduxContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the

@@ -1,16 +1,16 @@
-import ApiEndpointTestDemo from "../../components/testing-demos/ApiEndpointTestDemo";
-import AsyncTestDemo from "../../components/testing-demos/AsyncTestDemo";
-import ComponentTestDemo from "../../components/testing-demos/ComponentTestDemo";
-import FixturesDemo from "../../components/testing-demos/FixturesDemo";
-import IntegrationTestDemo from "../../components/testing-demos/IntegrationTestDemo";
+import ApiEndpointTestDemo from "../../components/demos/testing-demos/ApiEndpointTestDemo";
+import AsyncTestDemo from "../../components/demos/testing-demos/AsyncTestDemo";
+import ComponentTestDemo from "../../components/demos/testing-demos/ComponentTestDemo";
+import FixturesDemo from "../../components/demos/testing-demos/FixturesDemo";
+import IntegrationTestDemo from "../../components/demos/testing-demos/IntegrationTestDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
-import MockingDemo from "../../components/testing-demos/MockingDemo";
-import ReactComponentTestDemo from "../../components/testing-demos/ReactComponentTestDemo";
-import SpiesDemo from "../../components/testing-demos/SpiesDemo";
-import TddDemo from "../../components/testing-demos/TddDemo";
-import TestPyramidDemo from "../../components/testing-demos/TestPyramidDemo";
+import MockingDemo from "../../components/demos/testing-demos/MockingDemo";
+import ReactComponentTestDemo from "../../components/demos/testing-demos/ReactComponentTestDemo";
+import SpiesDemo from "../../components/demos/testing-demos/SpiesDemo";
+import TddDemo from "../../components/demos/testing-demos/TddDemo";
+import TestPyramidDemo from "../../components/demos/testing-demos/TestPyramidDemo";
 import testingContent from "../../data/learning/testingContent.json";
-import UnitTestDemo from "../../components/testing-demos/UnitTestDemo";
+import UnitTestDemo from "../../components/demos/testing-demos/UnitTestDemo";
 
 // Maps each practice topic (by title, from testingContent.json) to a live,
 // interactive demo. Keeping this separate from the JSON data means the
