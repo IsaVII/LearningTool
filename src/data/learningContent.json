@@ -109,6 +109,16 @@
       "screenshot": "/images/auth.png",
       "difficulty": "intermediate",
       "estimatedTime": "3 hours"
+    },
+    {
+      "id": 12,
+      "key": "deployment",
+      "title": "Deployment & CI/CD",
+      "description": "Ship your app for real: Vercel/Netlify/Render, environment variables & secrets, and automating checks with GitHub Actions",
+      "route": "/deployment",
+      "screenshot": "/images/deployment.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "2.5 hours"
     }
   ]
 }

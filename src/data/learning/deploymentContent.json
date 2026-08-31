@@ -1,0 +1,163 @@
+{
+  "title": "Deployment & CI/CD",
+  "introduction": {
+    "heading": "What Is Deployment & CI/CD?",
+    "description": "Deployment is the step where your code stops being something that only runs on your machine and becomes something other people can actually open in a browser. For a long time that meant manually uploading files over FTP and hoping nothing broke. Modern hosting platforms - Vercel, Netlify, Render, and others - replace that with a git-based workflow: push to a repo, and the platform builds and publishes it for you. CI/CD is what happens before and around that push. Continuous Integration (CI) automatically runs your tests and checks on every change, so problems get caught in a pull request instead of in production. Continuous Deployment/Delivery (CD) is what ships a change once it passes - either automatically, or with one manual approval click. Together they turn \"deploy\" from a nerve-wracking manual event into something that happens safely, constantly, and mostly by itself."
+  },
+  "coreConcepts": {
+    "heading": "Core Concepts",
+    "concepts": [
+      {
+        "title": "Continuous Integration (CI)",
+        "description": "Automatically building and testing every push and pull request, so bugs surface before a merge instead of after one"
+      },
+      {
+        "title": "Continuous Deployment vs. Delivery",
+        "description": "Continuous Delivery gets every passing change ready to ship but waits for a human to click \"deploy\"; Continuous Deployment skips that click and ships automatically once checks pass"
+      },
+      {
+        "title": "Build-Time vs. Runtime",
+        "description": "A frontend's build step bakes certain environment variables directly into the JS bundle it ships to browsers; a server reads its environment variables live, at runtime, and they never leave the server"
+      },
+      {
+        "title": "Environment Variables & Secrets",
+        "description": "Configuration and credentials a project reads from its environment instead of hard-coding, set in the hosting platform's dashboard and kept out of git entirely"
+      },
+      {
+        "title": "Preview Deployments",
+        "description": "Most modern hosts deploy every pull request/branch to its own temporary URL, so a reviewer can click around the actual running change before it ever reaches production"
+      },
+      {
+        "title": "Rollback",
+        "description": "Re-pointing production at a previous, already-built deployment when a new one breaks something - instant, since nothing has to rebuild"
+      }
+    ]
+  },
+  "pipeline": {
+    "heading": "The Deployment Pipeline",
+    "description": "A single push sets off a chain of stages, and each one has to succeed before the next one starts. Whether that chain lives entirely inside a hosting platform, or is split across a separate CI tool and a hosting platform, the shape is the same: install, check, build, then - only if everything above passed - deploy."
+  },
+  "gettingStarted": {
+    "heading": "Getting Started",
+    "steps": [
+      "Push your project to a GitHub repository - these platforms deploy from a git repo, not a zip file you upload by hand",
+      "Sign up for Vercel, Netlify, or Render and \"import\" that repository - most frameworks are auto-detected, pre-filling the build command",
+      "Double check (or set) the build command (e.g. npm run build) and the output/publish directory (e.g. dist) if it wasn't detected correctly",
+      "Add any environment variables your app needs in the platform's dashboard - never commit a real .env file with secrets to git",
+      "Push to your default branch - the platform builds it automatically and hands you back a live URL",
+      "Open a pull request against that branch and confirm you get a separate preview URL for it before merging",
+      "Add a .github/workflows/ci.yml file so GitHub Actions runs lint/tests on every push and pull request, catching problems before they ever reach the hosting platform"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Choosing a Platform",
+      "description": "Compare what Vercel, Netlify, and Render are each actually built to run, and see which fits a given project"
+    },
+    {
+      "title": "Environment Variables & Secrets",
+      "description": "See which config values get baked into the browser bundle and which stay server-only - and why committing a .env file is dangerous"
+    },
+    {
+      "title": "GitHub Actions Basics",
+      "description": "Trigger a workflow with different events and watch which jobs actually run"
+    },
+    {
+      "title": "Preview Deployments & Rollbacks",
+      "description": "Open a pull request to get a preview URL, merge it to promote to production, then roll back to an earlier deployment"
+    }
+  ],
+  "fullExample": {
+    "heading": "Full Example, Step by Step",
+    "title": "A GitHub Actions workflow: test on every push, deploy on merge to main",
+    "description": "This is a complete, realistic CI/CD workflow file. It runs lint/test/build on every push and pull request targeting main, but only runs the deploy job - which needs a secret token - when the change has actually landed on main. Click through the steps to see which lines each one is talking about.",
+    "code": [
+      "name: CI/CD",
+      "",
+      "on:",
+      "  push:",
+      "    branches: [main]",
+      "  pull_request:",
+      "    branches: [main]",
+      "",
+      "jobs:",
+      "  build-and-test:",
+      "    runs-on: ubuntu-latest",
+      "    steps:",
+      "      - name: Checkout code",
+      "        uses: actions/checkout@v4",
+      "",
+      "      - name: Set up Node.js",
+      "        uses: actions/setup-node@v4",
+      "        with:",
+      "          node-version: 20",
+      "",
+      "      - name: Install dependencies",
+      "        run: npm ci",
+      "",
+      "      - name: Lint",
+      "        run: npm run lint",
+      "",
+      "      - name: Run tests",
+      "        run: npm test",
+      "",
+      "      - name: Build",
+      "        run: npm run build",
+      "",
+      "  deploy:",
+      "    needs: build-and-test",
+      "    if: github.ref == 'refs/heads/main' && github.event_name == 'push'",
+      "    runs-on: ubuntu-latest",
+      "    steps:",
+      "      - name: Checkout code",
+      "        uses: actions/checkout@v4",
+      "",
+      "      - name: Deploy to Vercel",
+      "        run: npx vercel deploy --prod --token=$VERCEL_TOKEN",
+      "        env:",
+      "          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}"
+    ],
+    "steps": [
+      {
+        "label": "Name the workflow",
+        "lines": [1, 1],
+        "explanation": "This is just a display name - it's what shows up as the tab/label for this workflow in the GitHub Actions UI, and has no effect on when or how it runs."
+      },
+      {
+        "label": "Choose the triggers",
+        "lines": [3, 7],
+        "explanation": "on: lists the events that start this workflow. Listing both push and pull_request against main means every pull request gets tested before it's even mergeable, not just after someone merges it."
+      },
+      {
+        "label": "Define the build-and-test job",
+        "lines": [9, 12],
+        "explanation": "runs-on picks which virtual machine image the job executes on. Everything under steps: for this job runs, in order, on that one fresh VM."
+      },
+      {
+        "label": "Check out the repository",
+        "lines": [13, 14],
+        "explanation": "A GitHub Actions VM starts completely empty - actions/checkout is what actually clones your repo's code onto it before anything else can run."
+      },
+      {
+        "label": "Set up the runtime",
+        "lines": [16, 19],
+        "explanation": "actions/setup-node installs a specific, pinned Node version, so CI runs against the same version your project targets instead of whatever happens to be preinstalled."
+      },
+      {
+        "label": "Install, lint, test, build",
+        "lines": [21, 31],
+        "explanation": "npm ci installs exactly what's in package-lock.json (unlike npm install, it won't update anything), giving a reproducible install. Each following step has to exit successfully - a failing lint or test stops the job right there, and the deploy job below never even starts."
+      },
+      {
+        "label": "Gate the deploy job",
+        "lines": [33, 35],
+        "explanation": "needs: build-and-test makes this job wait for that one to fully pass. if: only lets it proceed on a push to main - so pull requests still get tested, but never trigger a deploy."
+      },
+      {
+        "label": "Deploy using a secret",
+        "lines": [38, 44],
+        "explanation": "This job runs on its own fresh VM too, so it checks out the code again, then runs the actual deploy command. The token itself is never written in the file - secrets.VERCEL_TOKEN pulls it from GitHub's encrypted repo secrets and injects it only as an environment variable for this one step."
+      }
+    ]
+  }
+}

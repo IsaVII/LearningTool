@@ -15,7 +15,8 @@ import reduxContent from "../data/learning/reduxContent.json";
 import testingContent from "../data/learning/testingContent.json";
 import expressContent from "../data/learning/expressContent.json";
 import authContent from "../data/learning/authContent.json";
-import webSocketsContent from "../data/learning/websocketsContent.json";
+import webSocketsContent from "../data/learning/webSocketsContent.json";
+import deploymentContent from "../data/learning/deploymentContent.json";
 
 // Map topic keys to their learning content (to access practice topics count)
 const CONTENT_BY_KEY = {
@@ -30,6 +31,7 @@ const CONTENT_BY_KEY = {
   express: expressContent,
   auth: authContent,
   websockets: webSocketsContent,
+  deployment: deploymentContent,
 };
 
 const TOPICS = learningContent.topics.map((topic) => ({
