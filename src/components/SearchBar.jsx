@@ -1,19 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import learningContent from "../data/learningContent.json";
-import cheatsheets from "../data/cheatsheets.json";
+import { useTranslation } from "react-i18next";
+import learningContentEn from "../data/learningContent.json";
+import cheatsheetsEn from "../data/cheatsheets.json";
+import learningContentSv from "../data/sv/learningContent.json";
+import cheatsheetsSv from "../data/sv/cheatsheets.json";
 
-// Combine all searchable content
-const ALL_CONTENT = [
-  ...learningContent.topics.map((topic) => ({
-    ...topic,
-    type: "Learning Topic",
-  })),
-  ...cheatsheets.topics.map((topic) => ({
-    ...topic,
-    type: "Cheat Sheet",
-  })),
-];
+const CONTENT_MAP = {
+  en: {
+    learning: learningContentEn,
+    cheatsheets: cheatsheetsEn,
+  },
+  sv: {
+    learning: learningContentSv,
+    cheatsheets: cheatsheetsSv,
+  },
+};
 
 function SearchIcon() {
   return (
@@ -42,6 +44,26 @@ function SearchBar() {
   const searchRef = useRef(null);
   const inputRef = useRef(null);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+
+  // Get language-specific content
+  const currentLang = i18n.language;
+  const learningContent =
+    CONTENT_MAP[currentLang]?.learning || CONTENT_MAP.en.learning;
+  const cheatsheets =
+    CONTENT_MAP[currentLang]?.cheatsheets || CONTENT_MAP.en.cheatsheets;
+
+  // Combine all searchable content
+  const ALL_CONTENT = [
+    ...learningContent.topics.map((topic) => ({
+      ...topic,
+      type: t("header.learning"),
+    })),
+    ...cheatsheets.topics.map((topic) => ({
+      ...topic,
+      type: t("header.cheatsheets"),
+    })),
+  ];
 
   // Search function
   useEffect(() => {
@@ -147,7 +169,7 @@ function SearchBar() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Search topics..."
+          placeholder={t("main.searchPlaceholder")}
           className="w-full sm:w-64 pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-lg text-menu-text placeholder:text-menu-text/40 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
           aria-label="Search learning topics and cheat sheets"
           aria-autocomplete="list"

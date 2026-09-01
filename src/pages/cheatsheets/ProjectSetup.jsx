@@ -1,7 +1,17 @@
+import { useTranslation } from "react-i18next";
 import CheatSheetLayout from "../../components/CheatSheetLayout";
-import projectSetupContent from "../../data/cheatsheets/projectSetup.json";
+import projectSetupContentEn from "../../data/cheatsheets/projectSetup.json";
+import projectSetupContentSv from "../../data/sv/cheatsheets/projectSetup.json";
+
+const CONTENT_MAP = {
+  en: projectSetupContentEn,
+  sv: projectSetupContentSv,
+};
 
 function ProjectSetup() {
+  const { i18n } = useTranslation();
+  const projectSetupContent = CONTENT_MAP[i18n.language] || CONTENT_MAP.en;
+
   return (
     <CheatSheetLayout
       title={projectSetupContent.title}

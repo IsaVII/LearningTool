@@ -1,7 +1,16 @@
+import { useTranslation } from "react-i18next";
 import CheatSheetLayout from "../../components/CheatSheetLayout";
-import mongoDBData from "../../data/cheatsheets/mongodb.json";
+import mongoDBDataEn from "../../data/cheatsheets/mongodb.json";
+import mongoDBDataSv from "../../data/sv/cheatsheets/mongodb.json";
+
+const CONTENT_MAP = {
+  en: mongoDBDataEn,
+  sv: mongoDBDataSv,
+};
 
 function MongoDB() {
+  const { i18n } = useTranslation();
+  const mongoDBData = CONTENT_MAP[i18n.language] || CONTENT_MAP.en;
   const mongoDBContent = mongoDBData.default || mongoDBData;
 
   return (

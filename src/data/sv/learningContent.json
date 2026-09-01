@@ -1,0 +1,124 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "key": "javascript",
+      "title": "JavaScript Grunder",
+      "description": "Kärnspråket bakom allt annat här: variabler, funktioner, arrayer/objekt och asynkron kod",
+      "route": "/javascript",
+      "screenshot": "/images/javascript.png",
+      "difficulty": "beginner",
+      "estimatedTime": "3 timmar"
+    },
+    {
+      "id": 2,
+      "key": "typescript",
+      "title": "TypeScript Grunder",
+      "description": "Lägg till statiska typer ovanpå JavaScript för att fånga buggar tidigare och göra omstruktureringar säkrare",
+      "route": "/typescript",
+      "screenshot": "/images/typescript.png",
+      "difficulty": "beginner",
+      "estimatedTime": "2.5 timmar"
+    },
+    {
+      "id": 3,
+      "key": "git",
+      "title": "Git",
+      "description": "Spåra ändringar, grenar och samarbeta med versionskontrollsystemet som varje utvecklare använder",
+      "route": "/git",
+      "screenshot": "/images/git.png",
+      "difficulty": "beginner",
+      "estimatedTime": "2.5 timmar"
+    },
+    {
+      "id": 4,
+      "key": "http",
+      "title": "HTTP & Webb-API:er",
+      "description": "Bygg bryggan mellan webbläsaren och servern: förfrågningar, REST, fetch och mer",
+      "route": "/http",
+      "screenshot": "/images/http.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 timmar"
+    },
+    {
+      "id": 5,
+      "key": "node",
+      "title": "Node.js",
+      "description": "Kör JavaScript på servern med Nodes kärnmoduler",
+      "route": "/node",
+      "screenshot": "/images/node.png",
+      "difficulty": "beginner",
+      "estimatedTime": "2.5 timmar"
+    },
+    {
+      "id": 6,
+      "key": "react",
+      "title": "React",
+      "description": "Bemästra React grundläggande och avancerade koncept",
+      "route": "/react",
+      "screenshot": "/images/react.png",
+      "difficulty": "beginner",
+      "estimatedTime": "3 timmar"
+    },
+    {
+      "id": 7,
+      "key": "redux",
+      "title": "Redux",
+      "description": "Lär dig tillståndshantering med Redux",
+      "route": "/redux",
+      "screenshot": "/images/redux.png",
+      "difficulty": "beginner",
+      "estimatedTime": "2 timmar"
+    },
+      {
+      "id": 8,
+      "key": "websockets",
+      "title": "WebSockets",
+      "description": "Lär dig realtidskommunikation med WebSockets",
+      "route": "/websockets",
+      "screenshot": "/images/websockets.png",
+      "difficulty": "beginner",
+      "estimatedTime": "2 timmar"
+    },
+    {
+      "id": 9,
+      "key": "testing",
+      "title": "Enhetstester",
+      "description": "Skriv och kör tester: enhet, integration, komponent, mockar, spioner och TDD",
+      "route": "/testing",
+      "screenshot": "/images/testing.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 timmar"
+    },
+    {
+      "id": 10,
+      "key": "express",
+      "title": "Express.js",
+      "description": "Bygg webbservrar och REST API:er på Node: routing, middleware, förfrågan/svar och felhantering",
+      "route": "/express",
+      "screenshot": "/images/express.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 timmar"
+    },
+    {
+      "id": 11,
+      "key": "auth",
+      "title": "Autentisering & Auktorisering",
+      "description": "Lösenordshashning, sessioner vs JWT:er, skydda rutter, rollbaserad åtkomstkontroll och OAuth",
+      "route": "/auth",
+      "screenshot": "/images/auth.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 timmar"
+    },
+    {
+      "id": 12,
+      "key": "deployment",
+      "title": "Distribution & CI/CD",
+      "description": "Lansera din app på riktigt: Vercel/Netlify/Render, miljövariabler & hemligheter och automatisera kontroller med GitHub Actions",
+      "route": "/deployment",
+      "screenshot": "/images/deployment.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "2.5 timmar"
+    }
+  ]
+}

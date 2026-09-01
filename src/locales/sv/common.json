@@ -1,0 +1,34 @@
+{
+  "header": {
+    "home": "Hem",
+    "learning": "Lärande",
+    "cheatsheets": "Snabbguider"
+  },
+  "footer": {
+    "github": "GitHub",
+    "privacy": "Integritetspolicy"
+  },
+  "main": {
+    "title": "WebDev Playground",
+    "subtitle": "Lär dig webbutveckling genom interaktiva exempel",
+    "learningSection": "Lärande Ämnen",
+    "cheatsheetsSection": "Snabbguider",
+    "searchPlaceholder": "Sök ämnen..."
+  },
+  "difficulty": {
+    "beginner": "Nybörjare",
+    "intermediate": "Medel",
+    "advanced": "Avancerad"
+  },
+  "common": {
+    "estimatedTime": "Uppskattad tid",
+    "loading": "Laddar...",
+    "backToHome": "Tillbaka till Hem"
+  },
+  "cookie": {
+    "message": "Denna webbplats använder cookies för att förbättra din upplevelse och spåra ditt lärande. Genom att fortsätta använda denna webbplats godkänner du vår användning av cookies.",
+    "accept": "Acceptera",
+    "decline": "Avvisa",
+    "learnMore": "Läs mer"
+  }
+}

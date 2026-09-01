@@ -1,6 +1,9 @@
+import { useTranslation } from "react-i18next";
 import FooterLink from "./FooterLink";
 
 function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-navbar text-text py-8 mt-16 text-center">
       <div className="max-w-5xl mx-auto px-4">
@@ -10,7 +13,7 @@ function Footer() {
       </div>
 
       <FooterLink href="/cookie-policy" className="hover:underline">
-        Cookie Policy
+        {t("footer.privacy")}
       </FooterLink>
     </footer>
   );

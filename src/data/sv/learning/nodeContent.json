@@ -1,0 +1,193 @@
+{
+  "title": "Node.js Grunderna",
+  "introduction": {
+    "heading": "Vad är Node.js?",
+    "description": "Node.js är en JavaScript-runtime byggd på Chromes V8-motor som låter dig köra JavaScript utanför webbläsaren - på servrar, i kommandoradsverktyg och överallt annars där du behöver det. Det är icke-blockerande och händelsedriven i design, vilket gör det till en naturlig passform för servrar och verktyg som spenderar mycket tid på att vänta på I/O: nätverksförfrågningar, filläsningar, databasförfrågningar."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Runtime",
+        "description": "Kör JavaScript utanför webbläsaren, ovanpå Googles V8-motor"
+      },
+      {
+        "title": "Modules",
+        "description": "Dela upp kod över filer med require/module.exports eller import/export"
+      },
+      {
+        "title": "Event Loop",
+        "description": "Hanterar asynkront arbete utan att blockera den enda JavaScript-tråden"
+      },
+      {
+        "title": "npm",
+        "description": "Installera och hantera paket från världens största mjukvaruregister"
+      },
+      {
+        "title": "Streams",
+        "description": "Bearbeta data bit för bit istället för att ladda allt i minnet"
+      }
+    ]
+  },
+  "runtime": {
+    "heading": "Event Loop",
+    "description": "Node.js kör ditt JavaScript på en enda tråd, men det sitter inte sysslolöst och väntar på långsamt arbete som en filläsning eller en nätverksförfrågan. Det lämnar över det arbetet och fortsätter, kommer sedan tillbaka för att köra callbacks, lösta promises och timers när de är redo. Ordningen det kör dem i - synkron kod, sedan microtasks, sedan macrotasks som setTimeout - är event loop:en."
+  },
+  "gettingStarted": {
+    "heading": "Kom Igång",
+    "steps": [
+      "Installera Node.js från nodejs.org, eller hantera versioner med nvm",
+      "Kör en fil direkt med node app.js - inget byggsteg krävs",
+      "Kör npm init för att skapa en package.json för ditt projekt",
+      "Installera paket med npm install <package> och require eller importera dem",
+      "Sträck dig efter inbyggda moduler som fs, http och path innan du installerar ett paket för jobbet"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Modules",
+      "description": "Dela upp kod över filer med require och module.exports"
+    },
+    {
+      "title": "File System",
+      "description": "Läs filer utan att blockera resten av ditt program"
+    },
+    {
+      "title": "HTTP Servers",
+      "description": "Hantera inkommande förfrågningar med den inbyggda http-modulen"
+    },
+    {
+      "title": "Streams",
+      "description": "Bearbeta data i chunks istället för allt på en gång"
+    },
+    {
+      "title": "NPM & Packages",
+      "description": "Hantera beroenden och kör scripts med package.json"
+    },
+    {
+      "title": "Environment Variables",
+      "description": "Konfigurera appar med process.env och dotenv"
+    },
+    {
+      "title": "Path Module",
+      "description": "Hantera filsökvägar korrekt över operativsystem"
+    },
+    {
+      "title": "Error Handling",
+      "description": "Hantera sync-, async- och ohanterade fel korrekt"
+    },
+    {
+      "title": "Events",
+      "description": "Bygg händelsedriven kod med EventEmitter"
+    },
+    {
+      "title": "Buffers",
+      "description": "Arbeta med binär data och kodningar"
+    },
+    {
+      "title": "Child Processes",
+      "description": "Kör externa program med exec, spawn och fork"
+    },
+    {
+      "title": "Async Patterns",
+      "description": "Bemästra callbacks, promises och async/await"
+    },
+    {
+      "title": "Process & OS",
+      "description": "Få tillgång till runtime-info, args och plattformsdetaljer"
+    }
+  ],
+  "fullExample": {
+    "heading": "Komplett Exempel, Steg för Steg",
+    "title": "En liten HTTP-server: moduler, streams och event loop",
+    "description": "Detta exempel knyter ihop kärnkoncepten ovan i en realistisk fil. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
+    "code": [
+      "const http = require(\"http\");",
+      "",
+      "// In-memory quotes list - loaded once when the module starts, and",
+      "// shared by every request this server handles for as long as the",
+      "// process keeps running.",
+      "let quotes = [\"Node.js runs JavaScript outside the browser.\"];",
+      "",
+      "const server = http.createServer((req, res) => {",
+      "  if (req.method === \"GET\" && req.url === \"/quotes\") {",
+      "    res.writeHead(200, { \"Content-Type\": \"application/json\" });",
+      "    res.end(JSON.stringify(quotes));",
+      "    return;",
+      "  }",
+      "",
+      "  if (req.method === \"POST\" && req.url === \"/quotes\") {",
+      "    let body = \"\";",
+      "",
+      "    req.on(\"data\", (chunk) => {",
+      "      body += chunk;",
+      "    });",
+      "",
+      "    req.on(\"end\", () => {",
+      "      quotes.push(JSON.parse(body).quote);",
+      "      res.writeHead(201);",
+      "      res.end(\"Saved\");",
+      "    });",
+      "",
+      "    return;",
+      "  }",
+      "",
+      "  res.writeHead(404);",
+      "  res.end(\"Not found\");",
+      "});",
+      "",
+      "server.listen(3000, () => {",
+      "  console.log(\"Server running at http://localhost:3000\");",
+      "});",
+      "",
+      "module.exports = server;"
+    ],
+    "steps": [
+      {
+        "label": "Require:a en inbyggd modul",
+        "lines": [1, 1],
+        "explanation": "require(\"http\") hämtar in en av Nodes inbyggda moduler - den följer med Node själv, så det finns inget att installera."
+      },
+      {
+        "label": "Håll state i minnet",
+        "lines": [3, 6],
+        "explanation": "En variabel på toppnivå lever så länge processen kör, och delas av varje förfrågan denna samma serverinstans hanterar."
+      },
+      {
+        "label": "Skapa servern",
+        "lines": [8, 8],
+        "explanation": "createServer tar en callback som Node anropar en gång för varje inkommande förfrågan, och ger den ett request-objekt att läsa och ett response-objekt att skriva till."
+      },
+      {
+        "label": "Hantera en GET-förfrågan",
+        "lines": [9, 13],
+        "explanation": "writeHead sätter statuskoden och headers, sedan skickar end() body:n och avslutar svaret."
+      },
+      {
+        "label": "Läs en POST-body som en stream",
+        "lines": [15, 20],
+        "explanation": "req är en läsbar stream, inte en färdig sträng - body:n anländer i chunks, så du lyssnar på \"data\"-händelser och konkatenerar dem själv."
+      },
+      {
+        "label": "Agera när streamen slutar",
+        "lines": [22, 26],
+        "explanation": "\"end\"-händelsen triggas efter att den sista chunken anländer - först då är det säkert att parsa hela body:n och svara."
+      },
+      {
+        "label": "Fallback för okända routes",
+        "lines": [31, 32],
+        "explanation": "Alla förfrågningar som inte matchade en tidigare branch faller igenom till detta standard 404-svar."
+      },
+      {
+        "label": "Börja lyssna",
+        "lines": [35, 37],
+        "explanation": "listen(port, callback) överlämnar kontrollen till Nodes event loop. Callback:en körs en gång, när servern är redo att acceptera anslutningar, och processen förblir sedan levande i väntan på förfrågningar."
+      },
+      {
+        "label": "Exportera för återanvändning",
+        "lines": [39, 39],
+        "explanation": "module.exports gör denna fils server importerbar någon annanstans med require(\"./server\") - samma require() från steg 1, nu pekar på din egen fil istället för en inbyggd."
+      }
+    ]
+  }
+}

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import AsyncThunkDemo from "../../components/demos/redux-demos/AsyncThunkDemo";
 import CodeBlock from "../../components/CodeBlock";
 import DataFlowDemo from "../../components/demos/redux-demos/DataFlowDemo";
@@ -10,30 +11,39 @@ import MemoizedSelectorsDemo from "../../components/demos/redux-demos/MemoizedSe
 import MiddlewareDemo from "../../components/demos/redux-demos/MiddlewareDemo";
 import PayloadPreparationDemo from "../../components/demos/redux-demos/PayloadPreparationDemo";
 import PerformancePatternsDemo from "../../components/demos/redux-demos/PerformancePatternsDemo";
-import reduxContent from "../../data/learning/reduxContent.json";
+import reduxContentEn from "../../data/learning/reduxContent.json";
+import reduxContentSv from "../../data/sv/learning/reduxContent.json";
 import RtkQueryDemo from "../../components/demos/redux-demos/RtkQueryDemo";
 import SliceActionLogDemo from "../../components/demos/redux-demos/SliceActionLogDemo";
 import StoreCounterDemo from "../../components/demos/redux-demos/StoreCounterDemo";
 
-// Maps each practice topic (by title, from reduxContent.json) to a live,
-// interactive demo. Keeping this separate from the JSON data means the
-// content stays data-driven while the runnable examples stay real code.
-const practiceDemos = {
-  "Basic Store Setup": StoreCounterDemo,
-  "Creating Slices": SliceActionLogDemo,
-  "Using Hooks": HooksSeparationDemo,
-  "Async Operations": AsyncThunkDemo,
-  Middleware: MiddlewareDemo,
-  "Memoized Selectors": MemoizedSelectorsDemo,
-  ExtraReducers: ExtraReducersDemo,
-  "Payload Preparation": PayloadPreparationDemo,
-  "Entity Adapter": EntityAdapterDemo,
-  "RTK Query Basics": RtkQueryDemo,
-  "DevTools Integration": DevToolsDemo,
-  "Performance Patterns": PerformancePatternsDemo,
+const CONTENT_MAP = {
+  en: reduxContentEn,
+  sv: reduxContentSv,
 };
 
 function Redux() {
+  const { i18n } = useTranslation();
+  const reduxContent = CONTENT_MAP[i18n.language] || CONTENT_MAP.en;
+
+  // Maps each practice topic (by title, from reduxContent.json) to a live,
+  // interactive demo. Keeping this separate from the JSON data means the
+  // content stays data-driven while the runnable examples stay real code.
+  const practiceDemos = {
+    [reduxContent.practiceTopics[0].title]: StoreCounterDemo,
+    [reduxContent.practiceTopics[1].title]: SliceActionLogDemo,
+    [reduxContent.practiceTopics[2].title]: HooksSeparationDemo,
+    [reduxContent.practiceTopics[3].title]: AsyncThunkDemo,
+    [reduxContent.practiceTopics[4].title]: MiddlewareDemo,
+    [reduxContent.practiceTopics[5].title]: MemoizedSelectorsDemo,
+    [reduxContent.practiceTopics[6].title]: ExtraReducersDemo,
+    [reduxContent.practiceTopics[7].title]: PayloadPreparationDemo,
+    [reduxContent.practiceTopics[8].title]: EntityAdapterDemo,
+    [reduxContent.practiceTopics[9].title]: RtkQueryDemo,
+    [reduxContent.practiceTopics[10].title]: DevToolsDemo,
+    [reduxContent.practiceTopics[11].title]: PerformancePatternsDemo,
+  };
+
   return (
     <LearningTopicLayout
       title={reduxContent.title}

@@ -1,0 +1,165 @@
+{
+  "title": "Autentisering & Auktorisering",
+  "introduction": {
+    "heading": "Vad är Autentisering & Auktorisering?",
+    "description": "Autentisering svarar på \"vem är du?\" - att bevisa att en användare är den de påstår sig vara, vanligtvis med ett lösenord, en token eller en inloggning från en tredje part som Google. Auktorisering svarar på en annan fråga - \"vad får du göra?\" - och är bara meningsfullt när någon är autentiserad. En inloggad användare (autentiserad) kan fortfarande få en 403 när den försöker radera någon annans inlägg (inte auktoriserad). Att blanda ihop de två är en av de vanligaste säkerhetsbugarna: att kontrollera att en förfrågan har en giltig token är inte samma sak som att kontrollera att tokens ägare får göra det de ber om att få göra."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Password Hashing",
+        "description": "Lagra aldrig lösenord i klartext - hasha dem med bcrypt/argon2 så ett databasläckage inte läcker lösenord"
+      },
+      {
+        "title": "Sessions",
+        "description": "Server lagrar inloggningsstatus och ger webbläsaren en opak sessions-ID-cookie för att bevisa det på framtida förfrågningar"
+      },
+      {
+        "title": "JWTs",
+        "description": "En signerad, självständig token som servern kan verifiera utan ett databasuppslag - vanligt för stateless/API-auth"
+      },
+      {
+        "title": "Authorization",
+        "description": "När identitet är känd, kontrollera vad den specifika användaren får göra (roller, ägarskap, behörigheter)"
+      },
+      {
+        "title": "OAuth",
+        "description": "Låt en användare bevisa sin identitet via en betrodd tredje part (Google, GitHub) istället för ditt eget lösenordssystem"
+      }
+    ]
+  },
+  "flow": {
+    "heading": "Auth-Flödet",
+    "description": "Nästan varje auth-system följer samma form: en användare bevisar sin identitet en gång (login), servern ger tillbaka någon form av bevis, och varje förfrågan efter det bär beviset tillbaka så servern inte behöver fråga efter ett lösenord igen. Det som skiljer mellan sessioner och JWTs är var det beviset lever och hur det verifieras - ett sessions-ID är en uppslagsnyckel i server-side state, medan en JWT bär sina egna verifierbara claims och behöver ingen server-side lagring alls."
+  },
+  "gettingStarted": {
+    "heading": "Kom Igång",
+    "steps": [
+      "Lagra aldrig råa lösenord - hasha dem med bcrypt: npm install bcrypt",
+      "Välj en strategi: sessioner (npm install express-session) eller JWTs (npm install jsonwebtoken)",
+      "Vid login, verifiera lösenordshashen och utfärda en sessions-cookie eller en signerad token",
+      "Skriv en auth-middleware som kontrollerar cookien/token på skyddade routes innan req når handler:n",
+      "Lägg till en auktoriseringskontroll inuti handler:n - en giltig token bevisar identitet, inte behörighet",
+      "För tredjepartsinloggning, använd ett bibliotek som Passport.js eller leverantörens OAuth SDK istället för att handkoda OAuth"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Password Hashing",
+      "description": "Hasha och verifiera lösenord med bcrypt så klartext aldrig rör databasen"
+    },
+    {
+      "title": "Sessions & Cookies",
+      "description": "Server-side sessions-status, kopplad till webbläsaren med en opak cookie"
+    },
+    {
+      "title": "JSON Web Tokens",
+      "description": "Avkoda en JWTs tre delar och se vad som gör den manipuleringssäker"
+    },
+    {
+      "title": "Protecting Routes",
+      "description": "Auth-middleware som blockerar en förfrågan innan den når route handler:n"
+    },
+    {
+      "title": "Role-Based Access Control",
+      "description": "Auktorisera efter roll och resursägarskap, inte bara efter \"inloggad eller inte\""
+    },
+    {
+      "title": "OAuth (Sign in with...)",
+      "description": "Delegera identitet till en tredje part med authorization code flow"
+    }
+  ],
+  "fullExample": {
+    "heading": "Komplett Exempel, Steg för Steg",
+    "title": "Registrera, logga in och skydda en route med JWTs",
+    "description": "Detta exempel knyter ihop lösenordshashning, token-utfärdande och en auth-middleware i en liten Express-fil. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
+    "code": [
+      "const bcrypt = require(\"bcrypt\");",
+      "const jwt = require(\"jsonwebtoken\");",
+      "const SECRET = process.env.JWT_SECRET;",
+      "",
+      "// 1. Register: hash the password before storing anything",
+      "app.post(\"/register\", async (req, res) => {",
+      "  const { email, password } = req.body;",
+      "  const passwordHash = await bcrypt.hash(password, 10);",
+      "  const user = await db.users.create({ email, passwordHash });",
+      "  res.status(201).json({ id: user.id, email: user.email });",
+      "});",
+      "",
+      "// 2. Login: verify the password, then issue a signed token",
+      "app.post(\"/login\", async (req, res) => {",
+      "  const { email, password } = req.body;",
+      "  const user = await db.users.findOne({ email });",
+      "  const valid = user && (await bcrypt.compare(password, user.passwordHash));",
+      "  if (!valid) return res.status(401).json({ error: \"Invalid credentials\" });",
+      "",
+      "  const token = jwt.sign({ sub: user.id, role: user.role }, SECRET, {",
+      "    expiresIn: \"1h\",",
+      "  });",
+      "  res.json({ token });",
+      "});",
+      "",
+      "// 3. Middleware: verify the token on every protected request",
+      "function requireAuth(req, res, next) {",
+      "  const header = req.get(\"Authorization\") || \"\";",
+      "  const token = header.replace(\"Bearer \", \"\");",
+      "  try {",
+      "    req.user = jwt.verify(token, SECRET); // throws if invalid or expired",
+      "    next();",
+      "  } catch {",
+      "    res.status(401).json({ error: \"Invalid or expired token\" });",
+      "  }",
+      "}",
+      "",
+      "// 4. Authorization: identity alone isn't permission",
+      "app.delete(\"/posts/:id\", requireAuth, async (req, res) => {",
+      "  const post = await db.posts.findById(req.params.id);",
+      "  const isOwner = post.authorId === req.user.sub;",
+      "  const isAdmin = req.user.role === \"admin\";",
+      "  if (!isOwner && !isAdmin) {",
+      "    return res.status(403).json({ error: \"Not allowed to delete this post\" });",
+      "  }",
+      "  await post.delete();",
+      "  res.status(204).end();",
+      "});"
+    ],
+    "steps": [
+      {
+        "label": "Hasha vid registrering, lagra aldrig råa lösenord",
+        "lines": [5, 10],
+        "explanation": "bcrypt.hash() kör en långsam, saltad envägsfunktion - även om databasen läcker får en angripare hashar, inte lösenord. Klartextlösenordet skrivs aldrig någonstans."
+      },
+      {
+        "label": "Verifiera vid login med bcrypt.compare()",
+        "lines": [13, 18],
+        "explanation": "Du kan inte reversera en hash tillbaka till ett lösenord, så login hashar om det inskickade lösenordet internt och jämför hashar - bcrypt.compare() gör detta i ett anrop."
+      },
+      {
+        "label": "Utfärda en signerad token",
+        "lines": [20, 23],
+        "explanation": "jwt.sign() buntlar payloaden (användar-id, roll) med en utgångstid och signerar alltihop med SECRET. Vem som helst kan läsa en JWTs payload, men bara servern kan producera en giltig signatur för den."
+      },
+      {
+        "label": "Läs token från varje förfrågan",
+        "lines": [27, 30],
+        "explanation": "Per konvention färdas token i Authorization-headern som \"Bearer <token>\" - middleware strippar det prefixet innan verifiering."
+      },
+      {
+        "label": "Verifiera, avkoda inte bara",
+        "lines": [31, 35],
+        "explanation": "jwt.verify() kontrollerar signaturen mot SECRET och kastar om den har manipulerats eller gått ut - detta är det som faktiskt gör en JWT pålitlig, inte bara dess form."
+      },
+      {
+        "label": "Autentisering bevisar bara identitet",
+        "lines": [39, 39],
+        "explanation": "requireAuth körs först och garanterar att req.user existerar och är äkta - men säger ännu inget om huruvida denna specifika användare ska tillåtas göra denna specifika sak."
+      },
+      {
+        "label": "Auktorisering kontrollerar den specifika åtgärden",
+        "lines": [41, 47],
+        "explanation": "Ägarskap och roll kontrolleras inuti handler:n, mot denna specifika resurs - en giltig token från vilken inloggad användare som helst räcker inte för att radera någon annans inlägg."
+      }
+    ]
+  }
+}

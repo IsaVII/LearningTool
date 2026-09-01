@@ -1,7 +1,17 @@
+import { useTranslation } from "react-i18next";
 import CheatSheetLayout from "../../components/CheatSheetLayout";
-import textRevealContent from "../../data/cheatsheets/textReveal.json";
+import textRevealContentEn from "../../data/cheatsheets/textReveal.json";
+import textRevealContentSv from "../../data/sv/cheatsheets/textReveal.json";
+
+const CONTENT_MAP = {
+  en: textRevealContentEn,
+  sv: textRevealContentSv,
+};
 
 function TextReveal() {
+  const { i18n } = useTranslation();
+  const textRevealContent = CONTENT_MAP[i18n.language] || CONTENT_MAP.en;
+
   return (
     <CheatSheetLayout
       title={textRevealContent.title}

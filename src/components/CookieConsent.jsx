@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const CONSENT_KEY = "cookieConsentGiven";
 
 export default function CookieConsent() {
   const [show, setShow] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Check if user has already seen the notice
@@ -29,10 +31,7 @@ export default function CookieConsent() {
 
     // Optional: You could also clear any existing cookies here
     // But note that the app functionality will be limited without them
-    alert(
-      "Note: This site uses only essential cookies for basic functionality (theme preference and progress tracking). " +
-        "Without these, your preferences won't be saved between visits.",
-    );
+    alert(t("cookie.message"));
   };
 
   if (!show) return null;
@@ -57,9 +56,7 @@ export default function CookieConsent() {
                 Cookie Notice
               </h2>
               <p className="text-sm text-muted leading-relaxed">
-                This site uses <strong>strictly necessary cookies</strong> to
-                remember your progress and theme preference. We don't use
-                tracking, analytics, or advertising cookies.
+                {t("cookie.message")}
               </p>
             </div>
           </div>
@@ -73,7 +70,7 @@ export default function CookieConsent() {
                 color: "var(--bg)",
               }}
             >
-              Accept
+              {t("cookie.accept")}
             </button>
             <button
               onClick={handleDecline}
@@ -83,7 +80,7 @@ export default function CookieConsent() {
                 color: "var(--text-h)",
               }}
             >
-              Decline
+              {t("cookie.decline")}
             </button>
           </div>
 
@@ -93,7 +90,7 @@ export default function CookieConsent() {
             style={{ color: "var(--link-color)" }}
             onClick={handleAccept}
           >
-            Learn more about our cookies
+            {t("cookie.learnMore")}
           </Link>
         </div>
       </div>

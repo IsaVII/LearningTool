@@ -1,0 +1,203 @@
+{
+  "title": "React + Redux Projektinställning + Tailwind",
+  "introduction": {
+    "heading": "Sätta upp ett Modernt React & Redux Projekt med Vite",
+    "description": "En komplett guide för att skapa ett produktionsklart React-program med Redux state management, Tailwind CSS, routing och mappstruktur. Detta täcker de väsentliga paketen och konfigurationerna som behövs för att börja utveckla omedelbart."
+  },
+  "prerequisites": [
+    "Node.js 16+ och npm installerat",
+    "En textredigerare (VS Code, etc.)",
+    "Grundläggande förståelse för npm och kommandoraden"
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "title": "Skapa ett Vite React Projekt",
+      "description": "Använd Vite för att skapa ett nytt React-projekt. Vite är mycket snabbare än Create React App och är den moderna standarden för nya React-projekt.",
+      "code": "npm create vite@latest frontend -- --template react",
+      "language": "bash",
+      "note": "Ersätt 'frontend' med ditt önskade projektnamn. Flaggan --template react säkerställer att du får en React-inställning."
+    },
+    {
+      "id": 2,
+      "title": "Navigera till Projektet & Installera Beroenden",
+      "description": "Gå in i projektkatalogen och installera basberoendena som kommer med Vite React.",
+      "code": "cd frontend\nnpm install",
+      "language": "bash"
+    },
+    {
+      "id": 3,
+      "title": "Installera Redux State Management",
+      "description": "Redux Toolkit förenklar Redux-inställning med mindre boilerplate. react-redux binder Redux till React-komponenter via hooks.",
+      "code": "npm install @reduxjs/toolkit react-redux",
+      "language": "bash",
+      "note": "Redux Toolkit inkluderar Redux, Redux Thunk för asynkrona actions, och Immer för oföränderliga uppdateringar."
+    },
+    {
+      "id": 4,
+      "title": "Installera Tailwind CSS med Vite Plugin (Valfritt)",
+      "description": "Tailwind CSS tillhandahåller utility-first styling. @tailwindcss/vite plugin möjliggör snabbare builds med Vite.",
+      "code": "npm install tailwindcss postcss autoprefixer @tailwindcss/vite",
+      "language": "bash"
+    },
+    {
+      "id": 5,
+      "title": "Konfigurera Tailwind i vite.config.js (Valfritt)",
+      "description": "Lägg till Tailwind-pluginet i din Vite-konfiguration för korrekt PostCSS-bearbetning.",
+      "code": "import { defineConfig } from 'vite'\nimport react from '@vitejs/plugin-react'\nimport tailwindcss from '@tailwindcss/vite'\n\nexport default defineConfig({\n  plugins: [tailwindcss(), react()],\n})",
+      "language": "javascript",
+      "highlightLines": [3, 6],
+      "note": "Ordningen spelar roll: tailwindcss() ska komma före react()."
+    },
+    {
+      "id": 6,
+      "title": "Lägg till Tailwind-direktiv till CSS (Valfritt)",
+      "description": "Uppdatera din huvud-CSS-fil (vanligtvis src/index.css) för att inkludera Tailwinds utility-lager.",
+      "code": "@tailwind base;\n@tailwind components;\n@tailwind utilities;",
+      "language": "css",
+      "note": "Ersätt eventuellt befintligt CSS-innehåll i din huvud-CSS-fil med dessa direktiv."
+    },
+    {
+      "id": 7,
+      "title": "Installera React Router för Navigering",
+      "description": "React Router möjliggör klient-side routing för flersidig navigering utan serverförfrågningar.",
+      "code": "npm install react-router-dom",
+      "language": "bash"
+    },
+    {
+      "id": 8,
+      "title": "Skapa Redux Store-struktur",
+      "description": "Sätt upp din Redux store med slices. Skapa en store.js-fil för att konfigurera Redux.",
+      "code": "// src/redux/store.js\nimport { configureStore } from '@reduxjs/toolkit';\n\nexport const store = configureStore({\n  reducer: {\n    // Lägg till dina slices här\n    // exempel: exampleSlice,\n  },\n});",
+      "language": "javascript",
+      "note": "Du kommer att lägga till fler slices (reducer-filer) när du bygger funktioner."
+    },
+    {
+      "id": 9,
+      "title": "Wrappa din App med Redux Provider",
+      "description": "Anslut Redux till din React-app genom att wrappa rotkomponenten med Redux Provider.",
+      "code": "// src/main.jsx\nimport React from 'react'\nimport ReactDOM from 'react-dom/client'\nimport { Provider } from 'react-redux'\nimport App from './App.jsx'\nimport { store } from './redux/store'\nimport './index.css'\n\nReactDOM.createRoot(document.getElementById('root')).render(\n  <React.StrictMode>\n    <Provider store={store}>\n      <App />\n    </Provider>\n  </React.StrictMode>,\n)",
+      "language": "javascript",
+      "highlightLines": [4, 6, 10, 11]
+    },
+    {
+      "id": 10,
+      "title": "Skapa Routes med React Router",
+      "description": "Sätt upp grundläggande routing i din App-komponent.",
+      "code": "// src/App.jsx\nimport { BrowserRouter as Router, Routes, Route } from 'react-router-dom'\nimport Home from './pages/Home'\nimport About from './pages/About'\n\nfunction App() {\n  return (\n    <Router>\n      <Routes>\n        <Route path=\"/\" element={<Home />} />\n        <Route path=\"/about\" element={<About />} />\n      </Routes>\n    </Router>\n  )\n}\n\nexport default App",
+      "language": "javascript"
+    },
+    {
+      "id": 11,
+      "title": "Valfritt: Lägg till Utvecklingsverktyg",
+      "description": "Installera paket som förbättrar utvecklingsupplevelsen (ESLint, Prettier, Redux DevTools).",
+      "code": "npm install --save-dev eslint prettier\nnpm install @reduxjs/toolkit redux-devtools",
+      "language": "bash",
+      "note": "ESLint hittar buggar, Prettier formaterar kod. Redux DevTools hjälper till att debugga Redux state-ändringar."
+    },
+    {
+      "id": 12,
+      "title": "Valfritt: Inställning av Miljövariabler",
+      "description": "Skapa en .env.local-fil för API-nycklar och miljöspecifik konfiguration (inte committad till git).",
+      "code": "# .env.local\nVITE_API_URL=http://localhost:3000/api\nVITE_API_KEY=your_key_here",
+      "language": "bash",
+      "note": "I Vite måste variabler börja med VITE_ för att vara tillgängliga i klienten. Få åtkomst till dem som import.meta.env.VITE_API_URL"
+    }
+  ],
+  "folderStructure": {
+    "heading": "Rekommenderad Mappstruktur",
+    "description": "Denna struktur skalar väl för medelstora applikationer:",
+    "structure": "frontend/\n├── src/\n│   ├── components/        # Återanvändbara React-komponenter\n│   │   ├── Header.jsx\n│   │   ├── Footer.jsx\n│   │   └── ...\n│   ├── pages/             # Hela sidkomponenter\n│   │   ├── Home.jsx\n│   │   ├── About.jsx\n│   │   └── ...\n│   ├── redux/             # Redux state management\n│   │   ├── store.js\n│   │   ├── slices/        # Redux slices\n│   │   │   ├── userSlice.js\n│   │   │   ├── authSlice.js\n│   │   │   └── ...\n│   │   └── ...\n│   ├── hooks/             # Anpassade React hooks\n│   │   ├── useAuth.js\n│   │   └── ...\n│   ├── utils/             # Verktygsfunktioner\n│   │   ├── api.js         # API-anrop\n│   │   ├── constants.js\n│   │   └── helpers.js\n│   ├── styles/            # Globala stilar\n│   │   └── globals.css\n│   ├── App.jsx\n│   ├── main.jsx\n│   └── index.css\n├── public/\n├── .env.local             # Miljövariabler (gitignored)\n├── .env.example           # Mall för .env.local\n├── .gitignore\n├── vite.config.js\n├── package.json\n└── README.md"
+  },
+  "backendSetup": {
+    "heading": "Valfritt: Backend-projektinställning",
+    "description": "Om du behöver en backend-server (Node.js/Express), skapa den vid sidan av din frontend:",
+    "steps": [
+      {
+        "step": "Skapa backend-katalog",
+        "code": "mkdir backend && cd backend && npm init -y"
+      },
+      {
+        "step": "Installera Express och grundläggande paket",
+        "code": "npm install express cors dotenv axios"
+      },
+      {
+        "step": "Grundläggande Express-server",
+        "code": "// backend/server.js\nconst express = require('express');\nconst cors = require('cors');\nconst app = express();\n\napp.use(cors());\napp.use(express.json());\n\napp.get('/api/data', (req, res) => {\n  res.json({ message: 'Hej från backend!' });\n});\n\napp.listen(3000, () => console.log('Server på port 3000'));"
+      }
+    ]
+  },
+  "whatYouMightBeMissing": {
+    "heading": "Vad du kanske vill ha",
+    "categories": [
+      {
+        "title": "API & Datahämtning",
+        "items": [
+          "axios (npm install axios) - Promise-baserad HTTP-klient",
+          "fetch API (inbyggd) - Native browser API",
+          "React Query / TanStack Query - Server state management"
+        ]
+      },
+      {
+        "title": "Kodkvalitet & Formatering",
+        "items": [
+          "ESLint (npm install --save-dev eslint) - Kodlinting",
+          "Prettier (npm install --save-dev prettier) - Kodformatering",
+          "husky (pre-commit hooks) - Kör tester före commit"
+        ]
+      },
+      {
+        "title": "Testning",
+        "items": [
+          "Vitest (npm install --save-dev vitest) - Unit testing",
+          "React Testing Library (npm install --save-dev @testing-library/react) - Komponenttestning",
+          "Playwright (npm install --save-dev @playwright/test) - E2E testing"
+        ]
+      },
+      {
+        "title": "UI & Styling",
+        "items": [
+          "Headless UI (npm install @headlessui/react) - Tillgängliga UI-komponenter",
+          "React Icons (npm install react-icons) - Ikonbibliotek",
+          "Framer Motion (npm install framer-motion) - Animationsbibliotek"
+        ]
+      },
+      {
+        "title": "Utveckling & Debugging",
+        "items": [
+          "Redux DevTools (npm install redux-devtools) - Debugga Redux state",
+          "React Developer Tools (browser extension) - React debugging",
+          "Vite Plugin Inspect - Analysera Vite plugins"
+        ]
+      },
+      {
+        "title": "TypeScript (Valfritt men Rekommenderat)",
+        "items": [
+          "Skapa projekt med: npm create vite@latest frontend -- --template react-ts",
+          "npm install --save-dev typescript @types/react @types/react-dom",
+          "Starkt typade Redux actions och reducers"
+        ]
+      }
+    ]
+  },
+  "gettingStarted": {
+    "heading": "Snabbstarts-checklista",
+    "steps": [
+      "npm create vite@latest frontend -- --template react",
+      "cd frontend && npm install",
+      "npm install @reduxjs/toolkit react-redux react-router-dom",
+      "npm install tailwindcss postcss autoprefixer @tailwindcss/vite",
+      "Uppdatera vite.config.js med Tailwind plugin",
+      "Lägg till Tailwind-direktiv till src/index.css",
+      "Skapa src/redux/store.js",
+      "Wrappa App med Redux Provider i main.jsx",
+      "Skapa pages/ och components/ mappar",
+      "npm run dev (starta utvecklingsserver)",
+      "🎉 Redo att bygga!"
+    ]
+  },
+  "source": {
+    "label": "Vite Officiell Dokumentation",
+    "url": "https://vitejs.dev/"
+  }
+}

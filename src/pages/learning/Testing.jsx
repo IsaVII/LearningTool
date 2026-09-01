@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ApiEndpointTestDemo from "../../components/demos/testing-demos/ApiEndpointTestDemo";
 import AsyncTestDemo from "../../components/demos/testing-demos/AsyncTestDemo";
 import ComponentTestDemo from "../../components/demos/testing-demos/ComponentTestDemo";
@@ -9,26 +10,35 @@ import ReactComponentTestDemo from "../../components/demos/testing-demos/ReactCo
 import SpiesDemo from "../../components/demos/testing-demos/SpiesDemo";
 import TddDemo from "../../components/demos/testing-demos/TddDemo";
 import TestPyramidDemo from "../../components/demos/testing-demos/TestPyramidDemo";
-import testingContent from "../../data/learning/testingContent.json";
+import testingContentEn from "../../data/learning/testingContent.json";
+import testingContentSv from "../../data/sv/learning/testingContent.json";
 import UnitTestDemo from "../../components/demos/testing-demos/UnitTestDemo";
 
-// Maps each practice topic (by title, from testingContent.json) to a live,
-// interactive demo. Keeping this separate from the JSON data means the
-// content stays data-driven while the runnable examples stay real code.
-const practiceDemos = {
-  "Unit Testing": UnitTestDemo,
-  "Integration Testing": IntegrationTestDemo,
-  "Component Testing": ComponentTestDemo,
-  Mocking: MockingDemo,
-  Spies: SpiesDemo,
-  Fixtures: FixturesDemo,
-  "Test-Driven Development": TddDemo,
-  "Testing Async Code": AsyncTestDemo,
-  "Testing React Components": ReactComponentTestDemo,
-  "Testing API Endpoints": ApiEndpointTestDemo,
+const CONTENT_MAP = {
+  en: testingContentEn,
+  sv: testingContentSv,
 };
 
 function Testing() {
+  const { i18n } = useTranslation();
+  const testingContent = CONTENT_MAP[i18n.language] || CONTENT_MAP.en;
+
+  // Maps each practice topic (by title, from testingContent.json) to a live,
+  // interactive demo. Keeping this separate from the JSON data means the
+  // content stays data-driven while the runnable examples stay real code.
+  const practiceDemos = {
+    [testingContent.practiceTopics[0].title]: UnitTestDemo,
+    [testingContent.practiceTopics[1].title]: IntegrationTestDemo,
+    [testingContent.practiceTopics[2].title]: ComponentTestDemo,
+    [testingContent.practiceTopics[3].title]: MockingDemo,
+    [testingContent.practiceTopics[4].title]: SpiesDemo,
+    [testingContent.practiceTopics[5].title]: FixturesDemo,
+    [testingContent.practiceTopics[6].title]: TddDemo,
+    [testingContent.practiceTopics[7].title]: AsyncTestDemo,
+    [testingContent.practiceTopics[8].title]: ReactComponentTestDemo,
+    [testingContent.practiceTopics[9].title]: ApiEndpointTestDemo,
+  };
+
   return (
     <LearningTopicLayout
       title={testingContent.title}

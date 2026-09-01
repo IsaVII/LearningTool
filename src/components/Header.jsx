@@ -1,51 +1,83 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import NavLink from "./NavLink";
 import ThemeToggle from "./ThemeToggle";
+import LanguageSwitcher from "./LanguageSwitcher";
 import SearchBar from "./SearchBar";
 import { useProgress } from "../context/ProgressContext";
-import cheatsheets from "../data/cheatsheets.json";
-import learningContent from "../data/learningContent.json";
-import javascriptContent from "../data/learning/javascriptContent.json";
-import typescriptContent from "../data/learning/typescriptContent.json";
-import gitContent from "../data/learning/gitContent.json";
-import httpContent from "../data/learning/httpContent.json";
-import nodeContent from "../data/learning/nodeContent.json";
-import reactContent from "../data/learning/reactContent.json";
-import reduxContent from "../data/learning/reduxContent.json";
-import testingContent from "../data/learning/testingContent.json";
-import expressContent from "../data/learning/expressContent.json";
-import authContent from "../data/learning/authContent.json";
-import webSocketsContent from "../data/learning/webSocketsContent.json";
-import deploymentContent from "../data/learning/deploymentContent.json";
 
-// Map topic keys to their learning content (to access practice topics count)
-const CONTENT_BY_KEY = {
-  javascript: javascriptContent,
-  typescript: typescriptContent,
-  git: gitContent,
-  http: httpContent,
-  node: nodeContent,
-  react: reactContent,
-  redux: reduxContent,
-  testing: testingContent,
-  express: expressContent,
-  auth: authContent,
-  websockets: webSocketsContent,
-  deployment: deploymentContent,
+// English content
+import cheatsheetsEn from "../data/cheatsheets.json";
+import learningContentEn from "../data/learningContent.json";
+import javascriptContentEn from "../data/learning/javascriptContent.json";
+import typescriptContentEn from "../data/learning/typescriptContent.json";
+import gitContentEn from "../data/learning/gitContent.json";
+import httpContentEn from "../data/learning/httpContent.json";
+import nodeContentEn from "../data/learning/nodeContent.json";
+import reactContentEn from "../data/learning/reactContent.json";
+import reduxContentEn from "../data/learning/reduxContent.json";
+import testingContentEn from "../data/learning/testingContent.json";
+import expressContentEn from "../data/learning/expressContent.json";
+import authContentEn from "../data/learning/authContent.json";
+import webSocketsContentEn from "../data/learning/webSocketsContent.json";
+import deploymentContentEn from "../data/learning/deploymentContent.json";
+
+// Swedish content
+import cheatsheetsSv from "../data/sv/cheatsheets.json";
+import learningContentSv from "../data/sv/learningContent.json";
+import javascriptContentSv from "../data/sv/learning/javascriptContent.json";
+import typescriptContentSv from "../data/sv/learning/typescriptContent.json";
+import gitContentSv from "../data/sv/learning/gitContent.json";
+import httpContentSv from "../data/sv/learning/httpContent.json";
+import nodeContentSv from "../data/sv/learning/nodeContent.json";
+import reactContentSv from "../data/sv/learning/reactContent.json";
+import reduxContentSv from "../data/sv/learning/reduxContent.json";
+import testingContentSv from "../data/sv/learning/testingContent.json";
+import expressContentSv from "../data/sv/learning/expressContent.json";
+import authContentSv from "../data/sv/learning/authContent.json";
+import webSocketsContentSv from "../data/sv/learning/webSocketsContent.json";
+import deploymentContentSv from "../data/sv/learning/deploymentContent.json";
+
+// Content maps
+const CONTENT_BY_LANG = {
+  en: {
+    learning: learningContentEn,
+    cheatsheets: cheatsheetsEn,
+    details: {
+      javascript: javascriptContentEn,
+      typescript: typescriptContentEn,
+      git: gitContentEn,
+      http: httpContentEn,
+      node: nodeContentEn,
+      react: reactContentEn,
+      redux: reduxContentEn,
+      testing: testingContentEn,
+      express: expressContentEn,
+      auth: authContentEn,
+      websockets: webSocketsContentEn,
+      deployment: deploymentContentEn,
+    },
+  },
+  sv: {
+    learning: learningContentSv,
+    cheatsheets: cheatsheetsSv,
+    details: {
+      javascript: javascriptContentSv,
+      typescript: typescriptContentSv,
+      git: gitContentSv,
+      http: httpContentSv,
+      node: nodeContentSv,
+      react: reactContentSv,
+      redux: reduxContentSv,
+      testing: testingContentSv,
+      express: expressContentSv,
+      auth: authContentSv,
+      websockets: webSocketsContentSv,
+      deployment: deploymentContentSv,
+    },
+  },
 };
-
-const TOPICS = learningContent.topics.map((topic) => ({
-  to: topic.route,
-  label: topic.title,
-  key: topic.key,
-}));
-
-const CHEATSHEETS = cheatsheets.topics.map((topic) => ({
-  to: topic.route,
-  label: topic.title,
-  key: topic.key,
-}));
 
 function HomeIcon(props) {
   return (
@@ -105,6 +137,27 @@ function Header() {
   const toggleRef = useRef(null);
   const { pathname } = useLocation();
   const { getTopicSubtopicCount } = useProgress();
+  const { t, i18n } = useTranslation();
+
+  const currentLang = i18n.language;
+  const learningContent =
+    CONTENT_BY_LANG[currentLang]?.learning || CONTENT_BY_LANG.en.learning;
+  const cheatsheets =
+    CONTENT_BY_LANG[currentLang]?.cheatsheets || CONTENT_BY_LANG.en.cheatsheets;
+  const CONTENT_BY_KEY =
+    CONTENT_BY_LANG[currentLang]?.details || CONTENT_BY_LANG.en.details;
+
+  const TOPICS = learningContent.topics.map((topic) => ({
+    to: topic.route,
+    label: topic.title,
+    key: topic.key,
+  }));
+
+  const CHEATSHEETS = cheatsheets.topics.map((topic) => ({
+    to: topic.route,
+    label: topic.title,
+    key: topic.key,
+  }));
 
   // Close the menu whenever the route changes (e.g. a topic link was
   // clicked), so navigating away always leaves the menu tucked back in.
@@ -166,15 +219,19 @@ function Header() {
           <div className="flex items-center gap-1">
             <Link
               to="/"
-              aria-label="Home"
+              aria-label={t("header.home")}
               aria-current={isHome ? "page" : undefined}
               className={`grid place-items-center w-9 h-9 rounded-full transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
                 isHome ? "text-accent" : "text-header-icon"
               }`}
-              title="Home"
+              title={t("header.home")}
             >
               <HomeIcon />
             </Link>
+
+            <span className="w-px h-6 bg-white/15 mx-1" aria-hidden="true" />
+
+            <LanguageSwitcher />
 
             <span className="w-px h-6 bg-white/15 mx-1" aria-hidden="true" />
 
@@ -245,7 +302,7 @@ function Header() {
           {/* Topics Column */}
           <div className="flex-1 min-w-64">
             <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-menu-text/40">
-              Topics
+              {t("header.learning")}
             </p>
             <ul className="list-none m-0 p-2 flex flex-col">
               {TOPICS.map((topic) => {
@@ -289,7 +346,7 @@ function Header() {
           {/* Cheat Sheets Column */}
           <div className="flex-1 min-w-64">
             <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-menu-text/40">
-              Cheat Sheets
+              {t("header.cheatsheets")}
             </p>
             <ul className="list-none m-0 p-2 flex flex-col">
               {CHEATSHEETS.map((sheet) => {

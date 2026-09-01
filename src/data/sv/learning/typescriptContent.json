@@ -1,0 +1,137 @@
+{
+  "title": "TypeScript Grunderna",
+  "introduction": {
+    "heading": "Vad är TypeScript?",
+    "description": "TypeScript är JavaScript med ett typsystem ovanpå. Du beskriver vilken form data ska ha - en sträng, en User med ett id och ett namn, en funktion som tar två nummer - och TypeScript-kompilatorn kontrollerar att din kod faktiskt matchar dessa former innan den körs. Varje giltig JavaScript-fil är redan giltig TypeScript; du väljer striktare kontroll stegvis, en fil eller en annotering i taget."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Statisk Typning",
+        "description": "Typer kontrolleras medan du skriver kod, inte när den körs - en felaktig typ är en röd vågig linje i din editor, inte ett produktionsfel klockan 2 på natten"
+      },
+      {
+        "title": "Typinferens",
+        "description": "TypeScript räknar ut de flesta typer själv från värdet du tilldelar - du annoterar bara där det inte kan gissa eller där det hjälper att vara explicit"
+      },
+      {
+        "title": "Interfaces & Type Aliases",
+        "description": "Namnge formen på ett objekt en gång med interface eller type, använd sedan det namnet var som helst där formen gäller"
+      },
+      {
+        "title": "Strukturell Typning",
+        "description": "Ett värde matchar en typ om dess form matchar, oavsett vad det deklarerades som - TypeScript kontrollerar fälten du har, inte etiketten på boxen"
+      },
+      {
+        "title": "Generics",
+        "description": "Skriv en funktion eller typ en gång med en platshållartypparameter som <T>, och låt varje anropsplats fylla i den riktiga typen"
+      },
+      {
+        "title": "Kompilering till JavaScript",
+        "description": "TypeScript-kompilatorn (tsc) tar bort typerna och producerar vanlig JavaScript - typer existerar bara vid kompileringstid, med noll runtime-kostnad"
+      }
+    ]
+  },
+  "typeChecking": {
+    "heading": "Hitta Buggar Före Runtime",
+    "description": "I vanlig JavaScript är att skicka fel sorts värde till en funktion vanligtvis tyst tills något går sönder - kanske omedelbart, kanske tre steg senare, kanske bara för en viss användare. TypeScript flyttar den kontrollen tidigare: den går igenom din kod utan att köra den och flaggar varje plats där ett värde inte matchar vad en typ förväntar sig, direkt i din editor och igen när du försöker kompilera."
+  },
+  "gettingStarted": {
+    "heading": "Kom Igång",
+    "steps": [
+      "Installera TypeScript i ett projekt med npm install --save-dev typescript",
+      "Kör npx tsc --init för att generera en tsconfig.json med rimliga standardvärden",
+      "Byt namn på .js-filer till .ts (eller .jsx till .tsx för filer med JSX) för att aktivera typkontroll",
+      "Kör npx tsc för att kompilera, eller använd ett byggverktyg (Vite, esbuild, webpack) som kompilerar TypeScript åt dig",
+      "Aktivera \"strict\": true i tsconfig.json så tidigt som möjligt - det fångar mycket mer än standardinställningarna",
+      "Anta det inkrementellt i en befintlig JS-kodbas med \"allowJs\": true och \"checkJs\": true innan du konverterar filer helt"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Grundläggande Typer & Inferens",
+      "description": "Se vad TypeScript infererar själv, och var ett felaktigt värde flaggas"
+    },
+    {
+      "title": "Interfaces & Type Aliases",
+      "description": "Definiera formen på ett objekt och kontrollera ett värde mot det fält för fält"
+    },
+    {
+      "title": "Typa Funktioner",
+      "description": "Ge en funktions parametrar och returvärde typer, och se vilka anrop TypeScript accepterar"
+    },
+    {
+      "title": "Generics",
+      "description": "Skriv en funktion som fungerar med många typer, med den riktiga typen ifylld per anrop"
+    },
+    {
+      "title": "Union & Intersection Typer",
+      "description": "Kombinera typer med | och &, smalna sedan ner en union innan du använder den"
+    }
+  ],
+  "fullExample": {
+    "heading": "Komplett Exempel, Steg för Steg",
+    "title": "En typad funktion som arbetar med ett interface och en generisk hjälpare",
+    "description": "Detta knyter ihop kärnkoncepten ovan i en realistisk fil: ett interface som beskriver en form, en funktion typad mot den, och en liten generisk hjälpare återanvänd för något orelaterat. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
+    "code": [
+      "interface Task {",
+      "  id: number;",
+      "  title: string;",
+      "  done: boolean;",
+      "  dueDate?: string; // optional - not every task has one",
+      "}",
+      "",
+      "function formatTask(task: Task): string {",
+      "  const status = task.done ? \"✓\" : \"○\";",
+      "  const due = task.dueDate ? ` (due ${task.dueDate})` : \"\";",
+      "  return `${status} ${task.title}${due}`;",
+      "}",
+      "",
+      "function pluck<T, K extends keyof T>(items: T[], key: K): T[K][] {",
+      "  return items.map((item) => item[key]);",
+      "}",
+      "",
+      "const tasks: Task[] = [",
+      "  { id: 1, title: \"Write tests\", done: false },",
+      "  { id: 2, title: \"Ship it\", done: true, dueDate: \"2026-09-01\" },",
+      "];",
+      "",
+      "console.log(tasks.map(formatTask));",
+      "console.log(pluck(tasks, \"title\")); // string[]",
+      "console.log(pluck(tasks, \"done\"));  // boolean[]"
+    ],
+    "steps": [
+      {
+        "label": "Beskriv formen",
+        "lines": [1, 6],
+        "explanation": "interface Task namnger en form en gång: varje Task har ett id, en title och en done-flagga. ?-tecknet på dueDate markerar det som valfritt - en Task är fortfarande giltig utan det."
+      },
+      {
+        "label": "Typa en funktionsparameter",
+        "lines": [8, 8],
+        "explanation": "task: Task betyder att endast ett objekt som matchar den formen kan skickas in - att anropa formatTask(\"hello\") skulle vara ett kompileringsfel, inte en runtime-överraskning."
+      },
+      {
+        "label": "Hantera ett valfritt fält säkert",
+        "lines": [9, 10],
+        "explanation": "Eftersom dueDate är typad som string | undefined kommer TypeScript inte att låta dig använda det utan att först kontrollera att det finns - ternary-operatorn här är den kontrollen."
+      },
+      {
+        "label": "Skriv en generisk hjälpare",
+        "lines": [13, 15],
+        "explanation": "T är \"vilken typ av item som helst i arrayen\" och K extends keyof T begränsar key till ett faktiskt egenskapsnamn på T - så pluck(tasks, \"nope\") skulle misslyckas att kompilera."
+      },
+      {
+        "label": "Typa en array med objekt",
+        "lines": [17, 20],
+        "explanation": "Task[] betyder att varje element i arrayen kontrolleras mot Task-formen - att utelämna title, till exempel, skulle flaggas direkt här."
+      },
+      {
+        "label": "Låt inferens göra resten",
+        "lines": [23, 24],
+        "explanation": "plucks returtyp är inte skriven någonstans - TypeScript räknar ut T[K][] från hur pluck anropas, så tasks.title stämmer överens med string[] och tasks.done med boolean[] automatiskt."
+      }
+    ]
+  }
+}

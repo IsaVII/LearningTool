@@ -1,0 +1,155 @@
+{
+  "title": "Git Grunderna",
+  "introduction": {
+    "heading": "Vad är Git?",
+    "description": "Git är ett distribuerat versionshanteringssystem som spårar ändringar i filer över tid. Varje klon av ett repository är en fullständig kopia av dess historik, inte bara en pekare till en central server, vilket betyder att du kan commit:a, brancha och inspektera historik helt offline, och sedan synka med andra - GitHub, GitLab, en lagkamrats maskin - när du är redo."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Repository",
+        "description": "En projektmapp plus dess fullständiga historik, lagrad i en dold .git-katalog"
+      },
+      {
+        "title": "Commit",
+        "description": "En sparad ögonblicksbild av projektet vid en viss tidpunkt, med ett meddelande och en unik hash"
+      },
+      {
+        "title": "Branch",
+        "description": "En flyttbar pekare till en commit, som låter dig arbeta på något utan att röra main"
+      },
+      {
+        "title": "HEAD",
+        "description": "En pekare till vilken commit eller branch du för närvarande har checkat ut"
+      },
+      {
+        "title": "Remote",
+        "description": "En version av repositoryt som hostas någon annanstans - vanligtvis kallad origin - som du pushar till och pullar från"
+      },
+      {
+        "title": "Merge conflict",
+        "description": "Vad som händer när Git inte automatiskt kan kombinera ändringar på samma rader och ber dig att besluta"
+      }
+    ]
+  },
+  "threeStates": {
+    "heading": "De Tre Tillstånden",
+    "description": "Varje spårad fil i Git befinner sig på en av tre platser: arbetskatalogen (dina faktiska filer, när du redigerar dem), staging-området / index (ändringar du har markerat med git add, redo att commitas), och repositoryt (ändringar som är säkert registrerade med git commit). Att förstå denna pipeline - redigera, stage:a, commit:a - förklarar nästan allt annat Git gör."
+  },
+  "gettingStarted": {
+    "heading": "Kom Igång",
+    "steps": [
+      "Installera Git från git-scm.com, bekräfta sedan med git --version",
+      "Ställ in din identitet en gång med git config --global user.name och user.email",
+      "Starta ett nytt repo med git init, eller kopiera ett befintligt med git clone <url>",
+      "Kontrollera vad som har ändrats när som helst med git status och git log",
+      "Lägg till en .gitignore före din första commit så att build-output och hemligheter aldrig spåras"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Clone & Remotes",
+      "description": "Kopiera ett repository lokalt, håll det sedan synkat med git push och git pull"
+    },
+    {
+      "title": "Staging & Committing",
+      "description": "Flytta ändringar från arbetskatalogen till staging med add, spara dem sedan med commit"
+    },
+    {
+      "title": "Branching & Merging",
+      "description": "Arbeta isolerat på en branch, för sedan ändringarna tillbaka till main"
+    },
+    {
+      "title": "Rebase",
+      "description": "Spela upp en branchs commits på en annan för en renare, linjär historik"
+    },
+    {
+      "title": "Stash",
+      "description": "Lägg uncommittade ändringar åt sidan tillfälligt utan att göra en commit"
+    },
+    {
+      "title": "Reset & Revert",
+      "description": "Ångra historik lokalt med reset, eller ångra den säkert på delade brancher med revert"
+    },
+    {
+      "title": "Cherry-pick",
+      "description": "Applicera en specifik commit från en annan branch utan att merge:a allt"
+    },
+    {
+      "title": "Resolving Conflicts",
+      "description": "Arbeta igenom konkurrerande redigeringar på samma rader när en merge inte kan auto-resolve:as"
+    },
+    {
+      "title": ".gitignore",
+      "description": "Tala om för Git vilka filer och mappar som aldrig ska spåras från första början"
+    }
+  ],
+  "fullExample": {
+    "heading": "Komplett Exempel, Steg för Steg",
+    "title": "Ett typiskt feature-arbetsflöde: branch, commit, sync, publish",
+    "description": "Detta är den dagliga loop som de flesta Git-användare ständigt upprepar. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
+    "code": [
+      "# 1. Get a local copy of a shared repository",
+      "git clone https://github.com/team/project.git",
+      "cd project",
+      "",
+      "# 2. Create a branch so main stays untouched while you work",
+      "git checkout -b feature/login-form",
+      "",
+      "# 3. Edit files, then stage the ones you want to commit",
+      "git add src/LoginForm.jsx",
+      "",
+      "# 4. Record a snapshot of the staged changes",
+      "git commit -m \"Add login form component\"",
+      "",
+      "# 5. Bring in anything teammates pushed to main while you worked",
+      "git checkout main",
+      "git pull origin main",
+      "",
+      "# 6. Bring those updates into your feature branch too",
+      "git checkout feature/login-form",
+      "git rebase main",
+      "",
+      "# 7. Publish the branch so others - and a pull request - can see it",
+      "git push origin feature/login-form"
+    ],
+    "steps": [
+      {
+        "label": "Klona repositoryt",
+        "lines": [1, 3],
+        "explanation": "git clone laddar ner hela repositoryt, inklusive dess fullständiga historik, och checkar ut dess standardbranch i en ny lokal mapp."
+      },
+      {
+        "label": "Skapa en feature branch",
+        "lines": [5, 5],
+        "explanation": "git checkout -b skapar en ny branch som pekar på den nuvarande commit:en och växlar till den i ett steg, så dina ändringar förblir isolerade från main."
+      },
+      {
+        "label": "Stage:a dina ändringar",
+        "lines": [7, 8],
+        "explanation": "git add flyttar en fils nuvarande ändringar till staging-området - ett utkast av exakt vad nästa commit kommer att innehålla."
+      },
+      {
+        "label": "Commit:a ögonblicksbilden",
+        "lines": [10, 11],
+        "explanation": "git commit registrerar permanent vad som är stage:at, tillsammans med ett meddelande som förklarar varför ändringen gjordes."
+      },
+      {
+        "label": "Pulla senaste main",
+        "lines": [13, 15],
+        "explanation": "git pull hämtar nya commits från remote:n och merge:ar dem i din nuvarande branch - här, för att få main uppdaterad med vad lagkamrater pushat."
+      },
+      {
+        "label": "Rebase:a din branch",
+        "lines": [17, 19],
+        "explanation": "git rebase spelar upp din feature branchs commits ovanpå den uppdaterade main, så den slutliga historiken ser ut som om du började från den senaste koden."
+      },
+      {
+        "label": "Pusha branchen",
+        "lines": [21, 22],
+        "explanation": "git push laddar upp din branch och dess commits till remote:n, vilket gör den synlig för lagkamrater och redo för en pull request."
+      }
+    ]
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "title": "HTTP & Webb-API:er",
+  "introduction": {
+    "heading": "Vad är HTTP?",
+    "description": "HTTP (HyperText Transfer Protocol) är språket webbläsare och servrar använder för att prata med varandra. Varje gång en sida laddas, en knapp triggar en fetch, eller en app kollar efter ny data, skickar en klient en HTTP-förfrågan och en server skickar tillbaka ett HTTP-svar. Node.js kan tala båda sidor av den konversationen - det kan vara servern som hanterar förfrågningar (som du såg med den inbyggda http-modulen) och, genom Fetch API:et, klienten som skickar dem. Den här sidan täcker resten av bilden: hur förfrågningar och svar är strukturerade, hur REST API:er vanligtvis designas kring dem, och webbläsar-API:erna - Fetch, AbortController, WebSockets och Server-Sent Events - som används för att prata med dem från klient-side JavaScript."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Request & Response",
+        "description": "En klient skickar en förfrågan (metod, URL, headers, valfri body); en server skickar tillbaka ett svar (statuskod, headers, valfri body). Varje HTTP-interaktion är en rundtur av denna cykel"
+      },
+      {
+        "title": "Methods",
+        "description": "GET, POST, PUT, PATCH och DELETE signalerar avsikt - läsa data, skapa det, ersätta det, delvis uppdatera det eller ta bort det"
+      },
+      {
+        "title": "Status Codes",
+        "description": "Ett tresiffrigt nummer i svaret som sammanfattar vad som hände: 2xx framgång, 3xx omdirigering, 4xx klientfel, 5xx serverfel"
+      },
+      {
+        "title": "Headers",
+        "description": "Nyckel/värde-metadata som skickas med en förfrågan eller svar - innehållstyp, auktorisering, cachingregler och mer - separat från body:n"
+      },
+      {
+        "title": "Cookies",
+        "description": "Små bitar av state som en server ber webbläsaren lagra via en Set-Cookie header, som webbläsaren sedan automatiskt återkopplar på senare förfrågningar till det ursprunget"
+      },
+      {
+        "title": "CORS",
+        "description": "Cross-Origin Resource Sharing - en webbläsarsäkerhetsmekanism som blockerar en sida från att läsa svar från ett annat ursprung om inte servern uttryckligen tillåter det"
+      },
+      {
+        "title": "REST",
+        "description": "En arkitektonisk stil som mappar CRUD-operationer på HTTP-metoder och URL:er som representerar resurser, t.ex. GET /users/7 eller DELETE /posts/3"
+      },
+      {
+        "title": "JSON",
+        "description": "JavaScript Object Notation - de facto dataformatet för API-förfrågnings- och svarsbodys, parsat med JSON.parse och producerat med JSON.stringify"
+      }
+    ]
+  },
+  "lifecycle": {
+    "heading": "Request/Response-Cykeln",
+    "description": "Bakom ett enda fetch()-anrop händer flera saker i ordning: webbläsaren löser domänen till en IP-adress (DNS), öppnar en anslutning till servern (TCP, plus en TLS-handshake för HTTPS), skickar förfrågningsraden, headers och body, väntar medan servern bearbetar den, och får slutligen svarsraden, headers och body tillbaka. Fetch (och webbläsaren) hanterar allt detta åt dig - men att känna till stegen gör det mycket lättare att resonera om latens, caching och varför en förfrågan kan misslyckas innan den ens når din serverkod."
+  },
+  "gettingStarted": {
+    "heading": "Kom Igång",
+    "steps": [
+      "Öppna valfri webbplats' DevTools Network-flik och ladda om sidan - varje förfrågnings-/svarspar är där: metod, status, headers och body",
+      "Prova fetch(\"https://api.example.com\") i webbläsarkonsolen - det returnerar ett Promise som löses till ett Response-objekt",
+      "Anropa response.json() (också ett Promise) för att parsa body:n som JSON när svaret anländer",
+      "Wrappa fetch i try/catch och kolla response.ok - fetch avvisar bara vid nätverksfel, inte vid 4xx/5xx-statuskoder",
+      "Sträck dig efter ett publikt test-API som jsonplaceholder.typicode.com när du vill öva REST-anrop utan att köra din egen server"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Methods & Status Codes",
+      "description": "Skicka olika HTTP-metoder och se vilken statuskod som kommer tillbaka och varför"
+    },
+    {
+      "title": "Headers & Cookies",
+      "description": "Bifoga förfrågnings-headers och se servern sätta en cookie i sitt svar"
+    },
+    {
+      "title": "CORS",
+      "description": "Se varför webbläsaren blockerar - eller tillåter - en cross-origin-förfrågan"
+    },
+    {
+      "title": "REST & JSON",
+      "description": "Utför CRUD-operationer mot en resurs, skickad och mottagen som JSON"
+    },
+    {
+      "title": "Fetch & AbortController",
+      "description": "Avbryt en pågående fetch innan den löses, istället för att vänta ut den"
+    },
+    {
+      "title": "Authentication",
+      "description": "Logga in för att få en token, använd den sedan för att nå en route som annars skulle ge 401"
+    },
+    {
+      "title": "WebSockets",
+      "description": "Öppna en persistent, tvåvägs-anslutning istället för en förfrågan per meddelande"
+    },
+    {
+      "title": "Server-Sent Events (SSE)",
+      "description": "Prenumerera på en envägs-stream av händelser som servern pushar över tid"
+    }
+  ],
+  "fullExample": {
+    "heading": "Komplett Exempel, Steg för Steg",
+    "title": "En verklig fetch: headers, JSON, fel och en timeout",
+    "description": "Detta knyter ihop koncepten ovan i en realistisk funktion. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
+    "code": [
+      "async function getUser(id, { signal } = {}) {",
+      "  const controller = new AbortController();",
+      "  const timeout = setTimeout(() => controller.abort(), 5000);",
+      "",
+      "  try {",
+      "    const response = await fetch(`/api/users/${id}`, {",
+      "      method: \"GET\",",
+      "      headers: {",
+      "        Accept: \"application/json\",",
+      "        Authorization: `Bearer ${getToken()}`,",
+      "      },",
+      "      signal: signal ?? controller.signal,",
+      "    });",
+      "",
+      "    if (!response.ok) {",
+      "      throw new Error(`Request failed: ${response.status}`);",
+      "    }",
+      "",
+      "    const user = await response.json();",
+      "    return user;",
+      "  } catch (error) {",
+      "    if (error.name === \"AbortError\") {",
+      "      console.log(\"Request timed out or was cancelled\");",
+      "    } else {",
+      "      console.error(\"Fetch failed:\", error.message);",
+      "    }",
+      "    throw error;",
+      "  } finally {",
+      "    clearTimeout(timeout);",
+      "  }",
+      "}"
+    ],
+    "steps": [
+      {
+        "label": "Skapa en AbortController",
+        "lines": [2, 3],
+        "explanation": "En AbortController ger dig en signal du kan trigga senare. Här är den parkopplad med setTimeout så förfrågan avbryter sig själv om servern tar längre än 5 sekunder."
+      },
+      {
+        "label": "Anropa fetch med alternativ",
+        "lines": [6, 12],
+        "explanation": "fetchs andra argument konfigurerar förfrågan: metod, headers (inklusive Authorization för autentiserade routes) och abort-signalen som låter denna förfrågan avbrytas."
+      },
+      {
+        "label": "Kontrollera response.ok",
+        "lines": [14, 16],
+        "explanation": "fetch avvisar bara vid nätverksnivå-fel (offline, DNS, CORS). En 404 eller 500 löses fortfarande framgångsrikt - response.ok (true bara för 2xx) är hur du fångar dessa själv."
+      },
+      {
+        "label": "Parsa JSON-body:n",
+        "lines": [18, 19],
+        "explanation": "response.json() är i sig async - den läser och parsar svarsströmmen, så den behöver sin egen await."
+      },
+      {
+        "label": "Skilj abort från andra fel",
+        "lines": [21, 27],
+        "explanation": "När en förfrågan avbryts avvisar fetch med ett fel vars namn är \"AbortError\" - att kontrollera det låter dig skilja en avsiktlig avbrytning från ett verkligt fel."
+      },
+      {
+        "label": "Rensa alltid timern",
+        "lines": [28, 30],
+        "explanation": "finally körs oavsett om förfrågan lyckades, misslyckades eller avbröts, så timeouten aldrig triggar sent och avbryter en förfrågan som redan slutat."
+      }
+    ]
+  }
+}

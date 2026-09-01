@@ -1,0 +1,156 @@
+{
+  "title": "WebSockets",
+  "introduction": {
+    "heading": "Vad är WebSockets?",
+    "description": "En WebSocket är en persistent, full-duplex-anslutning mellan en webbläsare och en server. Istället för att klienten frågar och servern svarar en gång per HTTP-förfrågan, håller båda sidor en enda anslutning öppen och kan skicka meddelanden till varandra när som helst. Det gör WebSockets till en naturlig passform för allt som behöver kännas omedelbart - chattappar, live-dashboards, multiplayer-spel och kollaborativa editorer."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Full-Duplex",
+        "description": "Klient och server kan båda skicka meddelanden när som helst på samma öppna anslutning - ingen väntan på tur som request/response"
+      },
+      {
+        "title": "The Handshake",
+        "description": "En WebSocket-anslutning börjar som en normal HTTP-förfrågan med en Upgrade: websocket-header, växlar sedan protokoll"
+      },
+      {
+        "title": "Persistent Connection",
+        "description": "Anslutningen förblir öppen tills någon sida stänger den, istället för att avslutas efter varje utbyte som ett typiskt HTTP-anrop"
+      },
+      {
+        "title": "Frames",
+        "description": "Meddelanden färdas som små text- eller binära frames, så protokollet hanterar chunking av stora payloads åt dig"
+      },
+      {
+        "title": "wss://",
+        "description": "Det säkra WebSocket-schemat, som körs över TLS - använd det i produktion på samma sätt som du skulle använda https:// över http://"
+      }
+    ]
+  },
+  "lifecycle": {
+    "heading": "Anslutningens Livscykel",
+    "description": "En WebSocket rör sig genom fyra tillstånd, spårade av dess readyState-egenskap: CONNECTING (0) medan handshake:n pågår, OPEN (1) när den lyckas och meddelanden kan flöda båda vägar, CLOSING (2) efter att någon sida börjar stänga ner anslutningen, och CLOSED (3) när den är helt borta. Fyra händelser speglar dessa övergångar: onopen, onmessage, onerror och onclose."
+  },
+  "gettingStarted": {
+    "heading": "Kom Igång",
+    "steps": [
+      "Skapa en socket med new WebSocket(\"wss://your-server/path\")",
+      "Vänta på socket.onopen innan du skickar något - handshake:n är inte klar förrän den triggas",
+      "Skicka data med socket.send(...) - strängar, JSON.stringify:ade objekt eller binär data fungerar alla",
+      "Hantera inkommande data i socket.onmessage - payloaden är på event.data",
+      "Koppla alltid in socket.onclose och socket.onerror så en tappad anslutning inte lämnar ditt UI hängande",
+      "På servern, sträck dig efter ett bibliotek som ws i Node.js - webbläsare kan öppna anslutningar men kan inte acceptera dem"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Sending & Receiving Messages",
+      "description": "Skicka strukturerad JSON över kabeln och se hur en server-stil-handler svarar"
+    },
+    {
+      "title": "Broadcasting to Multiple Clients",
+      "description": "Se en server fläkta ut ett meddelande till varje anslutning den håller öppen"
+    },
+    {
+      "title": "Heartbeats (Ping/Pong)",
+      "description": "Håll en anslutning levande och upptäck en död med periodiska pingar"
+    },
+    {
+      "title": "Reconnecting with Backoff",
+      "description": "Hantera en tappad anslutning gracefully genom att försöka igen med ökande fördröjningar"
+    }
+  ],
+  "fullExample": {
+    "heading": "Komplett Exempel, Steg för Steg",
+    "title": "En liten chattserver och klient med ws-biblioteket",
+    "description": "Detta knyter ihop kärnkoncepten ovan i ett realistiskt filpar: en Node.js-server som spårar anslutna klienter och broadcastar meddelanden, och en webbläsarklient som ansluter till den. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
+    "code": [
+      "const { WebSocketServer } = require(\"ws\");",
+      "",
+      "const wss = new WebSocketServer({ port: 8080 });",
+      "const clients = new Set();",
+      "",
+      "wss.on(\"connection\", (socket) => {",
+      "  clients.add(socket);",
+      "  console.log(`Client joined - ${clients.size} connected`);",
+      "",
+      "  socket.on(\"message\", (raw) => {",
+      "    const message = JSON.parse(raw);",
+      "",
+      "    // Broadcast to every other connected client",
+      "    for (const client of clients) {",
+      "      if (client !== socket && client.readyState === client.OPEN) {",
+      "        client.send(JSON.stringify(message));",
+      "      }",
+      "    }",
+      "  });",
+      "",
+      "  socket.on(\"close\", () => {",
+      "    clients.delete(socket);",
+      "    console.log(`Client left - ${clients.size} connected`);",
+      "  });",
+      "});",
+      "",
+      "// --- Browser client ---",
+      "const socket = new WebSocket(\"ws://localhost:8080\");",
+      "",
+      "socket.onopen = () => {",
+      "  socket.send(JSON.stringify({ user: \"Isa\", text: \"hello!\" }));",
+      "};",
+      "",
+      "socket.onmessage = (event) => {",
+      "  const message = JSON.parse(event.data);",
+      "  console.log(`${message.user}: ${message.text}`);",
+      "};"
+    ],
+    "steps": [
+      {
+        "label": "Starta en WebSocket-server",
+        "lines": [1, 3],
+        "explanation": "ws-paketet är standardsättet att köra en WebSocket-server i Node - createServer() från http accepterar inte uppgraderingsförfrågningar på egen hand. Att skicka en port får den att lyssna direkt."
+      },
+      {
+        "label": "Spåra anslutna klienter",
+        "lines": [4, 4],
+        "explanation": "Ett Set som håller varje öppen socket är hur en server vet vem den ska broadcasta till senare - det finns ingen inbyggd \"skicka till alla\"-metod."
+      },
+      {
+        "label": "Reagera på en ny anslutning",
+        "lines": [6, 8],
+        "explanation": "\"connection\"-händelsen triggas en gång per klient, direkt efter att HTTP-till-WebSocket-handshake:n lyckas, och ger dig den klientens socket."
+      },
+      {
+        "label": "Ta emot och parsa ett meddelande",
+        "lines": [10, 11],
+        "explanation": "Frames anländer som rå text- eller binär data - JSON.parse förvandlar strängen tillbaka till objektet klienten skickade."
+      },
+      {
+        "label": "Broadcasta till alla andra",
+        "lines": [13, 19],
+        "explanation": "Att loopa över Set:et och kontrollera readyState === OPEN undviker att skicka till en klient mitt i handshake eller redan stänger, och att hoppa över avsändaren ekar meddelandet till alla utom dem."
+      },
+      {
+        "label": "Städa upp vid frånkoppling",
+        "lines": [21, 24],
+        "explanation": "\"close\" triggas oavsett om klienten lämnade med avsikt eller anslutningen bara tappades - att ta bort den från Set:et stoppar servern från att försöka skicka till en död socket."
+      },
+      {
+        "label": "Anslut från webbläsaren",
+        "lines": [27, 28],
+        "explanation": "new WebSocket(url) startar handshake:n omedelbart - det finns inget separat .connect()-anrop."
+      },
+      {
+        "label": "Skicka när handshake:n är klar",
+        "lines": [30, 32],
+        "explanation": "onopen triggas bara efter att servern accepterat anslutningen - att skicka tidigare skulle tyst misslyckas eftersom socket:en inte är redo än."
+      },
+      {
+        "label": "Hantera inkommande meddelanden",
+        "lines": [34, 37],
+        "explanation": "onmessage triggas en gång per frame servern skickar - här är det varje chattmeddelande en annan klient broadcastar."
+      }
+    ]
+  }
+}

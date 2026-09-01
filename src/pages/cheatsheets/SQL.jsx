@@ -1,7 +1,16 @@
+import { useTranslation } from "react-i18next";
 import CheatSheetLayout from "../../components/CheatSheetLayout";
-import sqlData from "../../data/cheatsheets/sql.json";
+import sqlDataEn from "../../data/cheatsheets/sql.json";
+import sqlDataSv from "../../data/sv/cheatsheets/sql.json";
+
+const CONTENT_MAP = {
+  en: sqlDataEn,
+  sv: sqlDataSv,
+};
 
 function SQL() {
+  const { i18n } = useTranslation();
+  const sqlData = CONTENT_MAP[i18n.language] || CONTENT_MAP.en;
   const sqlContent = sqlData.default || sqlData;
 
   return (

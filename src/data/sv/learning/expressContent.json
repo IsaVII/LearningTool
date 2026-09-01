@@ -1,0 +1,183 @@
+{
+  "title": "Express.js Grunderna",
+  "introduction": {
+    "heading": "Vad är Express.js?",
+    "description": "Express är ett minimalt, unopinionated webbramverk för Node.js. Nodes inbyggda http-modul ger dig ett rått request/response-par och lämnar allt annat - routing, parsing av bodys, servering av filer, felhantering - upp till dig. Express wrappar det i ett litet, komponerbart API: du beskriver routes, stackar upp middleware-funktioner för att hantera övergripande bekymmer (loggning, auth, parsing), och Express tar hand om att matcha inkommande förfrågningar till rätt handler och köra allt i ordning."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Routing",
+        "description": "Mappa en HTTP-metod + sökväg (app.get('/users/:id', ...)) till en handler-funktion"
+      },
+      {
+        "title": "Middleware",
+        "description": "Funktioner som körs i sekvens för en förfrågan, var och en kan inspektera/modifiera den och anropa next()"
+      },
+      {
+        "title": "Request & Response",
+        "description": "req wrappar den inkommande förfrågan (params, query, body, headers); res bygger svaret"
+      },
+      {
+        "title": "Router",
+        "description": "express.Router() grupperar relaterade routes i sin egen mini-app du kan mounta på en sökväg"
+      },
+      {
+        "title": "Error Handling",
+        "description": "En speciell 4-argument middleware (err, req, res, next) fångar fel som skickas till next(err)"
+      }
+    ]
+  },
+  "pipeline": {
+    "heading": "Middleware-Pipelinen",
+    "description": "Varje förfrågan Express tar emot färdas genom en kedja av middleware-funktioner, i exakt den ordning de registrerades med app.use()/app.get()/etc. Varje funktion kan svara, modifiera förfrågan eller lämna över till nästa genom att anropa next() - om den aldrig anropar next() (och inte skickar ett svar), hänger förfrågan bara. Denna ordnade kedja är det enskilt viktigaste att förstå om Express: autentiserings-middleware måste köra innan de routes den skyddar, felhanterare måste registreras sist, och en middleware som glömmer next() bryter tyst allt efter den."
+  },
+  "gettingStarted": {
+    "heading": "Kom Igång",
+    "steps": [
+      "Installera Express: npm install express",
+      "Skapa en app med const app = express() och lägg till middleware med app.use()",
+      "Definiera routes: app.get('/path', (req, res) => { ... })",
+      "Parsa JSON request bodies med app.use(express.json())",
+      "Börja lyssna: app.listen(3000, () => console.log('Server running'))",
+      "Dela upp routes i express.Router()-moduler när appen växer"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Routing & Route Params",
+      "description": "Matcha HTTP-metoder och sökvägar, och läs dynamiska segment och query strings"
+    },
+    {
+      "title": "Request & Response",
+      "description": "Läs från req och bygg svar med res.json, res.status, res.send"
+    },
+    {
+      "title": "express.Router()",
+      "description": "Gruppera relaterade routes i sin egen modul och mounta dem på appen"
+    },
+    {
+      "title": "Body Parsing",
+      "description": "Förvandla råa request-bytes till req.body med express.json() och express.urlencoded()"
+    },
+    {
+      "title": "Error Handling",
+      "description": "Fånga sync- och async-fel på ett ställe med 4-argument error middleware"
+    },
+    {
+      "title": "Third-Party Middleware",
+      "description": "Släpp in community middleware som cors, morgan och helmet"
+    }
+  ],
+  "fullExample": {
+    "heading": "Komplett Exempel, Steg för Steg",
+    "title": "Ett litet REST API: routing, middleware och felhantering tillsammans",
+    "description": "Detta exempel knyter ihop kärnkoncepten ovan i en realistisk fil: ett users API med logging middleware, en modulär router, JSON-parsing och centraliserad felhantering. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
+    "code": [
+      "const express = require(\"express\");",
+      "const app = express();",
+      "",
+      "// Built-in middleware: parses JSON request bodies into req.body",
+      "app.use(express.json());",
+      "",
+      "// Custom middleware: runs for every request, in registration order",
+      "app.use((req, res, next) => {",
+      "  console.log(`${req.method} ${req.url}`);",
+      "  next(); // hand off to the next middleware/route - don't forget this!",
+      "});",
+      "",
+      "// In-memory \"database\" for this example",
+      "let users = [{ id: 1, name: \"Ada Lovelace\" }];",
+      "",
+      "// A router groups related routes and can be mounted at a path prefix",
+      "const usersRouter = express.Router();",
+      "",
+      "usersRouter.get(\"/\", (req, res) => {",
+      "  res.json(users);",
+      "});",
+      "",
+      "usersRouter.get(\"/:id\", (req, res, next) => {",
+      "  const user = users.find((u) => u.id === Number(req.params.id));",
+      "  if (!user) return next({ status: 404, message: \"User not found\" });",
+      "  res.json(user);",
+      "});",
+      "",
+      "usersRouter.post(\"/\", (req, res, next) => {",
+      "  if (!req.body.name) {",
+      "    return next({ status: 400, message: \"name is required\" });",
+      "  }",
+      "  const user = { id: users.length + 1, name: req.body.name };",
+      "  users.push(user);",
+      "  res.status(201).json(user);",
+      "});",
+      "",
+      "app.use(\"/users\", usersRouter);",
+      "",
+      "// 404 fallback - runs if no route above matched",
+      "app.use((req, res) => {",
+      "  res.status(404).json({ error: \"Not found\" });",
+      "});",
+      "",
+      "// Error-handling middleware - 4 args is what marks it as an error handler.",
+      "// Must be registered last, after every other app.use()/route.",
+      "app.use((err, req, res, next) => {",
+      "  res.status(err.status || 500).json({ error: err.message || \"Server error\" });",
+      "});",
+      "",
+      "app.listen(3000, () => console.log(\"Server running on port 3000\"));"
+    ],
+    "steps": [
+      {
+        "label": "Skapa appen",
+        "lines": [1, 2],
+        "explanation": "require(\"express\") returnerar en funktion; att anropa den ger dig ett app-objekt med .get/.post/.use/.listen - kärnan i varje Express-server."
+      },
+      {
+        "label": "Parsa JSON-bodys",
+        "lines": [4, 5],
+        "explanation": "express.json() är inbyggd middleware som läser den råa request-strömmen och, om Content-Type är application/json, parsar den till req.body för varje route under denna rad."
+      },
+      {
+        "label": "Logga varje förfrågan",
+        "lines": [7, 11],
+        "explanation": "app.use() utan sökväg kör denna middleware för varje förfrågan, i den ordning den registrerades. Att anropa next() är det som låter förfrågan fortsätta till vad som än är näst i kedjan."
+      },
+      {
+        "label": "Gruppera routes med en Router",
+        "lines": [16, 17],
+        "explanation": "express.Router() skapar en fristående uppsättning routes - en mini Express-app - som kan utvecklas, testas och mountas oberoende av huvudappen."
+      },
+      {
+        "label": "Läs en route param",
+        "lines": [23, 27],
+        "explanation": "req.params.id kommer från :id-segmentet i route-sökvägen. Att skicka ett objekt till next() hoppar rakt till felhanteraren istället för att fortsätta normalt."
+      },
+      {
+        "label": "Läs den parsade body:n",
+        "lines": [29, 36],
+        "explanation": "Eftersom express.json() körde tidigare i kedjan är req.body.name redan ett parsat värde här - ingen manuell strömläsning krävs."
+      },
+      {
+        "label": "Mounta routern",
+        "lines": [38, 38],
+        "explanation": "app.use(\"/users\", usersRouter) prefixar varje route inuti usersRouter med /users, så GET \"/\" inuti routern blir GET /users."
+      },
+      {
+        "label": "Fånga omatchade routes",
+        "lines": [40, 43],
+        "explanation": "Middleware registrerad efter alla routes körs bara om inget ovan matchade - en catch-all 404."
+      },
+      {
+        "label": "Hantera varje fel på ett ställe",
+        "lines": [45, 49],
+        "explanation": "En middleware-funktion med exakt 4 parametrar (err, req, res, next) behandlas speciellt av Express som en felhanterare, och körs bara när next(err) anropas någonstans upstream."
+      },
+      {
+        "label": "Börja lyssna",
+        "lines": [51, 51],
+        "explanation": "listen(port, callback) startar servern och håller processen levande, accepterar anslutningar på den givna porten."
+      }
+    ]
+  }
+}

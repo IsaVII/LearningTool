@@ -1,0 +1,196 @@
+{
+  "title": "Redux Grunderna",
+  "introduction": {
+    "heading": "Vad är Redux?",
+    "description": "Redux är en förutsägbar state container för JavaScript-applikationer - den tvingar fram ett strikt envägs-dataflöde där varje state-ändring är spårbar tillbaka till en enda action. Istället för att sprida state-uppdateringar över komponenter, lever all state i en store, alla ändringar sker genom dispatch:ade actions, och all logik som beräknar nästa state lever i rena reducer-funktioner. Den begränsningen - explicita actions, rena reducers, en enda store - är det som gör Redux-appar enkla att resonera om, testa och debugga."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Store",
+        "description": "Enda sanningskällan som håller hela appens state-träd - skapad en gång med configureStore och nås via useSelector eller getState()"
+      },
+      {
+        "title": "Actions",
+        "description": "Vanliga objekt som beskriver vad som hände, alltid med en type-sträng och eventuellt en payload - det enda sättet att trigga en state-ändring"
+      },
+      {
+        "title": "Reducers",
+        "description": "Rena funktioner som tar (state, action) och returnerar nytt state - inga sidoeffekter, inga API-anrop, bara state in, nytt state ut"
+      },
+      {
+        "title": "Selectors",
+        "description": "Funktioner som extraherar specifika bitar från state-trädet - håll dem memoizerade med createSelector för att undvika onödiga re-renders"
+      },
+      {
+        "title": "Middleware",
+        "description": "Förlängningspunkter mellan att dispatch:a en action och den når reducer:n - fånga upp, logga, fördröj eller transformera actions innan store:n ser dem"
+      },
+      {
+        "title": "Immutability",
+        "description": "Reducers måste returnera nya objekt istället för att mutera gamla state:t - Redux Toolkit använder Immer under huven så du kan skriva kod som ser ut som mutationer"
+      }
+    ]
+  },
+  "toolkit": {
+    "heading": "Redux Toolkit",
+    "description": "Redux Toolkit är den officiella, opinionated verktygsuppsättningen för effektiv Redux-utveckling. Den wrappa configureStore runt originalet createStore för att inkludera middleware och DevTools som standard, tillhandahåller createSlice för att generera action creators och reducers i ett svep, inkluderar createAsyncThunk för async-logik, createEntityAdapter för normaliserat state, och till och med RTK Query - en komplett data-fetching- och caching-lösning. Om du startar ett nytt Redux-projekt, börja alltid med Redux Toolkit; det är det moderna sättet att skriva Redux."
+  },
+  "gettingStarted": {
+    "heading": "Kom Igång",
+    "steps": [
+      "Installera @reduxjs/toolkit och react-redux, wrappa sedan din app i en Provider som pekar på store:n",
+      "Skapa slices med createSlice - var och en buntlar ett name, initialState och reducers som definierar hur state ändras som svar på actions",
+      "Använd useSelector((state) => state.slice.field) för att läsa state i komponenter - den prenumererar automatiskt och re-renderar bara när den biten ändras",
+      "Använd useDispatch för att få dispatch-funktionen, anropa sedan dispatch(actionCreator()) för att skicka en action till store:n",
+      "Sträck dig efter createAsyncThunk när du behöver dispatch:a actions baserat på ett promise:s livscykel (pending, fulfilled, rejected)",
+      "Lägg till Redux DevTools-tillägget i din webbläsare och öppna det tillsammans med din app - varje action, varje state-ändring, med time-travel debugging inbyggt"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Basic Store Setup",
+      "description": "Lär dig hur man konfigurerar en Redux store och dispatch:ar actions"
+    },
+    {
+      "title": "Creating Slices",
+      "description": "Förstå hur createSlice buntlar actions och reducers"
+    },
+    {
+      "title": "Using Hooks",
+      "description": "Bemästra useSelector och useDispatch för att koppla komponenter"
+    },
+    {
+      "title": "Async Operations",
+      "description": "Hantera async-logik med createAsyncThunk"
+    },
+    {
+      "title": "Middleware",
+      "description": "Fånga upp actions med custom middleware"
+    },
+    {
+      "title": "Memoized Selectors",
+      "description": "Optimera prestanda med createSelector från Reselect"
+    },
+    {
+      "title": "ExtraReducers",
+      "description": "Lyssna på actions från andra slices eller thunks"
+    },
+    {
+      "title": "Payload Preparation",
+      "description": "Anpassa action payloads med prepare callbacks"
+    },
+    {
+      "title": "Entity Adapter",
+      "description": "Hantera normaliserade kollektioner med createEntityAdapter"
+    },
+    {
+      "title": "RTK Query Basics",
+      "description": "Hämta och cacha data automatiskt med RTK Query"
+    },
+    {
+      "title": "DevTools Integration",
+      "description": "Debugga med time-travel och action replay"
+    },
+    {
+      "title": "Performance Patterns",
+      "description": "Batch:a uppdateringar och optimera re-renders"
+    }
+  ],
+  "fullExample": {
+    "heading": "Komplett Exempel, Steg för Steg",
+    "title": "En slice, en store och en ansluten komponent",
+    "description": "Detta exempel spänner över de tre filer en typisk Redux Toolkit-feature är gjord av. Klicka igenom stegen för att se hur ett klick färdas från komponenten hela vägen tillbaka till store:n.",
+    "code": [
+      "// counterSlice.js - defines one slice of state",
+      "import { createSlice } from \"@reduxjs/toolkit\";",
+      "",
+      "const counterSlice = createSlice({",
+      "  name: \"counter\",",
+      "  initialState: { value: 0 },",
+      "  reducers: {",
+      "    incremented: (state) => {",
+      "      state.value += 1;",
+      "    },",
+      "  },",
+      "});",
+      "",
+      "export const { incremented } = counterSlice.actions;",
+      "export default counterSlice.reducer;",
+      "",
+      "// store.js - combines every slice into one store",
+      "import { configureStore } from \"@reduxjs/toolkit\";",
+      "import counterReducer from \"./counterSlice\";",
+      "",
+      "export const store = configureStore({",
+      "  reducer: { counter: counterReducer },",
+      "});",
+      "",
+      "// Counter.jsx - a component connected to the store",
+      "import { useDispatch, useSelector } from \"react-redux\";",
+      "import { incremented } from \"./counterSlice\";",
+      "",
+      "function Counter() {",
+      "  const value = useSelector((state) => state.counter.value);",
+      "  const dispatch = useDispatch();",
+      "",
+      "  return (",
+      "    <button onClick={() => dispatch(incremented())}>",
+      "      Count: {value}",
+      "    </button>",
+      "  );",
+      "}"
+    ],
+    "steps": [
+      {
+        "label": "Skapa en slice",
+        "lines": [
+          4,
+          12
+        ],
+        "explanation": "createSlice buntlar ett name, ett initialState och en uppsättning reducers i ett objekt. Varje nyckel i reducers blir både en action type (\"counter/incremented\") och en reducer-funktion för att hantera den."
+      },
+      {
+        "label": "Exportera action creator och reducer",
+        "lines": [
+          14,
+          15
+        ],
+        "explanation": "createSlice genererar automatiskt en action creator för varje reducer du definierade. incremented() returnerar ett vanligt action-objekt som { type: \"counter/incremented\" } - reducer:n exporteras separat som slice:ns default export."
+      },
+      {
+        "label": "Registrera reducer:n i store:n",
+        "lines": [
+          21,
+          23
+        ],
+        "explanation": "configureStore bygger den enda store:n för hela appen. Counter-nyckeln här bestämmer var denna slice:s data lever i state - det blir state.counter."
+      },
+      {
+        "label": "Läs state med en selector",
+        "lines": [
+          30,
+          30
+        ],
+        "explanation": "useSelector kör en liten funktion mot det nuvarande store-state:t och returnerar bara den bit komponenten behöver. Den re-renderar också komponenten automatiskt när den biten ändras."
+      },
+      {
+        "label": "Få en dispatch-funktion",
+        "lines": [
+          31,
+          31
+        ],
+        "explanation": "useDispatch ger komponenten tillgång till store:ns dispatch-funktion - det enda sättet att skicka en action till store:n."
+      },
+      {
+        "label": "Dispatch:a en action vid klick",
+        "lines": [
+          34,
+          36
+        ],
+        "explanation": "Att klicka på knappen dispatch:ar incremented(). Store:n kör counter-reducer:n, beräknar nya state:t, och varje komponent som läser state.counter.value - inklusive denna - re-renderas med det uppdaterade räknaren."
+      }
+    ]
+  }
+}

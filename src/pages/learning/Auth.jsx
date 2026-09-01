@@ -1,4 +1,6 @@
-import authContent from "../../data/learning/authContent.json";
+import { useTranslation } from "react-i18next";
+import authContentEn from "../../data/learning/authContent.json";
+import authContentSv from "../../data/sv/learning/authContent.json";
 import AuthFlowDemo from "../../components/demos/auth-demos/AuthFlowDemo";
 import JwtDemo from "../../components/demos/auth-demos/JwtDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
@@ -8,19 +10,27 @@ import ProtectedRouteDemo from "../../components/demos/auth-demos/ProtectedRoute
 import RbacDemo from "../../components/demos/auth-demos/RbacDemo";
 import SessionsDemo from "../../components/demos/auth-demos/SessionsDemo";
 
-// Maps each practice topic (by title, from authContent.json) to a live,
-// interactive demo. Keeping this separate from the JSON data means the
-// content stays data-driven while the runnable examples stay real code.
-const practiceDemos = {
-  "Password Hashing": PasswordHashingDemo,
-  "Sessions & Cookies": SessionsDemo,
-  "JSON Web Tokens": JwtDemo,
-  "Protecting Routes": ProtectedRouteDemo,
-  "Role-Based Access Control": RbacDemo,
-  "OAuth (Sign in with...)": OAuthDemo,
+const CONTENT_MAP = {
+  en: authContentEn,
+  sv: authContentSv,
 };
 
 function Auth() {
+  const { i18n } = useTranslation();
+  const authContent = CONTENT_MAP[i18n.language] || CONTENT_MAP.en;
+
+  // Maps each practice topic (by title, from authContent.json) to a live,
+  // interactive demo. Keeping this separate from the JSON data means the
+  // content stays data-driven while the runnable examples stay real code.
+  const practiceDemos = {
+    [authContent.practiceTopics[0].title]: PasswordHashingDemo,
+    [authContent.practiceTopics[1].title]: SessionsDemo,
+    [authContent.practiceTopics[2].title]: JwtDemo,
+    [authContent.practiceTopics[3].title]: ProtectedRouteDemo,
+    [authContent.practiceTopics[4].title]: RbacDemo,
+    [authContent.practiceTopics[5].title]: OAuthDemo,
+  };
+
   return (
     <LearningTopicLayout
       title={authContent.title}

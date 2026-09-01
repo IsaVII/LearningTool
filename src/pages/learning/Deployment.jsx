@@ -1,4 +1,6 @@
-import deploymentContent from "../../data/learning/deploymentContent.json";
+import { useTranslation } from "react-i18next";
+import deploymentContentEn from "../../data/learning/deploymentContent.json";
+import deploymentContentSv from "../../data/sv/learning/deploymentContent.json";
 import DeploymentPipelineDemo from "../../components/demos/deployment-demos/DeploymentPipelineDemo";
 import EnvironmentVariablesDemo from "../../components/demos/deployment-demos/EnvironmentVariablesDemo";
 import GithubActionsDemo from "../../components/demos/deployment-demos/GithubActionsDemo";
@@ -6,17 +8,25 @@ import LearningTopicLayout from "../../components/LearningTopicLayout";
 import PlatformComparisonDemo from "../../components/demos/deployment-demos/PlatformComparisonDemo";
 import PreviewRollbackDemo from "../../components/demos/deployment-demos/PreviewRollbackDemo";
 
-// Maps each practice topic (by title, from deploymentContent.json) to a
-// live, interactive demo. Keeping this separate from the JSON data means
-// the content stays data-driven while the runnable examples stay real code.
-const practiceDemos = {
-  "Choosing a Platform": PlatformComparisonDemo,
-  "Environment Variables & Secrets": EnvironmentVariablesDemo,
-  "GitHub Actions Basics": GithubActionsDemo,
-  "Preview Deployments & Rollbacks": PreviewRollbackDemo,
+const CONTENT_MAP = {
+  en: deploymentContentEn,
+  sv: deploymentContentSv,
 };
 
 function Deployment() {
+  const { i18n } = useTranslation();
+  const deploymentContent = CONTENT_MAP[i18n.language] || CONTENT_MAP.en;
+
+  // Maps each practice topic (by title, from deploymentContent.json) to a
+  // live, interactive demo. Keeping this separate from the JSON data means
+  // the content stays data-driven while the runnable examples stay real code.
+  const practiceDemos = {
+    [deploymentContent.practiceTopics[0].title]: PlatformComparisonDemo,
+    [deploymentContent.practiceTopics[1].title]: EnvironmentVariablesDemo,
+    [deploymentContent.practiceTopics[2].title]: GithubActionsDemo,
+    [deploymentContent.practiceTopics[3].title]: PreviewRollbackDemo,
+  };
+
   return (
     <LearningTopicLayout
       title={deploymentContent.title}

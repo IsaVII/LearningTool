@@ -1,0 +1,106 @@
+{
+  "title": "Text Reveal & Content Reveal Cheat Sheet",
+  "introduction": {
+    "heading": "Scroll-Triggered Text & Content Reveals",
+    "description": "Ett drop-in scroll-reveal-system för React: en <Reveal>-komponent som fadar/glider in vilket block av innehåll som helst i vyn när det scrollas in på skärmen, och en <TextReveal>-komponent som animerar en rubrik ord-för-ord. Båda är byggda på en enda IntersectionObserver-baserad hook, kostar ingenting när de är off-screen, triggas en gång per element och respekterar automatiskt prefers-reduced-motion. Detta är ramverk-lätt - det behöver bara React och vanlig CSS, så det passar in i vilket React-projekt som helst oavsett om du använder Tailwind eller inte."
+  },
+  "prerequisites": [
+    "Ett React 18+ projekt (Vite, CRA, Next.js client components, etc.)",
+    "Bekväm med att lägga till ett par små hook-filer och en CSS-fil i ditt projekt",
+    "Inget animationsbibliotek krävs - detta använder native IntersectionObserver API och endast CSS-transitions"
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "title": "Lägg till Reduced-Motion Hook",
+      "description": "Varje reveal kontrollerar detta först. Den spårar OS-nivå prefers-reduced-motion-inställningen och håller sig synkroniserad om användaren ändrar den mitt i sessionen, så reveals kan hoppa direkt till sitt sluttillstånd för alla som har bett om mindre rörelse.",
+      "code": "// src/hooks/useReducedMotion.js\nimport { useEffect, useState } from \"react\";\n\nfunction useReducedMotion() {\n  const [reduced, setReduced] = useState(() =>\n    typeof window !== \"undefined\"\n      ? window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches\n      : false\n  );\n\n  useEffect(() => {\n    const query = window.matchMedia(\"(prefers-reduced-motion: reduce)\");\n    const handleChange = (e) => setReduced(e.matches);\n    query.addEventListener(\"change\", handleChange);\n    return () => query.removeEventListener(\"change\", handleChange);\n  }, []);\n\n  return reduced;\n}\n\nexport default useReducedMotion;",
+      "note": "Behåll detta som en egen hook - både Reveal och TextReveal (och alla framtida rörelsekomponenter) delar den, så reduced-motion-kontrollen behöver bara skrivas en gång."
+    },
+    {
+      "id": 2,
+      "title": "Lägg till useScrollReveal Hook",
+      "description": "Detta är motorn bakom båda komponenterna. Den tittar på ett element med en IntersectionObserver, vänder isVisible till true i samma ögonblick som det scrollas in i viewporten, och kopplar från omedelbart efter - reveals är en engångs-entré, inte något som triggas om varje gång någon scrollar förbi. Med reducerad rörelse på startar isVisible bara som true så elementet renderas i sitt slutgiltiga tillstånd direkt.",
+      "code": "// src/hooks/useScrollReveal.js\nimport { useEffect, useRef, useState } from \"react\";\nimport useReducedMotion from \"./useReducedMotion\";\n\nfunction useScrollReveal({ threshold = 0.2, rootMargin = \"0px 0px -10% 0px\" } = {}) {\n  const ref = useRef(null);\n  const reducedMotion = useReducedMotion();\n  const [isVisible, setIsVisible] = useState(reducedMotion);\n\n  useEffect(() => {\n    if (reducedMotion) {\n      setIsVisible(true);\n      return;\n    }\n\n    const node = ref.current;\n    if (!node) return;\n\n    const observer = new IntersectionObserver(\n      ([entry]) => {\n        if (entry.isIntersecting) {\n          setIsVisible(true);\n          observer.disconnect();\n        }\n      },\n      { threshold, rootMargin }\n    );\n\n    observer.observe(node);\n    return () => observer.disconnect();\n  }, [reducedMotion, threshold, rootMargin]);\n\n  return { ref, isVisible };\n}\n\nexport default useScrollReveal;",
+      "note": "rootMargin: \"0px 0px -10% 0px\" krymper viewportens botten med 10% innan den räknas som \"intersecting\", så element reveals lite innan de annars skulle nå kanten av skärmen - justera detta per projekt om du vill att reveals ska trigga tidigare eller senare."
+    },
+    {
+      "id": 3,
+      "title": "Lägg till Reveal-komponenten (innehålls-reveal)",
+      "description": "Wrappar vilket innehållsblock som helst - ett kort, en sektion, ett listobjekt - och lägger till klasserna som driver CSS-animationen i nästa steg. `direction` väljer vilken väg den reser in från (up/down/left/right/scale), och `index` matar en --stagger-index CSS-variabel så en lista av dessa automatiskt stagger när deras delade förälder har .stagger-children-klassen.",
+      "code": "// src/components/motion/Reveal.jsx\nimport useScrollReveal from \"../../hooks/useScrollReveal\";\n\nfunction Reveal({\n  children,\n  as: Tag = \"div\",\n  direction = \"up\",\n  index = 0,\n  className = \"\",\n  ...rest\n}) {\n  const { ref, isVisible } = useScrollReveal();\n\n  return (\n    <Tag\n      ref={ref}\n      className={`reveal reveal-${direction} ${isVisible ? \"is-visible\" : \"\"} ${className}`}\n      style={{ \"--stagger-index\": index }}\n      {...rest}\n    >\n      {children}\n    </Tag>\n  );\n}\n\nexport default Reveal;",
+      "highlightLines": [12, 15]
+    },
+    {
+      "id": 4,
+      "title": "Lägg till TextReveal-komponenten (ord-för-ord text reveal)",
+      "description": "Avsedd för hero-rubriker och sektionstitlar, inte långt brödtext. Den delar upp texten i ord, clippar varje ett inuti en overflow-hidden wrapper, och animerar dem på plats från vänster till höger med en kort fördröjning per ord när rubriken scrollar in i vyn.",
+      "code": "// src/components/motion/TextReveal.jsx\nimport useScrollReveal from \"../../hooks/useScrollReveal\";\n\nfunction TextReveal({ text, as: Tag = \"h2\", className = \"\", wordDelay = 40 }) {\n  const { ref, isVisible } = useScrollReveal({ threshold: 0.4 });\n  const words = text.split(\" \");\n\n  return (\n    <Tag ref={ref} className={className} aria-label={text}>\n      <span aria-hidden=\"true\">\n        {words.map((word, i) => (\n          <span\n            key={i}\n            style={{ overflow: \"hidden\", display: \"inline-block\" }}\n          >\n            <span\n              className={`text-reveal-piece ${isVisible ? \"is-visible\" : \"\"}`}\n              style={{ transitionDelay: `${i * wordDelay}ms` }}\n            >\n              {word}\n              {i < words.length - 1 ? \"\\u00A0\" : \"\"}\n            </span>\n          </span>\n        ))}\n      </span>\n    </Tag>\n  );\n}\n\nexport default TextReveal;",
+      "note": "Att dela upp text i separata spans bryter ordgränser för vissa skärmläsare, så den fulla, orörda strängen renderas också via aria-label på den yttre taggen, och den uppdelade visuella kopian är markerad aria-hidden. Hjälpande teknologi läser den verkliga meningen; seende användare ser den animerade."
+    },
+    {
+      "id": 5,
+      "title": "Lägg till CSS: Tokens, Reveal & Text-Reveal-regler",
+      "description": "Detta är den trimmade reveal-and-text-reveal-delen av en CSS-fil (importera den en gång, t.ex. från din apps rotkomponent eller huvudentry-fil). Den definierar timing/easing-tokens som båda komponenterna förlitar sig på, .reveal-basstaten plus dess riktningsvarianter, .text-reveal-piece-states, och en media query som tar bort rörelsen för prefers-reduced-motion medan den behåller en vanlig opacity-fade så state-ändringar fortfarande är märkbara.",
+      "code": "/* src/styles/reveal.css */\n:root {\n  --duration-base: 280ms; /* används för reduced-motion opacity fallback */\n  --duration-moderate: 420ms; /* reveal + text-reveal transition-längd */\n  --ease-emerge: cubic-bezier(0.16, 1, 0.3, 1); /* snabb start, mjuk landning */\n  --reveal-distance: 24px; /* hur långt innehåll reser in från */\n}\n\n/* ---- Text reveal (per ord/char, driven av <TextReveal>) ---- */\n.text-reveal-piece {\n  display: inline-block;\n  transform: translateY(110%);\n  opacity: 0;\n  transition:\n    transform var(--duration-moderate) var(--ease-emerge),\n    opacity var(--duration-moderate) var(--ease-emerge);\n}\n.text-reveal-piece.is-visible {\n  transform: translateY(0);\n  opacity: 1;\n}\n\n/* ---- Content reveal (driven av <Reveal>) ---- */\n.reveal {\n  opacity: 0;\n  transition:\n    opacity var(--duration-moderate) var(--ease-emerge),\n    transform var(--duration-moderate) var(--ease-emerge);\n  will-change: opacity, transform;\n}\n.reveal-up {\n  transform: translateY(var(--reveal-distance));\n}\n.reveal-down {\n  transform: translateY(calc(var(--reveal-distance) * -1));\n}\n.reveal-left {\n  transform: translateX(var(--reveal-distance));\n}\n.reveal-right {\n  transform: translateX(calc(var(--reveal-distance) * -1));\n}\n.reveal-scale {\n  transform: scale(0.96);\n}\n.reveal.is-visible {\n  opacity: 1;\n  transform: translate(0, 0) scale(1);\n  will-change: auto;\n}\n\n/* Stagger barn till en revealed container - para ihop med\n   --stagger-index custom property som Reveal sätter inline per barn. */\n.stagger-children > * {\n  transition-delay: calc(var(--stagger-index, 0) * 70ms);\n}\n\n/* ---- Reduced motion: behåll fade, släpp resandet ---- */\n@media (prefers-reduced-motion: reduce) {\n  :root {\n    --duration-moderate: 1ms;\n  }\n\n  .reveal,\n  .reveal-up,\n  .reveal-down,\n  .reveal-left,\n  .reveal-right,\n  .reveal-scale {\n    transform: none !important;\n    transition: opacity var(--duration-base) linear;\n  }\n\n  .text-reveal-piece {\n    transform: none !important;\n    transition: opacity var(--duration-base) linear;\n  }\n}",
+      "note": "Om ditt projekt redan har ett bredare design-token-system (durationer/easings definierade någon annanstans), lägg bara till .reveal*, .text-reveal-piece, .stagger-children och reduced-motion-reglerna - hoppa över att omdeklarera tokens du redan har."
+    },
+    {
+      "id": 6,
+      "title": "Importera CSS en gång",
+      "description": "Importera stylesheetn i din apps entry point så klasserna är tillgängliga överallt.",
+      "code": "// src/main.jsx (eller App.jsx)\nimport \"./styles/reveal.css\";"
+    },
+    {
+      "id": 7,
+      "title": "Använd TextReveal för Rubriker",
+      "description": "Släpp in den där du normalt skulle sätta en <h1>/<h2> - skicka rubrik-texten som en prop istället för som children, eftersom komponenten behöver den råa strängen för att dela upp i ord.",
+      "code": "import TextReveal from \"./components/motion/TextReveal\";\n\nfunction Hero() {\n  return (\n    <TextReveal\n      as=\"h1\"\n      text=\"Välkommen till Playground\"\n      className=\"text-4xl font-bold\"\n    />\n  );\n}"
+    },
+    {
+      "id": 8,
+      "title": "Använd Reveal för Innehållsblock",
+      "description": "Wrappa ett kort, sektion eller vilket element du vill animera in på scroll. För ett rutnät eller lista av objekt, lägg till .stagger-children till föräldern och skicka ett inkrementande index till varje Reveal så de kaskaderar in en efter en istället för att alla trigga på en gång.",
+      "code": "import Reveal from \"./components/motion/Reveal\";\n\nfunction FeatureGrid({ items }) {\n  return (\n    <div className=\"stagger-children grid grid-cols-2 gap-8\">\n      {items.map((item, i) => (\n        <Reveal key={item.id} index={i % 4} direction=\"up\">\n          <div className=\"card\">{item.title}</div>\n        </Reveal>\n      ))}\n    </div>\n  );\n}",
+      "highlightLines": [5, 7]
+    }
+  ],
+  "whatYouMightBeMissing": {
+    "heading": "Vanliga Fallgropar",
+    "categories": [
+      {
+        "title": "Reveal triggar aldrig",
+        "items": [
+          "Det wrappade elementet (eller en förälder) har display: contents eller är unmounted/re-mounted på varje render, vilket återställer observern innan den kan trigga",
+          "Elementet är högre än viewporten och uppfyller aldrig helt tröskelvärdet - sänk threshold (t.ex. 0.1) för mycket höga sektioner",
+          "index är bara för --stagger-index-fördröjningen, inte för keys - att glömma en stabil key (t.ex. ett item-id) på upprepade <Reveal>-element kan orsaka remounts som startar om animationen"
+        ]
+      },
+      {
+        "title": "Text reveal ser trasig ut",
+        "items": [
+          "Skicka JSX children istället för en text-prop - TextReveal behöver en vanlig sträng så den kan anropa .split(\" \")",
+          "Använda den på långa stycken - den är designad för korta rubriker; ord-för-ord-staggering på brödtext läses som långsam och gimmickig",
+          "Glömma overflow-hidden på per-ord-wrappern (redan inkluderad i komponenten) om du anpassar markeringen - utan den glider ord in från under hela viewporten istället för att klippa rent"
+        ]
+      },
+      {
+        "title": "Tillgänglighet",
+        "items": [
+          "Behåll alltid aria-hidden split copy plus aria-label med den verkliga strängen - vissa skärmläsare läser split <span>-innehåll ord-för-fragment annars",
+          "Hoppa aldrig över prefers-reduced-motion-hanteringen - för vissa användare orsakar animerad rörelse verkligt obehag, inte bara preferens"
+        ]
+      }
+    ]
+  },
+  "gettingStarted": {
+    "heading": "Snabbstarts-checklista",
+    "steps": [
+      "Lägg till src/hooks/useReducedMotion.js och src/hooks/useScrollReveal.js",
+      "Lägg till src/components/motion/Reveal.jsx och TextReveal.jsx",
+      "Lägg till src/styles/reveal.css och importera den en gång från din entry-fil",
+      "Använd <TextReveal text=\"...\" as=\"h1\" /> för hero/sektionsrubriker",
+      "Wrappa kort/sektioner i <Reveal> och lägg till .stagger-children till en delad förälder för kaskaderande rutnät/listor"
+    ]
+  }
+}

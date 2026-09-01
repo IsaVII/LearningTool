@@ -1,0 +1,143 @@
+{
+  "title": "Unit Tests",
+  "introduction": {
+    "heading": "Varför Testa?",
+    "description": "Automatiserade tester är kod som kontrollerar din kod. Istället för att manuellt klicka igenom en app efter varje ändring för att se om den fortfarande fungerar, gör en testsvit det på sekunder - fångar regressioner innan de når en användare, och ger dig förtroendet att refaktorera utan rädsla."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Unit Test",
+        "description": "Kontrollerar en liten bit kod - vanligtvis en enda funktion - i fullständig isolering"
+      },
+      {
+        "title": "Integration Test",
+        "description": "Kontrollerar att flera verkliga enheter fungerar tillsammans korrekt"
+      },
+      {
+        "title": "Component Test",
+        "description": "Renderar en UI-komponent och assertar på vad den visar eller gör"
+      },
+      {
+        "title": "Mocks & Spies",
+        "description": "Test doubles - en mock ersätter ett beroende, en spy wrappar den verkliga medan den registrerar anrop"
+      },
+      {
+        "title": "Fixture",
+        "description": "Återanvändbar, känd-bra provdata som delas mellan tester"
+      },
+      {
+        "title": "Assertion",
+        "description": "Den faktiska kontrollen, som expect(value).toBe(expected), som gör att ett test passerar eller misslyckas"
+      }
+    ]
+  },
+  "pyramid": {
+    "heading": "Testpyramiden",
+    "description": "Inte varje test ska vara av samma typ. Testpyramiden är en riktlinje för hur många av varje typ man ska skriva: många snabba, billiga unit tests vid basen, och progressivt färre, långsammare tester när du rör dig uppåt mot att träna hela appen."
+  },
+  "gettingStarted": {
+    "heading": "Kom Igång",
+    "steps": [
+      "Välj en test runner och assertion-bibliotek (Jest, Vitest och Mocha + Chai är vanliga val)",
+      "Skriv små unit tests först, ett beteende per test, följ en Arrange-Act-Assert-struktur",
+      "Använd mocks och spies för att isolera koden under test från långsamma eller oförutsägbara beroenden",
+      "Lägg till integration- och komponententester för sömmarna unit tests inte kan nå på egen hand",
+      "Kör sviten på varje commit i CI så regressioner fångas omedelbart, inte i produktion"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Unit Testing",
+      "description": "Testa en funktion i isolering"
+    },
+    {
+      "title": "Integration Testing",
+      "description": "Testa flera enheter som arbetar tillsammans"
+    },
+    {
+      "title": "Component Testing",
+      "description": "Testa vad en UI-komponent renderar"
+    },
+    {
+      "title": "Mocking",
+      "description": "Ersätt ett beroende med en fake"
+    },
+    {
+      "title": "Spies",
+      "description": "Wrappa en riktig funktion och bevaka den"
+    },
+    {
+      "title": "Fixtures",
+      "description": "Återanvänd känd-bra provdata"
+    },
+    {
+      "title": "Test-Driven Development",
+      "description": "Rött, grönt, refaktorera"
+    },
+    {
+      "title": "Testing Async Code",
+      "description": "Await:a promises inuti ett test"
+    },
+    {
+      "title": "Testing React Components",
+      "description": "Simulera ett klick och re-render"
+    },
+    {
+      "title": "Testing API Endpoints",
+      "description": "Assertera på statuskoder och bodys"
+    }
+  ],
+  "fullExample": {
+    "heading": "Test-Driven Development, Steg för Steg",
+    "title": "Rött, grönt, refaktorera",
+    "description": "TDD vänder på den vanliga ordningen: skriv ett misslyckande test som beskriver beteendet du vill ha, skriv precis tillräckligt med kod för att passera det, förbättra sedan implementationen medan testet håller dig ärlig. Klicka igenom cykeln nedan.",
+    "code": [
+      "// Step 1 (Red): write the test first, before the implementation exists",
+      "test(\"formatPrice adds a dollar sign and 2 decimals\", () => {",
+      "  expect(formatPrice(9)).toBe(\"$9.00\");",
+      "});",
+      "",
+      "// Step 2 (Green): write the simplest code that makes it pass",
+      "function formatPrice(amount) {",
+      "  return `$${amount.toFixed(2)}`;",
+      "}",
+      "",
+      "// Step 3: a new test describes a case the simple version ignores",
+      "test(\"formatPrice rejects non-numeric input\", () => {",
+      "  expect(() => formatPrice(\"nine\")).toThrow(TypeError);",
+      "});",
+      "",
+      "// Refactor: make the failure explicit, without changing passing tests",
+      "function formatPrice(amount) {",
+      "  if (typeof amount !== \"number\") {",
+      "    throw new TypeError(\"formatPrice expects a number\");",
+      "  }",
+      "  return `$${amount.toFixed(2)}`;",
+      "}"
+    ],
+    "steps": [
+      {
+        "label": "Rött - skriv ett misslyckande test",
+        "lines": [2, 4],
+        "explanation": "Utan någon formatPrice-funktion än kan detta test inte passera - det misslyckas omedelbart. Det är poängen: det är en precis, körbar beskrivning av beteendet du vill ha, skrivet innan någon implementation existerar."
+      },
+      {
+        "label": "Grönt - få det att passera, minimalt",
+        "lines": [7, 9],
+        "explanation": "Den minsta implementationen som tillfredsställer testet, och inget mer. Det är frestande att lägga till validering eller extra formatering här, men TDD säger: vänta tills ett test ber om det."
+      },
+      {
+        "label": "Lägg till ett test för ett saknat fall",
+        "lines": [12, 14],
+        "explanation": "Ett nytt krav - avvisa icke-numerisk input - startar cykeln igen. Att skriva detta test först tvingar dig att bestämma vad 'avvisa' ska betyda (kasta en TypeError) innan du implementerar det."
+      },
+      {
+        "label": "Refaktorera - förtydliga implementationen",
+        "lines": [17, 22],
+        "explanation": "Den gamla koden hände att kasta vid icke-numerisk input också, men bara på grund av ett orelaterat, förvirrande inbyggt fel. Denna refaktorering gör kontraktet explicit och avsiktligt - och eftersom de befintliga testerna fortfarande passerar, vet du att det synliga beteendet inte ändrats."
+      }
+    ]
+  }
+}

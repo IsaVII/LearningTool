@@ -1,0 +1,64 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "key": "projectsetup",
+      "title": "React + Redux Projektinställning",
+      "description": "Komplett guide för att sätta upp ett modernt React-projekt med Redux, Tailwind CSS och routing",
+      "route": "/projectsetup",
+      "screenshot": "/images/projectsetup.png",
+      "difficulty": "beginner",
+      "estimatedTime": "15 minuter"
+    },
+    {
+      "id": 2,
+      "key": "githubpages",
+      "title": "Github Pages för React",
+      "description": "Distribuera React-applikationer med GitHub Pages och VS Code",
+      "route": "/githubpages",
+      "screenshot": "/images/githubpages.png",
+      "difficulty": "beginner",
+      "estimatedTime": "10 minuter"
+    },
+    {
+      "id": 3,
+      "key": "npmlibraries",
+      "title": "Viktiga npm-bibliotek",
+      "description": "Måste-ha npm-paket för Node.js, Express, MongoDB, autentisering och e-postfunktionalitet",
+      "route": "/npmlibraries",
+      "screenshot": "/images/npmlibraries.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "20 minuter"
+    },
+    {
+      "id": 4,
+      "key": "mongodb",
+      "title": "MongoDB-installation & Anslutning",
+      "description": "Komplett guide för MongoDB-installation, felsökning av anslutningar och Atlas-konfiguration",
+      "route": "/mongodb",
+      "screenshot": "/images/mongodb.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "25 minuter"
+    },
+    {
+      "id": 5,
+      "key": "sql",
+      "title": "SQL-databas",
+      "description": "Kärn SQL-referens: skapa tabeller, SELECT/INSERT/UPDATE/DELETE, JOIN:ar, aggregering, begränsningar, index, transaktioner och vanliga fel",
+      "route": "/sql",
+      "screenshot": "/images/sql.png",
+      "difficulty": "beginner",
+      "estimatedTime": "20 minuter"
+    },
+    {
+      "id": 6,
+      "key": "textreveal",
+      "title": "Textavslöjande & Innehållsavslöjande",
+      "description": "Scroll-utlösta ord-för-ord textavslöjanden och fade/slide innehållsavslöjanden i React, byggda på IntersectionObserver och CSS-övergångar med prefers-reduced-motion stöd",
+      "route": "/textreveal",
+      "screenshot": "/images/textreveal.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "20 minuter"
+    }
+]
+}

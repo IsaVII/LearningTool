@@ -1,0 +1,157 @@
+{
+  "title": "JavaScript Grunder",
+  "introduction": {
+    "heading": "Vad är JavaScript?",
+    "description": "JavaScript är språket som körs i varje webbläsare och, via Node.js, även på servrar - det är hur en sida reagerar på klick, hämtar data och uppdaterar sig själv utan att ladda om helt. Det är dynamiskt typat (en variabel kan innehålla vilket värde som helst), kör din kod från topp till botten på en enda tråd, och lutar sig mer mot funktioner och closures än klasser för att organisera logik. Allt annat i denna app - TypeScript, React, Node, Redux - är JavaScript med något lager ovanpå, så koncepten här är grunden för allt."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Variabler & Scope",
+        "description": "var är funktions-scopad och hissas till toppen av sin funktion; let och const är block-scopade och oåtkomliga innan deras deklarationsrad körs"
+      },
+      {
+        "title": "Funktioner & Closures",
+        "description": "En funktion minns variablerna som var i scope där den definierades, även efter att den yttre funktionen som skapade den redan har returnerats"
+      },
+      {
+        "title": "Arrayer & Objekt",
+        "description": "Ordnade listor och namngivna fält, de två byggstenarna för strukturerad data - metoder som map, filter och reduce transformerar dem utan en manuell loop"
+      },
+      {
+        "title": "Destructuring & Spread/Rest",
+        "description": "Dra ut värden från en array eller objekt efter position eller namn med destructuring, eller gå åt andra hållet och expandera/samla värden med samma ...-syntax"
+      },
+      {
+        "title": "Template Literals",
+        "description": "Backtick-strängar som bäddar in riktiga uttryck med ${...} och kan spänna över flera rader, ersätter mest manuell strängsammanslagning"
+      },
+      {
+        "title": "Promises & Async/Await",
+        "description": "Ett Promise representerar ett värde som inte är klart än; async/await är syntax som låter promise-baserad kod läsas uppifrån och ner som synkron kod"
+      }
+    ]
+  },
+  "eventLoop": {
+    "heading": "Event Loop, Kort",
+    "description": "JavaScript själv är enkeltrådigt - bara en rad av din kod körs åt gången. Asynkront arbete som timers, nätverksförfrågningar och promises blockerar inte den tråden; det lämnas över, och callbacken kommer tillbaka genom en kö när din nuvarande kod är klar. Promises hoppar före timers, så ett löst .then() körs alltid före en setTimeout(fn, 0), även om båda är \"async\"."
+  },
+  "gettingStarted": {
+    "heading": "Komma igång",
+    "steps": [
+      "Öppna din webbläsares DevTools-konsol (eller kör node i en terminal) och börja skriva - inget byggsteg eller installation krävs",
+      "Deklarera variabler med const som standard, och let endast när du vet att du kommer tilldela om det; undvik var i ny kod",
+      "Använd array-metoder - map, filter, reduce, find - innan du använder en manuell for-loop",
+      "Destructurera funktionsparametrar och returnerade objekt istället för att nå in i dem fält för fält",
+      "Använd template literals (`Hej ${namn}`) istället för strängsammanslagning med +",
+      "Föredra async/await över rå .then()-kedjor när du har mer än ett beroende asynkront steg"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Variabler & Scope",
+      "description": "Kör samma loop med var och let och se hur callbacks skiljer sig"
+    },
+    {
+      "title": "Closures",
+      "description": "Bygg två oberoende räknare från samma funktion och öka dem separat"
+    },
+    {
+      "title": "Arrayer & Objekt",
+      "description": "Applicera map, filter och reduce på samma array utan att mutera den"
+    },
+    {
+      "title": "Destructuring & Spread/Rest",
+      "description": "Dra ut värden från arrayer och objekt, expandera eller samla dem igen"
+    },
+    {
+      "title": "Template Literals",
+      "description": "Redigera ett par fält och se en interpolerad sträng byggas om i realtid"
+    },
+    {
+      "title": "Promises & Async/Await",
+      "description": "Hämta samma falska data med en .then()-kedja och med await och jämför"
+    }
+  ],
+  "fullExample": {
+    "heading": "Fullständigt Exempel, Steg för Steg",
+    "title": "En uppgiftsspårare: closures, spread/rest, destructuring och async/await",
+    "description": "Detta knyter ihop kärnkoncepten ovan i en realistisk fil: en closure som håller privat tillstånd, rest och spread som håller uppdateringar oföränderliga, en template literal för utdata, och en async-funktion som väntar inuti en loop. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
+    "code": [
+      "function createTaskTracker() {",
+      "  let tasks = [];",
+      "",
+      "  return {",
+      "    add(title, ...tags) {",
+      "      const task = { id: tasks.length + 1, title, tags, done: false };",
+      "      tasks = [...tasks, task];",
+      "      return task;",
+      "    },",
+      "    complete(id) {",
+      "      tasks = tasks.map((t) => (t.id === id ? { ...t, done: true } : t));",
+      "    },",
+      "    summary() {",
+      "      const { length } = tasks;",
+      "      const done = tasks.filter((t) => t.done).length;",
+      "      return `${done}/${length} uppgifter klara`;",
+      "    },",
+      "  };",
+      "}",
+      "",
+      "async function loadAndTrack(urls) {",
+      "  const tracker = createTaskTracker();",
+      "",
+      "  for (const url of urls) {",
+      "    const response = await fetch(url);",
+      "    const { title } = await response.json();",
+      "    tracker.add(title, \"hämtad\");",
+      "  }",
+      "",
+      "  return tracker.summary();",
+      "}",
+      "",
+      "const tracker = createTaskTracker();",
+      "tracker.add(\"Skriv tester\", \"kod\");",
+      "tracker.complete(1);",
+      "console.log(tracker.summary()); // \"1/1 uppgifter klara\""
+    ],
+    "steps": [
+      {
+        "label": "Stäng över lokalt tillstånd",
+        "lines": [1, 4],
+        "explanation": "tasks är deklarerad inuti createTaskTracker och exponeras aldrig direkt - objektet som returneras på rad 4 fortsätter att referera till det efter att den yttre funktionen har slutat köra. Det är en closure."
+      },
+      {
+        "label": "Samla extra argument med rest",
+        "lines": [5, 5],
+        "explanation": "...tags samlar varje argument efter title i en riktig array, så add(\"Skicka det\", \"brådskande\", \"kod\") slutar med tags = [\"brådskande\", \"kod\"]."
+      },
+      {
+        "label": "Lägg till utan att mutera originalarrayen",
+        "lines": [6, 9],
+        "explanation": "[...tasks, task] bygger en helt ny array istället för att pusha på den gamla på plats, så ingenting annat som håller en referens till den tidigare tasks-arrayen blir överraskad av en förändring."
+      },
+      {
+        "label": "Uppdatera ett objekt utan att mutera det",
+        "lines": [10, 12],
+        "explanation": "map returnerar en ny array, och { ...t, done: true } kopierar varje fält från den matchande uppgiften och åsidosätter bara done, lämnar det ursprungliga uppgiftsobjektet orört."
+      },
+      {
+        "label": "Destructurera och interpolera",
+        "lines": [13, 17],
+        "explanation": "const { length } = tasks drar ut ett enda namngivet fält från ett objekt; template literal `${done}/${length} uppgifter klara` bäddar in båda värdena direkt i strängen."
+      },
+      {
+        "label": "Vänta inuti en loop",
+        "lines": [23, 27],
+        "explanation": "for...of kombinerat med await pausar varje iteration tills fetch och response.json() löses, och const { title } destructurerar fältet direkt ur den lösta JSON:en."
+      },
+      {
+        "label": "Använd closuren",
+        "lines": [32, 35],
+        "explanation": "tracker håller en tasks-array som ingen extern kod kan röra direkt - varje läsning eller skrivning här går genom add, complete eller summary, exakt det API som closuren byggdes för att exponera."
+      }
+    ]
+  }
+}

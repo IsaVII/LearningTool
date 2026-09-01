@@ -1,0 +1,184 @@
+{
+  "title": "Väsentliga npm-bibliotek",
+  "introduction": {
+    "heading": "Måste-ha npm-paket för Node.js & Express Projekt",
+    "description": "En kurerad samling av de mest användbara npm-biblioteken för att bygga moderna webbapplikationer. Täcker autentisering, databasintegration, templating, säkerhet och mer. Dessa paket är produktionstestade och allmänt använda i Node.js-ekosystemet."
+  },
+  "prerequisites": [
+    "Node.js och npm installerat",
+    "Grundläggande förståelse för Node.js och Express",
+    "Ett projekt initierat med npm init"
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "title": "Installera Grundläggande Express-paket",
+      "description": "Väsentliga paket för att bygga Express-applikationer med sessionshantering, cookies och miljövariabler.",
+      "code": "npm install express express-session cookie-parser dotenv method-override",
+      "language": "bash",
+      "note": "Dessa är fundamentala paket som de flesta Express-appar kommer att behöva."
+    },
+    {
+      "id": 2,
+      "title": "Express - Webbramverk",
+      "description": "Snabbt, oprinionerat, minimalistiskt webbramverk för Node.js. Grunden för att bygga webbservrar och API:er.",
+      "code": "const express = require('express');\nconst app = express();\n\napp.use(express.json()); // Parsa JSON-bodies\napp.use(express.urlencoded({ extended: true })); // Parsa URL-kodade bodies\n\napp.get('/', (req, res) => {\n  res.send('Hej världen!');\n});\n\napp.listen(3000, () => {\n  console.log('Server körs på port 3000');\n});",
+      "language": "javascript",
+      "highlightLines": [4, 5]
+    },
+    {
+      "id": 3,
+      "title": "dotenv - Miljövariabler",
+      "description": "Laddar miljövariabler från en .env-fil till process.env. Väsentligt för att hålla hemligheter utanför din kod.",
+      "code": "// Längst upp i din huvudfil (t.ex. app.js eller server.js)\nrequire('dotenv').config();\n\n// Nu kan du komma åt miljövariabler\nconst PORT = process.env.PORT || 3000;\nconst DB_URL = process.env.DATABASE_URL;\nconst SECRET = process.env.SESSION_SECRET;",
+      "language": "javascript",
+      "note": "Skapa en .env-fil i din projektrot och lägg till den i .gitignore!",
+      "subSteps": [
+        {
+          "title": "Exempel .env-fil",
+          "description": "Exempel på miljövariabler-fil. Commita aldrig detta till versionskontroll!",
+          "code": "PORT=3000\nDATABASE_URL=mongodb://localhost:27017/myapp\nSESSION_SECRET=your-secret-key-here\nJWT_SECRET=your-jwt-secret-here\nEMAIL_USER=your-email@gmail.com\nEMAIL_PASS=your-app-password",
+          "language": "bash",
+          "note": "Lägg till .env i din .gitignore-fil. Skapa .env.example med dummy-värden för dokumentation."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Installera Databaspaket",
+      "description": "Mongoose för MongoDB ODM och connect-mongo för att lagra sessioner i MongoDB.",
+      "code": "npm install mongoose connect-mongo",
+      "language": "bash",
+      "subSteps": [
+        {
+          "title": "mongoose - MongoDB ODM",
+          "description": "Elegant MongoDB-objektmodellering för Node.js. Tillhandahåller schemavalidering, middleware och query-building.",
+          "code": "const mongoose = require('mongoose');\n\n// Anslut till MongoDB\nmongoose.connect(process.env.DATABASE_URL)\n  .then(() => console.log('Ansluten till MongoDB'))\n  .catch(err => console.error('MongoDB-anslutningsfel:', err));\n\n// Definiera ett schema\nconst userSchema = new mongoose.Schema({\n  username: { type: String, required: true, unique: true },\n  email: { type: String, required: true, unique: true },\n  password: { type: String, required: true },\n  createdAt: { type: Date, default: Date.now }\n});\n\n// Skapa en modell\nconst User = mongoose.model('User', userSchema);\n\nmodule.exports = User;",
+          "language": "javascript",
+          "highlightLines": [4, 9, 16]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "express-session - Sessionshantering",
+      "description": "Session-middleware för Express. Hanterar användarsessioner med cookies och serverbaserad lagring.",
+      "code": "const session = require('express-session');\nconst MongoStore = require('connect-mongo');\n\napp.use(session({\n  secret: process.env.SESSION_SECRET,\n  resave: false,\n  saveUninitialized: false,\n  store: MongoStore.create({\n    mongoUrl: process.env.DATABASE_URL,\n    touchAfter: 24 * 3600 // Lazy session-uppdatering (i sekunder)\n  }),\n  cookie: {\n    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 vecka\n    httpOnly: true,\n    secure: process.env.NODE_ENV === 'production' // Endast HTTPS i produktion\n  }\n}));",
+      "language": "javascript",
+      "highlightLines": [4, 8, 12],
+      "note": "connect-mongo lagrar sessioner i MongoDB istället för i minneslagring."
+    },
+    {
+      "id": 6,
+      "title": "cookie-parser - Parsa Cookies",
+      "description": "Parsa Cookie-header och populera req.cookies. Användbart för att läsa klient-side cookies.",
+      "code": "const cookieParser = require('cookie-parser');\n\napp.use(cookieParser());\n\n// Läs cookies\napp.get('/profile', (req, res) => {\n  const theme = req.cookies.theme || 'light';\n  res.send(`Aktuellt tema: ${theme}`);\n});\n\n// Sätt cookies\napp.post('/theme', (req, res) => {\n  res.cookie('theme', req.body.theme, {\n    maxAge: 1000 * 60 * 60 * 24 * 365, // 1 år\n    httpOnly: true\n  });\n  res.send('Tema uppdaterat');\n});",
+      "language": "javascript",
+      "highlightLines": [3, 7, 13]
+    },
+    {
+      "id": 7,
+      "title": "Installera Autentiserings- & Säkerhetspaket",
+      "description": "bcrypt för lösenordshashning och jsonwebtoken för JWT-autentisering.",
+      "code": "npm install bcrypt jsonwebtoken",
+      "language": "bash",
+      "subSteps": [
+        {
+          "title": "bcrypt - Lösenordshashning",
+          "description": "Bibliotek för att hasha lösenord. Lagra aldrig lösenord i klartext! bcrypt använder salt och kostnadsfaktor för säkerhet.",
+          "code": "const bcrypt = require('bcrypt');\n\n// Hasha ett lösenord (vid registrering)\nconst hashPassword = async (password) => {\n  const saltRounds = 10;\n  const hashedPassword = await bcrypt.hash(password, saltRounds);\n  return hashedPassword;\n};\n\n// Jämför lösenord (vid inloggning)\nconst verifyPassword = async (password, hashedPassword) => {\n  const isMatch = await bcrypt.compare(password, hashedPassword);\n  return isMatch; // true eller false\n};\n\n// Exempel användning\napp.post('/register', async (req, res) => {\n  const { username, password } = req.body;\n  const hashedPassword = await hashPassword(password);\n  // Spara användare med hashedPassword till databas\n  const user = new User({ username, password: hashedPassword });\n  await user.save();\n  res.send('Användare registrerad');\n});",
+          "language": "javascript",
+          "highlightLines": [6, 12, 19],
+          "note": "Högre saltRounds = säkrare men långsammare. 10-12 rekommenderas."
+        },
+        {
+          "title": "jsonwebtoken - JWT-autentisering",
+          "description": "Skapa och verifiera JSON Web Tokens för stateless autentisering. Alternativ till sessioner för API:er.",
+          "code": "const jwt = require('jsonwebtoken');\n\n// Generera en token (efter inloggning)\nconst generateToken = (userId) => {\n  const token = jwt.sign(\n    { userId }, // Payload\n    process.env.JWT_SECRET,\n    { expiresIn: '7d' } // Token går ut om 7 dagar\n  );\n  return token;\n};\n\n// Verifiera token (middleware)\nconst authenticateToken = (req, res, next) => {\n  const token = req.headers['authorization']?.split(' ')[1]; // Bearer TOKEN\n  \n  if (!token) return res.status(401).json({ error: 'Åtkomst nekad' });\n  \n  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {\n    if (err) return res.status(403).json({ error: 'Ogiltig token' });\n    req.userId = decoded.userId;\n    next();\n  });\n};\n\n// Exempel på skyddad route\napp.get('/api/profile', authenticateToken, (req, res) => {\n  res.json({ userId: req.userId });\n});",
+          "language": "javascript",
+          "highlightLines": [5, 15, 19, 27]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Installera Templating-paket",
+      "description": "EJS (Embedded JavaScript) för server-side templating med layout-stöd.",
+      "code": "npm install ejs express-ejs-layouts",
+      "language": "bash",
+      "subSteps": [
+        {
+          "title": "ejs - Embedded JavaScript Templates",
+          "description": "Enkelt templating-språk som låter dig generera HTML med JavaScript. Utmärkt för server-side rendering.",
+          "code": "const express = require('express');\nconst app = express();\n\n// Sätt EJS som view engine\napp.set('view engine', 'ejs');\napp.set('views', './views');\n\n// Rendera en vy\napp.get('/', (req, res) => {\n  res.render('index', {\n    title: 'Startsida',\n    user: { name: 'John', age: 30 }\n  });\n});",
+          "language": "javascript",
+          "highlightLines": [5, 10]
+        },
+        {
+          "title": "Exempel på EJS-mall",
+          "description": "Skapa en EJS-mallfil i views/index.ejs med inbäddad JavaScript.",
+          "code": "<!DOCTYPE html>\n<html>\n<head>\n  <title><%= title %></title>\n</head>\n<body>\n  <h1>Välkommen, <%= user.name %>!</h1>\n  <p>Du är <%= user.age %> år gammal.</p>\n  \n  <% if (user.age >= 18) { %>\n    <p>Du är vuxen.</p>\n  <% } else { %>\n    <p>Du är minderårig.</p>\n  <% } %>\n  \n  <ul>\n    <% ['Äpple', 'Banan', 'Apelsin'].forEach(fruit => { %>\n      <li><%= fruit %></li>\n    <% }); %>\n  </ul>\n</body>\n</html>",
+          "language": "html",
+          "note": "<%= %> matar ut escaped HTML, <%- %> matar ut rå HTML, <% %> kör JavaScript"
+        },
+        {
+          "title": "express-ejs-layouts - Layout-stöd",
+          "description": "Lägger till layout-stöd till EJS. Definiera en huvudlayout och infoga sidinnehåll i den.",
+          "code": "const expressLayouts = require('express-ejs-layouts');\n\napp.use(expressLayouts);\napp.set('layout', 'layouts/main'); // Standard layout-fil\n\n// views/layouts/main.ejs\n// <!DOCTYPE html>\n// <html>\n// <head>\n//   <title>Min App</title>\n// </head>\n// <body>\n//   <%- body %>\n// </body>\n// </html>",
+          "language": "javascript",
+          "highlightLines": [3, 4],
+          "note": "Platshållaren <%- body %> i layouten ersätts med sidinnehåll."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "method-override - HTTP Method Override",
+      "description": "Tillåter webbläsare att använda PUT och DELETE-metoder i formulär (som bara stöder GET och POST).",
+      "code": "const methodOverride = require('method-override');\n\napp.use(methodOverride('_method'));\n\n// HTML-formulär med DELETE-metod\n// <form action=\"/posts/123?_method=DELETE\" method=\"POST\">\n//   <button type=\"submit\">Ta bort inlägg</button>\n// </form>\n\napp.delete('/posts/:id', (req, res) => {\n  // Hantera DELETE-förfrågan\n  res.send(`Tog bort inlägg ${req.params.id}`);\n});",
+      "language": "javascript",
+      "highlightLines": [3, 10],
+      "note": "Lägg till ?_method=DELETE till formulärets action. POST-förfrågan konverteras till DELETE."
+    },
+    {
+      "id": 10,
+      "title": "Installera E-postpaket",
+      "description": "Nodemailer för att skicka e-post från din Node.js-applikation.",
+      "code": "npm install nodemailer",
+      "language": "bash",
+      "subSteps": [
+        {
+          "title": "nodemailer - Skicka E-post",
+          "description": "Funktionsrik modul för att skicka e-post. Stöder flera transporter (SMTP, Gmail, etc.).",
+          "code": "const nodemailer = require('nodemailer');\n\n// Skapa en transporter (Gmail-exempel)\nconst transporter = nodemailer.createTransport({\n  service: 'gmail',\n  auth: {\n    user: process.env.EMAIL_USER,\n    pass: process.env.EMAIL_PASS // Använd App Password, inte vanligt lösenord\n  }\n});\n\n// Skicka ett e-postmeddelande\nconst sendEmail = async (to, subject, text, html) => {\n  const mailOptions = {\n    from: process.env.EMAIL_USER,\n    to,\n    subject,\n    text,\n    html // Valfri HTML-version\n  };\n  \n  try {\n    const info = await transporter.sendMail(mailOptions);\n    console.log('E-post skickat:', info.messageId);\n    return info;\n  } catch (error) {\n    console.error('Fel vid skickande av e-post:', error);\n    throw error;\n  }\n};\n\n// Exempel användning\napp.post('/contact', async (req, res) => {\n  const { email, message } = req.body;\n  await sendEmail(\n    'admin@example.com',\n    'Nytt kontaktmeddelande',\n    message,\n    `<p>${message}</p><p>Från: ${email}</p>`\n  );\n  res.send('Meddelande skickat!');\n});",
+          "language": "javascript",
+          "highlightLines": [4, 13, 23, 35],
+          "note": "För Gmail, aktivera 2FA och skapa ett App Password i dina Google-kontoinställningar."
+        },
+        {
+          "title": "Nodemailer - E-postmallar",
+          "description": "Skicka formaterade HTML-e-postmeddelanden med mallar. Utmärkt för välkomstmail, lösenordsåterställningar, etc.",
+          "code": "const sendWelcomeEmail = async (userEmail, username) => {\n  const htmlTemplate = `\n    <!DOCTYPE html>\n    <html>\n    <head>\n      <style>\n        body { font-family: Arial, sans-serif; }\n        .container { max-width: 600px; margin: 0 auto; padding: 20px; }\n        .button { background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; }\n      </style>\n    </head>\n    <body>\n      <div class=\"container\">\n        <h1>Välkommen, ${username}!</h1>\n        <p>Tack för att du gick med i vår plattform.</p>\n        <a href=\"https://yoursite.com/verify\" class=\"button\">Verifiera E-post</a>\n      </div>\n    </body>\n    </html>\n  `;\n  \n  await sendEmail(\n    userEmail,\n    'Välkommen till vår plattform!',\n    `Välkommen, ${username}! Tack för att du gick med.`,\n    htmlTemplate\n  );\n};\n\n// Användning efter användarregistrering\napp.post('/register', async (req, res) => {\n  // ... skapa användare ...\n  await sendWelcomeEmail(user.email, user.username);\n  res.send('Registrering lyckad! Kolla din e-post.');\n});",
+          "language": "javascript",
+          "highlightLines": [22, 32]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Installera Alla Paket på en gång",
+      "description": "Snabbkommando för att installera alla väsentliga paket för en full-stack Express-applikation.",
+      "code": "npm install express express-session cookie-parser dotenv method-override mongoose connect-mongo bcrypt jsonwebtoken ejs express-ejs-layouts nodemailer",
+      "language": "bash",
+      "note": "Detta installerar alla paket som täcks i detta cheat sheet i ett kommando."
+    },
+    {
+      "id": 12,
+      "title": "Komplett Express-appinställning - Exempel",
+      "description": "Sätta ihop det hela: en komplett Express-serverkonfiguration med alla bibliotek.",
+      "code": "require('dotenv').config();\nconst express = require('express');\nconst session = require('express-session');\nconst MongoStore = require('connect-mongo');\nconst cookieParser = require('cookie-parser');\nconst methodOverride = require('method-override');\nconst expressLayouts = require('express-ejs-layouts');\nconst mongoose = require('mongoose');\n\nconst app = express();\n\n// Anslut till MongoDB\nmongoose.connect(process.env.DATABASE_URL)\n  .then(() => console.log('Ansluten till MongoDB'))\n  .catch(err => console.error('MongoDB-fel:', err));\n\n// Middleware\napp.use(express.json());\napp.use(express.urlencoded({ extended: true }));\napp.use(cookieParser());\napp.use(methodOverride('_method'));\napp.use(express.static('public'));\n\n// Sessionskonfiguration\napp.use(session({\n  secret: process.env.SESSION_SECRET,\n  resave: false,\n  saveUninitialized: false,\n  store: MongoStore.create({ mongoUrl: process.env.DATABASE_URL }),\n  cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }\n}));\n\n// View engine-inställning\napp.set('view engine', 'ejs');\napp.use(expressLayouts);\napp.set('layout', 'layouts/main');\n\n// Routes\napp.get('/', (req, res) => {\n  res.render('index', { title: 'Hem' });\n});\n\n// Starta server\nconst PORT = process.env.PORT || 3000;\napp.listen(PORT, () => {\n  console.log(`Server körs på http://localhost:${PORT}`);\n});",
+      "language": "javascript",
+      "highlightLines": [1, 13, 25, 34, 44]
+    }
+  ]
+}

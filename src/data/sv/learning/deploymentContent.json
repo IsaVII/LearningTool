@@ -1,0 +1,163 @@
+{
+  "title": "Deployment & CI/CD",
+  "introduction": {
+    "heading": "Vad är Deployment & CI/CD?",
+    "description": "Deployment är steget där din kod slutar vara något som bara körs på din maskin och blir något andra människor faktiskt kan öppna i en webbläsare. Under lång tid betydde det att manuellt ladda upp filer via FTP och hoppas att inget gick sönder. Moderna hosting-plattformar - Vercel, Netlify, Render och andra - ersätter det med ett git-baserat arbetsflöde: pusha till ett repo, och plattformen bygger och publicerar det åt dig. CI/CD är vad som händer före och runt den pushen. Continuous Integration (CI) kör automatiskt dina tester och kontroller på varje ändring, så problem fångas i en pull request istället för i produktion. Continuous Deployment/Delivery (CD) är det som skickar en ändring när den passerar - antingen automatiskt, eller med ett manuellt godkännandeklick. Tillsammans förvandlar de \"deploy\" från en nervpåfrestande manuell händelse till något som händer säkert, konstant och mestadels av sig själv."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Continuous Integration (CI)",
+        "description": "Automatisk byggning och testning av varje push och pull request, så buggar dyker upp före en merge istället för efter en"
+      },
+      {
+        "title": "Continuous Deployment vs. Delivery",
+        "description": "Continuous Delivery får varje passerande ändring redo att skickas men väntar på en människa att klicka \"deploy\"; Continuous Deployment hoppar över det klicket och skickar automatiskt när kontroller passerar"
+      },
+      {
+        "title": "Build-Time vs. Runtime",
+        "description": "En frontends byggsteg bakar vissa miljövariabler direkt in i JS-bundlen den skickar till webbläsare; en server läser sina miljövariabler live, vid runtime, och de lämnar aldrig servern"
+      },
+      {
+        "title": "Environment Variables & Secrets",
+        "description": "Konfiguration och credentials ett projekt läser från sin miljö istället för att hårdkoda, satta i hosting-plattformens dashboard och hållna helt utanför git"
+      },
+      {
+        "title": "Preview Deployments",
+        "description": "De flesta moderna hosts deployer varje pull request/branch till sin egen temporära URL, så en granskare kan klicka runt den faktiska körande ändringen innan den ens når produktion"
+      },
+      {
+        "title": "Rollback",
+        "description": "Återpeka produktion på en tidigare, redan byggd deployment när en ny bryter något - omedelbar, eftersom inget behöver byggas om"
+      }
+    ]
+  },
+  "pipeline": {
+    "heading": "Deployment-Pipelinen",
+    "description": "En enda push sätter igång en kedja av steg, och varje måste lyckas innan nästa startar. Oavsett om den kedjan lever helt inuti en hosting-plattform, eller är uppdelad över ett separat CI-verktyg och en hosting-plattform, är formen densamma: installera, kontrollera, bygga, sedan - bara om allt ovan passerade - deploya."
+  },
+  "gettingStarted": {
+    "heading": "Kom Igång",
+    "steps": [
+      "Pusha ditt projekt till ett GitHub-repository - dessa plattformar deployer från ett git-repo, inte en zip-fil du laddar upp för hand",
+      "Registrera dig för Vercel, Netlify eller Render och \"importera\" det repositoryt - de flesta ramverk auto-upptäcks och fyller i byggkommandot",
+      "Dubbelkolla (eller sätt) byggkommandot (t.ex. npm run build) och output/publish-katalogen (t.ex. dist) om det inte upptäcktes korrekt",
+      "Lägg till eventuella miljövariabler din app behöver i plattformens dashboard - commit:a aldrig en riktig .env-fil med hemligheter till git",
+      "Pusha till din standardbranch - plattformen bygger den automatiskt och ger dig tillbaka en live URL",
+      "Öppna en pull request mot den branchen och bekräfta att du får en separat preview-URL för den innan merge",
+      "Lägg till en .github/workflows/ci.yml-fil så GitHub Actions kör lint/tester på varje push och pull request, fångar problem innan de ens når hosting-plattformen"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Choosing a Platform",
+      "description": "Jämför vad Vercel, Netlify och Render faktiskt är byggda för att köra, och se vilken som passar ett givet projekt"
+    },
+    {
+      "title": "Environment Variables & Secrets",
+      "description": "Se vilka konfigurationsvärden som bakas in i webbläsarbundlen och vilka som stannar server-only - och varför det är farligt att commit:a en .env-fil"
+    },
+    {
+      "title": "GitHub Actions Basics",
+      "description": "Trigga ett arbetsflöde med olika händelser och se vilka jobb som faktiskt körs"
+    },
+    {
+      "title": "Preview Deployments & Rollbacks",
+      "description": "Öppna en pull request för att få en preview-URL, merge:a den för att promota till produktion, rulla sedan tillbaka till en tidigare deployment"
+    }
+  ],
+  "fullExample": {
+    "heading": "Komplett Exempel, Steg för Steg",
+    "title": "Ett GitHub Actions-arbetsflöde: testa på varje push, deploya vid merge till main",
+    "description": "Detta är en komplett, realistisk CI/CD-arbetsflödesfil. Den kör lint/test/build på varje push och pull request som riktar sig mot main, men kör bara deploy-jobbet - som behöver en hemlig token - när ändringen faktiskt landat på main. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
+    "code": [
+      "name: CI/CD",
+      "",
+      "on:",
+      "  push:",
+      "    branches: [main]",
+      "  pull_request:",
+      "    branches: [main]",
+      "",
+      "jobs:",
+      "  build-and-test:",
+      "    runs-on: ubuntu-latest",
+      "    steps:",
+      "      - name: Checkout code",
+      "        uses: actions/checkout@v4",
+      "",
+      "      - name: Set up Node.js",
+      "        uses: actions/setup-node@v4",
+      "        with:",
+      "          node-version: 20",
+      "",
+      "      - name: Install dependencies",
+      "        run: npm ci",
+      "",
+      "      - name: Lint",
+      "        run: npm run lint",
+      "",
+      "      - name: Run tests",
+      "        run: npm test",
+      "",
+      "      - name: Build",
+      "        run: npm run build",
+      "",
+      "  deploy:",
+      "    needs: build-and-test",
+      "    if: github.ref == 'refs/heads/main' && github.event_name == 'push'",
+      "    runs-on: ubuntu-latest",
+      "    steps:",
+      "      - name: Checkout code",
+      "        uses: actions/checkout@v4",
+      "",
+      "      - name: Deploy to Vercel",
+      "        run: npx vercel deploy --prod --token=$VERCEL_TOKEN",
+      "        env:",
+      "          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}"
+    ],
+    "steps": [
+      {
+        "label": "Namnge arbetsflödet",
+        "lines": [1, 1],
+        "explanation": "Detta är bara ett visningsnamn - det är det som visas som flik/etikett för detta arbetsflöde i GitHub Actions UI:t, och har ingen effekt på när eller hur det körs."
+      },
+      {
+        "label": "Välj triggers",
+        "lines": [3, 7],
+        "explanation": "on: listar händelserna som startar detta arbetsflöde. Att lista både push och pull_request mot main betyder att varje pull request testas innan den ens är merge:bar, inte bara efter att någon merge:at den."
+      },
+      {
+        "label": "Definiera build-and-test-jobbet",
+        "lines": [9, 12],
+        "explanation": "runs-on väljer vilken virtuell maskinbild jobbet körs på. Allt under steps: för detta jobb körs, i ordning, på den ena färska VM:en."
+      },
+      {
+        "label": "Checka ut repositoryt",
+        "lines": [13, 14],
+        "explanation": "En GitHub Actions VM börjar helt tom - actions/checkout är det som faktiskt klonar ditt repos kod på den innan något annat kan köras."
+      },
+      {
+        "label": "Sätt upp runtime:n",
+        "lines": [16, 19],
+        "explanation": "actions/setup-node installerar en specifik, pinnad Node-version, så CI körs mot samma version ditt projekt riktar sig mot istället för vad som råkar vara förinstallerat."
+      },
+      {
+        "label": "Installera, linta, testa, bygga",
+        "lines": [21, 31],
+        "explanation": "npm ci installerar exakt vad som finns i package-lock.json (till skillnad från npm install uppdaterar det inget), ger en reproducerbar installation. Varje följande steg måste avslutas framgångsrikt - en misslyckad lint eller test stoppar jobbet direkt där, och deploy-jobbet nedan startar aldrig ens."
+      },
+      {
+        "label": "Gate:a deploy-jobbet",
+        "lines": [33, 35],
+        "explanation": "needs: build-and-test får detta jobb att vänta på att det jobbet ska passera helt. if: låter det bara fortsätta på en push till main - så pull requests testas fortfarande, men triggar aldrig en deploy."
+      },
+      {
+        "label": "Deploya med en secret",
+        "lines": [38, 44],
+        "explanation": "Detta jobb körs också på sin egen färska VM, så det checkar ut koden igen, kör sedan det faktiska deploy-kommandot. Token själv skrivs aldrig i filen - secrets.VERCEL_TOKEN drar den från GitHubs krypterade repo secrets och injicerar den bara som en miljövariabel för detta enda steg."
+      }
+    ]
+  }
+}

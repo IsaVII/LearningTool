@@ -1,0 +1,159 @@
+{
+  "title": "React Grunderna",
+  "introduction": {
+    "heading": "Vad är React?",
+    "description": "React är ett JavaScript-bibliotek för att bygga användargränssnitt ur komponenter - små, återanvändbara funktioner som var och en returnerar en beskrivning av vad som ska visas på skärmen. Istället för att manuellt uppdatera DOM:en när data ändras, beskriver du UI:t för ett givet state och React räknar ut den minimala uppsättningen DOM-ändringar som behövs för att matcha det. Den idén - UI som en funktion av state - är det som gör React-komponenter förutsägbara och enkla att komponera till större appar."
+  },
+  "coreConcepts": {
+    "heading": "Kärnkoncept",
+    "concepts": [
+      {
+        "title": "Components",
+        "description": "Oberoende, återanvändbara bitar av UI skrivna som vanliga JavaScript-funktioner - en komponent tar props in och returnerar JSX som beskriver vad som ska visas på skärmen"
+      },
+      {
+        "title": "JSX",
+        "description": "En syntaxförlängning som låter dig skriva HTML-liknande markup direkt i JavaScript; den kompileras ner till vanliga funktionsanrop som bygger ett träd av element, och vilket {uttryck} som helst inuti det är riktig JavaScript"
+      },
+      {
+        "title": "Props",
+        "description": "Data som skickas från en förälder-komponent till ett barn, alltid skrivskyddat från barnets sida - en komponent kan inte ändra sina egna props, bara be sin förälder skicka andra"
+      },
+      {
+        "title": "State",
+        "description": "Data som en komponent äger och kan uppdatera själv med useState; att ändra det schemalägger en re-render så UI:t håller sig synkat med det senaste värdet"
+      },
+      {
+        "title": "Hooks",
+        "description": "Funktioner som börjar med use som låter funktionskomponenter utnyttja state, sidoeffekter och andra React-funktioner - anropas på en komponents toppnivå, i samma ordning, vid varje render"
+      },
+      {
+        "title": "Rendering Lists & Conditionals",
+        "description": "Förvandla en array till element med .map() och en stabil key-prop per item, och visa eller dölj UI med &&, ternärer eller en tidig return - båda är bara JavaScript, inte speciell syntax"
+      }
+    ]
+  },
+  "hooks": {
+    "heading": "React Hooks",
+    "description": "Hooks är hur funktionskomponenter får state, sidoeffekter och andra förmågor som brukade kräva klasskomponenter. useState håller ett värde mellan renders och re-renderar komponenten när det ändras. useEffect kör kod efter att React committat en render till skärmen, och körs bara om när något i dess dependency array faktiskt ändrats; en funktion returnerad från en effekt är dess cleanup, som körs före nästa effekt och när komponenten unmountas. Hooks kan bara anropas på en komponents toppnivå - aldrig inuti ett villkor, loop eller nested funktion - så React kan matcha samma hooks i samma ordning vid varje render."
+  },
+  "gettingStarted": {
+    "heading": "Kom Igång",
+    "steps": [
+      "Skapa en komponent som en funktion som returnerar JSX - ge både filen och funktionen ett kapitaliserat namn så React kan skilja den från en vanlig HTML-tagg",
+      "Lägg till lokal, föränderlig data med useState(initialValue), och anropa alltid dess setter istället för att omtilldela variabeln direkt",
+      "Skicka data ner till barn som props, och skicka en funktion ner som en prop när ett barn behöver meddela sin förälder att något hänt",
+      "Sträck dig efter useEffect bara för att synka med något utanför React - DOM:en, en timer, en prenumeration - och returnera en cleanup-funktion när effekten sätter upp någon av dessa",
+      "Rendera listor med array.map(), ge varje item en stabil key-prop från din data - aldrig array-indexet om listan kan omarrangeras eller filtreras",
+      "Sträck dig efter React.memo, useMemo eller useCallback bara efter att du märkt ett faktiskt prestandaproblem, inte som standard"
+    ]
+  },
+  "practiceTopics": [
+    {
+      "title": "Components & JSX",
+      "description": "Rendera en komponent och se den re-renderas automatiskt när dess state ändras"
+    },
+    {
+      "title": "Props & State",
+      "description": "Se data flöda envägs från en förälders state ner i ett barns props"
+    },
+    {
+      "title": "Hooks",
+      "description": "Starta och stoppa ett interval med useEffect, och se dess cleanup köras"
+    },
+    {
+      "title": "Lists & Conditional Rendering",
+      "description": "Lägg till och ta bort items från en lista renderad med .map() och stabila keys"
+    },
+    {
+      "title": "Custom Hooks",
+      "description": "Återanvänd samma stateful logik i två komponenter via en custom hook"
+    },
+    {
+      "title": "Performance",
+      "description": "Jämför en vanlig komponent med en memoizerad över orelaterade re-renders"
+    }
+  ],
+  "fullExample": {
+    "heading": "Komplett Exempel, Steg för Steg",
+    "title": "En liten React-app: state, props och en effekt",
+    "description": "Detta exempel knyter ihop kärnkoncepten ovan i en realistisk komponent. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
+    "code": [
+      "import { useEffect, useState } from \"react\";",
+      "",
+      "// A small presentational component - it only reads the \"name\" prop,",
+      "// it never touches state directly.",
+      "function Greeting({ name }) {",
+      "  return <h2>Hello, {name}!</h2>;",
+      "}",
+      "",
+      "function App() {",
+      "  // useState gives this component its own piece of memory that",
+      "  // survives between re-renders.",
+      "  const [name, setName] = useState(\"Explorer\");",
+      "  const [count, setCount] = useState(0);",
+      "",
+      "  // useEffect runs after React commits this render to the screen.",
+      "  // Because count is in the dependency array, it only re-runs",
+      "  // when count actually changes.",
+      "  useEffect(() => {",
+      "    document.title = `Clicked ${count} times`;",
+      "  }, [count]);",
+      "",
+      "  return (",
+      "    <div>",
+      "      <input",
+      "        value={name}",
+      "        onChange={(e) => setName(e.target.value)}",
+      "      />",
+      "",
+      "      <Greeting name={name} />",
+      "",
+      "      <button onClick={() => setCount(count + 1)}>",
+      "        Clicked {count} times",
+      "      </button>",
+      "    </div>",
+      "  );",
+      "}",
+      "",
+      "export default App;"
+    ],
+    "steps": [
+      {
+        "label": "Importera de hooks du behöver",
+        "lines": [1, 1],
+        "explanation": "useState och useEffect är namngivna exports från \"react\"-paketet. Du importerar bara de hooks en fil faktiskt använder."
+      },
+      {
+        "label": "Bygg en presentational komponent",
+        "lines": [3, 7],
+        "explanation": "Greeting är bara en funktion som returnerar JSX. Den tar emot name som en prop och renderar den - den har ingen egen state, så samma input producerar alltid samma output."
+      },
+      {
+        "label": "Skapa state med useState",
+        "lines": [12, 13],
+        "explanation": "useState(initialValue) returnerar ett [värde, setter]-par. Att anropa settern (setName, setCount) talar om för React att denna komponents data ändrats och schemalägger en re-render med det nya värdet."
+      },
+      {
+        "label": "Kör sidoeffekter med useEffect",
+        "lines": [15, 20],
+        "explanation": "Funktionen som skickas till useEffect körs efter att React uppdaterat skärmen. Dependency array [count] talar om för React att bara köra om den när count ändras, istället för efter varje render."
+      },
+      {
+        "label": "Skicka data ner som props",
+        "lines": [24, 29],
+        "explanation": "Inputens value och onChange är kopplade till name-state:t, och samma name skickas in i <Greeting name={name} /> som en prop - data flödar ner från förälder till barn."
+      },
+      {
+        "label": "Hantera händelser och uppdatera state",
+        "lines": [31, 33],
+        "explanation": "onClick är en vanlig event handler. Att anropa setCount(count + 1) uppdaterar state, vilket får App - och allt som läser count - att re-renderas med det nya värdet."
+      },
+      {
+        "label": "Exportera komponenten",
+        "lines": [38, 38],
+        "explanation": "export default gör App importerbar från andra filer, t.ex. av filen som mountar den på sidan med ReactDOM.createRoot(...).render(<App />)."
+      }
+    ]
+  }
+}
