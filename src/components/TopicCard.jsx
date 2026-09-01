@@ -12,7 +12,7 @@ function TopicCard({ topic, isCheatSheet = false }) {
       to={topic.route}
       className={`block ${
         done ? "bg-surface-alt" : "bg-surface"
-      }  border rounded-lg p-4 no-underline text-inherit transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-lg hover:border-accent ${
+      } border rounded-lg p-4 no-underline text-inherit hover-lift shadow-bloom ${
         done ? "border-accent" : "border-line"
       }`}
     >

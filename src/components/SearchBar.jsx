@@ -159,7 +159,7 @@ function SearchBar() {
 
   return (
     <div ref={searchRef} className="relative">
-      <div className="relative">
+      <div className="relative flex">
         <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-menu-text/40">
           <SearchIcon />
         </div>

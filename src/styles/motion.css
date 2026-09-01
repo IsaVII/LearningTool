@@ -60,6 +60,27 @@
   transform: translateY(calc(var(--lift-sm) * -1)) scale(0.99);
 }
 
+/* Shadow bloom: a soft, accent-colored glow that grows in under a
+   lifted card, sold together with .hover-lift (see TopicCard) - the
+   lift alone reads as "moved", the bloom reads as "glowing toward you".
+   Box-shadow/border-color transitions carry no vestibular risk, so
+   unlike hover-lift's transform this isn't disabled under reduced
+   motion - it still crossfades in, just without any travel. */
+.shadow-bloom {
+  transition:
+    box-shadow var(--duration-base) var(--ease-settle),
+    border-color var(--duration-base) var(--ease-settle);
+  box-shadow: var(--shadow);
+}
+.shadow-bloom:hover,
+.shadow-bloom:focus-visible {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 1px var(--accent-border),
+    0 16px 32px -12px var(--accent-border),
+    var(--shadow);
+}
+
 /* Press: for buttons where a lift would feel wrong - a subtle
    scale-down communicates "this registered your click". */
 .press-scale {
@@ -165,6 +186,35 @@
 }
 
 /* ============================================================
+   HERO GRADIENT
+   ============================================================ */
+
+/* Two soft, blurred color blobs behind a hero heading, drifting on a
+   slow 12s loop - meant to sit inside a `relative overflow-hidden`
+   section at -z-10 (see <HeroGlow>). Colors come from the accent
+   tokens so it stays on-theme and re-tunes itself automatically in
+   dark mode. Kept subtle (low opacity, heavy blur) so it reads as
+   ambient depth behind the text, not a distraction from it. */
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.hero-gradient {
+  background:
+    radial-gradient(circle at 30% 30%, var(--accent-bg), transparent 60%),
+    radial-gradient(circle at 70% 70%, var(--accent-border), transparent 55%);
+  background-size: 200% 200%;
+  animation: gradient-shift 12s var(--ease-settle) infinite;
+  filter: blur(40px);
+  opacity: 0.6;
+}
+
+/* ============================================================
    PAGE TRANSITIONS
    ============================================================ */
 
@@ -261,6 +311,10 @@
 
   .parallax-layer {
     transform: none !important;
+  }
+
+  .hero-gradient {
+    animation: none;
   }
 
   .page-transition-enter {

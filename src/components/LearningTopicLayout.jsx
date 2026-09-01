@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import ProgressRing from "./ProgressRing";
 import ContentCard from "./ContentCard";
 import PracticeTopicCard from "./PracticeTopicCard";
 import StepByStepExample from "./StepByStepExample";
@@ -46,8 +47,12 @@ function LearningTopicLayout({
       <div className="flex justify-between items-center mb-4">
         <TextReveal as="h1" text={title} className="text-4xl text-heading" />
         {totalCount > 0 && (
-          <div className="text-lg text-muted font-semibold">
-            Progress {checkedCount} of {totalCount}
+          <div className="flex items-center gap-3">
+            <ProgressRing
+              completed={checkedCount}
+              total={totalCount}
+              label={`Progress: ${checkedCount} of ${totalCount} topics completed`}
+            />
           </div>
         )}
       </div>

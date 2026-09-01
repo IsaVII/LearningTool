@@ -7,6 +7,8 @@ import Reveal from "../components/motion/Reveal";
 import TextReveal from "../components/motion/TextReveal";
 import TopicCard from "../components/TopicCard";
 import { useProgress } from "../context/ProgressContext";
+import HeroGlow from "../components/motion/HeroGlow";
+import ProgressRing from "../components/ProgressRing";
 
 const CONTENT_MAP = {
   en: {
@@ -35,6 +37,7 @@ function Main() {
   return (
     <>
       <section className="flex flex-col items-center text-center py-2 mb-3">
+        <HeroGlow />
         <TextReveal
           as="h1"
           text={t("main.title")}
@@ -46,8 +49,15 @@ function Main() {
       <section className="py-8 px-4">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl text-heading">{t("main.learningSection")}</h2>
-          <div className="text-lg text-muted font-semibold">
-            Progress {checkedTopics} of {totalTopics}
+          <div className="flex items-center gap-3">
+            <ProgressRing
+              completed={checkedTopics}
+              total={totalTopics}
+              label={`Progress: ${checkedTopics} of ${totalTopics} topics completed`}
+            />
+            {/* <span className="text-lg text-muted font-semibold hidden sm:inline">
+              {checkedTopics} of {totalTopics}
+            </span> */}
           </div>
         </div>
         <div className="stagger-children w-full max-w-210 justify-self-center grid grid-cols-1 md:grid-cols-2 gap-8 ">
