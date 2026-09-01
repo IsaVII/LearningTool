@@ -1,4 +1,5 @@
 import SyntaxHighlightedCode from "./SyntaxHighlightedCode";
+import CopyButton from "./CopyButton";
 
 /**
  * Renders a block of code, colored to match VS Code's default "Dark+"
@@ -11,9 +12,15 @@ function CodeBlock({ children, showLineNumbers = false, highlightLines = [] }) {
     ? children
     : String(children ?? "").split("\n");
   const highlightSet = new Set(highlightLines);
+  const fullCode = lines.join("\n");
 
   return (
-    <pre className=" border border-line rounded p-4 overflow-x-auto text-sm font-mono whitespace-pre text-left">
+    <div className="relative group">
+      <CopyButton
+        text={fullCode}
+        className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+      />
+      <pre className=" border border-line rounded p-4 overflow-x-auto text-sm font-mono whitespace-pre text-left">
       {/*
         NOTE: index.css has a global `code { display: inline-flex }` rule
         for inline code mentions in prose (e.g. <code>count</code>). That
@@ -49,7 +56,8 @@ function CodeBlock({ children, showLineNumbers = false, highlightLines = [] }) {
           );
         })}
       </code>
-    </pre>
+      </pre>
+    </div>
   );
 }
 
