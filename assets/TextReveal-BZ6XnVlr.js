@@ -1,4 +1,4 @@
-import{a as e,i as t}from"./TextReveal-Dxbhpb2T.js";import{t as n}from"./CheatSheetLayout-VBK75Yo7.js";var r={title:`Text Reveal & Content Reveal Cheat Sheet`,introduction:{heading:`Scroll-Triggered Text & Content Reveals`,description:`A drop-in scroll-reveal system for React: a <Reveal> component that fades/slides any block of content into view once it scrolls onto the screen, and a <TextReveal> component that animates a heading in word-by-word. Both are built on a single IntersectionObserver-based hook, cost nothing while off-screen, fire once per element, and automatically respect prefers-reduced-motion. This is framework-light - it only needs React and plain CSS, so it drops into any React project whether or not you're using Tailwind.`},prerequisites:[`A React 18+ project (Vite, CRA, Next.js client components, etc.)`,`Comfortable adding a couple of small hook files and a CSS file to your project`,`No animation library required - this uses the native IntersectionObserver API and CSS transitions only`],steps:[{id:1,title:`Add the Reduced-Motion Hook`,description:`Every reveal checks this first. It tracks the OS-level prefers-reduced-motion setting and stays in sync if the user flips it mid-session, so reveals can skip straight to their end state for anyone who's asked for less motion.`,code:`// src/hooks/useReducedMotion.js
+import{a as e,i as t}from"./TextReveal-BmuH47v_.js";import{t as n}from"./CheatSheetLayout-BH6MCR61.js";var r={title:`Text Reveal & Content Reveal Cheat Sheet`,introduction:{heading:`Scroll-Triggered Text & Content Reveals`,description:`A drop-in scroll-reveal system for React: a <Reveal> component that fades/slides any block of content into view once it scrolls onto the screen, and a <TextReveal> component that animates a heading in word-by-word. Both are built on a single IntersectionObserver-based hook, cost nothing while off-screen, fire once per element, and automatically respect prefers-reduced-motion. This is framework-light - it only needs React and plain CSS, so it drops into any React project whether or not you're using Tailwind.`},prerequisites:[`A React 18+ project (Vite, CRA, Next.js client components, etc.)`,`Comfortable adding a couple of small hook files and a CSS file to your project`,`No animation library required - this uses the native IntersectionObserver API and CSS transitions only`],steps:[{id:1,title:`Add the Reduced-Motion Hook`,description:`Every reveal checks this first. It tracks the OS-level prefers-reduced-motion setting and stays in sync if the user flips it mid-session, so reveals can skip straight to their end state for anyone who's asked for less motion.`,code:`// src/hooks/useReducedMotion.js
 import { useEffect, useState } from "react";
 
 function useReducedMotion() {
@@ -60,13 +60,27 @@ function Reveal({
   children,
   as: Tag = "div",
   direction = "up",
+  variant = "default",
   index = 0,
   className = "",
   ...rest
 }) {
   const { ref, isVisible } = useScrollReveal();
 
-  return (
+  
+if (variant === "fade") {
+    return (
+      <Tag
+        ref={ref}
+        className={\`reveal-fade \${isVisible ? "is-visible" : ""} \${className}\`}
+        style={{ "--stagger-index": index }}
+        {...rest}
+      >
+        {children}
+      </Tag>
+    );
+  }
+return (
     <Tag
       ref={ref}
       className={\`reveal reveal-\${direction} \${isVisible ? "is-visible" : ""} \${className}\`}
@@ -78,7 +92,7 @@ function Reveal({
   );
 }
 
-export default Reveal;`,highlightLines:[12,15]},{id:4,title:`Add the TextReveal Component (word-by-word text reveal)`,description:`Meant for hero headings and section titles, not long body copy. It splits the text into words, clips each one inside an overflow-hidden wrapper, and animates them into place left-to-right with a short per-word delay once the heading scrolls into view.`,code:`// src/components/motion/TextReveal.jsx
+export default Reveal;`,highlightLines:[]},{id:4,title:`Add the TextReveal Component (word-by-word text reveal)`,description:`Meant for hero headings and section titles, not long body copy. It splits the text into words, clips each one inside an overflow-hidden wrapper, and animates them into place left-to-right with a short per-word delay once the heading scrolls into view.`,code:`// src/components/motion/TextReveal.jsx
 import useScrollReveal from "../../hooks/useScrollReveal";
 
 function TextReveal({ text, as: Tag = "h2", className = "", wordDelay = 40 }) {
@@ -183,6 +197,23 @@ export default TextReveal;`,note:`Splitting text into separate spans breaks word
   .text-reveal-piece {
     transform: none;
   }
+}
+
+/* ---- Reveal variant: fading ---- */
+.reveal-fade {
+  opacity: 0.2;
+  transition: opacity var(--duration-moderate) var(--ease-emerge);
+  will-change: opacity;
+}
+.reveal-fade.is-visible {
+  opacity: 1;
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-fade {
+    transition: opacity var(--duration-base) linear;
+  }
 }`,note:`If your project already has a broader design-token system (durations/easings defined elsewhere), just add the .reveal*, .text-reveal-piece, .stagger-children, and reduced-motion rules - skip redeclaring tokens you already have.`},{id:6,title:`Import the CSS Once`,description:`Import the stylesheet in your app's entry point so the classes are available everywhere.`,code:`// src/main.jsx (or App.jsx)
 import "./styles/reveal.css";`},{id:7,title:`Use TextReveal for Headings`,description:`Drop it in wherever you'd normally put an <h1>/<h2> - pass the heading text as a prop instead of as children, since the component needs the raw string to split into words.`,code:`import TextReveal from "./components/motion/TextReveal";
 
@@ -206,7 +237,7 @@ function FeatureGrid({ items }) {
       ))}
     </div>
   );
-}`,highlightLines:[5,7]}],whatYouMightBeMissing:{heading:`Common Gotchas`,categories:[{title:`Reveal never fires`,items:[`The wrapped element (or a parent) has display: contents or is unmounted/re-mounted on every render, which resets the observer before it can fire`,`The element is taller than the viewport and never fully satisfies the threshold - lower threshold (e.g. 0.1) for very tall sections`,`index is only for the --stagger-index delay, not for keys - forgetting a stable key (e.g. an item id) on repeated <Reveal> elements can cause remounts that restart the animation`]},{title:`Text reveal looks broken`,items:[`Passing JSX children instead of a text prop - TextReveal needs a plain string so it can call .split(" ")`,`Using it on long paragraphs - it's designed for short headings; word-by-word staggering on body copy reads as slow and gimmicky`,`Forgetting overflow-hidden on the per-word wrapper (already included in the component) if you customize the markup - without it words slide in from below the whole viewport instead of clipping cleanly`]},{title:`Accessibility`,items:[`Always keep the aria-hidden split copy plus the aria-label with the real string - some screen readers read split <span> content word-by-fragment otherwise`,`Never skip the prefers-reduced-motion handling - for some users animated motion causes real discomfort, not just preference`]}]},gettingStarted:{heading:`Quick Start Checklist`,steps:[`Add src/hooks/useReducedMotion.js and src/hooks/useScrollReveal.js`,`Add src/components/motion/Reveal.jsx and TextReveal.jsx`,`Add src/styles/reveal.css and import it once from your entry file`,`Use <TextReveal text="..." as="h1" /> for hero/section headings`,`Wrap cards/sections in <Reveal> and add .stagger-children to a shared parent for cascading grids/lists`]}},i={title:`Text Reveal & Content Reveal Cheat Sheet`,introduction:{heading:`Scroll-Triggered Text & Content Reveals`,description:`Ett drop-in scroll-reveal-system för React: en <Reveal>-komponent som fadar/glider in vilket block av innehåll som helst i vyn när det scrollas in på skärmen, och en <TextReveal>-komponent som animerar en rubrik ord-för-ord. Båda är byggda på en enda IntersectionObserver-baserad hook, kostar ingenting när de är off-screen, triggas en gång per element och respekterar automatiskt prefers-reduced-motion. Detta är ramverk-lätt - det behöver bara React och vanlig CSS, så det passar in i vilket React-projekt som helst oavsett om du använder Tailwind eller inte.`},prerequisites:[`Ett React 18+ projekt (Vite, CRA, Next.js client components, etc.)`,`Bekväm med att lägga till ett par små hook-filer och en CSS-fil i ditt projekt`,`Inget animationsbibliotek krävs - detta använder native IntersectionObserver API och endast CSS-transitions`],steps:[{id:1,title:`Lägg till Reduced-Motion Hook`,description:`Varje reveal kontrollerar detta först. Den spårar OS-nivå prefers-reduced-motion-inställningen och håller sig synkroniserad om användaren ändrar den mitt i sessionen, så reveals kan hoppa direkt till sitt sluttillstånd för alla som har bett om mindre rörelse.`,code:`// src/hooks/useReducedMotion.js
+}`,highlightLines:[]}],whatYouMightBeMissing:{heading:`Common Gotchas`,categories:[{title:`Reveal never fires`,items:[`The wrapped element (or a parent) has display: contents or is unmounted/re-mounted on every render, which resets the observer before it can fire`,`The element is taller than the viewport and never fully satisfies the threshold - lower threshold (e.g. 0.1) for very tall sections`,`index is only for the --stagger-index delay, not for keys - forgetting a stable key (e.g. an item id) on repeated <Reveal> elements can cause remounts that restart the animation`]},{title:`Text reveal looks broken`,items:[`Passing JSX children instead of a text prop - TextReveal needs a plain string so it can call .split(" ")`,`Using it on long paragraphs - it's designed for short headings; word-by-word staggering on body copy reads as slow and gimmicky`,`Forgetting overflow-hidden on the per-word wrapper (already included in the component) if you customize the markup - without it words slide in from below the whole viewport instead of clipping cleanly`]},{title:`Accessibility`,items:[`Always keep the aria-hidden split copy plus the aria-label with the real string - some screen readers read split <span> content word-by-fragment otherwise`,`Never skip the prefers-reduced-motion handling - for some users animated motion causes real discomfort, not just preference`]}]},gettingStarted:{heading:`Quick Start Checklist`,steps:[`Add src/hooks/useReducedMotion.js and src/hooks/useScrollReveal.js`,`Add src/components/motion/Reveal.jsx and TextReveal.jsx`,`Add src/styles/reveal.css and import it once from your entry file`,`Use <TextReveal text="..." as="h1" /> for hero/section headings`,`Wrap cards/sections in <Reveal> and add .stagger-children to a shared parent for cascading grids/lists`]}},i={title:`Text Reveal & Content Reveal Cheat Sheet`,introduction:{heading:`Scroll-Triggered Text & Content Reveals`,description:`Ett drop-in scroll-reveal-system för React: en <Reveal>-komponent som fadar/glider in vilket block av innehåll som helst i vyn när det scrollas in på skärmen, och en <TextReveal>-komponent som animerar en rubrik ord-för-ord. Båda är byggda på en enda IntersectionObserver-baserad hook, kostar ingenting när de är off-screen, triggas en gång per element och respekterar automatiskt prefers-reduced-motion. Detta är ramverk-lätt - det behöver bara React och vanlig CSS, så det passar in i vilket React-projekt som helst oavsett om du använder Tailwind eller inte.`},prerequisites:[`Ett React 18+ projekt (Vite, CRA, Next.js client components, etc.)`,`Bekväm med att lägga till ett par små hook-filer och en CSS-fil i ditt projekt`,`Inget animationsbibliotek krävs - detta använder native IntersectionObserver API och endast CSS-transitions`],steps:[{id:1,title:`Lägg till Reduced-Motion Hook`,description:`Varje reveal kontrollerar detta först. Den spårar OS-nivå prefers-reduced-motion-inställningen och håller sig synkroniserad om användaren ändrar den mitt i sessionen, så reveals kan hoppa direkt till sitt sluttillstånd för alla som har bett om mindre rörelse.`,code:`// src/hooks/useReducedMotion.js
 import { useEffect, useState } from "react";
 
 function useReducedMotion() {
