@@ -8,6 +8,12 @@ Learn **JavaScript**, **TypeScript**, **Git**, **HTTP & Web APIs**, **Node.js**,
 
 ---
 
+## Screenshots
+
+| ![Screenshot 1](./screenshots/WebDev-01.jpg) | ![Screenshot 2](./screenshots/WebDev-02.jpg) |
+| -------------------------------------------- | -------------------------------------------- |
+| ![Screenshot 3](./screenshots/WebDev-03.jpg) | ![Screenshot 4](./screenshots/WebDev-04.jpg) |
+
 ## Key Features
 
 - **Structured Lessons** — Each topic covers core concepts, a full worked example, and a getting-started checklist
