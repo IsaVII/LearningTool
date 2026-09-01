@@ -59,6 +59,16 @@
       "screenshot": "/images/textreveal.png",
       "difficulty": "intermediate",
       "estimatedTime": "20 minutes"
+    },
+    {
+      "id": 7,
+      "key": "i18n",
+      "title": "Multilanguage (i18n)",
+      "description": "Step-by-step guide to adding multilanguage support with i18next and react-i18next, exactly the way this app implements it",
+      "route": "/i18n",
+      "screenshot": "/images/i18n.png",
+      "difficulty": "intermediate",
+      "estimatedTime": "20 minutes"
     }
 ]
 }

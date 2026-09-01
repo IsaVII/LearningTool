@@ -34,6 +34,7 @@ const NpmLibraries = lazy(() => import("./pages/cheatsheets/NpmLibraries"));
 const MongoDB = lazy(() => import("./pages/cheatsheets/MongoDB"));
 const SQL = lazy(() => import("./pages/cheatsheets/SQL"));
 const TextReveal = lazy(() => import("./pages/cheatsheets/TextReveal"));
+const I18n = lazy(() => import("./pages/cheatsheets/I18n"));
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
                 <Route path="/mongodb" element={<MongoDB />} />
                 <Route path="/sql" element={<SQL />} />
                 <Route path="/textreveal" element={<TextReveal />} />
+                <Route path="/i18n" element={<I18n />} />
               </Routes>
             </PageTransition>
           </Suspense>

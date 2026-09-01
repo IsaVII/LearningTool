@@ -1,0 +1,136 @@
+{
+  "title": "Multilanguage (i18n) Cheat Sheet",
+  "introduction": {
+    "heading": "Adding Multilanguage Support the Way This App Does It",
+    "description": "This app uses i18next and react-i18next for UI string translations (nav, buttons, labels) and a parallel file-based approach for page content. UI strings live in src/locales/<lang>/common.json and are accessed via the useTranslation hook. Longer page content (steps, descriptions, code) lives in src/data/<lang>/ mirrors of the default English files and is selected at render time with a CONTENT_MAP keyed by i18n.language. The language choice is persisted in localStorage and restored on page load."
+  },
+  "prerequisites": [
+    "An existing React + Vite project (the same stack this app uses)",
+    "Node.js and npm installed",
+    "Familiarity with React hooks (useState, useEffect) and ES modules"
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "title": "Install the Libraries",
+      "description": "Install i18next (the core library) and react-i18next (the React bindings that provide hooks and components).",
+      "code": "npm install i18next react-i18next",
+      "language": "bash",
+      "note": "These are the only two npm packages this app adds for i18n. No language-detection plugins, no backend loaders – just the core and the React bindings."
+    },
+    {
+      "id": 2,
+      "title": "Create the Locale Files",
+      "description": "Add a locales folder under src/ with one subfolder per language. Each subfolder holds a common.json with the UI strings for that language. Mirror every key across all languages – missing keys fall back to the fallbackLng you set in the next step.",
+      "code": "src/\n  locales/\n    en/\n      common.json   ← English UI strings (always required)\n    sv/\n      common.json   ← Swedish UI strings",
+      "language": "bash",
+      "subSteps": [
+        {
+          "title": "src/locales/en/common.json",
+          "description": "The English (default) translation file. Every key you want to use in components goes here first.",
+          "code": "{\n  \"header\": {\n    \"home\": \"Home\",\n    \"learning\": \"Learning\",\n    \"cheatsheets\": \"Cheat Sheets\"\n  },\n  \"main\": {\n    \"title\": \"WebDev Playground\",\n    \"subtitle\": \"Learn web development through interactive examples\",\n    \"searchPlaceholder\": \"Search topics...\"\n  },\n  \"difficulty\": {\n    \"beginner\": \"Beginner\",\n    \"intermediate\": \"Intermediate\",\n    \"advanced\": \"Advanced\"\n  },\n  \"common\": {\n    \"loading\": \"Loading...\",\n    \"backToHome\": \"Back to Home\"\n  }\n}",
+          "language": "json",
+          "note": "Use dot-separated namespaces (e.g. header.home) to keep strings organised. The shape is entirely up to you – as long as every language file matches."
+        },
+        {
+          "title": "src/locales/sv/common.json",
+          "description": "The Swedish translation file. Must mirror the exact same key structure as the English file.",
+          "code": "{\n  \"header\": {\n    \"home\": \"Hem\",\n    \"learning\": \"Lärande\",\n    \"cheatsheets\": \"Snabbguider\"\n  },\n  \"main\": {\n    \"title\": \"WebDev Playground\",\n    \"subtitle\": \"Lär dig webbutveckling genom interaktiva exempel\",\n    \"searchPlaceholder\": \"Sök ämnen...\"\n  },\n  \"difficulty\": {\n    \"beginner\": \"Nybörjare\",\n    \"intermediate\": \"Medel\",\n    \"advanced\": \"Avancerad\"\n  },\n  \"common\": {\n    \"loading\": \"Laddar...\",\n    \"backToHome\": \"Tillbaka till Hem\"\n  }\n}",
+          "language": "json"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Create src/i18n.js",
+      "description": "Initialise i18next once, outside React, by importing both locale files and calling i18n.init(). Read the saved language from localStorage so the user's preference survives a page reload. Export the instance – it's imported by main.jsx before the app renders.",
+      "code": "import i18n from 'i18next';\nimport { initReactI18next } from 'react-i18next';\n\nimport enTranslations from './locales/en/common.json';\nimport svTranslations from './locales/sv/common.json';\n\ni18n.use(initReactI18next).init({\n  resources: {\n    en: { translation: enTranslations },\n    sv: { translation: svTranslations },\n  },\n  // Restore saved language; fall back to English\n  lng: localStorage.getItem('language') || 'en',\n  fallbackLng: 'en',\n  interpolation: {\n    escapeValue: false, // React already escapes values\n  },\n});\n\nexport default i18n;",
+      "language": "javascript",
+      "highlightLines": [12, 13],
+      "note": "escapeValue: false is safe in React because JSX already escapes output. Without it i18next would double-escape characters like & and <."
+    },
+    {
+      "id": 4,
+      "title": "Import i18n.js in main.jsx",
+      "description": "Import the i18n module once, before <App /> renders, so the instance is configured before any component tries to call useTranslation().",
+      "code": "import ReactDOM from 'react-dom/client';\nimport './i18n';           // ← must come before <App />\nimport App from './App.jsx';\nimport { Provider } from 'react-redux';\nimport store from './redux/store';\n\nReactDOM.createRoot(document.getElementById('root')).render(\n  <Provider store={store}>\n    <App />\n  </Provider>\n);",
+      "language": "jsx",
+      "highlightLines": [2],
+      "note": "Order matters: the import runs synchronously, so i18next is fully initialised before any component mounts."
+    },
+    {
+      "id": 5,
+      "title": "Use Translations in Components",
+      "description": "Call useTranslation() in any component to get the t() function. Pass a dot-separated key that matches the structure in your locale files. i18next returns the string for the currently active language.",
+      "code": "import { useTranslation } from 'react-i18next';\n\nfunction Header() {\n  const { t } = useTranslation();\n\n  return (\n    <nav>\n      <a href=\"/\">{t('header.home')}</a>\n      <a href=\"/learning\">{t('header.learning')}</a>\n      <a href=\"/cheatsheets\">{t('header.cheatsheets')}</a>\n    </nav>\n  );\n}\n\nexport default Header;",
+      "language": "jsx",
+      "highlightLines": [1, 4, 8, 9, 10],
+      "note": "t('header.home') looks up the 'home' key inside the 'header' object. If the key is missing in the active language, i18next returns the fallback language value."
+    },
+    {
+      "id": 6,
+      "title": "Build the LanguageSwitcher Component",
+      "description": "This is the component that actually changes the language. Call i18n.changeLanguage() with the new locale code and write it to localStorage so it survives a reload. i18next triggers a re-render of every component that uses useTranslation() automatically.",
+      "code": "import { useTranslation } from 'react-i18next';\n\nfunction LanguageSwitcher() {\n  const { i18n } = useTranslation();\n\n  const changeLanguage = (lng) => {\n    i18n.changeLanguage(lng);\n    localStorage.setItem('language', lng);  // persist the choice\n  };\n\n  return (\n    <div className=\"flex gap-2\">\n      <button\n        onClick={() => changeLanguage('en')}\n        className={`px-3 py-1 rounded transition-colors ${\n          i18n.language === 'en'\n            ? 'bg-blue-600 text-white'           // active\n            : 'bg-gray-200 text-gray-800 hover:bg-gray-300'  // inactive\n        }`}\n        aria-label=\"Switch to English\"\n      >\n        EN\n      </button>\n      <button\n        onClick={() => changeLanguage('sv')}\n        className={`px-3 py-1 rounded transition-colors ${\n          i18n.language === 'sv'\n            ? 'bg-blue-600 text-white'\n            : 'bg-gray-200 text-gray-800 hover:bg-gray-300'\n        }`}\n        aria-label=\"Byt till Svenska\"\n      >\n        SV\n      </button>\n    </div>\n  );\n}\n\nexport default LanguageSwitcher;",
+      "language": "jsx",
+      "highlightLines": [7, 8, 15, 26],
+      "note": "i18n.language holds the currently active locale code ('en', 'sv', …). Compare it against each button's code to show the active state."
+    },
+    {
+      "id": 7,
+      "title": "Add LanguageSwitcher to the Header",
+      "description": "Place <LanguageSwitcher /> anywhere in your Header component. It reads and writes language state via i18next, so no props are needed.",
+      "code": "import LanguageSwitcher from './LanguageSwitcher';\nimport { useTranslation } from 'react-i18next';\n\nfunction Header() {\n  const { t } = useTranslation();\n\n  return (\n    <header className=\"flex items-center justify-between px-6 py-4\">\n      <nav className=\"flex gap-4\">\n        <a href=\"/\">{t('header.home')}</a>\n        <a href=\"/learning\">{t('header.learning')}</a>\n      </nav>\n\n      {/* Language toggle sits in the header alongside nav/theme toggle */}\n      <LanguageSwitcher />\n    </header>\n  );\n}\n\nexport default Header;",
+      "language": "jsx",
+      "highlightLines": [1, 15]
+    },
+    {
+      "id": 8,
+      "title": "Localise Page Content (the CONTENT_MAP Pattern)",
+      "description": "UI strings are handled by i18next, but longer page content (steps, code examples, descriptions) lives in separate JSON files under src/data/ (English) and src/data/sv/ (Swedish). Each page component imports both versions and picks the right one at render time using a CONTENT_MAP keyed by i18n.language.",
+      "code": "// File layout\nsrc/data/\n  cheatsheets/\n    myTopic.json          ← English content (default)\n  sv/\n    cheatsheets/\n      myTopic.json        ← Swedish content (same shape)",
+      "language": "bash",
+      "subSteps": [
+        {
+          "title": "Page component using CONTENT_MAP",
+          "description": "Import both JSON files, build a CONTENT_MAP object, then select the right one by language at render time. Adding a new language means adding one import and one key to the map.",
+          "code": "import { useTranslation } from 'react-i18next';\nimport CheatSheetLayout from '../../components/CheatSheetLayout';\nimport myTopicEn from '../../data/cheatsheets/myTopic.json';\nimport myTopicSv from '../../data/sv/cheatsheets/myTopic.json';\n\nconst CONTENT_MAP = {\n  en: myTopicEn,\n  sv: myTopicSv,\n};\n\nfunction MyTopic() {\n  const { i18n } = useTranslation();\n  // Fall back to English if the current language has no content yet\n  const content = CONTENT_MAP[i18n.language] || CONTENT_MAP.en;\n\n  return (\n    <CheatSheetLayout\n      title={content.title}\n      introduction={content.introduction}\n      prerequisites={content.prerequisites}\n      steps={content.steps}\n    />\n  );\n}\n\nexport default MyTopic;",
+          "language": "jsx",
+          "highlightLines": [3, 4, 6, 7, 8, 14],
+          "note": "The || CONTENT_MAP.en fallback means a partially-translated app never shows blank content – it gracefully degrades to English."
+        },
+        {
+          "title": "Swedish content file (src/data/sv/cheatsheets/myTopic.json)",
+          "description": "The Swedish file must have the same top-level keys as the English one. Only translate the values – never change the key names.",
+          "code": "{\n  \"title\": \"Mitt Ämne – Snabbguide\",\n  \"introduction\": {\n    \"heading\": \"Kom igång med Mitt Ämne\",\n    \"description\": \"En kortfattad beskrivning på svenska.\"\n  },\n  \"prerequisites\": [\n    \"Krav ett\",\n    \"Krav två\"\n  ],\n  \"steps\": [\n    {\n      \"id\": 1,\n      \"title\": \"Första steget\",\n      \"description\": \"Vad du ska göra i detta steg.\",\n      \"code\": \"npm install something\",\n      \"language\": \"bash\"\n    }\n  ]\n}",
+          "language": "json",
+          "note": "Code blocks (the 'code' field) are usually kept in English since they're syntax, not prose. Only translate 'title', 'description', and 'note' fields."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Register the New Cheatsheet in the App",
+      "description": "Once the page component and both JSON content files exist, wire it up in three places: the cheatsheet registry (cheatsheets.json and sv/cheatsheets.json), App.jsx for routing, and optionally the Header nav.",
+      "code": "// 1. src/data/cheatsheets.json – add an entry to the topics array\n{\n  \"id\": 7,\n  \"key\": \"mytopic\",\n  \"title\": \"My Topic\",\n  \"description\": \"Short description shown on the home page card\",\n  \"route\": \"/mytopic\",\n  \"screenshot\": \"/images/mytopic.png\",\n  \"difficulty\": \"beginner\",\n  \"estimatedTime\": \"15 minutes\"\n}\n\n// 2. src/data/sv/cheatsheets.json – same entry, translated\n{\n  \"id\": 7,\n  \"key\": \"mytopic\",\n  \"title\": \"Mitt Ämne\",\n  \"description\": \"Kort beskrivning som visas på startsidans kort\",\n  \"route\": \"/mytopic\",\n  \"screenshot\": \"/images/mytopic.png\",\n  \"difficulty\": \"beginner\",\n  \"estimatedTime\": \"15 minuter\"\n}\n\n// 3. src/App.jsx – add the lazy import and Route\nconst MyTopic = lazy(() => import('./pages/cheatsheets/MyTopic'));\n// … inside <Routes>:\n<Route path=\"/mytopic\" element={<MyTopic />} />",
+      "language": "javascript",
+      "highlightLines": [25, 28],
+      "note": "The 'key' field in cheatsheets.json is used by ProgressContext to store completion state, so keep it unique and stable."
+    }
+  ],
+  "gettingStarted": {
+    "title": "Adding a New Language – Checklist",
+    "steps": [
+      "Add a new folder under src/locales/<lang>/ with common.json, mirroring every key from en/common.json",
+      "Add an import and a resources entry for the new language in src/i18n.js",
+      "Add a new button to LanguageSwitcher.jsx that calls changeLanguage('<lang>')",
+      "For each page that has localised content, create src/data/<lang>/cheatsheets/<page>.json (or src/data/<lang>/learning/<page>.json) with translated prose",
+      "Add the new locale's entry to the CONTENT_MAP in each affected page component",
+      "Add a translated entry in src/data/<lang>/cheatsheets.json (and learningContent.json) for the home-page card text"
+    ]
+  },
+  "source": {
+    "label": "i18next documentation",
+    "url": "https://www.i18next.com/"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "title": "Flerspråkighet (i18n) Snabbguide",
+  "introduction": {
+    "heading": "Lägga till flerspråkigt stöd på samma sätt som den här appen gör det",
+    "description": "Den här appen använder i18next och react-i18next för UI-strängar (navigering, knappar, etiketter) och en parallell filbaserad metod för sidinnehåll. UI-strängar finns i src/locales/<språk>/common.json och används via useTranslation-hooken. Längre sidinnehåll (steg, beskrivningar, kod) finns i src/data/<språk>/-speglingar av de engelska standardfilerna och väljs vid rendering med en CONTENT_MAP nycklad på i18n.language. Språkvalet sparas i localStorage och återställs vid sidladdning."
+  },
+  "prerequisites": [
+    "Ett befintligt React + Vite-projekt (samma stack som den här appen använder)",
+    "Node.js och npm installerade",
+    "Bekantskap med React hooks (useState, useEffect) och ES-moduler"
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "title": "Installera biblioteken",
+      "description": "Installera i18next (kärnbiblioteket) och react-i18next (React-bindningarna som tillhandahåller hooks och komponenter).",
+      "code": "npm install i18next react-i18next",
+      "language": "bash",
+      "note": "Det är de enda två npm-paketen den här appen lägger till för i18n. Inga språkdetekterings-plugins, inga backend-laddare – bara kärnan och React-bindningarna."
+    },
+    {
+      "id": 2,
+      "title": "Skapa lokalfiler",
+      "description": "Lägg till en locales-mapp under src/ med en undermapp per språk. Varje undermapp innehåller en common.json med UI-strängarna för det språket. Spegla varje nyckel i alla språk – saknade nycklar faller tillbaka till fallbackLng du anger i nästa steg.",
+      "code": "src/\n  locales/\n    en/\n      common.json   ← Engelska UI-strängar (alltid obligatoriska)\n    sv/\n      common.json   ← Svenska UI-strängar",
+      "language": "bash",
+      "subSteps": [
+        {
+          "title": "src/locales/en/common.json",
+          "description": "Den engelska (standard) översättningsfilen. Varje nyckel du vill använda i komponenter läggs till här först.",
+          "code": "{\n  \"header\": {\n    \"home\": \"Home\",\n    \"learning\": \"Learning\",\n    \"cheatsheets\": \"Cheat Sheets\"\n  },\n  \"main\": {\n    \"title\": \"WebDev Playground\",\n    \"subtitle\": \"Learn web development through interactive examples\",\n    \"searchPlaceholder\": \"Search topics...\"\n  },\n  \"difficulty\": {\n    \"beginner\": \"Beginner\",\n    \"intermediate\": \"Intermediate\",\n    \"advanced\": \"Advanced\"\n  },\n  \"common\": {\n    \"loading\": \"Loading...\",\n    \"backToHome\": \"Back to Home\"\n  }\n}",
+          "language": "json",
+          "note": "Använd punkt-separerade namnrymder (t.ex. header.home) för att hålla strängarna organiserade. Strukturen är helt upp till dig – så länge varje språkfil matchar."
+        },
+        {
+          "title": "src/locales/sv/common.json",
+          "description": "Den svenska översättningsfilen. Måste spegla exakt samma nyckelstruktur som den engelska filen.",
+          "code": "{\n  \"header\": {\n    \"home\": \"Hem\",\n    \"learning\": \"Lärande\",\n    \"cheatsheets\": \"Snabbguider\"\n  },\n  \"main\": {\n    \"title\": \"WebDev Playground\",\n    \"subtitle\": \"Lär dig webbutveckling genom interaktiva exempel\",\n    \"searchPlaceholder\": \"Sök ämnen...\"\n  },\n  \"difficulty\": {\n    \"beginner\": \"Nybörjare\",\n    \"intermediate\": \"Medel\",\n    \"advanced\": \"Avancerad\"\n  },\n  \"common\": {\n    \"loading\": \"Laddar...\",\n    \"backToHome\": \"Tillbaka till Hem\"\n  }\n}",
+          "language": "json"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Skapa src/i18n.js",
+      "description": "Initiera i18next en gång, utanför React, genom att importera båda lokalfilerna och anropa i18n.init(). Läs det sparade språket från localStorage så att användarens preferens överlever en sidomladdning. Exportera instansen – den importeras av main.jsx innan appen renderas.",
+      "code": "import i18n from 'i18next';\nimport { initReactI18next } from 'react-i18next';\n\nimport enTranslations from './locales/en/common.json';\nimport svTranslations from './locales/sv/common.json';\n\ni18n.use(initReactI18next).init({\n  resources: {\n    en: { translation: enTranslations },\n    sv: { translation: svTranslations },\n  },\n  // Återställ sparat språk; falla tillbaka till engelska\n  lng: localStorage.getItem('language') || 'en',\n  fallbackLng: 'en',\n  interpolation: {\n    escapeValue: false, // React escapar redan värden\n  },\n});\n\nexport default i18n;",
+      "language": "javascript",
+      "highlightLines": [12, 13],
+      "note": "escapeValue: false är säkert i React eftersom JSX redan escapar utdata. Utan det skulle i18next dubbelescapa tecken som & och <."
+    },
+    {
+      "id": 4,
+      "title": "Importera i18n.js i main.jsx",
+      "description": "Importera i18n-modulen en gång, innan <App /> renderas, så att instansen är konfigurerad innan någon komponent försöker anropa useTranslation().",
+      "code": "import ReactDOM from 'react-dom/client';\nimport './i18n';           // ← måste komma före <App />\nimport App from './App.jsx';\nimport { Provider } from 'react-redux';\nimport store from './redux/store';\n\nReactDOM.createRoot(document.getElementById('root')).render(\n  <Provider store={store}>\n    <App />\n  </Provider>\n);",
+      "language": "jsx",
+      "highlightLines": [2],
+      "note": "Ordning spelar roll: importen körs synkront, så i18next är helt initierat innan någon komponent monteras."
+    },
+    {
+      "id": 5,
+      "title": "Använd översättningar i komponenter",
+      "description": "Anropa useTranslation() i valfri komponent för att få t()-funktionen. Skicka en punkt-separerad nyckel som matchar strukturen i dina lokalfiler. i18next returnerar strängen för det aktiva språket.",
+      "code": "import { useTranslation } from 'react-i18next';\n\nfunction Header() {\n  const { t } = useTranslation();\n\n  return (\n    <nav>\n      <a href=\"/\">{t('header.home')}</a>\n      <a href=\"/learning\">{t('header.learning')}</a>\n      <a href=\"/cheatsheets\">{t('header.cheatsheets')}</a>\n    </nav>\n  );\n}\n\nexport default Header;",
+      "language": "jsx",
+      "highlightLines": [1, 4, 8, 9, 10],
+      "note": "t('header.home') slår upp 'home'-nyckeln inuti 'header'-objektet. Om nyckeln saknas för det aktiva språket returnerar i18next fallback-språkets värde."
+    },
+    {
+      "id": 6,
+      "title": "Bygg LanguageSwitcher-komponenten",
+      "description": "Det här är komponenten som faktiskt byter språk. Anropa i18n.changeLanguage() med den nya språkkoden och skriv den till localStorage så att den överlever en omladdning. i18next utlöser automatiskt en omrendering av varje komponent som använder useTranslation().",
+      "code": "import { useTranslation } from 'react-i18next';\n\nfunction LanguageSwitcher() {\n  const { i18n } = useTranslation();\n\n  const changeLanguage = (lng) => {\n    i18n.changeLanguage(lng);\n    localStorage.setItem('language', lng);  // spara valet\n  };\n\n  return (\n    <div className=\"flex gap-2\">\n      <button\n        onClick={() => changeLanguage('en')}\n        className={`px-3 py-1 rounded transition-colors ${\n          i18n.language === 'en'\n            ? 'bg-blue-600 text-white'           // aktiv\n            : 'bg-gray-200 text-gray-800 hover:bg-gray-300'  // inaktiv\n        }`}\n        aria-label=\"Switch to English\"\n      >\n        EN\n      </button>\n      <button\n        onClick={() => changeLanguage('sv')}\n        className={`px-3 py-1 rounded transition-colors ${\n          i18n.language === 'sv'\n            ? 'bg-blue-600 text-white'\n            : 'bg-gray-200 text-gray-800 hover:bg-gray-300'\n        }`}\n        aria-label=\"Byt till Svenska\"\n      >\n        SV\n      </button>\n    </div>\n  );\n}\n\nexport default LanguageSwitcher;",
+      "language": "jsx",
+      "highlightLines": [7, 8, 15, 26],
+      "note": "i18n.language håller den aktiva språkkoden ('en', 'sv', …). Jämför den mot varje knapps kod för att visa det aktiva tillståndet."
+    },
+    {
+      "id": 7,
+      "title": "Lägg till LanguageSwitcher i Header",
+      "description": "Placera <LanguageSwitcher /> var som helst i din Header-komponent. Den läser och skriver språktillstånd via i18next, så inga props behövs.",
+      "code": "import LanguageSwitcher from './LanguageSwitcher';\nimport { useTranslation } from 'react-i18next';\n\nfunction Header() {\n  const { t } = useTranslation();\n\n  return (\n    <header className=\"flex items-center justify-between px-6 py-4\">\n      <nav className=\"flex gap-4\">\n        <a href=\"/\">{t('header.home')}</a>\n        <a href=\"/learning\">{t('header.learning')}</a>\n      </nav>\n\n      {/* Språkväxlaren sitter i headern bredvid nav/temabyte */}\n      <LanguageSwitcher />\n    </header>\n  );\n}\n\nexport default Header;",
+      "language": "jsx",
+      "highlightLines": [1, 15]
+    },
+    {
+      "id": 8,
+      "title": "Lokalisera sidinnehåll (CONTENT_MAP-mönstret)",
+      "description": "UI-strängar hanteras av i18next, men längre sidinnehåll (steg, kodexempel, beskrivningar) finns i separata JSON-filer under src/data/ (engelska) och src/data/sv/ (svenska). Varje sidkomponent importerar båda versionerna och väljer rätt vid rendering med en CONTENT_MAP nycklad på i18n.language.",
+      "code": "// Fillayout\nsrc/data/\n  cheatsheets/\n    mittÄmne.json          ← Engelskt innehåll (standard)\n  sv/\n    cheatsheets/\n      mittÄmne.json        ← Svenskt innehåll (samma struktur)",
+      "language": "bash",
+      "subSteps": [
+        {
+          "title": "Sidkomponent med CONTENT_MAP",
+          "description": "Importera båda JSON-filerna, bygg ett CONTENT_MAP-objekt och välj sedan rätt ett efter språk vid rendering. Att lägga till ett nytt språk innebär att lägga till en import och en nyckel i kartan.",
+          "code": "import { useTranslation } from 'react-i18next';\nimport CheatSheetLayout from '../../components/CheatSheetLayout';\nimport myTopicEn from '../../data/cheatsheets/myTopic.json';\nimport myTopicSv from '../../data/sv/cheatsheets/myTopic.json';\n\nconst CONTENT_MAP = {\n  en: myTopicEn,\n  sv: myTopicSv,\n};\n\nfunction MyTopic() {\n  const { i18n } = useTranslation();\n  // Falla tillbaka till engelska om det aktuella språket saknar innehåll\n  const content = CONTENT_MAP[i18n.language] || CONTENT_MAP.en;\n\n  return (\n    <CheatSheetLayout\n      title={content.title}\n      introduction={content.introduction}\n      prerequisites={content.prerequisites}\n      steps={content.steps}\n    />\n  );\n}\n\nexport default MyTopic;",
+          "language": "jsx",
+          "highlightLines": [3, 4, 6, 7, 8, 14],
+          "note": "Fallbacket || CONTENT_MAP.en innebär att en delvis översatt app aldrig visar tomt innehåll – den nedgraderar smidigt till engelska."
+        },
+        {
+          "title": "Svensk innehållsfil (src/data/sv/cheatsheets/mittÄmne.json)",
+          "description": "Den svenska filen måste ha samma nycklar på toppnivå som den engelska. Översätt bara värdena – ändra aldrig nyckelnamnen.",
+          "code": "{\n  \"title\": \"Mitt Ämne – Snabbguide\",\n  \"introduction\": {\n    \"heading\": \"Kom igång med Mitt Ämne\",\n    \"description\": \"En kortfattad beskrivning på svenska.\"\n  },\n  \"prerequisites\": [\n    \"Krav ett\",\n    \"Krav två\"\n  ],\n  \"steps\": [\n    {\n      \"id\": 1,\n      \"title\": \"Första steget\",\n      \"description\": \"Vad du ska göra i detta steg.\",\n      \"code\": \"npm install something\",\n      \"language\": \"bash\"\n    }\n  ]\n}",
+          "language": "json",
+          "note": "Kodblock (fältet 'code') hålls vanligtvis på engelska eftersom de är syntax, inte prosa. Översätt bara fälten 'title', 'description' och 'note'."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Registrera den nya snabbguiden i appen",
+      "description": "När sidkomponenten och båda JSON-innehållsfilerna finns, koppla ihop dem på tre ställen: snabbguideregistret (cheatsheets.json och sv/cheatsheets.json), App.jsx för routing och valfritt Header-navigeringen.",
+      "code": "// 1. src/data/cheatsheets.json – lägg till ett ämne i topics-arrayen\n{\n  \"id\": 7,\n  \"key\": \"mittamne\",\n  \"title\": \"My Topic\",\n  \"description\": \"Kort beskrivning som visas på startsidans kort\",\n  \"route\": \"/mittamne\",\n  \"screenshot\": \"/images/mittamne.png\",\n  \"difficulty\": \"beginner\",\n  \"estimatedTime\": \"15 minutes\"\n}\n\n// 2. src/data/sv/cheatsheets.json – samma post, översatt\n{\n  \"id\": 7,\n  \"key\": \"mittamne\",\n  \"title\": \"Mitt Ämne\",\n  \"description\": \"Kort beskrivning som visas på startsidans kort\",\n  \"route\": \"/mittamne\",\n  \"screenshot\": \"/images/mittamne.png\",\n  \"difficulty\": \"beginner\",\n  \"estimatedTime\": \"15 minuter\"\n}\n\n// 3. src/App.jsx – lägg till lazy-importen och Route\nconst MittAmne = lazy(() => import('./pages/cheatsheets/MittAmne'));\n// … inuti <Routes>:\n<Route path=\"/mittamne\" element={<MittAmne />} />",
+      "language": "javascript",
+      "highlightLines": [25, 28],
+      "note": "Fältet 'key' i cheatsheets.json används av ProgressContext för att lagra ifyllningsstatus, så håll det unikt och stabilt."
+    }
+  ],
+  "gettingStarted": {
+    "title": "Lägga till ett nytt språk – Checklista",
+    "steps": [
+      "Lägg till en ny mapp under src/locales/<språk>/ med common.json och spegla varje nyckel från en/common.json",
+      "Lägg till en import och en resources-post för det nya språket i src/i18n.js",
+      "Lägg till en ny knapp i LanguageSwitcher.jsx som anropar changeLanguage('<språk>')",
+      "För varje sida med lokaliserat innehåll, skapa src/data/<språk>/cheatsheets/<sida>.json (eller src/data/<språk>/learning/<sida>.json) med översatt prosa",
+      "Lägg till det nya språkets post i CONTENT_MAP i varje berörd sidkomponent",
+      "Lägg till en översatt post i src/data/<språk>/cheatsheets.json (och learningContent.json) för startsidans korttext"
+    ]
+  },
+  "source": {
+    "label": "i18next dokumentation",
+    "url": "https://www.i18next.com/"
+  }
+}
