@@ -39,7 +39,7 @@ function CheatSheetLayout({
 
       <ContentCard>
         {introduction && (
-          <Reveal index={0}>
+          <Reveal variant="fade" index={0}>
             <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
               <h2 className="text-3xl text-heading mt-8 mb-4">
                 {introduction.heading}
@@ -52,7 +52,7 @@ function CheatSheetLayout({
         )}
 
         {prerequisites.length > 0 && (
-          <Reveal index={1}>
+          <Reveal variant="fade" index={1}>
             <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
               <h3 className="text-2xl text-heading-alt mt-6 mb-3">
                 Prerequisites
@@ -70,7 +70,7 @@ function CheatSheetLayout({
 
         <div className="stagger-children flex flex-col gap-4 mb-3">
           {steps.map((step, index) => (
-            <Reveal key={step.id ?? index} index={index + 2}>
+            <Reveal variant="fade" key={step.id ?? index} index={index + 2}>
               <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 md:pr-5">
                 <h3 className="text-2xl text-heading-alt mt-2 mb-3 flex items-baseline gap-3">
                   <span className="text-accent font-bold">
@@ -154,7 +154,7 @@ function CheatSheetLayout({
         </div>
 
         {folderStructure && (
-          <Reveal index={steps.length + 2}>
+          <Reveal variant="fade" index={steps.length + 2}>
             <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
               <h3 className="text-2xl text-heading-alt mt-6 mb-3">
                 {folderStructure.heading}
@@ -172,7 +172,7 @@ function CheatSheetLayout({
         )}
 
         {backendSetup && (
-          <Reveal index={steps.length + 3}>
+          <Reveal variant="fade" index={steps.length + 3}>
             <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
               <h3 className="text-2xl text-heading-alt mt-6 mb-3">
                 {backendSetup.heading}
@@ -200,7 +200,7 @@ function CheatSheetLayout({
         )}
 
         {whatYouMightBeMissing && (
-          <Reveal index={steps.length + 4}>
+          <Reveal variant="fade" index={steps.length + 4}>
             <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
               <h3 className="text-2xl text-heading-alt mt-6 mb-3">
                 {whatYouMightBeMissing.heading}
@@ -222,7 +222,7 @@ function CheatSheetLayout({
         )}
 
         {gettingStarted && (
-          <Reveal index={steps.length + 5}>
+          <Reveal variant="fade" index={steps.length + 5}>
             <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
               <h3 className="text-2xl text-heading-alt mt-6 mb-3">
                 {gettingStarted.heading}

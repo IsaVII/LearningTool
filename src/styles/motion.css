@@ -16,21 +16,32 @@
   /* ---- Timing scale ----
      Named by what they're for, not just their length, so usage
      stays intentional instead of "whatever felt right". */
-  --duration-instant: 100ms; /* press/tap feedback */
-  --duration-micro: 180ms; /* hover states, small toggles */
-  --duration-base: 280ms; /* default UI transitions */
-  --duration-moderate: 420ms; /* reveals, card entrances */
-  --duration-deliberate: 600ms; /* page transitions, hero moments */
-  --duration-ambient: 900ms; /* large choreographed sequences */
+  --duration-instant: 100ms;
+  /* press/tap feedback */
+  --duration-micro: 180ms;
+  /* hover states, small toggles */
+  --duration-base: 280ms;
+  /* default UI transitions */
+  --duration-moderate: 420ms;
+  /* reveals, card entrances */
+  --duration-deliberate: 600ms;
+  /* page transitions, hero moments */
+  --duration-ambient: 900ms;
+  /* large choreographed sequences */
 
   /* ---- Easing curves ----
      Named by feel. Pair a curve with the kind of motion it was
      tuned for - see MOTION_SYSTEM.md for when to use each. */
-  --ease-emerge: cubic-bezier(0.16, 1, 0.3, 1); /* fast start, soft landing - reveals, entrances */
-  --ease-settle: cubic-bezier(0.4, 0, 0.2, 1); /* symmetric - hovers, toggles, most UI */
-  --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1); /* slight overshoot - press feedback, playful confirmations */
-  --ease-glide: cubic-bezier(0.65, 0, 0.35, 1); /* even, cinematic - page transitions, camera moves */
-  --ease-exit: cubic-bezier(0.7, 0, 0.84, 0); /* fast out - things leaving the screen */
+  --ease-emerge: cubic-bezier(0.16, 1, 0.3, 1);
+  /* fast start, soft landing - reveals, entrances */
+  --ease-settle: cubic-bezier(0.4, 0, 0.2, 1);
+  /* symmetric - hovers, toggles, most UI */
+  --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* slight overshoot - press feedback, playful confirmations */
+  --ease-glide: cubic-bezier(0.65, 0, 0.35, 1);
+  /* even, cinematic - page transitions, camera moves */
+  --ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
+  /* fast out - things leaving the screen */
 
   /* ---- Distances ----
      Motion should be felt, not noticed - keep travel small. */
@@ -51,10 +62,12 @@
     transform var(--duration-base) var(--ease-settle),
     box-shadow var(--duration-base) var(--ease-settle);
 }
+
 .hover-lift:hover,
 .hover-lift:focus-visible {
   transform: translateY(calc(var(--lift-md) * -1));
 }
+
 .hover-lift:active {
   transition-duration: var(--duration-instant);
   transform: translateY(calc(var(--lift-sm) * -1)) scale(0.99);
@@ -72,6 +85,7 @@
     border-color var(--duration-base) var(--ease-settle);
   box-shadow: var(--shadow);
 }
+
 .shadow-bloom:hover,
 .shadow-bloom:focus-visible {
   border-color: var(--accent);
@@ -86,6 +100,7 @@
 .press-scale {
   transition: transform var(--duration-instant) var(--ease-snap);
 }
+
 .press-scale:active {
   transform: scale(0.96);
 }
@@ -95,6 +110,7 @@
 .hover-underline {
   position: relative;
 }
+
 .hover-underline::after {
   content: "";
   position: absolute;
@@ -105,6 +121,7 @@
   background: currentColor;
   transition: right var(--duration-base) var(--ease-settle);
 }
+
 .hover-underline:hover::after,
 .hover-underline:focus-visible::after,
 .hover-underline[aria-current="page"]::after {
@@ -126,6 +143,7 @@
     transform var(--duration-moderate) var(--ease-emerge),
     opacity var(--duration-moderate) var(--ease-emerge);
 }
+
 .text-reveal-piece.is-visible {
   transform: translateY(0);
   opacity: 1;
@@ -145,21 +163,27 @@
     transform var(--duration-moderate) var(--ease-emerge);
   will-change: opacity, transform;
 }
+
 .reveal-up {
   transform: translateY(var(--reveal-distance));
 }
+
 .reveal-down {
   transform: translateY(calc(var(--reveal-distance) * -1));
 }
+
 .reveal-left {
   transform: translateX(var(--reveal-distance));
 }
+
 .reveal-right {
   transform: translateX(calc(var(--reveal-distance) * -1));
 }
+
 .reveal-scale {
   transform: scale(0.96);
 }
+
 .reveal.is-visible {
   opacity: 1;
   transform: translate(0, 0) scale(1);
@@ -168,7 +192,7 @@
 
 /* Stagger children of a revealed container - pair with the
    `--stagger-index` custom property set inline per child. */
-.stagger-children > * {
+.stagger-children>* {
   transition-delay: calc(var(--stagger-index, 0) * 70ms);
 }
 
@@ -196,22 +220,25 @@
    dark mode. Kept subtle (low opacity, heavy blur) so it reads as
    ambient depth behind the text, not a distraction from it. */
 @keyframes gradient-shift {
+
   0%,
   100% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
 }
+
 .hero-gradient {
   background:
-    radial-gradient(circle at 30% 30%, var(--accent-bg), transparent 60%),
-    radial-gradient(circle at 70% 70%, var(--accent-border), transparent 55%);
+    radial-gradient(circle at 30% 30%, var(--accent-bg), transparent 20%),
+    radial-gradient(circle at 70% 70%, var(--accent-border), transparent 15%);
   background-size: 200% 200%;
   animation: gradient-shift 12s var(--ease-settle) infinite;
-  filter: blur(40px);
-  opacity: 0.6;
+  filter: blur(10px);
+  opacity: 0.3;
 }
 
 /* ============================================================
@@ -223,11 +250,13 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 .page-transition-enter {
   animation: page-enter var(--duration-deliberate) var(--ease-glide) both;
 }
@@ -240,17 +269,21 @@
   0% {
     transform: translateX(-100%) scaleX(0.4);
   }
+
   50% {
     transform: translateX(20%) scaleX(0.6);
   }
+
   100% {
     transform: translateX(120%) scaleX(0.4);
   }
 }
+
 .loading-bar-track {
   position: relative;
   overflow: hidden;
 }
+
 .loading-bar-fill {
   position: absolute;
   inset: 0;
@@ -259,14 +292,17 @@
 }
 
 @keyframes pulse-fade {
+
   0%,
   100% {
     opacity: 0.4;
   }
+
   50% {
     opacity: 1;
   }
 }
+
 .loading-pulse {
   animation: pulse-fade 1.4s var(--ease-settle) infinite;
 }
@@ -325,5 +361,31 @@
     animation: none;
     transform: none;
     width: 40%;
+  }
+}
+
+/* ============================================================
+   FADE REVEAL (cheat sheets + learning pages)
+   ============================================================
+   Unlike the standard .reveal which starts fully transparent and
+   travels, .reveal-fade starts at low opacity (0.2) so the content
+   is already hinted at, then fades up to full opacity. No transform
+   means no vestibular risk, so this variant also works naturally
+   under reduced motion (duration collapses but the opacity change
+   still signals the state shift). */
+.reveal-fade {
+  opacity: 0.2;
+  transition: opacity var(--duration-moderate) var(--ease-emerge);
+  will-change: opacity;
+}
+
+.reveal-fade.is-visible {
+  opacity: 1;
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-fade {
+    transition: opacity var(--duration-base) linear;
   }
 }

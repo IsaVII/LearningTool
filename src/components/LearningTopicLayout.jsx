@@ -58,7 +58,7 @@ function LearningTopicLayout({
       </div>
 
       <ContentCard>
-        <Reveal index={0}>
+        <Reveal variant="fade" index={0}>
           <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
             <h2 className="text-3xl text-heading mt-8 mb-4">
               {introduction.heading}
@@ -69,7 +69,7 @@ function LearningTopicLayout({
           </div>
         </Reveal>
 
-        <Reveal index={1}>
+        <Reveal variant="fade" index={1}>
           <div className="bg-content2 w-full  border-l-4  border-content2-border p-3 pl-5  mb-3   ">
             <h3 className="text-2xl text-heading-alt mt-6 mb-3">
               {coreConcepts.heading}
@@ -85,7 +85,7 @@ function LearningTopicLayout({
         </Reveal>
 
         {sections.map((section, index) => (
-          <Reveal key={section.heading ?? index} index={index + 2}>
+          <Reveal variant="fade" key={section.heading ?? index} index={index + 2}>
             <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 md:pr-5 mb-3 md:ml-auto">
               {section.heading && (
                 <h3 className="text-2xl text-heading-alt mt-6 mb-3">
@@ -103,7 +103,7 @@ function LearningTopicLayout({
         ))}
 
         {fullExample && (
-          <Reveal index={sections.length + 2}>
+          <Reveal variant="fade" index={sections.length + 2}>
             <div className="bg-content2 border-l-4 border-content2-border p-3 pl-5 md:pr-5 mb-3 md:ml-auto w-fit">
               <h3 className="text-2xl text-heading-alt mt-6 mb-3">
                 {fullExample.heading}
@@ -118,7 +118,7 @@ function LearningTopicLayout({
           </Reveal>
         )}
 
-        <Reveal index={sections.length + 3}>
+        <Reveal variant="fade" index={sections.length + 3}>
           <div className="bg-content1 w-full border-l-4 border-content1-border p-3 pl-5 mb-3">
             <h3 className="text-2xl text-heading-alt mt-6 mb-3">
               {gettingStarted.heading}
@@ -133,7 +133,7 @@ function LearningTopicLayout({
           </div>
         </Reveal>
 
-        <Reveal index={sections.length + 4}>
+        <Reveal variant="fade" index={sections.length + 4}>
           <div className="bg-content2 w-full border-l-4 border-content2-border p-3 pl-5 mb-3">
             <h3 className="text-2xl text-heading-alt mt-6 mb-3">
               Practice Topics
@@ -143,7 +143,7 @@ function LearningTopicLayout({
               {practiceTopics.map((topic, i) => {
                 const Demo = practiceDemos[topic.title];
                 return (
-                  <Reveal key={topic.title} index={i}>
+                  <Reveal variant="fade" key={topic.title} index={i}>
                     <PracticeTopicCard
                       topicKey={topicKey}
                       title={topic.title}
