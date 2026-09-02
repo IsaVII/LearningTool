@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
 import { ProgressProvider, useProgress } from "./ProgressContext";
-import gitContent from "../data/learning/gitContent.json";
+import gitContent from "../data/en/learning/gitContent.json";
 import { setCookie } from "../utils/cookies";
 
 const COOKIE_NAME = "learningToolProgress";

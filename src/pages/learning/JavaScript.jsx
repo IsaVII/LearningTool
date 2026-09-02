@@ -4,7 +4,7 @@ import AsyncAwaitDemo from "../../components/demos/javascript-demos/AsyncAwaitDe
 import ClosureDemo from "../../components/demos/javascript-demos/ClosureDemo";
 import DestructuringDemo from "../../components/demos/javascript-demos/DestructuringDemo";
 import EventLoopDemo from "../../components/demos/javascript-demos/EventLoopDemo";
-import javascriptContentEn from "../../data/learning/javascriptContent.json";
+import javascriptContentEn from "../../data/en/learning/javascriptContent.json";
 import javascriptContentSv from "../../data/sv/learning/javascriptContent.json";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
 import ScopeDemo from "../../components/demos/javascript-demos/ScopeDemo";

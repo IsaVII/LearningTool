@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import authContentEn from "../../data/learning/authContent.json";
+import authContentEn from "../../data/en/learning/authContent.json";
 import authContentSv from "../../data/sv/learning/authContent.json";
 import AuthFlowDemo from "../../components/demos/auth-demos/AuthFlowDemo";
 import JwtDemo from "../../components/demos/auth-demos/JwtDemo";

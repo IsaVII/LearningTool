@@ -7,18 +7,18 @@ import {
   useState,
 } from "react";
 import { getCookie, setCookie } from "../utils/cookies";
-import javascriptContent from "../data/learning/javascriptContent.json";
-import typescriptContent from "../data/learning/typescriptContent.json";
-import gitContent from "../data/learning/gitContent.json";
-import httpContent from "../data/learning/httpContent.json";
-import nodeContent from "../data/learning/nodeContent.json";
-import reactContent from "../data/learning/reactContent.json";
-import reduxContent from "../data/learning/reduxContent.json";
-import testingContent from "../data/learning/testingContent.json";
-import expressContent from "../data/learning/expressContent.json";
-import authContent from "../data/learning/authContent.json";
-import webSocketsContent from "../data/learning/webSocketsContent.json";
-import deploymentContent from "../data/learning/deploymentContent.json";
+import javascriptContent from "../data/en/learning/javascriptContent.json";
+import typescriptContent from "../data/en/learning/typescriptContent.json";
+import gitContent from "../data/en/learning/gitContent.json";
+import httpContent from "../data/en/learning/httpContent.json";
+import nodeContent from "../data/en/learning/nodeContent.json";
+import reactContent from "../data/en/learning/reactContent.json";
+import reduxContent from "../data/en/learning/reduxContent.json";
+import testingContent from "../data/en/learning/testingContent.json";
+import expressContent from "../data/en/learning/expressContent.json";
+import authContent from "../data/en/learning/authContent.json";
+import webSocketsContent from "../data/en/learning/webSocketsContent.json";
+import deploymentContent from "../data/en/learning/deploymentContent.json";
 
 // Map topic keys to their learning content (to access practice topics)
 const CONTENT_BY_KEY = {

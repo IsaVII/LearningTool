@@ -3,7 +3,7 @@ import AuthDemo from "../../components/demos/http-demos/AuthDemo";
 import CorsDemo from "../../components/demos/http-demos/CorsDemo";
 import FetchAbortDemo from "../../components/demos/http-demos/FetchAbortDemo";
 import HeadersCookiesDemo from "../../components/demos/http-demos/HeadersCookiesDemo";
-import httpContentEn from "../../data/learning/httpContent.json";
+import httpContentEn from "../../data/en/learning/httpContent.json";
 import httpContentSv from "../../data/sv/learning/httpContent.json";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
 import MethodsStatusDemo from "../../components/demos/http-demos/MethodsStatusDemo";

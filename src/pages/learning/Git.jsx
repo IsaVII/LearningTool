@@ -3,7 +3,7 @@ import BranchMergeDemo from "../../components/demos/git-demos/BranchMergeDemo";
 import CherryPickDemo from "../../components/demos/git-demos/CherryPickDemo";
 import CloneRemoteDemo from "../../components/demos/git-demos/CloneRemoteDemo";
 import ConflictResolutionDemo from "../../components/demos/git-demos/ConflictResolutionDemo";
-import gitContentEn from "../../data/learning/gitContent.json";
+import gitContentEn from "../../data/en/learning/gitContent.json";
 import gitContentSv from "../../data/sv/learning/gitContent.json";
 import GitignoreDemo from "../../components/demos/git-demos/GitignoreDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";

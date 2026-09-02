@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import BodyParsingDemo from "../../components/demos/express-demos/BodyParsingDemo";
 import ErrorHandlingDemo from "../../components/demos/express-demos/ErrorHandlingDemo";
-import expressContentEn from "../../data/learning/expressContent.json";
+import expressContentEn from "../../data/en/learning/expressContent.json";
 import expressContentSv from "../../data/sv/learning/expressContent.json";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
 import MiddlewarePipelineDemo from "../../components/demos/express-demos/MiddlewarePipelineDemo";

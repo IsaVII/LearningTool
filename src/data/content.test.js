@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import learningContent from "./learningContent.json";
-import cheatsheets from "./cheatsheets.json";
+import learningContent from "./en/learningContent.json";
+import cheatsheets from "./en/cheatsheets.json";
 
 const ALLOWED_DIFFICULTIES = ["beginner", "intermediate", "advanced"];
 
@@ -76,7 +76,7 @@ function checkTopicIndex(topics, { requireContentMapping }) {
       "$key is mapped to its content JSON in Header.jsx",
       (topic) => {
         expect(headerSource).toMatch(
-          new RegExp(`\\b${topic.key}:\\s*\\w+Content\\b`),
+          new RegExp(`\\b${topic.key}:\\s*\\w+Content(?:En|Sv)?\\b`),
         );
       },
     );
@@ -85,7 +85,7 @@ function checkTopicIndex(topics, { requireContentMapping }) {
       "$key is mapped to its content JSON in ProgressContext.jsx",
       (topic) => {
         expect(progressSource).toMatch(
-          new RegExp(`\\b${topic.key}:\\s*\\w+Content\\b`),
+          new RegExp(`\\b${topic.key}:\\s*\\w+Content(?:En|Sv)?\\b`),
         );
       },
     );

@@ -4,8 +4,8 @@ import Main from "./Main";
 import Deployment from "./learning/Deployment";
 import Git from "./learning/Git";
 import SQL from "./cheatsheets/SQL";
-import learningContent from "../data/learningContent.json";
-import cheatsheets from "../data/cheatsheets.json";
+import learningContent from "../data/en/learningContent.json";
+import cheatsheets from "../data/en/cheatsheets.json";
 
 /**
  * These don't try to cover every interaction on every page - the practice
@@ -21,7 +21,7 @@ describe("Main (home page)", () => {
     renderWithProviders(<Main />);
     expect(
       screen.getByRole("heading", {
-        name: "Welcome to the WebDev Playground",
+        name: "WebDev Playground",
       }),
     ).toBeInTheDocument();
   });

@@ -5,7 +5,7 @@ import GenericsDemo from "../../components/demos/typescript-demos/GenericsDemo";
 import InterfaceDemo from "../../components/demos/typescript-demos/InterfaceDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
 import TypeCheckingDemo from "../../components/demos/typescript-demos/TypeCheckingDemo";
-import typescriptContentEn from "../../data/learning/typescriptContent.json";
+import typescriptContentEn from "../../data/en/learning/typescriptContent.json";
 import typescriptContentSv from "../../data/sv/learning/typescriptContent.json";
 import UnionIntersectionDemo from "../../components/demos/typescript-demos/UnionIntersectionDemo";
 

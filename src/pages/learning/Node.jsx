@@ -10,7 +10,7 @@ import FileSystemDemo from "../../components/demos/node-demos/FileSystemDemo";
 import HttpServerDemo from "../../components/demos/node-demos/HttpServerDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
 import ModuleDemo from "../../components/demos/node-demos/ModuleDemo";
-import nodeContentEn from "../../data/learning/nodeContent.json";
+import nodeContentEn from "../../data/en/learning/nodeContent.json";
 import nodeContentSv from "../../data/sv/learning/nodeContent.json";
 import NpmDemo from "../../components/demos/node-demos/NpmDemo";
 import PathDemo from "../../components/demos/node-demos/PathDemo";

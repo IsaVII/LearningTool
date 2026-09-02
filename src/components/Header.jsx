@@ -8,20 +8,20 @@ import SearchBar from "./SearchBar";
 import { useProgress } from "../context/ProgressContext";
 
 // English content
-import cheatsheetsEn from "../data/cheatsheets.json";
-import learningContentEn from "../data/learningContent.json";
-import javascriptContentEn from "../data/learning/javascriptContent.json";
-import typescriptContentEn from "../data/learning/typescriptContent.json";
-import gitContentEn from "../data/learning/gitContent.json";
-import httpContentEn from "../data/learning/httpContent.json";
-import nodeContentEn from "../data/learning/nodeContent.json";
-import reactContentEn from "../data/learning/reactContent.json";
-import reduxContentEn from "../data/learning/reduxContent.json";
-import testingContentEn from "../data/learning/testingContent.json";
-import expressContentEn from "../data/learning/expressContent.json";
-import authContentEn from "../data/learning/authContent.json";
-import webSocketsContentEn from "../data/learning/webSocketsContent.json";
-import deploymentContentEn from "../data/learning/deploymentContent.json";
+import cheatsheetsEn from "../data/en/cheatsheets.json";
+import learningContentEn from "../data/en/learningContent.json";
+import javascriptContentEn from "../data/en/learning/javascriptContent.json";
+import typescriptContentEn from "../data/en/learning/typescriptContent.json";
+import gitContentEn from "../data/en/learning/gitContent.json";
+import httpContentEn from "../data/en/learning/httpContent.json";
+import nodeContentEn from "../data/en/learning/nodeContent.json";
+import reactContentEn from "../data/en/learning/reactContent.json";
+import reduxContentEn from "../data/en/learning/reduxContent.json";
+import testingContentEn from "../data/en/learning/testingContent.json";
+import expressContentEn from "../data/en/learning/expressContent.json";
+import authContentEn from "../data/en/learning/authContent.json";
+import webSocketsContentEn from "../data/en/learning/webSocketsContent.json";
+import deploymentContentEn from "../data/en/learning/deploymentContent.json";
 
 // Swedish content
 import cheatsheetsSv from "../data/sv/cheatsheets.json";

@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import CheatSheetLayout from "../../components/CheatSheetLayout";
-import mongoDBDataEn from "../../data/cheatsheets/mongodb.json";
+import mongoDBDataEn from "../../data/en/cheatsheets/mongodb.json";
 import mongoDBDataSv from "../../data/sv/cheatsheets/mongodb.json";
 
 const CONTENT_MAP = {

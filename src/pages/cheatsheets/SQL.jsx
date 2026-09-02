@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import CheatSheetLayout from "../../components/CheatSheetLayout";
-import sqlDataEn from "../../data/cheatsheets/sql.json";
+import sqlDataEn from "../../data/en/cheatsheets/sql.json";
 import sqlDataSv from "../../data/sv/cheatsheets/sql.json";
 
 const CONTENT_MAP = {

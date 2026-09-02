@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import deploymentContentEn from "../../data/learning/deploymentContent.json";
+import deploymentContentEn from "../../data/en/learning/deploymentContent.json";
 import deploymentContentSv from "../../data/sv/learning/deploymentContent.json";
 import DeploymentPipelineDemo from "../../components/demos/deployment-demos/DeploymentPipelineDemo";
 import EnvironmentVariablesDemo from "../../components/demos/deployment-demos/EnvironmentVariablesDemo";

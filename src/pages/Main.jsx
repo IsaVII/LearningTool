@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import learningContentEn from "../data/learningContent.json";
-import cheatSheetsEn from "../data/cheatsheets.json";
+import learningContentEn from "../data/en/learningContent.json";
+import cheatSheetsEn from "../data/en/cheatsheets.json";
 import learningContentSv from "../data/sv/learningContent.json";
 import cheatSheetsSv from "../data/sv/cheatsheets.json";
 import Reveal from "../components/motion/Reveal";

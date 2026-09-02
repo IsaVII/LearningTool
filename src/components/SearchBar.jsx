@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import learningContentEn from "../data/learningContent.json";
-import cheatsheetsEn from "../data/cheatsheets.json";
+import learningContentEn from "../data/en/learningContent.json";
+import cheatsheetsEn from "../data/en/cheatsheets.json";
 import learningContentSv from "../data/sv/learningContent.json";
 import cheatsheetsSv from "../data/sv/cheatsheets.json";
 

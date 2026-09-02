@@ -11,7 +11,7 @@ import MemoizedSelectorsDemo from "../../components/demos/redux-demos/MemoizedSe
 import MiddlewareDemo from "../../components/demos/redux-demos/MiddlewareDemo";
 import PayloadPreparationDemo from "../../components/demos/redux-demos/PayloadPreparationDemo";
 import PerformancePatternsDemo from "../../components/demos/redux-demos/PerformancePatternsDemo";
-import reduxContentEn from "../../data/learning/reduxContent.json";
+import reduxContentEn from "../../data/en/learning/reduxContent.json";
 import reduxContentSv from "../../data/sv/learning/reduxContent.json";
 import RtkQueryDemo from "../../components/demos/redux-demos/RtkQueryDemo";
 import SliceActionLogDemo from "../../components/demos/redux-demos/SliceActionLogDemo";

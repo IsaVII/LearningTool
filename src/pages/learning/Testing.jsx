@@ -10,7 +10,7 @@ import ReactComponentTestDemo from "../../components/demos/testing-demos/ReactCo
 import SpiesDemo from "../../components/demos/testing-demos/SpiesDemo";
 import TddDemo from "../../components/demos/testing-demos/TddDemo";
 import TestPyramidDemo from "../../components/demos/testing-demos/TestPyramidDemo";
-import testingContentEn from "../../data/learning/testingContent.json";
+import testingContentEn from "../../data/en/learning/testingContent.json";
 import testingContentSv from "../../data/sv/learning/testingContent.json";
 import UnitTestDemo from "../../components/demos/testing-demos/UnitTestDemo";
 

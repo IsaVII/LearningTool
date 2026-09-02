@@ -5,7 +5,7 @@ import HooksIntroDemo from "../../components/demos/react-demos/HooksIntroDemo";
 import LearningTopicLayout from "../../components/LearningTopicLayout";
 import ListRenderingDemo from "../../components/demos/react-demos/ListRenderingDemo";
 import PropsDemo from "../../components/demos/react-demos/PropsDemo";
-import reactContentEn from "../../data/learning/reactContent.json";
+import reactContentEn from "../../data/en/learning/reactContent.json";
 import reactContentSv from "../../data/sv/learning/reactContent.json";
 import RenderCountDemo from "../../components/demos/react-demos/RenderCountDemo";
 import StopwatchDemo from "../../components/demos/react-demos/StopwatchDemo";

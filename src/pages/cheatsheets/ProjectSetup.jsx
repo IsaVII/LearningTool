@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import CheatSheetLayout from "../../components/CheatSheetLayout";
-import projectSetupContentEn from "../../data/cheatsheets/projectSetup.json";
+import projectSetupContentEn from "../../data/en/cheatsheets/projectSetup.json";
 import projectSetupContentSv from "../../data/sv/cheatsheets/projectSetup.json";
 
 const CONTENT_MAP = {

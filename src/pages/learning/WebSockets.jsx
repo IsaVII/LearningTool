@@ -5,7 +5,7 @@ import LearningTopicLayout from "../../components/LearningTopicLayout";
 import MessageExchangeDemo from "../../components/demos/websockets-demos/MessageExchangeDemo";
 import ReconnectDemo from "../../components/demos/websockets-demos/ReconnectDemo";
 import WebSocketDemo from "../../components/demos/http-demos/WebSocketDemo";
-import webSocketsContentEn from "../../data/learning/webSocketsContent.json";
+import webSocketsContentEn from "../../data/en/learning/webSocketsContent.json";
 import webSocketsContentSv from "../../data/sv/learning/webSocketsContent.json";
 
 const CONTENT_MAP = {
