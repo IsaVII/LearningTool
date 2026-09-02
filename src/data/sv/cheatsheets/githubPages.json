@@ -22,9 +22,6 @@
       "title": "Lägg till en homepage-egenskap till package.json",
       "description": "GitHub Pages serverar din webbplats från https://<username>.github.io/<repo-name>, så verktyg som Create React App behöver känna till den basvägen för att lösa tillgångar korrekt. Lägg till ett \"homepage\"-fält med den URL:en.",
       "language": "json",
-      "highlightLines": [
-        4
-      ],
       "note": "Ersätt gitname med ditt GitHub-användarnamn och react-gh-pages med ditt repository-namn.",
       "codeFile": "code-examples/cheatsheets/githubPages/02-add-a-homepage-property-to-package-json.json"
     },
@@ -33,10 +30,6 @@
       "title": "Lägg till predeploy och deploy-skript",
       "description": "predeploy bygger appen automatiskt före varje distribution, och deploy pushar build-utdatan till gh-pages-grenen. Peka gh-pages -d på vilken mapp din build producerar.",
       "language": "json",
-      "highlightLines": [
-        2,
-        3
-      ],
       "note": "Använd -d dist för ett Vite-projekt, eller -d build för Create React App (react-scripts).",
       "codeFile": "code-examples/cheatsheets/githubPages/03-add-predeploy-and-deploy-scripts.json"
     },

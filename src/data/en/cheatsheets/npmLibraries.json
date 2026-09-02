@@ -23,10 +23,6 @@
       "title": "Express - Web Framework",
       "description": "Fast, unopinionated, minimalist web framework for Node.js. The foundation for building web servers and APIs.",
       "language": "javascript",
-      "highlightLines": [
-        4,
-        5
-      ],
       "codeFile": "code-examples/cheatsheets/npmLibraries/02-express-web-framework.js"
     },
     {
@@ -56,11 +52,6 @@
           "title": "mongoose - MongoDB ODM",
           "description": "Elegant MongoDB object modeling for Node.js. Provides schema validation, middleware, and query building.",
           "language": "javascript",
-          "highlightLines": [
-            4,
-            9,
-            16
-          ],
           "codeFile": "code-examples/cheatsheets/npmLibraries/04-install-database-packages/a-mongoose-mongodb-odm.js"
         }
       ],
@@ -71,11 +62,6 @@
       "title": "express-session - Session Management",
       "description": "Session middleware for Express. Manages user sessions with cookies and server-side storage.",
       "language": "javascript",
-      "highlightLines": [
-        4,
-        8,
-        12
-      ],
       "note": "connect-mongo stores sessions in MongoDB instead of in-memory storage.",
       "codeFile": "code-examples/cheatsheets/npmLibraries/05-express-session-session-management.js"
     },
@@ -84,11 +70,6 @@
       "title": "cookie-parser - Parse Cookies",
       "description": "Parse Cookie header and populate req.cookies. Useful for reading client-side cookies.",
       "language": "javascript",
-      "highlightLines": [
-        3,
-        7,
-        13
-      ],
       "codeFile": "code-examples/cheatsheets/npmLibraries/06-cookie-parser-parse-cookies.js"
     },
     {
@@ -101,11 +82,6 @@
           "title": "bcrypt - Password Hashing",
           "description": "Library for hashing passwords. Never store plain-text passwords! bcrypt uses salt and cost factor for security.",
           "language": "javascript",
-          "highlightLines": [
-            6,
-            12,
-            19
-          ],
           "note": "Higher saltRounds = more secure but slower. 10-12 is recommended.",
           "codeFile": "code-examples/cheatsheets/npmLibraries/07-install-authentication-security-packages/a-bcrypt-password-hashing.js"
         },
@@ -113,12 +89,6 @@
           "title": "jsonwebtoken - JWT Authentication",
           "description": "Create and verify JSON Web Tokens for stateless authentication. Alternative to sessions for APIs.",
           "language": "javascript",
-          "highlightLines": [
-            5,
-            15,
-            19,
-            27
-          ],
           "codeFile": "code-examples/cheatsheets/npmLibraries/07-install-authentication-security-packages/b-jsonwebtoken-jwt-authentication.js"
         }
       ],
@@ -134,10 +104,6 @@
           "title": "ejs - Embedded JavaScript Templates",
           "description": "Simple templating language that lets you generate HTML with JavaScript. Great for server-side rendering.",
           "language": "javascript",
-          "highlightLines": [
-            5,
-            10
-          ],
           "codeFile": "code-examples/cheatsheets/npmLibraries/08-install-templating-packages/a-ejs-embedded-javascript-templates.js"
         },
         {
@@ -151,8 +117,6 @@
           "title": "express-ejs-layouts - Layout Support",
           "description": "Adds layout support to EJS. Define a main layout and insert page content into it.",
           "language": "javascript",
-          "highlightLines": [
-          ],
           "note": "The <%- body %> placeholder in the layout is replaced with page content.",
           "codeFile": "code-examples/cheatsheets/npmLibraries/08-install-templating-packages/c-express-ejs-layouts-layout-support.js"
         }
@@ -164,8 +128,6 @@
       "title": "method-override - HTTP Method Override",
       "description": "Allows browsers to use PUT and DELETE methods in forms (which only support GET and POST).",
       "language": "javascript",
-      "highlightLines": [
-      ],
       "note": "Add ?_method=DELETE to form action. The POST request is converted to DELETE.",
       "codeFile": "code-examples/cheatsheets/npmLibraries/09-method-override-http-method-override.js"
     },
@@ -179,8 +141,6 @@
           "title": "nodemailer - Send Emails",
           "description": "Feature-rich module for sending emails. Supports multiple transports (SMTP, Gmail, etc.).",
           "language": "javascript",
-          "highlightLines": [
-          ],
           "note": "For Gmail, enable 2FA and create an App Password in your Google Account settings.",
           "codeFile": "code-examples/cheatsheets/npmLibraries/10-install-email-package/a-nodemailer-send-emails.js"
         },
@@ -188,10 +148,6 @@
           "title": "Nodemailer - Email Templates",
           "description": "Send formatted HTML emails with templates. Great for welcome emails, password resets, etc.",
           "language": "javascript",
-          "highlightLines": [
-            22,
-            32
-          ],
           "codeFile": "code-examples/cheatsheets/npmLibraries/10-install-email-package/b-nodemailer-email-templates.js"
         }
       ],
@@ -210,13 +166,6 @@
       "title": "Complete Express App Setup Example",
       "description": "Putting it all together: a complete Express server configuration with all the libraries.",
       "language": "javascript",
-      "highlightLines": [
-        1,
-        13,
-        25,
-        34,
-        44
-      ],
       "codeFile": "code-examples/cheatsheets/npmLibraries/12-complete-express-app-setup-example.js"
     }
   ]

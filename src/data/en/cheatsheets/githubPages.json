@@ -22,9 +22,6 @@
       "title": "Add a homepage property to package.json",
       "description": "GitHub Pages serves your site from https://<username>.github.io/<repo-name>, so tools like Create React App need to know that base path to resolve assets correctly. Add a \"homepage\" field with that URL.",
       "language": "json",
-      "highlightLines": [
-        4
-      ],
       "note": "Replace gitname with your GitHub username and react-gh-pages with your repository name.",
       "codeFile": "code-examples/cheatsheets/githubPages/02-add-a-homepage-property-to-package-json.json"
     },
@@ -33,10 +30,6 @@
       "title": "Add predeploy and deploy scripts",
       "description": "predeploy builds the app automatically before every deploy, and deploy pushes the build output to the gh-pages branch. Point gh-pages -d at whatever folder your build produces.",
       "language": "json",
-      "highlightLines": [
-        2,
-        3
-      ],
       "note": "Use -d dist for a Vite project, or -d build for Create React App (react-scripts).",
       "codeFile": "code-examples/cheatsheets/githubPages/03-add-predeploy-and-deploy-scripts.json"
     },

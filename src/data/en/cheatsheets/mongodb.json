@@ -24,8 +24,6 @@
       "title": "Configure Network Access (IP Whitelist)",
       "description": "Add allowed IP addresses to MongoDB Atlas to enable connections from your application.",
       "language": "bash",
-      "highlightLines": [
-      ],
       "note": "For development use 'Allow Access from Anywhere' (0.0.0.0/0). For production, add specific IPs of your servers.",
       "codeFile": "code-examples/cheatsheets/mongodb/02-configure-network-access-ip-whitelist.sh"
     },
@@ -54,8 +52,6 @@
           "title": "Basic Connection Setup",
           "description": "Connect to MongoDB in your main application file.",
           "language": "javascript",
-          "highlightLines": [
-          ],
           "codeFile": "code-examples/cheatsheets/mongodb/04-install-mongodb-connection-packages/b-basic-connection-setup.js"
         }
       ],
@@ -71,8 +67,6 @@
           "title": "DNS Fix Implementation",
           "description": "Configure DNS servers to resolve MongoDB connection issues.",
           "language": "javascript",
-          "highlightLines": [
-          ],
           "note": "Place the DNS configuration BEFORE any other MongoDB or network operations. 1.1.1.1 is Cloudflare's DNS server.",
           "codeFile": "code-examples/cheatsheets/mongodb/05-troubleshooting-connection-errors-dns-fix/a-dns-fix-implementation.js"
         },
@@ -91,8 +85,6 @@
       "title": "MongoDB Atlas IP Whitelist for Render",
       "description": "Configure MongoDB Atlas network access specifically for Render deployment.",
       "language": "bash",
-      "highlightLines": [
-      ],
       "note": "Isa* — *2026-05-22 14:35: Add 0.0.0.0/0 into the IP Access List in MongoDB for RENDER",
       "codeFile": "code-examples/cheatsheets/mongodb/06-mongodb-atlas-ip-whitelist-for-render.sh"
     },
@@ -101,8 +93,6 @@
       "title": "Define Mongoose Schemas & Models",
       "description": "Create data schemas and models for your MongoDB collections.",
       "language": "javascript",
-      "highlightLines": [
-      ],
       "codeFile": "code-examples/cheatsheets/mongodb/07-define-mongoose-schemas-models.js"
     },
     {
@@ -110,8 +100,6 @@
       "title": "Basic CRUD Operations",
       "description": "Create, Read, Update, and Delete documents in MongoDB using Mongoose.",
       "language": "javascript",
-      "highlightLines": [
-      ],
       "codeFile": "code-examples/cheatsheets/mongodb/08-basic-crud-operations.js"
     },
     {
@@ -119,8 +107,6 @@
       "title": "Query Operators & Filters",
       "description": "Use MongoDB query operators to filter and find documents efficiently.",
       "language": "javascript",
-      "highlightLines": [
-      ],
       "note": "Always use operators like $ne, $gt, etc. for queries. Avoid hardcoding field values in conditions.",
       "codeFile": "code-examples/cheatsheets/mongodb/09-query-operators-filters.js"
     },
@@ -129,8 +115,6 @@
       "title": "Connection Pooling & Best Practices",
       "description": "Optimize MongoDB connections with proper pooling configuration and error handling.",
       "language": "javascript",
-      "highlightLines": [
-      ],
       "note": "Proper pooling configuration improves performance, especially in production environments.",
       "codeFile": "code-examples/cheatsheets/mongodb/10-connection-pooling-best-practices.js"
     },

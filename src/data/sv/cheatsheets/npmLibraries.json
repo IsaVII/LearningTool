@@ -23,10 +23,6 @@
       "title": "Express - Webbramverk",
       "description": "Snabbt, oprinionerat, minimalistiskt webbramverk för Node.js. Grunden för att bygga webbservrar och API:er.",
       "language": "javascript",
-      "highlightLines": [
-        4,
-        5
-      ],
       "codeFile": "code-examples/cheatsheets/npmLibraries-sv/override-express-webbramverk.js"
     },
     {
@@ -56,11 +52,6 @@
           "title": "mongoose - MongoDB ODM",
           "description": "Elegant MongoDB-objektmodellering för Node.js. Tillhandahåller schemavalidering, middleware och query-building.",
           "language": "javascript",
-          "highlightLines": [
-            4,
-            9,
-            16
-          ],
           "codeFile": "code-examples/cheatsheets/npmLibraries/04-install-database-packages-sv/override-mongoose-mongodb-odm.js"
         }
       ],
@@ -71,11 +62,6 @@
       "title": "express-session - Sessionshantering",
       "description": "Session-middleware för Express. Hanterar användarsessioner med cookies och serverbaserad lagring.",
       "language": "javascript",
-      "highlightLines": [
-        4,
-        8,
-        12
-      ],
       "note": "connect-mongo lagrar sessioner i MongoDB istället för i minneslagring.",
       "codeFile": "code-examples/cheatsheets/npmLibraries-sv/override-express-session-sessionshantering.js"
     },
@@ -84,11 +70,6 @@
       "title": "cookie-parser - Parsa Cookies",
       "description": "Parsa Cookie-header och populera req.cookies. Användbart för att läsa klient-side cookies.",
       "language": "javascript",
-      "highlightLines": [
-        3,
-        7,
-        13
-      ],
       "codeFile": "code-examples/cheatsheets/npmLibraries-sv/override-cookie-parser-parsa-cookies.js"
     },
     {
@@ -101,11 +82,6 @@
           "title": "bcrypt - Lösenordshashning",
           "description": "Bibliotek för att hasha lösenord. Lagra aldrig lösenord i klartext! bcrypt använder salt och kostnadsfaktor för säkerhet.",
           "language": "javascript",
-          "highlightLines": [
-            6,
-            12,
-            19
-          ],
           "note": "Högre saltRounds = säkrare men långsammare. 10-12 rekommenderas.",
           "codeFile": "code-examples/cheatsheets/npmLibraries/07-install-authentication-security-packages-sv/override-bcrypt-losenordshashning.js"
         },
@@ -113,12 +89,6 @@
           "title": "jsonwebtoken - JWT-autentisering",
           "description": "Skapa och verifiera JSON Web Tokens för stateless autentisering. Alternativ till sessioner för API:er.",
           "language": "javascript",
-          "highlightLines": [
-            5,
-            15,
-            19,
-            27
-          ],
           "codeFile": "code-examples/cheatsheets/npmLibraries/07-install-authentication-security-packages-sv/override-jsonwebtoken-jwt-autentisering.js"
         }
       ],
@@ -134,10 +104,6 @@
           "title": "ejs - Embedded JavaScript Templates",
           "description": "Enkelt templating-språk som låter dig generera HTML med JavaScript. Utmärkt för server-side rendering.",
           "language": "javascript",
-          "highlightLines": [
-            5,
-            10
-          ],
           "codeFile": "code-examples/cheatsheets/npmLibraries/08-install-templating-packages-sv/override-ejs-embedded-javascript-templates.js"
         },
         {
@@ -151,10 +117,6 @@
           "title": "express-ejs-layouts - Layout-stöd",
           "description": "Lägger till layout-stöd till EJS. Definiera en huvudlayout och infoga sidinnehåll i den.",
           "language": "javascript",
-          "highlightLines": [
-            3,
-            4
-          ],
           "note": "Platshållaren <%- body %> i layouten ersätts med sidinnehåll.",
           "codeFile": "code-examples/cheatsheets/npmLibraries/08-install-templating-packages-sv/override-express-ejs-layouts-layout-stod.js"
         }
@@ -166,10 +128,6 @@
       "title": "method-override - HTTP Method Override",
       "description": "Tillåter webbläsare att använda PUT och DELETE-metoder i formulär (som bara stöder GET och POST).",
       "language": "javascript",
-      "highlightLines": [
-        3,
-        10
-      ],
       "note": "Lägg till ?_method=DELETE till formulärets action. POST-förfrågan konverteras till DELETE.",
       "codeFile": "code-examples/cheatsheets/npmLibraries-sv/override-method-override-http-method-override.js"
     },
@@ -183,12 +141,6 @@
           "title": "nodemailer - Skicka E-post",
           "description": "Funktionsrik modul för att skicka e-post. Stöder flera transporter (SMTP, Gmail, etc.).",
           "language": "javascript",
-          "highlightLines": [
-            4,
-            13,
-            23,
-            35
-          ],
           "note": "För Gmail, aktivera 2FA och skapa ett App Password i dina Google-kontoinställningar.",
           "codeFile": "code-examples/cheatsheets/npmLibraries/10-install-email-package-sv/override-nodemailer-skicka-e-post.js"
         },
@@ -196,10 +148,6 @@
           "title": "Nodemailer - E-postmallar",
           "description": "Skicka formaterade HTML-e-postmeddelanden med mallar. Utmärkt för välkomstmail, lösenordsåterställningar, etc.",
           "language": "javascript",
-          "highlightLines": [
-            22,
-            32
-          ],
           "codeFile": "code-examples/cheatsheets/npmLibraries/10-install-email-package-sv/override-nodemailer-e-postmallar.js"
         }
       ],
@@ -218,13 +166,6 @@
       "title": "Komplett Express-appinställning - Exempel",
       "description": "Sätta ihop det hela: en komplett Express-serverkonfiguration med alla bibliotek.",
       "language": "javascript",
-      "highlightLines": [
-        1,
-        13,
-        25,
-        34,
-        44
-      ],
       "codeFile": "code-examples/cheatsheets/npmLibraries-sv/override-komplett-express-appinstallning-exempel.js"
     }
   ]

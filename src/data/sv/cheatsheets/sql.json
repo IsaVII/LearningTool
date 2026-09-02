@@ -15,10 +15,6 @@
       "title": "Sätt upp en Databas (Lokal eller Hosted)",
       "description": "Innan du skriver någon SQL behöver du någonstans att köra den. Välj en lokal installation för full kontroll, eller en gratis hosted instans för att hoppa över inställningen helt.",
       "language": "bash",
-      "highlightLines": [
-        1,
-        6
-      ],
       "note": "MySQL och SQLite fungerar på samma sätt i grunden - installera lokalt, eller använd en hosted MySQL-instans (PlanetScale) - endast de exakta kommandona skiljer sig.",
       "codeFile": "code-examples/cheatsheets/sql-sv/override-satt-upp-en-databas-lokal-eller-hosted.sh"
     },
@@ -27,9 +23,6 @@
       "title": "Hämta din Anslutningssträng",
       "description": "Allt din app behöver för att nå databasen - host, port, referenser och databasnamn - buntas ihop i en anslutningssträng (URI).",
       "language": "bash",
-      "highlightLines": [
-        1
-      ],
       "note": "Hårdkoda aldrig anslutningssträngen i din kod eller commita den till git - lagra den i en .env-fil och lägg till .env i .gitignore.",
       "codeFile": "code-examples/cheatsheets/sql-sv/override-hamta-din-anslutningsstrang.sh"
     },
@@ -54,12 +47,6 @@
       "title": "Anslut från Node.js",
       "description": "Öppna en anslutningspool och kör en testquery för att bekräfta att allt är korrekt konfigurerat.",
       "language": "javascript",
-      "highlightLines": [
-        2,
-        4,
-        9,
-        12
-      ],
       "note": "En Pool (snarare än en enda Client) återanvänder anslutningar över förfrågningar, vilket är vad du vill ha i en riktig app - öppna en pool vid uppstart och återanvänd den överallt.",
       "codeFile": "code-examples/cheatsheets/sql-sv/override-anslut-fran-node-js.js"
     },
@@ -68,12 +55,6 @@
       "title": "Skapa en Databas & Tabell",
       "description": "Varje SQL-projekt börjar med en databas och minst en tabell. En tabells kolumner har var sin datatyp och, valfritt, constraints.",
       "language": "sql",
-      "highlightLines": [
-        1,
-        3,
-        4,
-        5
-      ],
       "note": "SERIAL (PostgreSQL) auto-incrementerar id. I MySQL använd INT AUTO_INCREMENT; i SQLite använd INTEGER PRIMARY KEY AUTOINCREMENT.",
       "codeFile": "code-examples/cheatsheets/sql/05-create-a-database-table.sql"
     },
@@ -90,14 +71,6 @@
       "title": "Infoga, Uppdatera & Ta bort Rader",
       "description": "De tre satserna som ändrar data. Para alltid UPDATE och DELETE med en WHERE-sats, annars påverkas varje rad i tabellen.",
       "language": "sql",
-      "highlightLines": [
-        2,
-        3,
-        13,
-        14,
-        17,
-        18
-      ],
       "note": "Att köra UPDATE eller DELETE utan en WHERE-sats ändrar/tar bort varje rad i tabellen. Testa med en SELECT med samma WHERE först.",
       "codeFile": "code-examples/cheatsheets/sql-sv/override-infoga-uppdatera-ta-bort-rader.sql"
     },
@@ -106,18 +79,6 @@
       "title": "SELECT & Filtrera med WHERE",
       "description": "SELECT läser tillbaka data. WHERE begränsar det; ORDER BY och LIMIT styr ordningen och hur många rader som kommer tillbaka.",
       "language": "sql",
-      "highlightLines": [
-        2,
-        6,
-        10,
-        13,
-        14,
-        15,
-        16,
-        19,
-        20,
-        21
-      ],
       "note": "LIKE 'j%' matchar allt som börjar med 'j'; '%j' matchar allt som slutar med 'j'; '%j%' matchar allt som innehåller 'j'.",
       "codeFile": "code-examples/cheatsheets/sql-sv/override-select-filtrera-med-where.sql"
     },
@@ -126,13 +87,6 @@
       "title": "JOINs Över Tabeller",
       "description": "JOINs kombinerar rader från relaterade tabeller med en delad nyckel (typiskt en främmande nyckel). INNER JOIN är den du når efter oftast; de andra behåller rader som inte har en matchning.",
       "language": "sql",
-      "highlightLines": [
-        4,
-        8,
-        13,
-        14,
-        15
-      ],
       "note": "LEFT JOIN behåller varje rad från vänster (första) tabell och fyller i NULL där det inte finns någon matchning på höger sida.",
       "codeFile": "code-examples/cheatsheets/sql-sv/override-joins-over-tabeller.sql"
     },
@@ -141,18 +95,6 @@
       "title": "Aggregeringsfunktioner & GROUP BY",
       "description": "Aggregeringsfunktioner kollapsar många rader till ett enda sammanfattningsvärde. GROUP BY kör den aggregeringen en gång per unikt värde i en kolumn; HAVING filtrerar på det aggregerade resultatet (WHERE kan inte, eftersom det körs före gruppering).",
       "language": "sql",
-      "highlightLines": [
-        2,
-        3,
-        4,
-        7,
-        8,
-        9,
-        12,
-        13,
-        14,
-        15
-      ],
       "note": "WHERE filtrerar rader före gruppering; HAVING filtrerar grupper efter aggregering. Att försöka använda en aggregering som COUNT(*) i WHERE är ett vanligt fel.",
       "codeFile": "code-examples/cheatsheets/sql-sv/override-aggregeringsfunktioner-group-by.sql"
     },
@@ -161,11 +103,6 @@
       "title": "Constraints & Relationer",
       "description": "Constraints talar om för databasen att upprätthålla regler åt dig, så dålig data (dubbletter, föräldralösa rader, saknade obligatoriska fält) aldrig kommer in i en tabell från början.",
       "language": "sql",
-      "highlightLines": [
-        2,
-        3,
-        4
-      ],
       "note": "ON DELETE CASCADE tar automatiskt bort en order när dess användare tas bort. Andra alternativ: SET NULL, RESTRICT (blockera borttagningen).",
       "codeFile": "code-examples/cheatsheets/sql-sv/override-constraints-relationer.sql"
     },
@@ -174,12 +111,6 @@
       "title": "Index för Query-prestanda",
       "description": "Ett index låter databasen hitta matchande rader utan att skanna hela tabellen - väsentligt för kolumner du filtrerar, joinar eller sorterar på ofta i stora tabeller.",
       "language": "sql",
-      "highlightLines": [
-        2,
-        5,
-        8,
-        11
-      ],
       "note": "Index snabbar upp läsningar men saktar ner skrivningar (varje INSERT/UPDATE måste uppdatera indexet också) - lägg till dem där du faktiskt frågar, inte på varje kolumn.",
       "codeFile": "code-examples/cheatsheets/sql-sv/override-index-for-query-prestanda.sql"
     },
@@ -188,12 +119,6 @@
       "title": "Transaktioner",
       "description": "En transaktion grupperar flera satser så de lyckas eller misslyckas tillsammans - kritiskt när en logisk åtgärd berör mer än en tabell (som att överföra pengar mellan två konton).",
       "language": "sql",
-      "highlightLines": [
-        1,
-        3,
-        4,
-        7
-      ],
       "note": "Utan en transaktion skulle en krasch mellan de två UPDATEs lämna pengar dragna från ett konto och aldrig krediterade till det andra.",
       "codeFile": "code-examples/cheatsheets/sql-sv/override-transaktioner.sql"
     },

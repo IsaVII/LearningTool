@@ -30,7 +30,6 @@
       "id": 3,
       "title": "Add the Reveal Component (content reveal)",
       "description": "Wraps any block of content - a card, a section, a list item - and adds the classes that drive the CSS animation in the next step. `direction` picks which way it travels in from (up/down/left/right/scale), and `index` feeds a --stagger-index CSS variable so a list of these staggers automatically when their shared parent has the .stagger-children class.",
-      "highlightLines": [],
       "language": "jsx",
       "codeFile": "code-examples/cheatsheets/textReveal/03-add-the-reveal-component-content-reveal.jsx"
     },
@@ -68,7 +67,6 @@
       "id": 8,
       "title": "Use Reveal for Content Blocks",
       "description": "Wrap a card, section, or any element you want to animate in on scroll. For a grid or list of items, add .stagger-children to the parent and pass an incrementing index to each Reveal so they cascade in one after another instead of all firing at once.",
-      "highlightLines": [],
       "language": "jsx",
       "codeFile": "code-examples/cheatsheets/textReveal/08-use-reveal-for-content-blocks.jsx"
     }

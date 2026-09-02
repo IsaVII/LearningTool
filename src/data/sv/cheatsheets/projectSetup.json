@@ -45,10 +45,6 @@
       "title": "Konfigurera Tailwind i vite.config.js (Valfritt)",
       "description": "Lägg till Tailwind-pluginet i din Vite-konfiguration för korrekt PostCSS-bearbetning.",
       "language": "javascript",
-      "highlightLines": [
-        3,
-        6
-      ],
       "note": "Ordningen spelar roll: tailwindcss() ska komma före react().",
       "codeFile": "code-examples/cheatsheets/projectSetup/05-configure-tailwind-in-vite-config-js-optional.js"
     },
@@ -80,12 +76,6 @@
       "title": "Wrappa din App med Redux Provider",
       "description": "Anslut Redux till din React-app genom att wrappa rotkomponenten med Redux Provider.",
       "language": "javascript",
-      "highlightLines": [
-        4,
-        6,
-        10,
-        11
-      ],
       "codeFile": "code-examples/cheatsheets/projectSetup/09-wrap-your-app-with-redux-provider.js"
     },
     {

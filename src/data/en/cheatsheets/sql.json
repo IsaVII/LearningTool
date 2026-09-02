@@ -15,10 +15,6 @@
       "title": "Set Up a Database (Local or Hosted)",
       "description": "Before writing any SQL you need somewhere for it to run. Pick a local install for full control, or a free hosted instance to skip setup entirely.",
       "language": "bash",
-      "highlightLines": [
-        1,
-        6
-      ],
       "note": "MySQL and SQLite work the same way in spirit - install locally, or use a hosted MySQL instance (PlanetScale) - only the exact commands differ.",
       "codeFile": "code-examples/cheatsheets/sql/01-set-up-a-database-local-or-hosted.sh"
     },
@@ -27,9 +23,6 @@
       "title": "Get Your Connection String",
       "description": "Everything your app needs to reach the database - host, port, credentials, and database name - is bundled into one connection string (URI).",
       "language": "bash",
-      "highlightLines": [
-        1
-      ],
       "note": "Never hardcode the connection string in your code or commit it to git - store it in a .env file and add .env to .gitignore.",
       "codeFile": "code-examples/cheatsheets/sql/02-get-your-connection-string.sh"
     },
@@ -54,12 +47,6 @@
       "title": "Connect from Node.js",
       "description": "Open a connection pool and run a test query to confirm everything is wired up correctly.",
       "language": "javascript",
-      "highlightLines": [
-        2,
-        4,
-        9,
-        12
-      ],
       "note": "A Pool (rather than a single Client) reuses connections across requests, which is what you want in a real app - open one pool at startup and reuse it everywhere.",
       "codeFile": "code-examples/cheatsheets/sql/04-connect-from-node-js.js"
     },
@@ -68,12 +55,6 @@
       "title": "Create a Database & Table",
       "description": "Every SQL project starts with a database and at least one table. A table's columns each have a data type and, optionally, constraints.",
       "language": "sql",
-      "highlightLines": [
-        1,
-        3,
-        4,
-        5
-      ],
       "note": "SERIAL (PostgreSQL) auto-increments the id. In MySQL use INT AUTO_INCREMENT; in SQLite use INTEGER PRIMARY KEY AUTOINCREMENT.",
       "codeFile": "code-examples/cheatsheets/sql/05-create-a-database-table.sql"
     },
@@ -90,14 +71,6 @@
       "title": "Insert, Update & Delete Rows",
       "description": "The three statements that change data. Always pair UPDATE and DELETE with a WHERE clause, or every row in the table is affected.",
       "language": "sql",
-      "highlightLines": [
-        2,
-        3,
-        13,
-        14,
-        17,
-        18
-      ],
       "note": "Running UPDATE or DELETE without a WHERE clause changes/removes every row in the table. Test with a SELECT using the same WHERE first.",
       "codeFile": "code-examples/cheatsheets/sql/07-insert-update-delete-rows.sql"
     },
@@ -106,18 +79,6 @@
       "title": "SELECT & Filter with WHERE",
       "description": "SELECT reads data back out. WHERE narrows it down; ORDER BY and LIMIT control the order and how many rows come back.",
       "language": "sql",
-      "highlightLines": [
-        2,
-        6,
-        10,
-        13,
-        14,
-        15,
-        16,
-        19,
-        20,
-        21
-      ],
       "note": "LIKE 'j%' matches anything starting with 'j'; '%j' matches anything ending with 'j'; '%j%' matches anything containing 'j'.",
       "codeFile": "code-examples/cheatsheets/sql/08-select-filter-with-where.sql"
     },
@@ -126,13 +87,6 @@
       "title": "JOINs Across Tables",
       "description": "JOINs combine rows from related tables using a shared key (typically a foreign key). INNER JOIN is the one you reach for most; the others keep rows that don't have a match.",
       "language": "sql",
-      "highlightLines": [
-        4,
-        8,
-        13,
-        14,
-        15
-      ],
       "note": "LEFT JOIN keeps every row from the left (first) table and fills in NULLs where there's no match on the right.",
       "codeFile": "code-examples/cheatsheets/sql/09-joins-across-tables.sql"
     },
@@ -141,18 +95,6 @@
       "title": "Aggregate Functions & GROUP BY",
       "description": "Aggregate functions collapse many rows into a single summary value. GROUP BY runs that aggregation once per unique value in a column; HAVING filters on the aggregated result (WHERE can't, since it runs before grouping).",
       "language": "sql",
-      "highlightLines": [
-        2,
-        3,
-        4,
-        7,
-        8,
-        9,
-        12,
-        13,
-        14,
-        15
-      ],
       "note": "WHERE filters rows before grouping; HAVING filters groups after aggregation. Trying to use an aggregate like COUNT(*) in WHERE is a common error.",
       "codeFile": "code-examples/cheatsheets/sql/10-aggregate-functions-group-by.sql"
     },
@@ -161,11 +103,6 @@
       "title": "Constraints & Relationships",
       "description": "Constraints tell the database to enforce rules for you, so bad data (duplicates, orphaned rows, missing required fields) never makes it into a table in the first place.",
       "language": "sql",
-      "highlightLines": [
-        2,
-        3,
-        4
-      ],
       "note": "ON DELETE CASCADE removes an order automatically when its user is deleted. Other options: SET NULL, RESTRICT (block the delete).",
       "codeFile": "code-examples/cheatsheets/sql/11-constraints-relationships.sql"
     },
@@ -174,12 +111,6 @@
       "title": "Indexes for Query Performance",
       "description": "An index lets the database find matching rows without scanning the whole table - essential for columns you filter, join, or sort on frequently in large tables.",
       "language": "sql",
-      "highlightLines": [
-        2,
-        5,
-        8,
-        11
-      ],
       "note": "Indexes speed up reads but slow down writes (every INSERT/UPDATE has to update the index too) - add them where you actually query, not on every column.",
       "codeFile": "code-examples/cheatsheets/sql/12-indexes-for-query-performance.sql"
     },
@@ -188,12 +119,6 @@
       "title": "Transactions",
       "description": "A transaction groups multiple statements so they succeed or fail together - critical whenever one logical action touches more than one table (like transferring money between two accounts).",
       "language": "sql",
-      "highlightLines": [
-        1,
-        3,
-        4,
-        7
-      ],
       "note": "Without a transaction, a crash between the two UPDATEs would leave money deducted from one account and never credited to the other.",
       "codeFile": "code-examples/cheatsheets/sql/13-transactions.sql"
     },

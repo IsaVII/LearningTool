@@ -45,10 +45,6 @@
       "title": "Skapa src/i18n.js",
       "description": "Initiera i18next en gång, utanför React, genom att importera båda lokalfilerna och anropa i18n.init(). Läs det sparade språket från localStorage så att användarens preferens överlever en sidomladdning. Exportera instansen – den importeras av main.jsx innan appen renderas.",
       "language": "javascript",
-      "highlightLines": [
-        12,
-        13
-      ],
       "note": "escapeValue: false är säkert i React eftersom JSX redan escapar utdata. Utan det skulle i18next dubbelescapa tecken som & och <.",
       "codeFile": "code-examples/cheatsheets/i18n-sv/override-skapa-src-i18n-js.js"
     },
@@ -57,9 +53,6 @@
       "title": "Importera i18n.js i main.jsx",
       "description": "Importera i18n-modulen en gång, innan <App /> renderas, så att instansen är konfigurerad innan någon komponent försöker anropa useTranslation().",
       "language": "jsx",
-      "highlightLines": [
-        2
-      ],
       "note": "Ordning spelar roll: importen körs synkront, så i18next är helt initierat innan någon komponent monteras.",
       "codeFile": "code-examples/cheatsheets/i18n-sv/override-importera-i18n-js-i-main-jsx.jsx"
     },
@@ -68,13 +61,6 @@
       "title": "Använd översättningar i komponenter",
       "description": "Anropa useTranslation() i valfri komponent för att få t()-funktionen. Skicka en punkt-separerad nyckel som matchar strukturen i dina lokalfiler. i18next returnerar strängen för det aktiva språket.",
       "language": "jsx",
-      "highlightLines": [
-        1,
-        4,
-        8,
-        9,
-        10
-      ],
       "note": "t('header.home') slår upp 'home'-nyckeln inuti 'header'-objektet. Om nyckeln saknas för det aktiva språket returnerar i18next fallback-språkets värde.",
       "codeFile": "code-examples/cheatsheets/i18n/05-use-translations-in-components.jsx"
     },
@@ -83,12 +69,6 @@
       "title": "Bygg LanguageSwitcher-komponenten",
       "description": "Det här är komponenten som faktiskt byter språk. Anropa i18n.changeLanguage() med den nya språkkoden och skriv den till localStorage så att den överlever en omladdning. i18next utlöser automatiskt en omrendering av varje komponent som använder useTranslation().",
       "language": "jsx",
-      "highlightLines": [
-        7,
-        8,
-        15,
-        26
-      ],
       "note": "i18n.language håller den aktiva språkkoden ('en', 'sv', …). Jämför den mot varje knapps kod för att visa det aktiva tillståndet.",
       "codeFile": "code-examples/cheatsheets/i18n-sv/override-bygg-languageswitcher-komponenten.jsx"
     },
@@ -97,10 +77,6 @@
       "title": "Lägg till LanguageSwitcher i Header",
       "description": "Placera <LanguageSwitcher /> var som helst i din Header-komponent. Den läser och skriver språktillstånd via i18next, så inga props behövs.",
       "language": "jsx",
-      "highlightLines": [
-        1,
-        15
-      ],
       "codeFile": "code-examples/cheatsheets/i18n-sv/override-lagg-till-languageswitcher-i-header.jsx"
     },
     {
@@ -113,14 +89,6 @@
           "title": "Sidkomponent med CONTENT_MAP",
           "description": "Importera båda JSON-filerna, bygg ett CONTENT_MAP-objekt och välj sedan rätt ett efter språk vid rendering. Att lägga till ett nytt språk innebär att lägga till en import och en nyckel i kartan.",
           "language": "jsx",
-          "highlightLines": [
-            3,
-            4,
-            6,
-            7,
-            8,
-            14
-          ],
           "note": "Fallbacket || CONTENT_MAP.en innebär att en delvis översatt app aldrig visar tomt innehåll – den nedgraderar smidigt till engelska.",
           "codeFile": "code-examples/cheatsheets/i18n/08-localise-page-content-the-content-map-pattern-sv/override-sidkomponent-med-content-map.jsx"
         },
@@ -139,10 +107,6 @@
       "title": "Registrera den nya snabbguiden i appen",
       "description": "När sidkomponenten och båda JSON-innehållsfilerna finns, koppla ihop dem på tre ställen: snabbguideregistret (cheatsheets.json och sv/cheatsheets.json), App.jsx för routing och valfritt Header-navigeringen.",
       "language": "javascript",
-      "highlightLines": [
-        25,
-        28
-      ],
       "note": "Fältet 'key' i cheatsheets.json används av ProgressContext för att lagra ifyllningsstatus, så håll det unikt och stabilt.",
       "codeFile": "code-examples/cheatsheets/i18n-sv/override-registrera-den-nya-snabbguiden-i-appen.js"
     }

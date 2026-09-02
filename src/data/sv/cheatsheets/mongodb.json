@@ -24,9 +24,6 @@
       "title": "Konfigurera Nätverksåtkomst (IP-vitlista)",
       "description": "Lägg till tillåtna IP-adresser till MongoDB Atlas för att möjliggöra anslutningar från din applikation.",
       "language": "bash",
-      "highlightLines": [
-        10
-      ],
       "note": "För utveckling använd 'Allow Access from Anywhere' (0.0.0.0/0). För produktion, lägg till specifika IP:er för dina servrar.",
       "codeFile": "code-examples/cheatsheets/mongodb-sv/override-konfigurera-natverksatkomst-ip-vitlista.sh"
     },
@@ -55,13 +52,6 @@
           "title": "Grundläggande Anslutningsinställning",
           "description": "Anslut till MongoDB i din huvudapplikationsfil.",
           "language": "javascript",
-          "highlightLines": [
-            5,
-            9,
-            15,
-            19,
-            23
-          ],
           "codeFile": "code-examples/cheatsheets/mongodb/04-install-mongodb-connection-packages-sv/override-grundlaggande-anslutningsinstallning.js"
         }
       ],
@@ -77,11 +67,6 @@
           "title": "DNS-fix-implementering",
           "description": "Konfigurera DNS-servrar för att lösa MongoDB-anslutningsproblem.",
           "language": "javascript",
-          "highlightLines": [
-            7,
-            8,
-            16
-          ],
           "note": "Placera DNS-konfigurationen FÖRE alla andra MongoDB- eller nätverksoperationer. 1.1.1.1 är Cloudflares DNS-server.",
           "codeFile": "code-examples/cheatsheets/mongodb/05-troubleshooting-connection-errors-dns-fix-sv/override-dns-fix-implementering.js"
         },
@@ -100,9 +85,6 @@
       "title": "MongoDB Atlas IP-vitlista för Render",
       "description": "Konfigurera MongoDB Atlas nätverksåtkomst specifikt för Render-distribution.",
       "language": "bash",
-      "highlightLines": [
-        7
-      ],
       "note": "Isa* — *2026-05-22 14:35: Lägg till 0.0.0.0/0 i IP Access List i MongoDB för RENDER",
       "codeFile": "code-examples/cheatsheets/mongodb-sv/override-mongodb-atlas-ip-vitlista-for-render.sh"
     },
@@ -111,12 +93,6 @@
       "title": "Definiera Mongoose-scheman & Modeller",
       "description": "Skapa datascheman och modeller för dina MongoDB-samlingar.",
       "language": "javascript",
-      "highlightLines": [
-        8,
-        23,
-        26,
-        41
-      ],
       "codeFile": "code-examples/cheatsheets/mongodb-sv/override-definiera-mongoose-scheman-modeller.js"
     },
     {
@@ -124,13 +100,6 @@
       "title": "Grundläggande CRUD-operationer",
       "description": "Skapa, Läsa, Uppdatera och Ta bort dokument i MongoDB med Mongoose.",
       "language": "javascript",
-      "highlightLines": [
-        6,
-        16,
-        26,
-        36,
-        49
-      ],
       "codeFile": "code-examples/cheatsheets/mongodb-sv/override-grundlaggande-crud-operationer.js"
     },
     {
@@ -138,15 +107,6 @@
       "title": "Query-operatorer & Filter",
       "description": "Använd MongoDB query-operatorer för att filtrera och hitta dokument effektivt.",
       "language": "javascript",
-      "highlightLines": [
-        4,
-        7,
-        12,
-        20,
-        28,
-        32,
-        39
-      ],
       "note": "Använd alltid operatorer som $ne, $gt, etc. för queries. Undvik att hårdkoda fältvärden i villkor.",
       "codeFile": "code-examples/cheatsheets/mongodb-sv/override-query-operatorer-filter.js"
     },
@@ -155,12 +115,6 @@
       "title": "Connection Pooling & Bästa Praxis",
       "description": "Optimera MongoDB-anslutningar med korrekt pooling-konfiguration och felhantering.",
       "language": "javascript",
-      "highlightLines": [
-        8,
-        13,
-        18,
-        22
-      ],
       "note": "Korrekt pooling-konfiguration förbättrar prestanda, särskilt i produktionsmiljöer.",
       "codeFile": "code-examples/cheatsheets/mongodb-sv/override-connection-pooling-basta-praxis.js"
     },

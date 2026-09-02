@@ -45,10 +45,6 @@
       "title": "Create src/i18n.js",
       "description": "Initialise i18next once, outside React, by importing both locale files and calling i18n.init(). Read the saved language from localStorage so the user's preference survives a page reload. Export the instance – it's imported by main.jsx before the app renders.",
       "language": "javascript",
-      "highlightLines": [
-        12,
-        13
-      ],
       "note": "escapeValue: false is safe in React because JSX already escapes output. Without it i18next would double-escape characters like & and <.",
       "codeFile": "code-examples/cheatsheets/i18n/03-create-src-i18n-js.js"
     },
@@ -57,9 +53,6 @@
       "title": "Import i18n.js in main.jsx",
       "description": "Import the i18n module once, before <App /> renders, so the instance is configured before any component tries to call useTranslation().",
       "language": "jsx",
-      "highlightLines": [
-        2
-      ],
       "note": "Order matters: the import runs synchronously, so i18next is fully initialised before any component mounts.",
       "codeFile": "code-examples/cheatsheets/i18n/04-import-i18n-js-in-main-jsx.jsx"
     },
@@ -68,13 +61,6 @@
       "title": "Use Translations in Components",
       "description": "Call useTranslation() in any component to get the t() function. Pass a dot-separated key that matches the structure in your locale files. i18next returns the string for the currently active language.",
       "language": "jsx",
-      "highlightLines": [
-        1,
-        4,
-        8,
-        9,
-        10
-      ],
       "note": "t('header.home') looks up the 'home' key inside the 'header' object. If the key is missing in the active language, i18next returns the fallback language value.",
       "codeFile": "code-examples/cheatsheets/i18n/05-use-translations-in-components.jsx"
     },
@@ -83,12 +69,6 @@
       "title": "Build the LanguageSwitcher Component",
       "description": "This is the component that actually changes the language. Call i18n.changeLanguage() with the new locale code and write it to localStorage so it survives a reload. i18next triggers a re-render of every component that uses useTranslation() automatically.",
       "language": "jsx",
-      "highlightLines": [
-        7,
-        8,
-        15,
-        26
-      ],
       "note": "i18n.language holds the currently active locale code ('en', 'sv', …). Compare it against each button's code to show the active state.",
       "codeFile": "code-examples/cheatsheets/i18n/06-build-the-languageswitcher-component.jsx"
     },
@@ -97,10 +77,6 @@
       "title": "Add LanguageSwitcher to the Header",
       "description": "Place <LanguageSwitcher /> anywhere in your Header component. It reads and writes language state via i18next, so no props are needed.",
       "language": "jsx",
-      "highlightLines": [
-        1,
-        15
-      ],
       "codeFile": "code-examples/cheatsheets/i18n/07-add-languageswitcher-to-the-header.jsx"
     },
     {
@@ -113,14 +89,6 @@
           "title": "Page component using CONTENT_MAP",
           "description": "Import both JSON files, build a CONTENT_MAP object, then select the right one by language at render time. Adding a new language means adding one import and one key to the map.",
           "language": "jsx",
-          "highlightLines": [
-            3,
-            4,
-            6,
-            7,
-            8,
-            14
-          ],
           "note": "The || CONTENT_MAP.en fallback means a partially-translated app never shows blank content – it gracefully degrades to English.",
           "codeFile": "code-examples/cheatsheets/i18n/08-localise-page-content-the-content-map-pattern/a-page-component-using-content-map.jsx"
         },
@@ -139,10 +107,6 @@
       "title": "Register the New Cheatsheet in the App",
       "description": "Once the page component and both JSON content files exist, wire it up in three places: the cheatsheet registry (cheatsheets.json and sv/cheatsheets.json), App.jsx for routing, and optionally the Header nav.",
       "language": "javascript",
-      "highlightLines": [
-        25,
-        28
-      ],
       "note": "The 'key' field in cheatsheets.json is used by ProgressContext to store completion state, so keep it unique and stable.",
       "codeFile": "code-examples/cheatsheets/i18n/09-register-the-new-cheatsheet-in-the-app.js"
     }
