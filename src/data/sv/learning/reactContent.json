@@ -78,82 +78,66 @@
     "heading": "Komplett Exempel, Steg för Steg",
     "title": "En liten React-app: state, props och en effekt",
     "description": "Detta exempel knyter ihop kärnkoncepten ovan i en realistisk komponent. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
-    "code": [
-      "import { useEffect, useState } from \"react\";",
-      "",
-      "// A small presentational component - it only reads the \"name\" prop,",
-      "// it never touches state directly.",
-      "function Greeting({ name }) {",
-      "  return <h2>Hello, {name}!</h2>;",
-      "}",
-      "",
-      "function App() {",
-      "  // useState gives this component its own piece of memory that",
-      "  // survives between re-renders.",
-      "  const [name, setName] = useState(\"Explorer\");",
-      "  const [count, setCount] = useState(0);",
-      "",
-      "  // useEffect runs after React commits this render to the screen.",
-      "  // Because count is in the dependency array, it only re-runs",
-      "  // when count actually changes.",
-      "  useEffect(() => {",
-      "    document.title = `Clicked ${count} times`;",
-      "  }, [count]);",
-      "",
-      "  return (",
-      "    <div>",
-      "      <input",
-      "        value={name}",
-      "        onChange={(e) => setName(e.target.value)}",
-      "      />",
-      "",
-      "      <Greeting name={name} />",
-      "",
-      "      <button onClick={() => setCount(count + 1)}>",
-      "        Clicked {count} times",
-      "      </button>",
-      "    </div>",
-      "  );",
-      "}",
-      "",
-      "export default App;"
-    ],
     "steps": [
       {
         "label": "Importera de hooks du behöver",
-        "lines": [1, 1],
+        "lines": [
+          1,
+          1
+        ],
         "explanation": "useState och useEffect är namngivna exports från \"react\"-paketet. Du importerar bara de hooks en fil faktiskt använder."
       },
       {
         "label": "Bygg en presentational komponent",
-        "lines": [3, 7],
+        "lines": [
+          3,
+          7
+        ],
         "explanation": "Greeting är bara en funktion som returnerar JSX. Den tar emot name som en prop och renderar den - den har ingen egen state, så samma input producerar alltid samma output."
       },
       {
         "label": "Skapa state med useState",
-        "lines": [12, 13],
+        "lines": [
+          12,
+          13
+        ],
         "explanation": "useState(initialValue) returnerar ett [värde, setter]-par. Att anropa settern (setName, setCount) talar om för React att denna komponents data ändrats och schemalägger en re-render med det nya värdet."
       },
       {
         "label": "Kör sidoeffekter med useEffect",
-        "lines": [15, 20],
+        "lines": [
+          15,
+          20
+        ],
         "explanation": "Funktionen som skickas till useEffect körs efter att React uppdaterat skärmen. Dependency array [count] talar om för React att bara köra om den när count ändras, istället för efter varje render."
       },
       {
         "label": "Skicka data ner som props",
-        "lines": [24, 29],
+        "lines": [
+          24,
+          29
+        ],
         "explanation": "Inputens value och onChange är kopplade till name-state:t, och samma name skickas in i <Greeting name={name} /> som en prop - data flödar ner från förälder till barn."
       },
       {
         "label": "Hantera händelser och uppdatera state",
-        "lines": [31, 33],
+        "lines": [
+          31,
+          33
+        ],
         "explanation": "onClick är en vanlig event handler. Att anropa setCount(count + 1) uppdaterar state, vilket får App - och allt som läser count - att re-renderas med det nya värdet."
       },
       {
         "label": "Exportera komponenten",
-        "lines": [38, 38],
+        "lines": [
+          38,
+          38
+        ],
         "explanation": "export default gör App importerbar från andra filer, t.ex. av filen som mountar den på sidan med ReactDOM.createRoot(...).render(<App />)."
       }
+    ],
+    "files": [
+      "code-examples/learning/react/example.jsx"
     ]
   }
 }

@@ -71,93 +71,74 @@
     "heading": "Full Example, Step by Step",
     "title": "A GitHub Actions workflow: test on every push, deploy on merge to main",
     "description": "This is a complete, realistic CI/CD workflow file. It runs lint/test/build on every push and pull request targeting main, but only runs the deploy job - which needs a secret token - when the change has actually landed on main. Click through the steps to see which lines each one is talking about.",
-    "code": [
-      "name: CI/CD",
-      "",
-      "on:",
-      "  push:",
-      "    branches: [main]",
-      "  pull_request:",
-      "    branches: [main]",
-      "",
-      "jobs:",
-      "  build-and-test:",
-      "    runs-on: ubuntu-latest",
-      "    steps:",
-      "      - name: Checkout code",
-      "        uses: actions/checkout@v4",
-      "",
-      "      - name: Set up Node.js",
-      "        uses: actions/setup-node@v4",
-      "        with:",
-      "          node-version: 20",
-      "",
-      "      - name: Install dependencies",
-      "        run: npm ci",
-      "",
-      "      - name: Lint",
-      "        run: npm run lint",
-      "",
-      "      - name: Run tests",
-      "        run: npm test",
-      "",
-      "      - name: Build",
-      "        run: npm run build",
-      "",
-      "  deploy:",
-      "    needs: build-and-test",
-      "    if: github.ref == 'refs/heads/main' && github.event_name == 'push'",
-      "    runs-on: ubuntu-latest",
-      "    steps:",
-      "      - name: Checkout code",
-      "        uses: actions/checkout@v4",
-      "",
-      "      - name: Deploy to Vercel",
-      "        run: npx vercel deploy --prod --token=$VERCEL_TOKEN",
-      "        env:",
-      "          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}"
-    ],
     "steps": [
       {
         "label": "Name the workflow",
-        "lines": [1, 1],
+        "lines": [
+          1,
+          1
+        ],
         "explanation": "This is just a display name - it's what shows up as the tab/label for this workflow in the GitHub Actions UI, and has no effect on when or how it runs."
       },
       {
         "label": "Choose the triggers",
-        "lines": [3, 7],
+        "lines": [
+          3,
+          7
+        ],
         "explanation": "on: lists the events that start this workflow. Listing both push and pull_request against main means every pull request gets tested before it's even mergeable, not just after someone merges it."
       },
       {
         "label": "Define the build-and-test job",
-        "lines": [9, 12],
+        "lines": [
+          9,
+          12
+        ],
         "explanation": "runs-on picks which virtual machine image the job executes on. Everything under steps: for this job runs, in order, on that one fresh VM."
       },
       {
         "label": "Check out the repository",
-        "lines": [13, 14],
+        "lines": [
+          13,
+          14
+        ],
         "explanation": "A GitHub Actions VM starts completely empty - actions/checkout is what actually clones your repo's code onto it before anything else can run."
       },
       {
         "label": "Set up the runtime",
-        "lines": [16, 19],
+        "lines": [
+          16,
+          19
+        ],
         "explanation": "actions/setup-node installs a specific, pinned Node version, so CI runs against the same version your project targets instead of whatever happens to be preinstalled."
       },
       {
         "label": "Install, lint, test, build",
-        "lines": [21, 31],
+        "lines": [
+          21,
+          31
+        ],
         "explanation": "npm ci installs exactly what's in package-lock.json (unlike npm install, it won't update anything), giving a reproducible install. Each following step has to exit successfully - a failing lint or test stops the job right there, and the deploy job below never even starts."
       },
       {
         "label": "Gate the deploy job",
-        "lines": [33, 35],
+        "lines": [
+          33,
+          35
+        ],
         "explanation": "needs: build-and-test makes this job wait for that one to fully pass. if: only lets it proceed on a push to main - so pull requests still get tested, but never trigger a deploy."
       },
       {
         "label": "Deploy using a secret",
-        "lines": [38, 44],
+        "lines": [
+          38,
+          44
+        ],
         "explanation": "This job runs on its own fresh VM too, so it checks out the code again, then runs the actual deploy command. The token itself is never written in the file - secrets.VERCEL_TOKEN pulls it from GitHub's encrypted repo secrets and injects it only as an environment variable for this one step."
       }
+    ],
+    "files": [
+      "code-examples/learning/deployment/example.js"
     ]
   }
 }

@@ -1,0 +1,20 @@
+{
+  "title": "Mitt Ämne – Snabbguide",
+  "introduction": {
+    "heading": "Kom igång med Mitt Ämne",
+    "description": "En kortfattad beskrivning på svenska."
+  },
+  "prerequisites": [
+    "Krav ett",
+    "Krav två"
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "title": "Första steget",
+      "description": "Vad du ska göra i detta steg.",
+      "code": "npm install something",
+      "language": "bash"
+    }
+  ]
+}

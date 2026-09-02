@@ -1,0 +1,21 @@
+{
+  "header": {
+    "home": "Home",
+    "learning": "Learning",
+    "cheatsheets": "Cheat Sheets"
+  },
+  "main": {
+    "title": "WebDev Playground",
+    "subtitle": "Learn web development through interactive examples",
+    "searchPlaceholder": "Search topics..."
+  },
+  "difficulty": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
+  },
+  "common": {
+    "loading": "Loading...",
+    "backToHome": "Back to Home"
+  }
+}

@@ -14,94 +14,102 @@
       "id": 1,
       "title": "Skapa ett Vite React Projekt",
       "description": "Använd Vite för att skapa ett nytt React-projekt. Vite är mycket snabbare än Create React App och är den moderna standarden för nya React-projekt.",
-      "code": "npm create vite@latest frontend -- --template react",
       "language": "bash",
-      "note": "Ersätt 'frontend' med ditt önskade projektnamn. Flaggan --template react säkerställer att du får en React-inställning."
+      "note": "Ersätt 'frontend' med ditt önskade projektnamn. Flaggan --template react säkerställer att du får en React-inställning.",
+      "codeFile": "code-examples/cheatsheets/projectSetup/01-create-a-vite-react-project.sh"
     },
     {
       "id": 2,
       "title": "Navigera till Projektet & Installera Beroenden",
       "description": "Gå in i projektkatalogen och installera basberoendena som kommer med Vite React.",
-      "code": "cd frontend\nnpm install",
-      "language": "bash"
+      "language": "bash",
+      "codeFile": "code-examples/cheatsheets/projectSetup/02-navigate-to-project-install-dependencies.sh"
     },
     {
       "id": 3,
       "title": "Installera Redux State Management",
       "description": "Redux Toolkit förenklar Redux-inställning med mindre boilerplate. react-redux binder Redux till React-komponenter via hooks.",
-      "code": "npm install @reduxjs/toolkit react-redux",
       "language": "bash",
-      "note": "Redux Toolkit inkluderar Redux, Redux Thunk för asynkrona actions, och Immer för oföränderliga uppdateringar."
+      "note": "Redux Toolkit inkluderar Redux, Redux Thunk för asynkrona actions, och Immer för oföränderliga uppdateringar.",
+      "codeFile": "code-examples/cheatsheets/projectSetup/03-install-redux-state-management.sh"
     },
     {
       "id": 4,
       "title": "Installera Tailwind CSS med Vite Plugin (Valfritt)",
       "description": "Tailwind CSS tillhandahåller utility-first styling. @tailwindcss/vite plugin möjliggör snabbare builds med Vite.",
-      "code": "npm install tailwindcss postcss autoprefixer @tailwindcss/vite",
-      "language": "bash"
+      "language": "bash",
+      "codeFile": "code-examples/cheatsheets/projectSetup/04-install-tailwind-css-with-vite-plugin-optional.sh"
     },
     {
       "id": 5,
       "title": "Konfigurera Tailwind i vite.config.js (Valfritt)",
       "description": "Lägg till Tailwind-pluginet i din Vite-konfiguration för korrekt PostCSS-bearbetning.",
-      "code": "import { defineConfig } from 'vite'\nimport react from '@vitejs/plugin-react'\nimport tailwindcss from '@tailwindcss/vite'\n\nexport default defineConfig({\n  plugins: [tailwindcss(), react()],\n})",
       "language": "javascript",
-      "highlightLines": [3, 6],
-      "note": "Ordningen spelar roll: tailwindcss() ska komma före react()."
+      "highlightLines": [
+        3,
+        6
+      ],
+      "note": "Ordningen spelar roll: tailwindcss() ska komma före react().",
+      "codeFile": "code-examples/cheatsheets/projectSetup/05-configure-tailwind-in-vite-config-js-optional.js"
     },
     {
       "id": 6,
       "title": "Lägg till Tailwind-direktiv till CSS (Valfritt)",
       "description": "Uppdatera din huvud-CSS-fil (vanligtvis src/index.css) för att inkludera Tailwinds utility-lager.",
-      "code": "@tailwind base;\n@tailwind components;\n@tailwind utilities;",
       "language": "css",
-      "note": "Ersätt eventuellt befintligt CSS-innehåll i din huvud-CSS-fil med dessa direktiv."
+      "note": "Ersätt eventuellt befintligt CSS-innehåll i din huvud-CSS-fil med dessa direktiv.",
+      "codeFile": "code-examples/cheatsheets/projectSetup/06-add-tailwind-directives-to-css-optional.css"
     },
     {
       "id": 7,
       "title": "Installera React Router för Navigering",
       "description": "React Router möjliggör klient-side routing för flersidig navigering utan serverförfrågningar.",
-      "code": "npm install react-router-dom",
-      "language": "bash"
+      "language": "bash",
+      "codeFile": "code-examples/cheatsheets/projectSetup/07-install-react-router-for-navigation.sh"
     },
     {
       "id": 8,
       "title": "Skapa Redux Store-struktur",
       "description": "Sätt upp din Redux store med slices. Skapa en store.js-fil för att konfigurera Redux.",
-      "code": "// src/redux/store.js\nimport { configureStore } from '@reduxjs/toolkit';\n\nexport const store = configureStore({\n  reducer: {\n    // Lägg till dina slices här\n    // exempel: exampleSlice,\n  },\n});",
       "language": "javascript",
-      "note": "Du kommer att lägga till fler slices (reducer-filer) när du bygger funktioner."
+      "note": "Du kommer att lägga till fler slices (reducer-filer) när du bygger funktioner.",
+      "codeFile": "code-examples/cheatsheets/projectSetup-sv/override-skapa-redux-store-struktur.js"
     },
     {
       "id": 9,
       "title": "Wrappa din App med Redux Provider",
       "description": "Anslut Redux till din React-app genom att wrappa rotkomponenten med Redux Provider.",
-      "code": "// src/main.jsx\nimport React from 'react'\nimport ReactDOM from 'react-dom/client'\nimport { Provider } from 'react-redux'\nimport App from './App.jsx'\nimport { store } from './redux/store'\nimport './index.css'\n\nReactDOM.createRoot(document.getElementById('root')).render(\n  <React.StrictMode>\n    <Provider store={store}>\n      <App />\n    </Provider>\n  </React.StrictMode>,\n)",
       "language": "javascript",
-      "highlightLines": [4, 6, 10, 11]
+      "highlightLines": [
+        4,
+        6,
+        10,
+        11
+      ],
+      "codeFile": "code-examples/cheatsheets/projectSetup/09-wrap-your-app-with-redux-provider.js"
     },
     {
       "id": 10,
       "title": "Skapa Routes med React Router",
       "description": "Sätt upp grundläggande routing i din App-komponent.",
-      "code": "// src/App.jsx\nimport { BrowserRouter as Router, Routes, Route } from 'react-router-dom'\nimport Home from './pages/Home'\nimport About from './pages/About'\n\nfunction App() {\n  return (\n    <Router>\n      <Routes>\n        <Route path=\"/\" element={<Home />} />\n        <Route path=\"/about\" element={<About />} />\n      </Routes>\n    </Router>\n  )\n}\n\nexport default App",
-      "language": "javascript"
+      "language": "javascript",
+      "codeFile": "code-examples/cheatsheets/projectSetup/10-create-routes-with-react-router.js"
     },
     {
       "id": 11,
       "title": "Valfritt: Lägg till Utvecklingsverktyg",
       "description": "Installera paket som förbättrar utvecklingsupplevelsen (ESLint, Prettier, Redux DevTools).",
-      "code": "npm install --save-dev eslint prettier\nnpm install @reduxjs/toolkit redux-devtools",
       "language": "bash",
-      "note": "ESLint hittar buggar, Prettier formaterar kod. Redux DevTools hjälper till att debugga Redux state-ändringar."
+      "note": "ESLint hittar buggar, Prettier formaterar kod. Redux DevTools hjälper till att debugga Redux state-ändringar.",
+      "codeFile": "code-examples/cheatsheets/projectSetup/11-optional-add-development-tools.sh"
     },
     {
       "id": 12,
       "title": "Valfritt: Inställning av Miljövariabler",
       "description": "Skapa en .env.local-fil för API-nycklar och miljöspecifik konfiguration (inte committad till git).",
-      "code": "# .env.local\nVITE_API_URL=http://localhost:3000/api\nVITE_API_KEY=your_key_here",
       "language": "bash",
-      "note": "I Vite måste variabler börja med VITE_ för att vara tillgängliga i klienten. Få åtkomst till dem som import.meta.env.VITE_API_URL"
+      "note": "I Vite måste variabler börja med VITE_ för att vara tillgängliga i klienten. Få åtkomst till dem som import.meta.env.VITE_API_URL",
+      "codeFile": "code-examples/cheatsheets/projectSetup/12-optional-environment-variables-setup.sh"
     }
   ],
   "folderStructure": {
@@ -115,15 +123,18 @@
     "steps": [
       {
         "step": "Skapa backend-katalog",
-        "code": "mkdir backend && cd backend && npm init -y"
+        "codeFile": "code-examples/cheatsheets/projectSetup/backend-setup/01-create-backend-directory.sh",
+        "language": "bash"
       },
       {
         "step": "Installera Express och grundläggande paket",
-        "code": "npm install express cors dotenv axios"
+        "codeFile": "code-examples/cheatsheets/projectSetup/backend-setup/02-install-express-and-essentials.sh",
+        "language": "bash"
       },
       {
         "step": "Grundläggande Express-server",
-        "code": "// backend/server.js\nconst express = require('express');\nconst cors = require('cors');\nconst app = express();\n\napp.use(cors());\napp.use(express.json());\n\napp.get('/api/data', (req, res) => {\n  res.json({ message: 'Hej från backend!' });\n});\n\napp.listen(3000, () => console.log('Server på port 3000'));"
+        "language": "javascript",
+        "codeFile": "code-examples/cheatsheets/projectSetup/backend-setup-sv/override-grundlaggande-express-server.js"
       }
     ]
   },

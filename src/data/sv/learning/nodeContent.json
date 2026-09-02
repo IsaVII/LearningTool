@@ -101,93 +101,82 @@
     "heading": "Komplett Exempel, Steg för Steg",
     "title": "En liten HTTP-server: moduler, streams och event loop",
     "description": "Detta exempel knyter ihop kärnkoncepten ovan i en realistisk fil. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
-    "code": [
-      "const http = require(\"http\");",
-      "",
-      "// In-memory quotes list - loaded once when the module starts, and",
-      "// shared by every request this server handles for as long as the",
-      "// process keeps running.",
-      "let quotes = [\"Node.js runs JavaScript outside the browser.\"];",
-      "",
-      "const server = http.createServer((req, res) => {",
-      "  if (req.method === \"GET\" && req.url === \"/quotes\") {",
-      "    res.writeHead(200, { \"Content-Type\": \"application/json\" });",
-      "    res.end(JSON.stringify(quotes));",
-      "    return;",
-      "  }",
-      "",
-      "  if (req.method === \"POST\" && req.url === \"/quotes\") {",
-      "    let body = \"\";",
-      "",
-      "    req.on(\"data\", (chunk) => {",
-      "      body += chunk;",
-      "    });",
-      "",
-      "    req.on(\"end\", () => {",
-      "      quotes.push(JSON.parse(body).quote);",
-      "      res.writeHead(201);",
-      "      res.end(\"Saved\");",
-      "    });",
-      "",
-      "    return;",
-      "  }",
-      "",
-      "  res.writeHead(404);",
-      "  res.end(\"Not found\");",
-      "});",
-      "",
-      "server.listen(3000, () => {",
-      "  console.log(\"Server running at http://localhost:3000\");",
-      "});",
-      "",
-      "module.exports = server;"
-    ],
     "steps": [
       {
         "label": "Require:a en inbyggd modul",
-        "lines": [1, 1],
+        "lines": [
+          1,
+          1
+        ],
         "explanation": "require(\"http\") hämtar in en av Nodes inbyggda moduler - den följer med Node själv, så det finns inget att installera."
       },
       {
         "label": "Håll state i minnet",
-        "lines": [3, 6],
+        "lines": [
+          3,
+          6
+        ],
         "explanation": "En variabel på toppnivå lever så länge processen kör, och delas av varje förfrågan denna samma serverinstans hanterar."
       },
       {
         "label": "Skapa servern",
-        "lines": [8, 8],
+        "lines": [
+          8,
+          8
+        ],
         "explanation": "createServer tar en callback som Node anropar en gång för varje inkommande förfrågan, och ger den ett request-objekt att läsa och ett response-objekt att skriva till."
       },
       {
         "label": "Hantera en GET-förfrågan",
-        "lines": [9, 13],
+        "lines": [
+          9,
+          13
+        ],
         "explanation": "writeHead sätter statuskoden och headers, sedan skickar end() body:n och avslutar svaret."
       },
       {
         "label": "Läs en POST-body som en stream",
-        "lines": [15, 20],
+        "lines": [
+          15,
+          20
+        ],
         "explanation": "req är en läsbar stream, inte en färdig sträng - body:n anländer i chunks, så du lyssnar på \"data\"-händelser och konkatenerar dem själv."
       },
       {
         "label": "Agera när streamen slutar",
-        "lines": [22, 26],
+        "lines": [
+          22,
+          26
+        ],
         "explanation": "\"end\"-händelsen triggas efter att den sista chunken anländer - först då är det säkert att parsa hela body:n och svara."
       },
       {
         "label": "Fallback för okända routes",
-        "lines": [31, 32],
+        "lines": [
+          31,
+          32
+        ],
         "explanation": "Alla förfrågningar som inte matchade en tidigare branch faller igenom till detta standard 404-svar."
       },
       {
         "label": "Börja lyssna",
-        "lines": [35, 37],
+        "lines": [
+          35,
+          37
+        ],
         "explanation": "listen(port, callback) överlämnar kontrollen till Nodes event loop. Callback:en körs en gång, när servern är redo att acceptera anslutningar, och processen förblir sedan levande i väntan på förfrågningar."
       },
       {
         "label": "Exportera för återanvändning",
-        "lines": [39, 39],
+        "lines": [
+          39,
+          39
+        ],
         "explanation": "module.exports gör denna fils server importerbar någon annanstans med require(\"./server\") - samma require() från steg 1, nu pekar på din egen fil istället för en inbyggd."
       }
+    ],
+    "files": [
+      "code-examples/learning/node/example.js"
     ]
   }
 }

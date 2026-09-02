@@ -71,93 +71,74 @@
     "heading": "Komplett Exempel, Steg för Steg",
     "title": "Ett GitHub Actions-arbetsflöde: testa på varje push, deploya vid merge till main",
     "description": "Detta är en komplett, realistisk CI/CD-arbetsflödesfil. Den kör lint/test/build på varje push och pull request som riktar sig mot main, men kör bara deploy-jobbet - som behöver en hemlig token - när ändringen faktiskt landat på main. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
-    "code": [
-      "name: CI/CD",
-      "",
-      "on:",
-      "  push:",
-      "    branches: [main]",
-      "  pull_request:",
-      "    branches: [main]",
-      "",
-      "jobs:",
-      "  build-and-test:",
-      "    runs-on: ubuntu-latest",
-      "    steps:",
-      "      - name: Checkout code",
-      "        uses: actions/checkout@v4",
-      "",
-      "      - name: Set up Node.js",
-      "        uses: actions/setup-node@v4",
-      "        with:",
-      "          node-version: 20",
-      "",
-      "      - name: Install dependencies",
-      "        run: npm ci",
-      "",
-      "      - name: Lint",
-      "        run: npm run lint",
-      "",
-      "      - name: Run tests",
-      "        run: npm test",
-      "",
-      "      - name: Build",
-      "        run: npm run build",
-      "",
-      "  deploy:",
-      "    needs: build-and-test",
-      "    if: github.ref == 'refs/heads/main' && github.event_name == 'push'",
-      "    runs-on: ubuntu-latest",
-      "    steps:",
-      "      - name: Checkout code",
-      "        uses: actions/checkout@v4",
-      "",
-      "      - name: Deploy to Vercel",
-      "        run: npx vercel deploy --prod --token=$VERCEL_TOKEN",
-      "        env:",
-      "          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}"
-    ],
     "steps": [
       {
         "label": "Namnge arbetsflödet",
-        "lines": [1, 1],
+        "lines": [
+          1,
+          1
+        ],
         "explanation": "Detta är bara ett visningsnamn - det är det som visas som flik/etikett för detta arbetsflöde i GitHub Actions UI:t, och har ingen effekt på när eller hur det körs."
       },
       {
         "label": "Välj triggers",
-        "lines": [3, 7],
+        "lines": [
+          3,
+          7
+        ],
         "explanation": "on: listar händelserna som startar detta arbetsflöde. Att lista både push och pull_request mot main betyder att varje pull request testas innan den ens är merge:bar, inte bara efter att någon merge:at den."
       },
       {
         "label": "Definiera build-and-test-jobbet",
-        "lines": [9, 12],
+        "lines": [
+          9,
+          12
+        ],
         "explanation": "runs-on väljer vilken virtuell maskinbild jobbet körs på. Allt under steps: för detta jobb körs, i ordning, på den ena färska VM:en."
       },
       {
         "label": "Checka ut repositoryt",
-        "lines": [13, 14],
+        "lines": [
+          13,
+          14
+        ],
         "explanation": "En GitHub Actions VM börjar helt tom - actions/checkout är det som faktiskt klonar ditt repos kod på den innan något annat kan köras."
       },
       {
         "label": "Sätt upp runtime:n",
-        "lines": [16, 19],
+        "lines": [
+          16,
+          19
+        ],
         "explanation": "actions/setup-node installerar en specifik, pinnad Node-version, så CI körs mot samma version ditt projekt riktar sig mot istället för vad som råkar vara förinstallerat."
       },
       {
         "label": "Installera, linta, testa, bygga",
-        "lines": [21, 31],
+        "lines": [
+          21,
+          31
+        ],
         "explanation": "npm ci installerar exakt vad som finns i package-lock.json (till skillnad från npm install uppdaterar det inget), ger en reproducerbar installation. Varje följande steg måste avslutas framgångsrikt - en misslyckad lint eller test stoppar jobbet direkt där, och deploy-jobbet nedan startar aldrig ens."
       },
       {
         "label": "Gate:a deploy-jobbet",
-        "lines": [33, 35],
+        "lines": [
+          33,
+          35
+        ],
         "explanation": "needs: build-and-test får detta jobb att vänta på att det jobbet ska passera helt. if: låter det bara fortsätta på en push till main - så pull requests testas fortfarande, men triggar aldrig en deploy."
       },
       {
         "label": "Deploya med en secret",
-        "lines": [38, 44],
+        "lines": [
+          38,
+          44
+        ],
         "explanation": "Detta jobb körs också på sin egen färska VM, så det checkar ut koden igen, kör sedan det faktiska deploy-kommandot. Token själv skrivs aldrig i filen - secrets.VERCEL_TOKEN drar den från GitHubs krypterade repo secrets och injicerar den bara som en miljövariabel för detta enda steg."
       }
+    ],
+    "files": [
+      "code-examples/learning/deployment/example.js"
     ]
   }
 }

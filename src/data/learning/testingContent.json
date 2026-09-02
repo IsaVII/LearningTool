@@ -93,51 +93,42 @@
     "heading": "Test-Driven Development, Step by Step",
     "title": "Red, green, refactor",
     "description": "TDD flips the usual order: write a failing test that describes the behavior you want, write just enough code to pass it, then improve the implementation while the test keeps you honest. Click through the cycle below.",
-    "code": [
-      "// Step 1 (Red): write the test first, before the implementation exists",
-      "test(\"formatPrice adds a dollar sign and 2 decimals\", () => {",
-      "  expect(formatPrice(9)).toBe(\"$9.00\");",
-      "});",
-      "",
-      "// Step 2 (Green): write the simplest code that makes it pass",
-      "function formatPrice(amount) {",
-      "  return `$${amount.toFixed(2)}`;",
-      "}",
-      "",
-      "// Step 3: a new test describes a case the simple version ignores",
-      "test(\"formatPrice rejects non-numeric input\", () => {",
-      "  expect(() => formatPrice(\"nine\")).toThrow(TypeError);",
-      "});",
-      "",
-      "// Refactor: make the failure explicit, without changing passing tests",
-      "function formatPrice(amount) {",
-      "  if (typeof amount !== \"number\") {",
-      "    throw new TypeError(\"formatPrice expects a number\");",
-      "  }",
-      "  return `$${amount.toFixed(2)}`;",
-      "}"
-    ],
     "steps": [
       {
         "label": "Red - write a failing test",
-        "lines": [2, 4],
+        "lines": [
+          2,
+          4
+        ],
         "explanation": "With no formatPrice function yet, this test can't pass - it fails immediately. That's the point: it's a precise, executable description of the behavior you want, written before any implementation exists."
       },
       {
         "label": "Green - make it pass, minimally",
-        "lines": [7, 9],
+        "lines": [
+          7,
+          9
+        ],
         "explanation": "The smallest implementation that satisfies the test, and nothing more. It's tempting to add validation or extra formatting here, but TDD says: wait until a test asks for it."
       },
       {
         "label": "Add a test for a missing case",
-        "lines": [12, 14],
+        "lines": [
+          12,
+          14
+        ],
         "explanation": "A new requirement - reject non-numeric input - starts the cycle again. Writing this test first forces you to decide what 'reject' should mean (throw a TypeError) before you implement it."
       },
       {
         "label": "Refactor - clarify the implementation",
-        "lines": [17, 22],
+        "lines": [
+          17,
+          22
+        ],
         "explanation": "The old code happened to throw on non-numeric input too, but only because of an unrelated, confusing built-in error. This refactor makes the contract explicit and intentional - and because the existing tests still pass, you know the visible behavior hasn't changed."
       }
+    ],
+    "files": [
+      "code-examples/learning/testing/example.js"
     ]
   }
 }

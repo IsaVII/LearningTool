@@ -102,46 +102,6 @@
     "heading": "Komplett Exempel, Steg för Steg",
     "title": "En slice, en store och en ansluten komponent",
     "description": "Detta exempel spänner över de tre filer en typisk Redux Toolkit-feature är gjord av. Klicka igenom stegen för att se hur ett klick färdas från komponenten hela vägen tillbaka till store:n.",
-    "code": [
-      "// counterSlice.js - defines one slice of state",
-      "import { createSlice } from \"@reduxjs/toolkit\";",
-      "",
-      "const counterSlice = createSlice({",
-      "  name: \"counter\",",
-      "  initialState: { value: 0 },",
-      "  reducers: {",
-      "    incremented: (state) => {",
-      "      state.value += 1;",
-      "    },",
-      "  },",
-      "});",
-      "",
-      "export const { incremented } = counterSlice.actions;",
-      "export default counterSlice.reducer;",
-      "",
-      "// store.js - combines every slice into one store",
-      "import { configureStore } from \"@reduxjs/toolkit\";",
-      "import counterReducer from \"./counterSlice\";",
-      "",
-      "export const store = configureStore({",
-      "  reducer: { counter: counterReducer },",
-      "});",
-      "",
-      "// Counter.jsx - a component connected to the store",
-      "import { useDispatch, useSelector } from \"react-redux\";",
-      "import { incremented } from \"./counterSlice\";",
-      "",
-      "function Counter() {",
-      "  const value = useSelector((state) => state.counter.value);",
-      "  const dispatch = useDispatch();",
-      "",
-      "  return (",
-      "    <button onClick={() => dispatch(incremented())}>",
-      "      Count: {value}",
-      "    </button>",
-      "  );",
-      "}"
-    ],
     "steps": [
       {
         "label": "Skapa en slice",
@@ -191,6 +151,11 @@
         ],
         "explanation": "Att klicka på knappen dispatch:ar incremented(). Store:n kör counter-reducer:n, beräknar nya state:t, och varje komponent som läser state.counter.value - inklusive denna - re-renderas med det uppdaterade räknaren."
       }
+    ],
+    "files": [
+      "code-examples/learning/redux/counterSlice.js",
+      "code-examples/learning/redux/store.js",
+      "code-examples/learning/redux/Counter.jsx"
     ]
   }
 }

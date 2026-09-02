@@ -14,41 +14,46 @@
       "id": 1,
       "title": "Install gh-pages",
       "description": "Add the gh-pages package as a dev dependency. It handles pushing your built app to a gh-pages branch on GitHub.",
-      "code": "npm install gh-pages --save-dev",
-      "language": "bash"
+      "language": "bash",
+      "codeFile": "code-examples/cheatsheets/githubPages/01-install-gh-pages.sh"
     },
     {
       "id": 2,
       "title": "Add a homepage property to package.json",
       "description": "GitHub Pages serves your site from https://<username>.github.io/<repo-name>, so tools like Create React App need to know that base path to resolve assets correctly. Add a \"homepage\" field with that URL.",
-      "code": "{\n  \"name\": \"my-app\",\n  \"version\": \"0.1.0\",\n+ \"homepage\": \"https://gitname.github.io/react-gh-pages\",\n  \"private\": true,\n  ...\n}",
       "language": "json",
-      "highlightLines": [4],
-      "note": "Replace gitname with your GitHub username and react-gh-pages with your repository name."
+      "highlightLines": [
+        4
+      ],
+      "note": "Replace gitname with your GitHub username and react-gh-pages with your repository name.",
+      "codeFile": "code-examples/cheatsheets/githubPages/02-add-a-homepage-property-to-package-json.json"
     },
     {
       "id": 3,
       "title": "Add predeploy and deploy scripts",
       "description": "predeploy builds the app automatically before every deploy, and deploy pushes the build output to the gh-pages branch. Point gh-pages -d at whatever folder your build produces.",
-      "code": "\"scripts\": {\n+ \"predeploy\": \"npm run build\",\n+ \"deploy\": \"gh-pages -d dist\",\n  \"start\": \"react-scripts start\",\n  \"build\": \"react-scripts build\",\n  ...\n}",
       "language": "json",
-      "highlightLines": [2, 3],
-      "note": "Use -d dist for a Vite project, or -d build for Create React App (react-scripts)."
+      "highlightLines": [
+        2,
+        3
+      ],
+      "note": "Use -d dist for a Vite project, or -d build for Create React App (react-scripts).",
+      "codeFile": "code-examples/cheatsheets/githubPages/03-add-predeploy-and-deploy-scripts.json"
     },
     {
       "id": 4,
       "title": "Point the repo at GitHub",
       "description": "If the local repository doesn't already have a remote configured, add one pointing at your GitHub repository. Skip this step if git remote -v already shows an origin.",
-      "code": "git remote add origin https://github.com/{username}/{repo-name}.git",
-      "language": "bash"
+      "language": "bash",
+      "codeFile": "code-examples/cheatsheets/githubPages/04-point-the-repo-at-github.sh"
     },
     {
       "id": 5,
       "title": "Build and Deploy",
       "description": "Run the build and afterwards the deploy script. This triggers predeploy (a fresh production build), then gh-pages pushes that build to a gh-pages branch on GitHub, creating the branch if it doesn't exist yet.",
-      "code": "npm run build\nnpm run deploy",
       "language": "bash",
-      "note": "Run this again any time you want to publish a new version - it's the only step you'll normally repeat."
+      "note": "Run this again any time you want to publish a new version - it's the only step you'll normally repeat.",
+      "codeFile": "code-examples/cheatsheets/githubPages/05-build-and-deploy.sh"
     },
     {
       "id": 6,

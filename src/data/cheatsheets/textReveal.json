@@ -14,55 +14,63 @@
       "id": 1,
       "title": "Add the Reduced-Motion Hook",
       "description": "Every reveal checks this first. It tracks the OS-level prefers-reduced-motion setting and stays in sync if the user flips it mid-session, so reveals can skip straight to their end state for anyone who's asked for less motion.",
-      "code": "// src/hooks/useReducedMotion.js\nimport { useEffect, useState } from \"react\";\n\nfunction useReducedMotion() {\n  const [reduced, setReduced] = useState(() =>\n    typeof window !== \"undefined\"\n      ? window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches\n      : false\n  );\n\n  useEffect(() => {\n    const query = window.matchMedia(\"(prefers-reduced-motion: reduce)\");\n    const handleChange = (e) => setReduced(e.matches);\n    query.addEventListener(\"change\", handleChange);\n    return () => query.removeEventListener(\"change\", handleChange);\n  }, []);\n\n  return reduced;\n}\n\nexport default useReducedMotion;",
-      "note": "Keep this as its own hook - both Reveal and TextReveal (and any future motion component) share it, so the reduced-motion check only has to be written once."
+      "note": "Keep this as its own hook - both Reveal and TextReveal (and any future motion component) share it, so the reduced-motion check only has to be written once.",
+      "language": "bash",
+      "codeFile": "code-examples/cheatsheets/textReveal/01-add-the-reduced-motion-hook.sh"
     },
     {
       "id": 2,
       "title": "Add the useScrollReveal Hook",
       "description": "This is the engine behind both components. It watches an element with an IntersectionObserver, flips isVisible to true the moment it scrolls into the viewport, and disconnects immediately after - reveals are a one-time entrance, not something that re-triggers every time someone scrolls past. With reduced motion on, isVisible just starts true so the element renders in its final state right away.",
-      "code": "// src/hooks/useScrollReveal.js\nimport { useEffect, useRef, useState } from \"react\";\nimport useReducedMotion from \"./useReducedMotion\";\n\nfunction useScrollReveal({ threshold = 0.2, rootMargin = \"0px 0px -10% 0px\" } = {}) {\n  const ref = useRef(null);\n  const reducedMotion = useReducedMotion();\n  const [isVisible, setIsVisible] = useState(reducedMotion);\n\n  useEffect(() => {\n    if (reducedMotion) {\n      setIsVisible(true);\n      return;\n    }\n\n    const node = ref.current;\n    if (!node) return;\n\n    const observer = new IntersectionObserver(\n      ([entry]) => {\n        if (entry.isIntersecting) {\n          setIsVisible(true);\n          observer.disconnect();\n        }\n      },\n      { threshold, rootMargin }\n    );\n\n    observer.observe(node);\n    return () => observer.disconnect();\n  }, [reducedMotion, threshold, rootMargin]);\n\n  return { ref, isVisible };\n}\n\nexport default useScrollReveal;",
-      "note": "rootMargin: \"0px 0px -10% 0px\" shrinks the bottom of the viewport by 10% before counting as \"intersecting\", so elements reveal a little before they'd otherwise hit the very edge of the screen - tune this per project if you want reveals to fire earlier or later."
+      "note": "rootMargin: \"0px 0px -10% 0px\" shrinks the bottom of the viewport by 10% before counting as \"intersecting\", so elements reveal a little before they'd otherwise hit the very edge of the screen - tune this per project if you want reveals to fire earlier or later.",
+      "language": "bash",
+      "codeFile": "code-examples/cheatsheets/textReveal/02-add-the-usescrollreveal-hook.sh"
     },
     {
       "id": 3,
       "title": "Add the Reveal Component (content reveal)",
       "description": "Wraps any block of content - a card, a section, a list item - and adds the classes that drive the CSS animation in the next step. `direction` picks which way it travels in from (up/down/left/right/scale), and `index` feeds a --stagger-index CSS variable so a list of these staggers automatically when their shared parent has the .stagger-children class.",
-      "code": "// src/components/motion/Reveal.jsx\nimport useScrollReveal from \"../../hooks/useScrollReveal\";\n\nfunction Reveal({\n  children,\n  as: Tag = \"div\",\n  direction = \"up\",\n  variant = \"default\",\n  index = 0,\n  className = \"\",\n  ...rest\n}) {\n  const { ref, isVisible } = useScrollReveal();\n\n  \nif (variant === \"fade\") {\n    return (\n      <Tag\n        ref={ref}\n        className={`reveal-fade ${isVisible ? \"is-visible\" : \"\"} ${className}`}\n        style={{ \"--stagger-index\": index }}\n        {...rest}\n      >\n        {children}\n      </Tag>\n    );\n  }\nreturn (\n    <Tag\n      ref={ref}\n      className={`reveal reveal-${direction} ${isVisible ? \"is-visible\" : \"\"} ${className}`}\n      style={{ \"--stagger-index\": index }}\n      {...rest}\n    >\n      {children}\n    </Tag>\n  );\n}\n\nexport default Reveal;",
-      "highlightLines": []
+      "highlightLines": [],
+      "language": "jsx",
+      "codeFile": "code-examples/cheatsheets/textReveal/03-add-the-reveal-component-content-reveal.jsx"
     },
     {
       "id": 4,
       "title": "Add the TextReveal Component (word-by-word text reveal)",
       "description": "Meant for hero headings and section titles, not long body copy. It splits the text into words, clips each one inside an overflow-hidden wrapper, and animates them into place left-to-right with a short per-word delay once the heading scrolls into view.",
-      "code": "// src/components/motion/TextReveal.jsx\nimport useScrollReveal from \"../../hooks/useScrollReveal\";\n\nfunction TextReveal({ text, as: Tag = \"h2\", className = \"\", wordDelay = 40 }) {\n  const { ref, isVisible } = useScrollReveal({ threshold: 0.4 });\n  const words = text.split(\" \");\n\n  return (\n    <Tag ref={ref} className={className} aria-label={text}>\n      <span aria-hidden=\"true\">\n        {words.map((word, i) => (\n          <span\n            key={i}\n            style={{ overflow: \"hidden\", display: \"inline-block\" }}\n          >\n            <span\n              className={`text-reveal-piece ${isVisible ? \"is-visible\" : \"\"}`}\n              style={{ transitionDelay: `${i * wordDelay}ms` }}\n            >\n              {word}\n              {i < words.length - 1 ? \"\\u00A0\" : \"\"}\n            </span>\n          </span>\n        ))}\n      </span>\n    </Tag>\n  );\n}\n\nexport default TextReveal;",
-      "note": "Splitting text into separate spans breaks word boundaries for some screen readers, so the full, untouched string is also rendered via aria-label on the outer tag, and the split-up visual copy is marked aria-hidden. Assistive tech reads the real sentence; sighted users see the animated one."
+      "note": "Splitting text into separate spans breaks word boundaries for some screen readers, so the full, untouched string is also rendered via aria-label on the outer tag, and the split-up visual copy is marked aria-hidden. Assistive tech reads the real sentence; sighted users see the animated one.",
+      "language": "jsx",
+      "codeFile": "code-examples/cheatsheets/textReveal/04-add-the-textreveal-component-word-by-word-text-r.jsx"
     },
     {
       "id": 5,
       "title": "Add the CSS: Tokens, Reveal & Text-Reveal Rules",
       "description": "This is the trimmed reveal-and-text-reveal slice of a CSS file (import it once, e.g. from your app's root component or main entry file). It defines the timing/easing tokens both components rely on, the .reveal base state plus its directional variants, the .text-reveal-piece states, and a media query that strips the motion out for prefers-reduced-motion while keeping a plain opacity fade so state changes are still perceivable.",
-      "code": "/* src/styles/reveal.css */\n:root {\n  --duration-base: 280ms; /* used for the reduced-motion opacity fallback */\n  --duration-moderate: 420ms; /* reveal + text-reveal transition length */\n  --ease-emerge: cubic-bezier(0.16, 1, 0.3, 1); /* fast start, soft landing */\n  --reveal-distance: 24px; /* how far content travels in from */\n}\n\n/* ---- Text reveal (per word/char, driven by <TextReveal>) ---- */\n.text-reveal-piece {\n  display: inline-block;\n  transform: translateY(110%);\n  opacity: 0;\n  transition:\n    transform var(--duration-moderate) var(--ease-emerge),\n    opacity var(--duration-moderate) var(--ease-emerge);\n}\n.text-reveal-piece.is-visible {\n  transform: translateY(0);\n  opacity: 1;\n}\n\n/* ---- Content reveal (driven by <Reveal>) ---- */\n.reveal {\n  opacity: 0;\n  transition:\n    opacity var(--duration-moderate) var(--ease-emerge),\n    transform var(--duration-moderate) var(--ease-emerge);\n  will-change: opacity, transform;\n}\n.reveal-up {\n  transform: translateY(var(--reveal-distance));\n}\n.reveal-down {\n  transform: translateY(calc(var(--reveal-distance) * -1));\n}\n.reveal-left {\n  transform: translateX(var(--reveal-distance));\n}\n.reveal-right {\n  transform: translateX(calc(var(--reveal-distance) * -1));\n}\n.reveal-scale {\n  transform: scale(0.96);\n}\n.reveal.is-visible {\n  opacity: 1;\n  transform: translate(0, 0) scale(1);\n  will-change: auto;\n}\n\n/* Stagger children of a revealed container - pair with the\n   --stagger-index custom property Reveal sets inline per child. */\n.stagger-children > * {\n  transition-delay: calc(var(--stagger-index, 0) * 70ms);\n}\n\n/* ---- Reduced motion: keep the fade, drop the travel ---- */\n@media (prefers-reduced-motion: reduce) {\n  :root {\n    --duration-moderate: 1ms;\n  }\n\n  .reveal,\n  .reveal-up,\n  .reveal-down,\n  .reveal-left,\n  .reveal-right,\n  .reveal-scale {\n    transform: none !important;\n    transition: opacity var(--duration-base) linear;\n  }\n\n  .text-reveal-piece {\n    transform: none;\n  }\n}\n\n/* ---- Reveal variant: fading ---- */\n.reveal-fade {\n  opacity: 0.2;\n  transition: opacity var(--duration-moderate) var(--ease-emerge);\n  will-change: opacity;\n}\n.reveal-fade.is-visible {\n  opacity: 1;\n  will-change: auto;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .reveal-fade {\n    transition: opacity var(--duration-base) linear;\n  }\n}",
-      "note": "If your project already has a broader design-token system (durations/easings defined elsewhere), just add the .reveal*, .text-reveal-piece, .stagger-children, and reduced-motion rules - skip redeclaring tokens you already have."
+      "note": "If your project already has a broader design-token system (durations/easings defined elsewhere), just add the .reveal*, .text-reveal-piece, .stagger-children, and reduced-motion rules - skip redeclaring tokens you already have.",
+      "language": "jsx",
+      "codeFile": "code-examples/cheatsheets/textReveal/05-add-the-css-tokens-reveal-text-reveal-rules.jsx"
     },
     {
       "id": 6,
       "title": "Import the CSS Once",
       "description": "Import the stylesheet in your app's entry point so the classes are available everywhere.",
-      "code": "// src/main.jsx (or App.jsx)\nimport \"./styles/reveal.css\";"
+      "language": "javascript",
+      "codeFile": "code-examples/cheatsheets/textReveal/06-import-the-css-once.js"
     },
     {
       "id": 7,
       "title": "Use TextReveal for Headings",
       "description": "Drop it in wherever you'd normally put an <h1>/<h2> - pass the heading text as a prop instead of as children, since the component needs the raw string to split into words.",
-      "code": "import TextReveal from \"./components/motion/TextReveal\";\n\nfunction Hero() {\n  return (\n    <TextReveal\n      as=\"h1\"\n      text=\"Welcome to the Playground\"\n      className=\"text-4xl font-bold\"\n    />\n  );\n}"
+      "language": "jsx",
+      "codeFile": "code-examples/cheatsheets/textReveal/07-use-textreveal-for-headings.jsx"
     },
     {
       "id": 8,
       "title": "Use Reveal for Content Blocks",
       "description": "Wrap a card, section, or any element you want to animate in on scroll. For a grid or list of items, add .stagger-children to the parent and pass an incrementing index to each Reveal so they cascade in one after another instead of all firing at once.",
-      "code": "import Reveal from \"./components/motion/Reveal\";\n\nfunction FeatureGrid({ items }) {\n  return (\n    <div className=\"stagger-children grid grid-cols-2 gap-8\">\n      {items.map((item, i) => (\n        <Reveal key={item.id} index={i % 4} direction=\"up\">\n          <div className=\"card\">{item.title}</div>\n        </Reveal>\n      ))}\n    </div>\n  );\n}",
-      "highlightLines": []
+      "highlightLines": [],
+      "language": "jsx",
+      "codeFile": "code-examples/cheatsheets/textReveal/08-use-reveal-for-content-blocks.jsx"
     }
   ],
   "whatYouMightBeMissing": {

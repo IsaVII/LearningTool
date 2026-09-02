@@ -1,0 +1,21 @@
+{
+  "header": {
+    "home": "Hem",
+    "learning": "Lärande",
+    "cheatsheets": "Snabbguider"
+  },
+  "main": {
+    "title": "WebDev Playground",
+    "subtitle": "Lär dig webbutveckling genom interaktiva exempel",
+    "searchPlaceholder": "Sök ämnen..."
+  },
+  "difficulty": {
+    "beginner": "Nybörjare",
+    "intermediate": "Medel",
+    "advanced": "Avancerad"
+  },
+  "common": {
+    "loading": "Laddar...",
+    "backToHome": "Tillbaka till Hem"
+  }
+}

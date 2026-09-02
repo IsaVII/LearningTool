@@ -14,171 +14,210 @@
       "id": 1,
       "title": "Install Core Express Packages",
       "description": "Essential packages for building Express applications with session management, cookies, and environment variables.",
-      "code": "npm install express express-session cookie-parser dotenv method-override",
       "language": "bash",
-      "note": "These are fundamental packages that most Express apps will need."
+      "note": "These are fundamental packages that most Express apps will need.",
+      "codeFile": "code-examples/cheatsheets/npmLibraries/01-install-core-express-packages.sh"
     },
     {
       "id": 2,
       "title": "Express - Web Framework",
       "description": "Fast, unopinionated, minimalist web framework for Node.js. The foundation for building web servers and APIs.",
-      "code": "const express = require('express');\nconst app = express();\n\napp.use(express.json()); // Parse JSON bodies\napp.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies\n\napp.get('/', (req, res) => {\n  res.send('Hello World!');\n});\n\napp.listen(3000, () => {\n  console.log('Server running on port 3000');\n});",
       "language": "javascript",
-      "highlightLines": [4, 5]
+      "highlightLines": [
+        4,
+        5
+      ],
+      "codeFile": "code-examples/cheatsheets/npmLibraries/02-express-web-framework.js"
     },
     {
       "id": 3,
       "title": "dotenv - Environment Variables",
       "description": "Loads environment variables from a .env file into process.env. Essential for keeping secrets out of your code.",
-      "code": "// At the very top of your main file (e.g., app.js or server.js)\nrequire('dotenv').config();\n\n// Now you can access environment variables\nconst PORT = process.env.PORT || 3000;\nconst DB_URL = process.env.DATABASE_URL;\nconst SECRET = process.env.SESSION_SECRET;",
       "language": "javascript",
       "note": "Create a .env file in your project root and add it to .gitignore!",
       "subSteps": [
         {
           "title": "Sample .env File",
           "description": "Example environment variables file. Never commit this to version control!",
-          "code": "PORT=3000\nDATABASE_URL=mongodb://localhost:27017/myapp\nSESSION_SECRET=your-secret-key-here\nJWT_SECRET=your-jwt-secret-here\nEMAIL_USER=your-email@gmail.com\nEMAIL_PASS=your-app-password",
           "language": "bash",
-          "note": "Add .env to your .gitignore file. Create .env.example with dummy values for documentation."
+          "note": "Add .env to your .gitignore file. Create .env.example with dummy values for documentation.",
+          "codeFile": "code-examples/cheatsheets/npmLibraries/03-dotenv-environment-variables/a-sample-env-file.sh"
         }
-      ]
+      ],
+      "codeFile": "code-examples/cheatsheets/npmLibraries/03-dotenv-environment-variables.js"
     },
     {
       "id": 4,
       "title": "Install Database Packages",
       "description": "Mongoose for MongoDB ODM and connect-mongo for storing sessions in MongoDB.",
-      "code": "npm install mongoose connect-mongo",
       "language": "bash",
       "subSteps": [
         {
           "title": "mongoose - MongoDB ODM",
           "description": "Elegant MongoDB object modeling for Node.js. Provides schema validation, middleware, and query building.",
-          "code": "const mongoose = require('mongoose');\n\n// Connect to MongoDB\nmongoose.connect(process.env.DATABASE_URL)\n  .then(() => console.log('Connected to MongoDB'))\n  .catch(err => console.error('MongoDB connection error:', err));\n\n// Define a schema\nconst userSchema = new mongoose.Schema({\n  username: { type: String, required: true, unique: true },\n  email: { type: String, required: true, unique: true },\n  password: { type: String, required: true },\n  createdAt: { type: Date, default: Date.now }\n});\n\n// Create a model\nconst User = mongoose.model('User', userSchema);\n\nmodule.exports = User;",
           "language": "javascript",
-          "highlightLines": [4, 9, 16]
+          "highlightLines": [
+            4,
+            9,
+            16
+          ],
+          "codeFile": "code-examples/cheatsheets/npmLibraries/04-install-database-packages/a-mongoose-mongodb-odm.js"
         }
-      ]
+      ],
+      "codeFile": "code-examples/cheatsheets/npmLibraries/04-install-database-packages.sh"
     },
     {
       "id": 5,
       "title": "express-session - Session Management",
       "description": "Session middleware for Express. Manages user sessions with cookies and server-side storage.",
-      "code": "const session = require('express-session');\nconst MongoStore = require('connect-mongo');\n\napp.use(session({\n  secret: process.env.SESSION_SECRET,\n  resave: false,\n  saveUninitialized: false,\n  store: MongoStore.create({\n    mongoUrl: process.env.DATABASE_URL,\n    touchAfter: 24 * 3600 // Lazy session update (in seconds)\n  }),\n  cookie: {\n    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week\n    httpOnly: true,\n    secure: process.env.NODE_ENV === 'production' // HTTPS only in production\n  }\n}));",
       "language": "javascript",
-      "highlightLines": [4, 8, 12],
-      "note": "connect-mongo stores sessions in MongoDB instead of in-memory storage."
+      "highlightLines": [
+        4,
+        8,
+        12
+      ],
+      "note": "connect-mongo stores sessions in MongoDB instead of in-memory storage.",
+      "codeFile": "code-examples/cheatsheets/npmLibraries/05-express-session-session-management.js"
     },
     {
       "id": 6,
       "title": "cookie-parser - Parse Cookies",
       "description": "Parse Cookie header and populate req.cookies. Useful for reading client-side cookies.",
-      "code": "const cookieParser = require('cookie-parser');\n\napp.use(cookieParser());\n\n// Read cookies\napp.get('/profile', (req, res) => {\n  const theme = req.cookies.theme || 'light';\n  res.send(`Current theme: ${theme}`);\n});\n\n// Set cookies\napp.post('/theme', (req, res) => {\n  res.cookie('theme', req.body.theme, {\n    maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year\n    httpOnly: true\n  });\n  res.send('Theme updated');\n});",
       "language": "javascript",
-      "highlightLines": [3, 7, 13]
+      "highlightLines": [
+        3,
+        7,
+        13
+      ],
+      "codeFile": "code-examples/cheatsheets/npmLibraries/06-cookie-parser-parse-cookies.js"
     },
     {
       "id": 7,
       "title": "Install Authentication & Security Packages",
       "description": "bcrypt for password hashing and jsonwebtoken for JWT authentication.",
-      "code": "npm install bcrypt jsonwebtoken",
       "language": "bash",
       "subSteps": [
         {
           "title": "bcrypt - Password Hashing",
           "description": "Library for hashing passwords. Never store plain-text passwords! bcrypt uses salt and cost factor for security.",
-          "code": "const bcrypt = require('bcrypt');\n\n// Hash a password (during registration)\nconst hashPassword = async (password) => {\n  const saltRounds = 10;\n  const hashedPassword = await bcrypt.hash(password, saltRounds);\n  return hashedPassword;\n};\n\n// Compare password (during login)\nconst verifyPassword = async (password, hashedPassword) => {\n  const isMatch = await bcrypt.compare(password, hashedPassword);\n  return isMatch; // true or false\n};\n\n// Example usage\napp.post('/register', async (req, res) => {\n  const { username, password } = req.body;\n  const hashedPassword = await hashPassword(password);\n  // Save user with hashedPassword to database\n  const user = new User({ username, password: hashedPassword });\n  await user.save();\n  res.send('User registered');\n});",
           "language": "javascript",
-          "highlightLines": [6, 12, 19],
-          "note": "Higher saltRounds = more secure but slower. 10-12 is recommended."
+          "highlightLines": [
+            6,
+            12,
+            19
+          ],
+          "note": "Higher saltRounds = more secure but slower. 10-12 is recommended.",
+          "codeFile": "code-examples/cheatsheets/npmLibraries/07-install-authentication-security-packages/a-bcrypt-password-hashing.js"
         },
         {
           "title": "jsonwebtoken - JWT Authentication",
           "description": "Create and verify JSON Web Tokens for stateless authentication. Alternative to sessions for APIs.",
-          "code": "const jwt = require('jsonwebtoken');\n\n// Generate a token (after login)\nconst generateToken = (userId) => {\n  const token = jwt.sign(\n    { userId }, // Payload\n    process.env.JWT_SECRET,\n    { expiresIn: '7d' } // Token expires in 7 days\n  );\n  return token;\n};\n\n// Verify token (middleware)\nconst authenticateToken = (req, res, next) => {\n  const token = req.headers['authorization']?.split(' ')[1]; // Bearer TOKEN\n  \n  if (!token) return res.status(401).json({ error: 'Access denied' });\n  \n  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {\n    if (err) return res.status(403).json({ error: 'Invalid token' });\n    req.userId = decoded.userId;\n    next();\n  });\n};\n\n// Protected route example\napp.get('/api/profile', authenticateToken, (req, res) => {\n  res.json({ userId: req.userId });\n});",
           "language": "javascript",
-          "highlightLines": [5, 15, 19, 27]
+          "highlightLines": [
+            5,
+            15,
+            19,
+            27
+          ],
+          "codeFile": "code-examples/cheatsheets/npmLibraries/07-install-authentication-security-packages/b-jsonwebtoken-jwt-authentication.js"
         }
-      ]
+      ],
+      "codeFile": "code-examples/cheatsheets/npmLibraries/07-install-authentication-security-packages.sh"
     },
     {
       "id": 8,
       "title": "Install Templating Packages",
       "description": "EJS (Embedded JavaScript) for server-side templating with layouts support.",
-      "code": "npm install ejs express-ejs-layouts",
       "language": "bash",
       "subSteps": [
         {
           "title": "ejs - Embedded JavaScript Templates",
           "description": "Simple templating language that lets you generate HTML with JavaScript. Great for server-side rendering.",
-          "code": "const express = require('express');\nconst app = express();\n\n// Set EJS as view engine\napp.set('view engine', 'ejs');\napp.set('views', './views');\n\n// Render a view\napp.get('/', (req, res) => {\n  res.render('index', {\n    title: 'Home Page',\n    user: { name: 'John', age: 30 }\n  });\n});",
           "language": "javascript",
-          "highlightLines": [5, 10]
+          "highlightLines": [
+            5,
+            10
+          ],
+          "codeFile": "code-examples/cheatsheets/npmLibraries/08-install-templating-packages/a-ejs-embedded-javascript-templates.js"
         },
         {
           "title": "EJS Template Example",
           "description": "Create an EJS template file in views/index.ejs with embedded JavaScript.",
-          "code": "<!DOCTYPE html>\n<html>\n<head>\n  <title><%= title %></title>\n</head>\n<body>\n  <h1>Welcome, <%= user.name %>!</h1>\n  <p>You are <%= user.age %> years old.</p>\n  \n  <% if (user.age >= 18) { %>\n    <p>You are an adult.</p>\n  <% } else { %>\n    <p>You are a minor.</p>\n  <% } %>\n  \n  <ul>\n    <% ['Apple', 'Banana', 'Orange'].forEach(fruit => { %>\n      <li><%= fruit %></li>\n    <% }); %>\n  </ul>\n</body>\n</html>",
           "language": "html",
-          "note": "<%= %> outputs escaped HTML, <%- %> outputs raw HTML, <% %> executes JavaScript"
+          "note": "<%= %> outputs escaped HTML, <%- %> outputs raw HTML, <% %> executes JavaScript",
+          "codeFile": "code-examples/cheatsheets/npmLibraries/08-install-templating-packages/b-ejs-template-example.html"
         },
         {
           "title": "express-ejs-layouts - Layout Support",
           "description": "Adds layout support to EJS. Define a main layout and insert page content into it.",
-          "code": "const expressLayouts = require('express-ejs-layouts');\n\napp.use(expressLayouts);\napp.set('layout', 'layouts/main'); // Default layout file\n\n// views/layouts/main.ejs\n// <!DOCTYPE html>\n// <html>\n// <head>\n//   <title>My App</title>\n// </head>\n// <body>\n//   <%- body %>\n// </body>\n// </html>",
           "language": "javascript",
-          "highlightLines": [3, 4],
-          "note": "The <%- body %> placeholder in the layout is replaced with page content."
+          "highlightLines": [
+          ],
+          "note": "The <%- body %> placeholder in the layout is replaced with page content.",
+          "codeFile": "code-examples/cheatsheets/npmLibraries/08-install-templating-packages/c-express-ejs-layouts-layout-support.js"
         }
-      ]
+      ],
+      "codeFile": "code-examples/cheatsheets/npmLibraries/08-install-templating-packages.sh"
     },
     {
       "id": 9,
       "title": "method-override - HTTP Method Override",
       "description": "Allows browsers to use PUT and DELETE methods in forms (which only support GET and POST).",
-      "code": "const methodOverride = require('method-override');\n\napp.use(methodOverride('_method'));\n\n// HTML form with DELETE method\n// <form action=\"/posts/123?_method=DELETE\" method=\"POST\">\n//   <button type=\"submit\">Delete Post</button>\n// </form>\n\napp.delete('/posts/:id', (req, res) => {\n  // Handle DELETE request\n  res.send(`Deleted post ${req.params.id}`);\n});",
       "language": "javascript",
-      "highlightLines": [3, 10],
-      "note": "Add ?_method=DELETE to form action. The POST request is converted to DELETE."
+      "highlightLines": [
+      ],
+      "note": "Add ?_method=DELETE to form action. The POST request is converted to DELETE.",
+      "codeFile": "code-examples/cheatsheets/npmLibraries/09-method-override-http-method-override.js"
     },
     {
       "id": 10,
       "title": "Install Email Package",
       "description": "Nodemailer for sending emails from your Node.js application.",
-      "code": "npm install nodemailer",
       "language": "bash",
       "subSteps": [
         {
           "title": "nodemailer - Send Emails",
           "description": "Feature-rich module for sending emails. Supports multiple transports (SMTP, Gmail, etc.).",
-          "code": "const nodemailer = require('nodemailer');\n\n// Create a transporter (Gmail example)\nconst transporter = nodemailer.createTransport({\n  service: 'gmail',\n  auth: {\n    user: process.env.EMAIL_USER,\n    pass: process.env.EMAIL_PASS // Use App Password, not regular password\n  }\n});\n\n// Send an email\nconst sendEmail = async (to, subject, text, html) => {\n  const mailOptions = {\n    from: process.env.EMAIL_USER,\n    to,\n    subject,\n    text,\n    html // Optional HTML version\n  };\n  \n  try {\n    const info = await transporter.sendMail(mailOptions);\n    console.log('Email sent:', info.messageId);\n    return info;\n  } catch (error) {\n    console.error('Error sending email:', error);\n    throw error;\n  }\n};\n\n// Example usage\napp.post('/contact', async (req, res) => {\n  const { email, message } = req.body;\n  await sendEmail(\n    'admin@example.com',\n    'New Contact Message',\n    message,\n    `<p>${message}</p><p>From: ${email}</p>`\n  );\n  res.send('Message sent!');\n});",
           "language": "javascript",
-          "highlightLines": [4, 13, 23, 35],
-          "note": "For Gmail, enable 2FA and create an App Password in your Google Account settings."
+          "highlightLines": [
+          ],
+          "note": "For Gmail, enable 2FA and create an App Password in your Google Account settings.",
+          "codeFile": "code-examples/cheatsheets/npmLibraries/10-install-email-package/a-nodemailer-send-emails.js"
         },
         {
           "title": "Nodemailer - Email Templates",
           "description": "Send formatted HTML emails with templates. Great for welcome emails, password resets, etc.",
-          "code": "const sendWelcomeEmail = async (userEmail, username) => {\n  const htmlTemplate = `\n    <!DOCTYPE html>\n    <html>\n    <head>\n      <style>\n        body { font-family: Arial, sans-serif; }\n        .container { max-width: 600px; margin: 0 auto; padding: 20px; }\n        .button { background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; }\n      </style>\n    </head>\n    <body>\n      <div class=\"container\">\n        <h1>Welcome, ${username}!</h1>\n        <p>Thank you for joining our platform.</p>\n        <a href=\"https://yoursite.com/verify\" class=\"button\">Verify Email</a>\n      </div>\n    </body>\n    </html>\n  `;\n  \n  await sendEmail(\n    userEmail,\n    'Welcome to Our Platform!',\n    `Welcome, ${username}! Thank you for joining.`,\n    htmlTemplate\n  );\n};\n\n// Usage after user registration\napp.post('/register', async (req, res) => {\n  // ... create user ...\n  await sendWelcomeEmail(user.email, user.username);\n  res.send('Registration successful! Check your email.');\n});",
           "language": "javascript",
-          "highlightLines": [22, 32]
+          "highlightLines": [
+            22,
+            32
+          ],
+          "codeFile": "code-examples/cheatsheets/npmLibraries/10-install-email-package/b-nodemailer-email-templates.js"
         }
-      ]
+      ],
+      "codeFile": "code-examples/cheatsheets/npmLibraries/10-install-email-package.sh"
     },
     {
       "id": 11,
       "title": "Install All Packages at Once",
       "description": "Quick command to install all essential packages for a full-stack Express application.",
-      "code": "npm install express express-session cookie-parser dotenv method-override mongoose connect-mongo bcrypt jsonwebtoken ejs express-ejs-layouts nodemailer",
       "language": "bash",
-      "note": "This installs all the packages covered in this cheat sheet in one command."
+      "note": "This installs all the packages covered in this cheat sheet in one command.",
+      "codeFile": "code-examples/cheatsheets/npmLibraries/11-install-all-packages-at-once.sh"
     },
     {
       "id": 12,
       "title": "Complete Express App Setup Example",
       "description": "Putting it all together: a complete Express server configuration with all the libraries.",
-      "code": "require('dotenv').config();\nconst express = require('express');\nconst session = require('express-session');\nconst MongoStore = require('connect-mongo');\nconst cookieParser = require('cookie-parser');\nconst methodOverride = require('method-override');\nconst expressLayouts = require('express-ejs-layouts');\nconst mongoose = require('mongoose');\n\nconst app = express();\n\n// Connect to MongoDB\nmongoose.connect(process.env.DATABASE_URL)\n  .then(() => console.log('Connected to MongoDB'))\n  .catch(err => console.error('MongoDB error:', err));\n\n// Middleware\napp.use(express.json());\napp.use(express.urlencoded({ extended: true }));\napp.use(cookieParser());\napp.use(methodOverride('_method'));\napp.use(express.static('public'));\n\n// Session configuration\napp.use(session({\n  secret: process.env.SESSION_SECRET,\n  resave: false,\n  saveUninitialized: false,\n  store: MongoStore.create({ mongoUrl: process.env.DATABASE_URL }),\n  cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }\n}));\n\n// View engine setup\napp.set('view engine', 'ejs');\napp.use(expressLayouts);\napp.set('layout', 'layouts/main');\n\n// Routes\napp.get('/', (req, res) => {\n  res.render('index', { title: 'Home' });\n});\n\n// Start server\nconst PORT = process.env.PORT || 3000;\napp.listen(PORT, () => {\n  console.log(`Server running on http://localhost:${PORT}`);\n});",
       "language": "javascript",
-      "highlightLines": [1, 13, 25, 34, 44]
+      "highlightLines": [
+        1,
+        13,
+        25,
+        34,
+        44
+      ],
+      "codeFile": "code-examples/cheatsheets/npmLibraries/12-complete-express-app-setup-example.js"
     }
   ]
 }

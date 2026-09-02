@@ -74,110 +74,90 @@
     "heading": "Full Example, Step by Step",
     "title": "A small REST API: routing, middleware, and error handling together",
     "description": "This example ties the core concepts above into one realistic file: a users API with logging middleware, a modular router, JSON parsing, and centralized error handling. Click through the steps to see which lines each one is talking about.",
-    "code": [
-      "const express = require(\"express\");",
-      "const app = express();",
-      "",
-      "// Built-in middleware: parses JSON request bodies into req.body",
-      "app.use(express.json());",
-      "",
-      "// Custom middleware: runs for every request, in registration order",
-      "app.use((req, res, next) => {",
-      "  console.log(`${req.method} ${req.url}`);",
-      "  next(); // hand off to the next middleware/route - don't forget this!",
-      "});",
-      "",
-      "// In-memory \"database\" for this example",
-      "let users = [{ id: 1, name: \"Ada Lovelace\" }];",
-      "",
-      "// A router groups related routes and can be mounted at a path prefix",
-      "const usersRouter = express.Router();",
-      "",
-      "usersRouter.get(\"/\", (req, res) => {",
-      "  res.json(users);",
-      "});",
-      "",
-      "usersRouter.get(\"/:id\", (req, res, next) => {",
-      "  const user = users.find((u) => u.id === Number(req.params.id));",
-      "  if (!user) return next({ status: 404, message: \"User not found\" });",
-      "  res.json(user);",
-      "});",
-      "",
-      "usersRouter.post(\"/\", (req, res, next) => {",
-      "  if (!req.body.name) {",
-      "    return next({ status: 400, message: \"name is required\" });",
-      "  }",
-      "  const user = { id: users.length + 1, name: req.body.name };",
-      "  users.push(user);",
-      "  res.status(201).json(user);",
-      "});",
-      "",
-      "app.use(\"/users\", usersRouter);",
-      "",
-      "// 404 fallback - runs if no route above matched",
-      "app.use((req, res) => {",
-      "  res.status(404).json({ error: \"Not found\" });",
-      "});",
-      "",
-      "// Error-handling middleware - 4 args is what marks it as an error handler.",
-      "// Must be registered last, after every other app.use()/route.",
-      "app.use((err, req, res, next) => {",
-      "  res.status(err.status || 500).json({ error: err.message || \"Server error\" });",
-      "});",
-      "",
-      "app.listen(3000, () => console.log(\"Server running on port 3000\"));"
-    ],
     "steps": [
       {
         "label": "Create the app",
-        "lines": [1, 2],
+        "lines": [
+          1,
+          2
+        ],
         "explanation": "require(\"express\") returns a function; calling it gives you an app object with .get/.post/.use/.listen - the core of every Express server."
       },
       {
         "label": "Parse JSON bodies",
-        "lines": [4, 5],
+        "lines": [
+          4,
+          5
+        ],
         "explanation": "express.json() is built-in middleware that reads the raw request stream and, if the Content-Type is application/json, parses it into req.body for every route below this line."
       },
       {
         "label": "Log every request",
-        "lines": [7, 11],
+        "lines": [
+          7,
+          11
+        ],
         "explanation": "app.use() with no path runs this middleware for every request, in the order it was registered. Calling next() is what lets the request continue to whatever's next in the chain."
       },
       {
         "label": "Group routes with a Router",
-        "lines": [16, 17],
+        "lines": [
+          16,
+          17
+        ],
         "explanation": "express.Router() creates a self-contained set of routes - a mini Express app - that can be developed, tested, and mounted independently of the main app."
       },
       {
         "label": "Read a route param",
-        "lines": [23, 27],
+        "lines": [
+          23,
+          27
+        ],
         "explanation": "req.params.id comes from the :id segment in the route path. Passing an object to next() skips straight to the error handler instead of continuing normally."
       },
       {
         "label": "Read the parsed body",
-        "lines": [29, 36],
+        "lines": [
+          29,
+          36
+        ],
         "explanation": "Because express.json() ran earlier in the chain, req.body.name is already a parsed value here - no manual stream reading required."
       },
       {
         "label": "Mount the router",
-        "lines": [38, 38],
+        "lines": [
+          38,
+          38
+        ],
         "explanation": "app.use(\"/users\", usersRouter) prefixes every route inside usersRouter with /users, so GET \"/\" inside the router becomes GET /users."
       },
       {
         "label": "Catch unmatched routes",
-        "lines": [40, 43],
+        "lines": [
+          40,
+          43
+        ],
         "explanation": "Middleware registered after all the routes only runs if nothing above matched - a catch-all 404."
       },
       {
         "label": "Handle every error in one place",
-        "lines": [45, 49],
+        "lines": [
+          45,
+          49
+        ],
         "explanation": "A middleware function with exactly 4 parameters (err, req, res, next) is treated specially by Express as an error handler, and only runs when next(err) is called anywhere upstream."
       },
       {
         "label": "Start listening",
-        "lines": [51, 51],
+        "lines": [
+          51,
+          51
+        ],
         "explanation": "listen(port, callback) starts the server and keeps the process alive, accepting connections on the given port."
       }
+    ],
+    "files": [
+      "code-examples/learning/express/example.js"
     ]
   }
 }

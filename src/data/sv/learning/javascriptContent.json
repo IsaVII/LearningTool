@@ -78,80 +78,66 @@
     "heading": "Fullständigt Exempel, Steg för Steg",
     "title": "En uppgiftsspårare: closures, spread/rest, destructuring och async/await",
     "description": "Detta knyter ihop kärnkoncepten ovan i en realistisk fil: en closure som håller privat tillstånd, rest och spread som håller uppdateringar oföränderliga, en template literal för utdata, och en async-funktion som väntar inuti en loop. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
-    "code": [
-      "function createTaskTracker() {",
-      "  let tasks = [];",
-      "",
-      "  return {",
-      "    add(title, ...tags) {",
-      "      const task = { id: tasks.length + 1, title, tags, done: false };",
-      "      tasks = [...tasks, task];",
-      "      return task;",
-      "    },",
-      "    complete(id) {",
-      "      tasks = tasks.map((t) => (t.id === id ? { ...t, done: true } : t));",
-      "    },",
-      "    summary() {",
-      "      const { length } = tasks;",
-      "      const done = tasks.filter((t) => t.done).length;",
-      "      return `${done}/${length} uppgifter klara`;",
-      "    },",
-      "  };",
-      "}",
-      "",
-      "async function loadAndTrack(urls) {",
-      "  const tracker = createTaskTracker();",
-      "",
-      "  for (const url of urls) {",
-      "    const response = await fetch(url);",
-      "    const { title } = await response.json();",
-      "    tracker.add(title, \"hämtad\");",
-      "  }",
-      "",
-      "  return tracker.summary();",
-      "}",
-      "",
-      "const tracker = createTaskTracker();",
-      "tracker.add(\"Skriv tester\", \"kod\");",
-      "tracker.complete(1);",
-      "console.log(tracker.summary()); // \"1/1 uppgifter klara\""
-    ],
     "steps": [
       {
         "label": "Stäng över lokalt tillstånd",
-        "lines": [1, 4],
+        "lines": [
+          1,
+          4
+        ],
         "explanation": "tasks är deklarerad inuti createTaskTracker och exponeras aldrig direkt - objektet som returneras på rad 4 fortsätter att referera till det efter att den yttre funktionen har slutat köra. Det är en closure."
       },
       {
         "label": "Samla extra argument med rest",
-        "lines": [5, 5],
+        "lines": [
+          5,
+          5
+        ],
         "explanation": "...tags samlar varje argument efter title i en riktig array, så add(\"Skicka det\", \"brådskande\", \"kod\") slutar med tags = [\"brådskande\", \"kod\"]."
       },
       {
         "label": "Lägg till utan att mutera originalarrayen",
-        "lines": [6, 9],
+        "lines": [
+          6,
+          9
+        ],
         "explanation": "[...tasks, task] bygger en helt ny array istället för att pusha på den gamla på plats, så ingenting annat som håller en referens till den tidigare tasks-arrayen blir överraskad av en förändring."
       },
       {
         "label": "Uppdatera ett objekt utan att mutera det",
-        "lines": [10, 12],
+        "lines": [
+          10,
+          12
+        ],
         "explanation": "map returnerar en ny array, och { ...t, done: true } kopierar varje fält från den matchande uppgiften och åsidosätter bara done, lämnar det ursprungliga uppgiftsobjektet orört."
       },
       {
         "label": "Destructurera och interpolera",
-        "lines": [13, 17],
+        "lines": [
+          13,
+          17
+        ],
         "explanation": "const { length } = tasks drar ut ett enda namngivet fält från ett objekt; template literal `${done}/${length} uppgifter klara` bäddar in båda värdena direkt i strängen."
       },
       {
         "label": "Vänta inuti en loop",
-        "lines": [23, 27],
+        "lines": [
+          23,
+          27
+        ],
         "explanation": "for...of kombinerat med await pausar varje iteration tills fetch och response.json() löses, och const { title } destructurerar fältet direkt ur den lösta JSON:en."
       },
       {
         "label": "Använd closuren",
-        "lines": [32, 35],
+        "lines": [
+          32,
+          35
+        ],
         "explanation": "tracker håller en tasks-array som ingen extern kod kan röra direkt - varje läsning eller skrivning här går genom add, complete eller summary, exakt det API som closuren byggdes för att exponera."
       }
+    ],
+    "files": [
+      "code-examples/learning/javascript-sv/example.js"
     ]
   }
 }

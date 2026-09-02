@@ -89,67 +89,66 @@
     "heading": "Full Example, Step by Step",
     "title": "A typical feature workflow: branch, commit, sync, publish",
     "description": "This is the day-to-day loop most Git users repeat constantly. Click through the steps to see which lines each one is talking about.",
-    "code": [
-      "# 1. Get a local copy of a shared repository",
-      "git clone https://github.com/team/project.git",
-      "cd project",
-      "",
-      "# 2. Create a branch so main stays untouched while you work",
-      "git checkout -b feature/login-form",
-      "",
-      "# 3. Edit files, then stage the ones you want to commit",
-      "git add src/LoginForm.jsx",
-      "",
-      "# 4. Record a snapshot of the staged changes",
-      "git commit -m \"Add login form component\"",
-      "",
-      "# 5. Bring in anything teammates pushed to main while you worked",
-      "git checkout main",
-      "git pull origin main",
-      "",
-      "# 6. Bring those updates into your feature branch too",
-      "git checkout feature/login-form",
-      "git rebase main",
-      "",
-      "# 7. Publish the branch so others - and a pull request - can see it",
-      "git push origin feature/login-form"
-    ],
     "steps": [
       {
         "label": "Clone the repository",
-        "lines": [1, 3],
+        "lines": [
+          1,
+          3
+        ],
         "explanation": "git clone downloads the full repository, including its entire history, and checks out its default branch into a new local folder."
       },
       {
         "label": "Create a feature branch",
-        "lines": [5, 5],
+        "lines": [
+          5,
+          5
+        ],
         "explanation": "git checkout -b creates a new branch pointing at the current commit and switches to it in one step, so your changes stay isolated from main."
       },
       {
         "label": "Stage your changes",
-        "lines": [7, 8],
+        "lines": [
+          7,
+          8
+        ],
         "explanation": "git add moves a file's current changes into the staging area - a draft of exactly what the next commit will contain."
       },
       {
         "label": "Commit the snapshot",
-        "lines": [10, 11],
+        "lines": [
+          10,
+          11
+        ],
         "explanation": "git commit permanently records whatever is staged, along with a message explaining why the change was made."
       },
       {
         "label": "Pull the latest main",
-        "lines": [13, 15],
+        "lines": [
+          13,
+          15
+        ],
         "explanation": "git pull fetches new commits from the remote and merges them into your current branch - here, catching main up with what teammates pushed."
       },
       {
         "label": "Rebase your branch",
-        "lines": [17, 19],
+        "lines": [
+          17,
+          19
+        ],
         "explanation": "git rebase replays your feature branch's commits on top of the updated main, so the final history looks like you started from the latest code."
       },
       {
         "label": "Push the branch",
-        "lines": [21, 22],
+        "lines": [
+          21,
+          22
+        ],
         "explanation": "git push uploads your branch and its commits to the remote, making it visible to teammates and ready for a pull request."
       }
+    ],
+    "files": [
+      "code-examples/learning/git/example.sh"
     ]
   }
 }

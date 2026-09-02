@@ -78,80 +78,66 @@
     "heading": "Full Example, Step by Step",
     "title": "A task tracker: closures, spread/rest, destructuring, and async/await",
     "description": "This ties the core concepts above together in one realistic file: a closure keeping private state, rest and spread keeping updates immutable, a template literal for output, and an async function that awaits inside a loop. Click through the steps to see which lines each one is talking about.",
-    "code": [
-      "function createTaskTracker() {",
-      "  let tasks = [];",
-      "",
-      "  return {",
-      "    add(title, ...tags) {",
-      "      const task = { id: tasks.length + 1, title, tags, done: false };",
-      "      tasks = [...tasks, task];",
-      "      return task;",
-      "    },",
-      "    complete(id) {",
-      "      tasks = tasks.map((t) => (t.id === id ? { ...t, done: true } : t));",
-      "    },",
-      "    summary() {",
-      "      const { length } = tasks;",
-      "      const done = tasks.filter((t) => t.done).length;",
-      "      return `${done}/${length} tasks done`;",
-      "    },",
-      "  };",
-      "}",
-      "",
-      "async function loadAndTrack(urls) {",
-      "  const tracker = createTaskTracker();",
-      "",
-      "  for (const url of urls) {",
-      "    const response = await fetch(url);",
-      "    const { title } = await response.json();",
-      "    tracker.add(title, \"fetched\");",
-      "  }",
-      "",
-      "  return tracker.summary();",
-      "}",
-      "",
-      "const tracker = createTaskTracker();",
-      "tracker.add(\"Write tests\", \"code\");",
-      "tracker.complete(1);",
-      "console.log(tracker.summary()); // \"1/1 tasks done\""
-    ],
     "steps": [
       {
         "label": "Close over local state",
-        "lines": [1, 4],
+        "lines": [
+          1,
+          4
+        ],
         "explanation": "tasks is declared inside createTaskTracker and never exposed directly - the object returned on line 4 keeps referencing it after the outer function has finished running. That's a closure."
       },
       {
         "label": "Collect extra arguments with rest",
-        "lines": [5, 5],
+        "lines": [
+          5,
+          5
+        ],
         "explanation": "...tags gathers every argument after title into a real array, so add(\"Ship it\", \"urgent\", \"code\") ends up with tags = [\"urgent\", \"code\"]."
       },
       {
         "label": "Add without mutating the original array",
-        "lines": [6, 9],
+        "lines": [
+          6,
+          9
+        ],
         "explanation": "[...tasks, task] builds a brand-new array instead of pushing onto the old one in place, so nothing else holding a reference to the previous tasks array gets surprised by a change."
       },
       {
         "label": "Update one item without mutating it",
-        "lines": [10, 12],
+        "lines": [
+          10,
+          12
+        ],
         "explanation": "map returns a new array, and { ...t, done: true } copies every field off the matching task and overrides just done, leaving the original task object untouched."
       },
       {
         "label": "Destructure and interpolate",
-        "lines": [13, 17],
+        "lines": [
+          13,
+          17
+        ],
         "explanation": "const { length } = tasks pulls a single named field off an object; the template literal `${done}/${length} tasks done` embeds both values directly into the string."
       },
       {
         "label": "Await inside a loop",
-        "lines": [23, 27],
+        "lines": [
+          23,
+          27
+        ],
         "explanation": "for...of combined with await pauses each iteration until fetch and response.json() resolve, and const { title } destructures the field straight out of the resolved JSON."
       },
       {
         "label": "Use the closure",
-        "lines": [32, 35],
+        "lines": [
+          32,
+          35
+        ],
         "explanation": "tracker holds a tasks array no outside code can touch directly - every read or write here goes through add, complete, or summary, exactly the API the closure was built to expose."
       }
+    ],
+    "files": [
+      "code-examples/learning/javascript/example.js"
     ]
   }
 }

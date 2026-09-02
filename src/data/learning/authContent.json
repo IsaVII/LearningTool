@@ -74,92 +74,66 @@
     "heading": "Full Example, Step by Step",
     "title": "Register, log in, and protect a route with JWTs",
     "description": "This example wires together password hashing, token issuing, and an auth middleware into one small Express file. Click through the steps to see which lines each one is talking about.",
-    "code": [
-      "const bcrypt = require(\"bcrypt\");",
-      "const jwt = require(\"jsonwebtoken\");",
-      "const SECRET = process.env.JWT_SECRET;",
-      "",
-      "// 1. Register: hash the password before storing anything",
-      "app.post(\"/register\", async (req, res) => {",
-      "  const { email, password } = req.body;",
-      "  const passwordHash = await bcrypt.hash(password, 10);",
-      "  const user = await db.users.create({ email, passwordHash });",
-      "  res.status(201).json({ id: user.id, email: user.email });",
-      "});",
-      "",
-      "// 2. Login: verify the password, then issue a signed token",
-      "app.post(\"/login\", async (req, res) => {",
-      "  const { email, password } = req.body;",
-      "  const user = await db.users.findOne({ email });",
-      "  const valid = user && (await bcrypt.compare(password, user.passwordHash));",
-      "  if (!valid) return res.status(401).json({ error: \"Invalid credentials\" });",
-      "",
-      "  const token = jwt.sign({ sub: user.id, role: user.role }, SECRET, {",
-      "    expiresIn: \"1h\",",
-      "  });",
-      "  res.json({ token });",
-      "});",
-      "",
-      "// 3. Middleware: verify the token on every protected request",
-      "function requireAuth(req, res, next) {",
-      "  const header = req.get(\"Authorization\") || \"\";",
-      "  const token = header.replace(\"Bearer \", \"\");",
-      "  try {",
-      "    req.user = jwt.verify(token, SECRET); // throws if invalid or expired",
-      "    next();",
-      "  } catch {",
-      "    res.status(401).json({ error: \"Invalid or expired token\" });",
-      "  }",
-      "}",
-      "",
-      "// 4. Authorization: identity alone isn't permission",
-      "app.delete(\"/posts/:id\", requireAuth, async (req, res) => {",
-      "  const post = await db.posts.findById(req.params.id);",
-      "  const isOwner = post.authorId === req.user.sub;",
-      "  const isAdmin = req.user.role === \"admin\";",
-      "  if (!isOwner && !isAdmin) {",
-      "    return res.status(403).json({ error: \"Not allowed to delete this post\" });",
-      "  }",
-      "  await post.delete();",
-      "  res.status(204).end();",
-      "});"
-    ],
     "steps": [
       {
         "label": "Hash on register, never store raw passwords",
-        "lines": [5, 10],
+        "lines": [
+          5,
+          10
+        ],
         "explanation": "bcrypt.hash() runs a slow, salted one-way function - even if the database leaks, an attacker gets hashes, not passwords. The plain-text password is never written anywhere."
       },
       {
         "label": "Verify on login with bcrypt.compare()",
-        "lines": [13, 18],
+        "lines": [
+          13,
+          18
+        ],
         "explanation": "You can't reverse a hash back into a password, so login re-hashes the submitted password internally and compares hashes - bcrypt.compare() does this in one call."
       },
       {
         "label": "Issue a signed token",
-        "lines": [20, 23],
+        "lines": [
+          20,
+          23
+        ],
         "explanation": "jwt.sign() bundles the payload (user id, role) with an expiry and signs the whole thing with SECRET. Anyone can read a JWT's payload, but only the server can produce a valid signature for it."
       },
       {
         "label": "Read the token off every request",
-        "lines": [27, 30],
+        "lines": [
+          27,
+          30
+        ],
         "explanation": "By convention the token travels in the Authorization header as \"Bearer <token>\" - middleware strips that prefix before verifying."
       },
       {
         "label": "Verify, don't just decode",
-        "lines": [31, 35],
+        "lines": [
+          31,
+          35
+        ],
         "explanation": "jwt.verify() checks the signature against SECRET and throws if it's been tampered with or has expired - this is what actually makes a JWT trustworthy, not just its shape."
       },
       {
         "label": "Authentication only proves identity",
-        "lines": [39, 39],
+        "lines": [
+          39,
+          39
+        ],
         "explanation": "requireAuth runs first and guarantees req.user exists and is genuine - but says nothing yet about whether this specific user should be allowed to do this specific thing."
       },
       {
         "label": "Authorization checks the specific action",
-        "lines": [41, 47],
+        "lines": [
+          41,
+          47
+        ],
         "explanation": "Ownership and role are checked inside the handler, against this specific resource - a valid token from any logged-in user isn't enough to delete someone else's post."
       }
+    ],
+    "files": [
+      "code-examples/learning/auth/example.js"
     ]
   }
 }

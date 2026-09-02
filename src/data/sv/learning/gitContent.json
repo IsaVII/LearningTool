@@ -89,67 +89,66 @@
     "heading": "Komplett Exempel, Steg för Steg",
     "title": "Ett typiskt feature-arbetsflöde: branch, commit, sync, publish",
     "description": "Detta är den dagliga loop som de flesta Git-användare ständigt upprepar. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
-    "code": [
-      "# 1. Get a local copy of a shared repository",
-      "git clone https://github.com/team/project.git",
-      "cd project",
-      "",
-      "# 2. Create a branch so main stays untouched while you work",
-      "git checkout -b feature/login-form",
-      "",
-      "# 3. Edit files, then stage the ones you want to commit",
-      "git add src/LoginForm.jsx",
-      "",
-      "# 4. Record a snapshot of the staged changes",
-      "git commit -m \"Add login form component\"",
-      "",
-      "# 5. Bring in anything teammates pushed to main while you worked",
-      "git checkout main",
-      "git pull origin main",
-      "",
-      "# 6. Bring those updates into your feature branch too",
-      "git checkout feature/login-form",
-      "git rebase main",
-      "",
-      "# 7. Publish the branch so others - and a pull request - can see it",
-      "git push origin feature/login-form"
-    ],
     "steps": [
       {
         "label": "Klona repositoryt",
-        "lines": [1, 3],
+        "lines": [
+          1,
+          3
+        ],
         "explanation": "git clone laddar ner hela repositoryt, inklusive dess fullständiga historik, och checkar ut dess standardbranch i en ny lokal mapp."
       },
       {
         "label": "Skapa en feature branch",
-        "lines": [5, 5],
+        "lines": [
+          5,
+          5
+        ],
         "explanation": "git checkout -b skapar en ny branch som pekar på den nuvarande commit:en och växlar till den i ett steg, så dina ändringar förblir isolerade från main."
       },
       {
         "label": "Stage:a dina ändringar",
-        "lines": [7, 8],
+        "lines": [
+          7,
+          8
+        ],
         "explanation": "git add flyttar en fils nuvarande ändringar till staging-området - ett utkast av exakt vad nästa commit kommer att innehålla."
       },
       {
         "label": "Commit:a ögonblicksbilden",
-        "lines": [10, 11],
+        "lines": [
+          10,
+          11
+        ],
         "explanation": "git commit registrerar permanent vad som är stage:at, tillsammans med ett meddelande som förklarar varför ändringen gjordes."
       },
       {
         "label": "Pulla senaste main",
-        "lines": [13, 15],
+        "lines": [
+          13,
+          15
+        ],
         "explanation": "git pull hämtar nya commits från remote:n och merge:ar dem i din nuvarande branch - här, för att få main uppdaterad med vad lagkamrater pushat."
       },
       {
         "label": "Rebase:a din branch",
-        "lines": [17, 19],
+        "lines": [
+          17,
+          19
+        ],
         "explanation": "git rebase spelar upp din feature branchs commits ovanpå den uppdaterade main, så den slutliga historiken ser ut som om du började från den senaste koden."
       },
       {
         "label": "Pusha branchen",
-        "lines": [21, 22],
+        "lines": [
+          21,
+          22
+        ],
         "explanation": "git push laddar upp din branch och dess commits till remote:n, vilket gör den synlig för lagkamrater och redo för en pull request."
       }
+    ],
+    "files": [
+      "code-examples/learning/git/example.sh"
     ]
   }
 }

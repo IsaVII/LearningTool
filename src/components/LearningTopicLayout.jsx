@@ -6,6 +6,7 @@ import StepByStepExample from "./StepByStepExample";
 import { useProgress } from "../context/ProgressContext";
 import Reveal from "./motion/Reveal";
 import TextReveal from "./motion/TextReveal";
+import { loadCombinedExample } from "../utils/codeExamples";
 
 /**
  * Shared page layout for every topic under src/pages/learning/. Each page
@@ -111,7 +112,7 @@ function LearningTopicLayout({
               <StepByStepExample
                 title={fullExample.title}
                 description={fullExample.description}
-                code={fullExample.code}
+                code={loadCombinedExample(fullExample.files)}
                 steps={fullExample.steps}
               />
             </div>

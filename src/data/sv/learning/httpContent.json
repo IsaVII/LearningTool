@@ -93,70 +93,58 @@
     "heading": "Komplett Exempel, Steg för Steg",
     "title": "En verklig fetch: headers, JSON, fel och en timeout",
     "description": "Detta knyter ihop koncepten ovan i en realistisk funktion. Klicka igenom stegen för att se vilka rader varje steg pratar om.",
-    "code": [
-      "async function getUser(id, { signal } = {}) {",
-      "  const controller = new AbortController();",
-      "  const timeout = setTimeout(() => controller.abort(), 5000);",
-      "",
-      "  try {",
-      "    const response = await fetch(`/api/users/${id}`, {",
-      "      method: \"GET\",",
-      "      headers: {",
-      "        Accept: \"application/json\",",
-      "        Authorization: `Bearer ${getToken()}`,",
-      "      },",
-      "      signal: signal ?? controller.signal,",
-      "    });",
-      "",
-      "    if (!response.ok) {",
-      "      throw new Error(`Request failed: ${response.status}`);",
-      "    }",
-      "",
-      "    const user = await response.json();",
-      "    return user;",
-      "  } catch (error) {",
-      "    if (error.name === \"AbortError\") {",
-      "      console.log(\"Request timed out or was cancelled\");",
-      "    } else {",
-      "      console.error(\"Fetch failed:\", error.message);",
-      "    }",
-      "    throw error;",
-      "  } finally {",
-      "    clearTimeout(timeout);",
-      "  }",
-      "}"
-    ],
     "steps": [
       {
         "label": "Skapa en AbortController",
-        "lines": [2, 3],
+        "lines": [
+          2,
+          3
+        ],
         "explanation": "En AbortController ger dig en signal du kan trigga senare. Här är den parkopplad med setTimeout så förfrågan avbryter sig själv om servern tar längre än 5 sekunder."
       },
       {
         "label": "Anropa fetch med alternativ",
-        "lines": [6, 12],
+        "lines": [
+          6,
+          12
+        ],
         "explanation": "fetchs andra argument konfigurerar förfrågan: metod, headers (inklusive Authorization för autentiserade routes) och abort-signalen som låter denna förfrågan avbrytas."
       },
       {
         "label": "Kontrollera response.ok",
-        "lines": [14, 16],
+        "lines": [
+          14,
+          16
+        ],
         "explanation": "fetch avvisar bara vid nätverksnivå-fel (offline, DNS, CORS). En 404 eller 500 löses fortfarande framgångsrikt - response.ok (true bara för 2xx) är hur du fångar dessa själv."
       },
       {
         "label": "Parsa JSON-body:n",
-        "lines": [18, 19],
+        "lines": [
+          18,
+          19
+        ],
         "explanation": "response.json() är i sig async - den läser och parsar svarsströmmen, så den behöver sin egen await."
       },
       {
         "label": "Skilj abort från andra fel",
-        "lines": [21, 27],
+        "lines": [
+          21,
+          27
+        ],
         "explanation": "När en förfrågan avbryts avvisar fetch med ett fel vars namn är \"AbortError\" - att kontrollera det låter dig skilja en avsiktlig avbrytning från ett verkligt fel."
       },
       {
         "label": "Rensa alltid timern",
-        "lines": [28, 30],
+        "lines": [
+          28,
+          30
+        ],
         "explanation": "finally körs oavsett om förfrågan lyckades, misslyckades eller avbröts, så timeouten aldrig triggar sent och avbryter en förfrågan som redan slutat."
       }
+    ],
+    "files": [
+      "code-examples/learning/http/example.js"
     ]
   }
 }

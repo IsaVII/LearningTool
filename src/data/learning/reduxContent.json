@@ -102,46 +102,6 @@
     "heading": "Full Example, Step by Step",
     "title": "A slice, a store, and a connected component",
     "description": "This example spans the three files a typical Redux Toolkit feature is made of. Click through the steps to see how a click travels from the component all the way back to the store.",
-    "code": [
-      "// counterSlice.js - defines one slice of state",
-      "import { createSlice } from \"@reduxjs/toolkit\";",
-      "",
-      "const counterSlice = createSlice({",
-      "  name: \"counter\",",
-      "  initialState: { value: 0 },",
-      "  reducers: {",
-      "    incremented: (state) => {",
-      "      state.value += 1;",
-      "    },",
-      "  },",
-      "});",
-      "",
-      "export const { incremented } = counterSlice.actions;",
-      "export default counterSlice.reducer;",
-      "",
-      "// store.js - combines every slice into one store",
-      "import { configureStore } from \"@reduxjs/toolkit\";",
-      "import counterReducer from \"./counterSlice\";",
-      "",
-      "export const store = configureStore({",
-      "  reducer: { counter: counterReducer },",
-      "});",
-      "",
-      "// Counter.jsx - a component connected to the store",
-      "import { useDispatch, useSelector } from \"react-redux\";",
-      "import { incremented } from \"./counterSlice\";",
-      "",
-      "function Counter() {",
-      "  const value = useSelector((state) => state.counter.value);",
-      "  const dispatch = useDispatch();",
-      "",
-      "  return (",
-      "    <button onClick={() => dispatch(incremented())}>",
-      "      Count: {value}",
-      "    </button>",
-      "  );",
-      "}"
-    ],
     "steps": [
       {
         "label": "Create a slice",
@@ -191,6 +151,11 @@
         ],
         "explanation": "Clicking the button dispatches incremented(). The store runs the counter reducer, calculates the new state, and every component reading state.counter.value - including this one - re-renders with the updated count."
       }
+    ],
+    "files": [
+      "code-examples/learning/redux/counterSlice.js",
+      "code-examples/learning/redux/store.js",
+      "code-examples/learning/redux/Counter.jsx"
     ]
   }
 }

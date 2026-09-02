@@ -14,132 +14,196 @@
       "id": 1,
       "title": "Sätt upp en Databas (Lokal eller Hosted)",
       "description": "Innan du skriver någon SQL behöver du någonstans att köra den. Välj en lokal installation för full kontroll, eller en gratis hosted instans för att hoppa över inställningen helt.",
-      "code": "Alternativ A: Installera lokalt\n1. macOS: brew install postgresql@16 && brew services start postgresql@16\n2. Windows/Linux: ladda ner från https://www.postgresql.org/download/\n3. Verifiera att det körs: psql --version\n\nAlternativ B: Använd en gratis hosted instans (ingen installation krävs)\n1. Skapa ett konto på Supabase, Neon, eller Render\n2. Skapa ett nytt PostgreSQL-projekt/databas\n3. Vänta på att det provisioner (vanligtvis under en minut)\n4. Notera host, port, username, password och databasnamn som visas i dashboarden",
       "language": "bash",
-      "highlightLines": [1, 6],
-      "note": "MySQL och SQLite fungerar på samma sätt i grunden - installera lokalt, eller använd en hosted MySQL-instans (PlanetScale) - endast de exakta kommandona skiljer sig."
+      "highlightLines": [
+        1,
+        6
+      ],
+      "note": "MySQL och SQLite fungerar på samma sätt i grunden - installera lokalt, eller använd en hosted MySQL-instans (PlanetScale) - endast de exakta kommandona skiljer sig.",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-satt-upp-en-databas-lokal-eller-hosted.sh"
     },
     {
       "id": 2,
       "title": "Hämta din Anslutningssträng",
       "description": "Allt din app behöver för att nå databasen - host, port, referenser och databasnamn - buntas ihop i en anslutningssträng (URI).",
-      "code": "postgresql://username:password@host:5432/database_name\n\nExempel (hosted):\npostgresql://postgres:mypassword@db.xxxxxxxxxxxx.supabase.co:5432/postgres\n\nExempel (lokal):\npostgresql://postgres:postgres@localhost:5432/myapp",
       "language": "bash",
-      "highlightLines": [1],
-      "note": "Hårdkoda aldrig anslutningssträngen i din kod eller commita den till git - lagra den i en .env-fil och lägg till .env i .gitignore."
+      "highlightLines": [
+        1
+      ],
+      "note": "Hårdkoda aldrig anslutningssträngen i din kod eller commita den till git - lagra den i en .env-fil och lägg till .env i .gitignore.",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-hamta-din-anslutningsstrang.sh"
     },
     {
       "id": 3,
       "title": "Installera Driver-paket",
       "description": "Installera PostgreSQL-drivrutinen och dotenv så din Node.js-app kan läsa anslutningssträngen och kommunicera med databasen.",
-      "code": "npm install pg dotenv",
       "language": "bash",
       "subSteps": [
         {
           "title": ".env-konfiguration",
           "description": "Skapa en .env-fil i din projektrot med databasreferenser.",
-          "code": "# PostgreSQL-anslutningssträng\nDATABASE_URL=postgresql://postgres:postgres@localhost:5432/myapp\n\n# Node-miljö\nNODE_ENV=development\n\n# Serverport\nPORT=3000",
           "language": "bash",
-          "note": "Lägg till .env i din .gitignore-fil! Skapa .env.example med dummy-värden för dokumentation."
+          "note": "Lägg till .env i din .gitignore-fil! Skapa .env.example med dummy-värden för dokumentation.",
+          "codeFile": "code-examples/cheatsheets/sql/03-install-driver-packages-sv/override-env-konfiguration.sh"
         }
-      ]
+      ],
+      "codeFile": "code-examples/cheatsheets/sql/03-install-driver-packages.sh"
     },
     {
       "id": 4,
       "title": "Anslut från Node.js",
       "description": "Öppna en anslutningspool och kör en testquery för att bekräfta att allt är korrekt konfigurerat.",
-      "code": "require('dotenv').config();\nconst { Pool } = require('pg');\n\nconst pool = new Pool({\n  connectionString: process.env.DATABASE_URL,\n});\n\n// Testa anslutningen\npool.query('SELECT NOW()')\n  .then((result) => {\n    console.log('✓ Ansluten till PostgreSQL:', result.rows[0]);\n  })\n  .catch((err) => {\n    console.error('✗ Databasanslutningsfel:', err);\n    process.exit(1);\n  });\n\nmodule.exports = pool;",
       "language": "javascript",
-      "highlightLines": [2, 4, 9, 12],
-      "note": "En Pool (snarare än en enda Client) återanvänder anslutningar över förfrågningar, vilket är vad du vill ha i en riktig app - öppna en pool vid uppstart och återanvänd den överallt."
+      "highlightLines": [
+        2,
+        4,
+        9,
+        12
+      ],
+      "note": "En Pool (snarare än en enda Client) återanvänder anslutningar över förfrågningar, vilket är vad du vill ha i en riktig app - öppna en pool vid uppstart och återanvänd den överallt.",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-anslut-fran-node-js.js"
     },
     {
       "id": 5,
       "title": "Skapa en Databas & Tabell",
       "description": "Varje SQL-projekt börjar med en databas och minst en tabell. En tabells kolumner har var sin datatyp och, valfritt, constraints.",
-      "code": "CREATE DATABASE myapp;\n\nCREATE TABLE users (\n  id SERIAL PRIMARY KEY,\n  username VARCHAR(50) NOT NULL UNIQUE,\n  email VARCHAR(255) NOT NULL UNIQUE,\n  role VARCHAR(20) NOT NULL DEFAULT 'user',\n  created_at TIMESTAMP NOT NULL DEFAULT NOW()\n);",
       "language": "sql",
-      "highlightLines": [1, 3, 4, 5],
-      "note": "SERIAL (PostgreSQL) auto-incrementerar id. I MySQL använd INT AUTO_INCREMENT; i SQLite använd INTEGER PRIMARY KEY AUTOINCREMENT."
+      "highlightLines": [
+        1,
+        3,
+        4,
+        5
+      ],
+      "note": "SERIAL (PostgreSQL) auto-incrementerar id. I MySQL använd INT AUTO_INCREMENT; i SQLite använd INTEGER PRIMARY KEY AUTOINCREMENT.",
+      "codeFile": "code-examples/cheatsheets/sql/05-create-a-database-table.sql"
     },
     {
       "id": 6,
       "title": "Vanliga Datatyper",
       "description": "De mest använda kolumntyperna över MySQL/PostgreSQL/SQLite. Exakta namn varierar något mellan motorer, men koncepten mappar direkt.",
-      "code": "INT / INTEGER        -- heltal\nBIGINT                -- stora heltal\nDECIMAL(10, 2)        -- exakta decimaler (pengar!)\nFLOAT / DOUBLE         -- ungefärliga decimaler\nVARCHAR(n)             -- text med variabel längd, max n tecken\nTEXT                   -- långformig text, ingen längdgräns\nBOOLEAN                -- true / false\nDATE                   -- år, månad, dag\nTIMESTAMP              -- datum + tid\nJSON / JSONB           -- strukturerad data (PostgreSQL: föredra JSONB)\nUUID                   -- universellt unik identifierare",
       "language": "sql",
-      "note": "Använd DECIMAL, aldrig FLOAT/DOUBLE, för allt som involverar pengar - flyttalstyper avrundar på sätt som förlorar ören."
+      "note": "Använd DECIMAL, aldrig FLOAT/DOUBLE, för allt som involverar pengar - flyttalstyper avrundar på sätt som förlorar ören.",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-vanliga-datatyper.sql"
     },
     {
       "id": 7,
       "title": "Infoga, Uppdatera & Ta bort Rader",
       "description": "De tre satserna som ändrar data. Para alltid UPDATE och DELETE med en WHERE-sats, annars påverkas varje rad i tabellen.",
-      "code": "-- INSERT en rad\nINSERT INTO users (username, email, role)\nVALUES ('jdoe', 'jdoe@example.com', 'admin');\n\n-- INSERT flera rader på en gång\nINSERT INTO users (username, email)\nVALUES\n  ('asmith', 'asmith@example.com'),\n  ('bwong', 'bwong@example.com');\n\n-- UPDATE befintliga rader\nUPDATE users\nSET role = 'admin'\nWHERE username = 'jdoe';\n\n-- DELETE rader\nDELETE FROM users\nWHERE role = 'guest';",
       "language": "sql",
-      "highlightLines": [2, 3, 13, 14, 17, 18],
-      "note": "Att köra UPDATE eller DELETE utan en WHERE-sats ändrar/tar bort varje rad i tabellen. Testa med en SELECT med samma WHERE först."
+      "highlightLines": [
+        2,
+        3,
+        13,
+        14,
+        17,
+        18
+      ],
+      "note": "Att köra UPDATE eller DELETE utan en WHERE-sats ändrar/tar bort varje rad i tabellen. Testa med en SELECT med samma WHERE först.",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-infoga-uppdatera-ta-bort-rader.sql"
     },
     {
       "id": 8,
       "title": "SELECT & Filtrera med WHERE",
       "description": "SELECT läser tillbaka data. WHERE begränsar det; ORDER BY och LIMIT styr ordningen och hur många rader som kommer tillbaka.",
-      "code": "-- Alla kolumner, alla rader\nSELECT * FROM users;\n\n-- Specifika kolumner, filtrerade\nSELECT username, email FROM users\nWHERE role = 'admin';\n\n-- Flera villkor\nSELECT * FROM users\nWHERE role = 'admin' AND created_at > '2025-01-01';\n\n-- Mönstermatchning, intervall, mängder\nSELECT * FROM users WHERE username LIKE 'j%';\nSELECT * FROM users WHERE id BETWEEN 10 AND 20;\nSELECT * FROM users WHERE role IN ('admin', 'editor');\nSELECT * FROM users WHERE email IS NOT NULL;\n\n-- Sortera och bläddra genom resultat\nSELECT * FROM users\nORDER BY created_at DESC\nLIMIT 10 OFFSET 20;",
       "language": "sql",
-      "highlightLines": [2, 6, 10, 13, 14, 15, 16, 19, 20, 21],
-      "note": "LIKE 'j%' matchar allt som börjar med 'j'; '%j' matchar allt som slutar med 'j'; '%j%' matchar allt som innehåller 'j'."
+      "highlightLines": [
+        2,
+        6,
+        10,
+        13,
+        14,
+        15,
+        16,
+        19,
+        20,
+        21
+      ],
+      "note": "LIKE 'j%' matchar allt som börjar med 'j'; '%j' matchar allt som slutar med 'j'; '%j%' matchar allt som innehåller 'j'.",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-select-filtrera-med-where.sql"
     },
     {
       "id": 9,
       "title": "JOINs Över Tabeller",
       "description": "JOINs kombinerar rader från relaterade tabeller med en delad nyckel (typiskt en främmande nyckel). INNER JOIN är den du når efter oftast; de andra behåller rader som inte har en matchning.",
-      "code": "-- INNER JOIN: endast rader med en matchning på båda sidor\nSELECT orders.id, users.username, orders.total\nFROM orders\nINNER JOIN users ON orders.user_id = users.id;\n\n-- LEFT JOIN: varje användare, även om de inte har några ordrar\nSELECT users.username, orders.id AS order_id\nFROM users\nLEFT JOIN orders ON orders.user_id = users.id;\n\n-- Joina tre tabeller\nSELECT o.id, u.username, p.name AS product\nFROM orders o\nJOIN users u ON o.user_id = u.id\nJOIN order_items oi ON oi.order_id = o.id\nJOIN products p ON p.id = oi.product_id;",
       "language": "sql",
-      "highlightLines": [4, 8, 13, 14, 15],
-      "note": "LEFT JOIN behåller varje rad från vänster (första) tabell och fyller i NULL där det inte finns någon matchning på höger sida."
+      "highlightLines": [
+        4,
+        8,
+        13,
+        14,
+        15
+      ],
+      "note": "LEFT JOIN behåller varje rad från vänster (första) tabell och fyller i NULL där det inte finns någon matchning på höger sida.",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-joins-over-tabeller.sql"
     },
     {
       "id": 10,
       "title": "Aggregeringsfunktioner & GROUP BY",
       "description": "Aggregeringsfunktioner kollapsar många rader till ett enda sammanfattningsvärde. GROUP BY kör den aggregeringen en gång per unikt värde i en kolumn; HAVING filtrerar på det aggregerade resultatet (WHERE kan inte, eftersom det körs före gruppering).",
-      "code": "-- Räkna, summera, genomsnitt över hela tabellen\nSELECT COUNT(*) AS total_users FROM users;\nSELECT SUM(total) AS revenue FROM orders;\nSELECT AVG(total) AS avg_order FROM orders;\n\n-- En rad per grupp\nSELECT role, COUNT(*) AS user_count\nFROM users\nGROUP BY role;\n\n-- Filtrera grupper med HAVING (inte WHERE)\nSELECT user_id, COUNT(*) AS order_count\nFROM orders\nGROUP BY user_id\nHAVING COUNT(*) > 5;",
       "language": "sql",
-      "highlightLines": [2, 3, 4, 7, 8, 9, 12, 13, 14, 15],
-      "note": "WHERE filtrerar rader före gruppering; HAVING filtrerar grupper efter aggregering. Att försöka använda en aggregering som COUNT(*) i WHERE är ett vanligt fel."
+      "highlightLines": [
+        2,
+        3,
+        4,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14,
+        15
+      ],
+      "note": "WHERE filtrerar rader före gruppering; HAVING filtrerar grupper efter aggregering. Att försöka använda en aggregering som COUNT(*) i WHERE är ett vanligt fel.",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-aggregeringsfunktioner-group-by.sql"
     },
     {
       "id": 11,
       "title": "Constraints & Relationer",
       "description": "Constraints talar om för databasen att upprätthålla regler åt dig, så dålig data (dubbletter, föräldralösa rader, saknade obligatoriska fält) aldrig kommer in i en tabell från början.",
-      "code": "CREATE TABLE orders (\n  id SERIAL PRIMARY KEY,\n  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,\n  total DECIMAL(10, 2) NOT NULL CHECK (total >= 0),\n  status VARCHAR(20) NOT NULL DEFAULT 'pending',\n  created_at TIMESTAMP NOT NULL DEFAULT NOW()\n);\n\n-- Vanliga constraint-typer:\n-- PRIMARY KEY   identifierar unikt varje rad\n-- FOREIGN KEY   (REFERENCES) länkar till en annan tabells primärnyckel\n-- NOT NULL      kolumn måste alltid ha ett värde\n-- UNIQUE        inga två rader kan dela detta värde\n-- CHECK         värde måste uppfylla ett booleskt uttryck\n-- DEFAULT       värde som används när inget anges",
       "language": "sql",
-      "highlightLines": [2, 3, 4],
-      "note": "ON DELETE CASCADE tar automatiskt bort en order när dess användare tas bort. Andra alternativ: SET NULL, RESTRICT (blockera borttagningen)."
+      "highlightLines": [
+        2,
+        3,
+        4
+      ],
+      "note": "ON DELETE CASCADE tar automatiskt bort en order när dess användare tas bort. Andra alternativ: SET NULL, RESTRICT (blockera borttagningen).",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-constraints-relationer.sql"
     },
     {
       "id": 12,
       "title": "Index för Query-prestanda",
       "description": "Ett index låter databasen hitta matchande rader utan att skanna hela tabellen - väsentligt för kolumner du filtrerar, joinar eller sorterar på ofta i stora tabeller.",
-      "code": "-- Snabba upp uppslagningar/filter på en kolumn\nCREATE INDEX idx_users_email ON users(email);\n\n-- Sammansatt index, för queries som filtrerar på båda kolumnerna tillsammans\nCREATE INDEX idx_orders_user_status ON orders(user_id, status);\n\n-- Upprätthåll unikhet OCH snabba upp uppslagningar\nCREATE UNIQUE INDEX idx_users_username ON users(username);\n\n-- Se vad ett index faktiskt gör för en query\nEXPLAIN ANALYZE SELECT * FROM users WHERE email = 'jdoe@example.com';",
       "language": "sql",
-      "highlightLines": [2, 5, 8, 11],
-      "note": "Index snabbar upp läsningar men saktar ner skrivningar (varje INSERT/UPDATE måste uppdatera indexet också) - lägg till dem där du faktiskt frågar, inte på varje kolumn."
+      "highlightLines": [
+        2,
+        5,
+        8,
+        11
+      ],
+      "note": "Index snabbar upp läsningar men saktar ner skrivningar (varje INSERT/UPDATE måste uppdatera indexet också) - lägg till dem där du faktiskt frågar, inte på varje kolumn.",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-index-for-query-prestanda.sql"
     },
     {
       "id": 13,
       "title": "Transaktioner",
       "description": "En transaktion grupperar flera satser så de lyckas eller misslyckas tillsammans - kritiskt när en logisk åtgärd berör mer än en tabell (som att överföra pengar mellan två konton).",
-      "code": "BEGIN;\n\nUPDATE accounts SET balance = balance - 100 WHERE id = 1;\nUPDATE accounts SET balance = balance + 100 WHERE id = 2;\n\n-- Om båda uppdateringarna lyckades, gör dem permanenta\nCOMMIT;\n\n-- Om något gick fel, ångra allt sedan BEGIN\n-- ROLLBACK;",
       "language": "sql",
-      "highlightLines": [1, 3, 4, 7],
-      "note": "Utan en transaktion skulle en krasch mellan de två UPDATEs lämna pengar dragna från ett konto och aldrig krediterade till det andra."
+      "highlightLines": [
+        1,
+        3,
+        4,
+        7
+      ],
+      "note": "Utan en transaktion skulle en krasch mellan de två UPDATEs lämna pengar dragna från ett konto och aldrig krediterade till det andra.",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-transaktioner.sql"
     },
     {
       "id": 14,
       "title": "Vanliga Fel & Fixar",
       "description": "De fel du kommer att stöta på oftast när du börjar, och vad de faktiskt betyder.",
-      "code": "Error: duplicate key value violates unique constraint\nOrsak: Infoga ett värde som redan finns i en UNIQUE eller PRIMARY KEY-kolumn.\nFix: Kontrollera för en befintlig rad först, eller använd en upsert (INSERT ... ON CONFLICT).\n\nError: null value in column violates not-null constraint\nOrsak: Saknar en obligatorisk kolumn i en INSERT.\nFix: Ange ett värde, eller ge kolumnen en DEFAULT.\n\nError: syntax error at or near \"...\"\nOrsak: Vanligtvis ett saknat kommatecken, omatchad citattecken, eller ett nyckelord som används som kolumnnamn.\nFix: Läs queryn från höger till vänster från den pekade token; SQL-fel rapporterar var parsing bröt, inte nödvändigtvis det verkliga misstaget.\n\nError: relation \"table_name\" does not exist\nOrsak: Stavfel i tabellnamnet, fel schema/databas, eller tabellen skapades aldrig.\nFix: \\dt i psql (eller SHOW TABLES; i MySQL) för att lista vad som faktiskt finns.\n\nError: column \"x\" does not exist / Unknown column 'x' in 'field list'\nOrsak: Stavfel, eller referera till en kolumn som inte är i scope för en JOIN.\nFix: Kvalificera kolumnen med dess tabellalias, t.ex. u.username istället för username.\n\nError: current transaction is aborted, commands ignored until end of transaction block\nOrsak: En tidigare sats inuti en transaktion misslyckades, och PostgreSQL blockerar ytterligare kommandon tills du löser det.\nFix: ROLLBACK, försök sedan igen med hela transaktionen.",
       "language": "bash",
-      "note": "Vid tvivel, kör den misslyckade queryn ensam (utanför någon transaktion) för att isolera exakt vilken sats och vilken del av den som är fel."
+      "note": "Vid tvivel, kör den misslyckade queryn ensam (utanför någon transaktion) för att isolera exakt vilken sats och vilken del av den som är fel.",
+      "codeFile": "code-examples/cheatsheets/sql-sv/override-vanliga-fel-fixar.sh"
     }
   ]
 }

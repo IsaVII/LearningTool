@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+</head>
+<body>
+  <h1>Välkommen, <%= user.name %>!</h1>
+  <p>Du är <%= user.age %> år gammal.</p>
+  
+  <% if (user.age >= 18) { %>
+    <p>Du är vuxen.</p>
+  <% } else { %>
+    <p>Du är minderårig.</p>
+  <% } %>
+  
+  <ul>
+    <% ['Äpple', 'Banan', 'Apelsin'].forEach(fruit => { %>
+      <li><%= fruit %></li>
+    <% }); %>
+  </ul>
+</body>
+</html>

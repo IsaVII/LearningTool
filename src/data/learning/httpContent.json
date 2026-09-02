@@ -93,70 +93,58 @@
     "heading": "Full Example, Step by Step",
     "title": "A real-world fetch: headers, JSON, errors, and a timeout",
     "description": "This ties the concepts above together in one realistic function. Click through the steps to see which lines each one is talking about.",
-    "code": [
-      "async function getUser(id, { signal } = {}) {",
-      "  const controller = new AbortController();",
-      "  const timeout = setTimeout(() => controller.abort(), 5000);",
-      "",
-      "  try {",
-      "    const response = await fetch(`/api/users/${id}`, {",
-      "      method: \"GET\",",
-      "      headers: {",
-      "        Accept: \"application/json\",",
-      "        Authorization: `Bearer ${getToken()}`,",
-      "      },",
-      "      signal: signal ?? controller.signal,",
-      "    });",
-      "",
-      "    if (!response.ok) {",
-      "      throw new Error(`Request failed: ${response.status}`);",
-      "    }",
-      "",
-      "    const user = await response.json();",
-      "    return user;",
-      "  } catch (error) {",
-      "    if (error.name === \"AbortError\") {",
-      "      console.log(\"Request timed out or was cancelled\");",
-      "    } else {",
-      "      console.error(\"Fetch failed:\", error.message);",
-      "    }",
-      "    throw error;",
-      "  } finally {",
-      "    clearTimeout(timeout);",
-      "  }",
-      "}"
-    ],
     "steps": [
       {
         "label": "Create an AbortController",
-        "lines": [2, 3],
+        "lines": [
+          2,
+          3
+        ],
         "explanation": "An AbortController gives you a signal you can trigger later. Here it's paired with setTimeout so the request cancels itself if the server takes longer than 5 seconds."
       },
       {
         "label": "Call fetch with options",
-        "lines": [6, 12],
+        "lines": [
+          6,
+          12
+        ],
         "explanation": "fetch's second argument configures the request: method, headers (including Authorization for authenticated routes), and the abort signal that lets this request be cancelled."
       },
       {
         "label": "Check response.ok",
-        "lines": [14, 16],
+        "lines": [
+          14,
+          16
+        ],
         "explanation": "fetch only rejects on network-level failures (offline, DNS, CORS). A 404 or 500 still resolves successfully - response.ok (true only for 2xx) is how you catch those yourself."
       },
       {
         "label": "Parse the JSON body",
-        "lines": [18, 19],
+        "lines": [
+          18,
+          19
+        ],
         "explanation": "response.json() is itself async - it reads and parses the response stream, so it needs its own await."
       },
       {
         "label": "Distinguish abort from other errors",
-        "lines": [21, 27],
+        "lines": [
+          21,
+          27
+        ],
         "explanation": "When a request is aborted, fetch rejects with an error whose name is \"AbortError\" - checking for it lets you tell a deliberate cancellation apart from a real failure."
       },
       {
         "label": "Always clear the timer",
-        "lines": [28, 30],
+        "lines": [
+          28,
+          30
+        ],
         "explanation": "finally runs whether the request succeeded, failed, or was aborted, so the timeout never fires late and aborts a request that already finished."
       }
+    ],
+    "files": [
+      "code-examples/learning/http/example.js"
     ]
   }
 }

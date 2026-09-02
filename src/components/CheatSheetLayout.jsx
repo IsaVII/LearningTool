@@ -3,6 +3,7 @@ import CodeBlock from "./CodeBlock";
 import ContentCard from "./ContentCard";
 import Reveal from "./motion/Reveal";
 import TextReveal from "./motion/TextReveal";
+import { loadCodeFile } from "../utils/codeExamples";
 
 /**
  * Shared page layout for every cheat sheet under src/pages/cheatsheets/.
@@ -85,10 +86,10 @@ function CheatSheetLayout({
                   </p>
                 )}
 
-                {step.code && (
+                {step.codeFile && (
                   <div className="mb-4">
                     <CodeBlock highlightLines={step.highlightLines}>
-                      {step.code}
+                      {loadCodeFile(step.codeFile)}
                     </CodeBlock>
                   </div>
                 )}
@@ -131,10 +132,10 @@ function CheatSheetLayout({
                           </p>
                         )}
 
-                        {subStep.code && (
+                        {subStep.codeFile && (
                           <div className="mb-3">
                             <CodeBlock highlightLines={subStep.highlightLines}>
-                              {subStep.code}
+                              {loadCodeFile(subStep.codeFile)}
                             </CodeBlock>
                           </div>
                         )}
@@ -191,7 +192,7 @@ function CheatSheetLayout({
                     <p className="text-heading-alt font-semibold text-sm mb-2">
                       {step.step}
                     </p>
-                    <CodeBlock>{step.code}</CodeBlock>
+                    <CodeBlock>{loadCodeFile(step.codeFile)}</CodeBlock>
                   </div>
                 ))}
               </div>
