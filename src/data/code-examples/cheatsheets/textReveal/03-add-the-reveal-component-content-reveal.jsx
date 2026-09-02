@@ -12,8 +12,7 @@ function Reveal({
 }) {
   const { ref, isVisible } = useScrollReveal();
 
-  
-if (variant === "fade") {
+  if (variant === "fade") {
     return (
       <Tag
         ref={ref}
@@ -25,7 +24,8 @@ if (variant === "fade") {
       </Tag>
     );
   }
-return (
+
+  return (
     <Tag
       ref={ref}
       className={`reveal reveal-${direction} ${isVisible ? "is-visible" : ""} ${className}`}

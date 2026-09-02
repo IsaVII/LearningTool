@@ -30,12 +30,8 @@
       "id": 3,
       "title": "Lägg till Reveal-komponenten (innehålls-reveal)",
       "description": "Wrappar vilket innehållsblock som helst - ett kort, en sektion, ett listobjekt - och lägger till klasserna som driver CSS-animationen i nästa steg. `direction` väljer vilken väg den reser in från (up/down/left/right/scale), och `index` matar en --stagger-index CSS-variabel så en lista av dessa automatiskt stagger när deras delade förälder har .stagger-children-klassen.",
-      "highlightLines": [
-        12,
-        15
-      ],
       "language": "jsx",
-      "codeFile": "code-examples/cheatsheets/textReveal-sv/override-lagg-till-reveal-komponenten-innehalls-reveal.jsx"
+      "codeFile": "code-examples/cheatsheets/textReveal/03-add-the-reveal-component-content-reveal.jsx"
     },
     {
       "id": 4,
@@ -51,30 +47,26 @@
       "description": "Detta är den trimmade reveal-and-text-reveal-delen av en CSS-fil (importera den en gång, t.ex. från din apps rotkomponent eller huvudentry-fil). Den definierar timing/easing-tokens som båda komponenterna förlitar sig på, .reveal-basstaten plus dess riktningsvarianter, .text-reveal-piece-states, och en media query som tar bort rörelsen för prefers-reduced-motion medan den behåller en vanlig opacity-fade så state-ändringar fortfarande är märkbara.",
       "note": "Om ditt projekt redan har ett bredare design-token-system (durationer/easings definierade någon annanstans), lägg bara till .reveal*, .text-reveal-piece, .stagger-children och reduced-motion-reglerna - hoppa över att omdeklarera tokens du redan har.",
       "language": "jsx",
-      "codeFile": "code-examples/cheatsheets/textReveal-sv/override-lagg-till-css-tokens-reveal-text-reveal-regler.jsx"
+      "codeFile": "code-examples/cheatsheets/textReveal/05-add-the-css-tokens-reveal-text-reveal-rules.jsx"
     },
     {
       "id": 6,
       "title": "Importera CSS en gång",
       "description": "Importera stylesheetn i din apps entry point så klasserna är tillgängliga överallt.",
       "language": "javascript",
-      "codeFile": "code-examples/cheatsheets/textReveal-sv/override-importera-css-en-gang.js"
+      "codeFile": "code-examples/cheatsheets/textReveal/06-import-the-css-once.js"
     },
     {
       "id": 7,
       "title": "Använd TextReveal för Rubriker",
       "description": "Släpp in den där du normalt skulle sätta en <h1>/<h2> - skicka rubrik-texten som en prop istället för som children, eftersom komponenten behöver den råa strängen för att dela upp i ord.",
       "language": "jsx",
-      "codeFile": "code-examples/cheatsheets/textReveal-sv/override-anvand-textreveal-for-rubriker.jsx"
+      "codeFile": "code-examples/cheatsheets/textReveal/07-use-textreveal-for-headings.jsx"
     },
     {
       "id": 8,
       "title": "Använd Reveal för Innehållsblock",
       "description": "Wrappa ett kort, sektion eller vilket element du vill animera in på scroll. För ett rutnät eller lista av objekt, lägg till .stagger-children till föräldern och skicka ett inkrementande index till varje Reveal så de kaskaderar in en efter en istället för att alla trigga på en gång.",
-      "highlightLines": [
-        5,
-        7
-      ],
       "codeFile": "code-examples/cheatsheets/textReveal/08-use-reveal-for-content-blocks.jsx",
       "language": "jsx"
     }
