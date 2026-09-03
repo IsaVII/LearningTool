@@ -410,6 +410,285 @@ i18n.use(initReactI18next).init({
 });
 
 export default i18n;
+`,"/src/data/code-examples/cheatsheets/llmIntegration/01-choose-an-architecture-backend-proxy-only.js":`// ❌ DON'T: calling the LLM directly from the browser
+// Anyone can open devtools → Network tab and steal this key, then run up
+// your bill (or worse) using your account.
+
+const response = await fetch('https://api.anthropic.com/v1/messages', {
+  method: 'POST',
+  headers: {
+    'x-api-key': 'sk-ant-...', // shipped to every visitor's browser
+    'content-type': 'application/json',
+  },
+  body: JSON.stringify({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1000,
+    messages: [{ role: 'user', content: 'Find patterns in my migraine log' }],
+  }),
+});
+
+// ✅ DO: the browser only ever talks to YOUR backend, over a route you
+// control. Your backend holds the API key and forwards the request.
+const analysis = await fetch('/api/migraines/analyze', {
+  method: 'POST',
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify({ entries: myMigraineLog }),
+});
+`,"/src/data/code-examples/cheatsheets/llmIntegration/02-install-the-sdk-store-your-api-key.sh":`npm install @anthropic-ai/sdk express cors dotenv
+
+# .env  (never commit this file)
+ANTHROPIC_API_KEY=sk-ant-your-real-key-here
+PORT=3001
+
+# .gitignore
+echo ".env" >> .gitignore
+`,"/src/data/code-examples/cheatsheets/llmIntegration/03-create-a-minimal-express-proxy-endpoint.js":`// server.js
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import Anthropic from '@anthropic-ai/sdk';
+
+const app = express();
+app.use(cors());
+app.use(express.json({ limit: '1mb' }));
+
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+app.post('/api/migraines/analyze', async (req, res) => {
+  // Steps 4-7 fill this handler in - for now just prove the wiring works.
+  res.json({ received: Array.isArray(req.body.entries) });
+});
+
+app.listen(process.env.PORT || 3001, () => {
+  console.log(\`Proxy listening on :\${process.env.PORT || 3001}\`);
+});
+`,"/src/data/code-examples/cheatsheets/llmIntegration/04-shape-your-data-for-the-model.js":`// A migraine log entry, as it already exists in your app's state/DB
+const exampleEntry = {
+  date: '2026-08-14',
+  painLevel: 7, // 1-10
+  sleepHours: 5.5,
+  stressLevel: 6, // 1-10, self-reported
+  weather: 'low pressure system, storm',
+  triggersNoted: ['skipped breakfast', 'bright screens'],
+  medicationTaken: 'sumatriptan',
+};
+
+// Turn a raw array of entries into a compact block of text the model can
+// reason over. Keep it dense (no giant JSON with repeated keys) - fewer
+// tokens means a faster, cheaper call, and a smaller haystack to search.
+function formatEntriesForPrompt(entries) {
+  return entries
+    .map((e) =>
+      [
+        \`Date: \${e.date}\`,
+        \`Pain: \${e.painLevel}/10\`,
+        \`Sleep: \${e.sleepHours}h\`,
+        \`Stress: \${e.stressLevel}/10\`,
+        \`Weather: \${e.weather || 'n/a'}\`,
+        \`Triggers noted: \${e.triggersNoted?.join(', ') || 'none'}\`,
+        \`Medication: \${e.medicationTaken || 'none'}\`,
+      ].join(' | '),
+    )
+    .join('\\n');
+}
+
+export { formatEntriesForPrompt };
+`,"/src/data/code-examples/cheatsheets/llmIntegration/05-write-a-focused-system-prompt.js":`const SYSTEM_PROMPT = \`You analyze a personal migraine log to surface *correlations*, not
+diagnoses. You are not a doctor and must never claim causation or give
+medical advice.
+
+Rules:
+- Only point out a pattern if it shows up in at least 3 separate entries.
+- Every pattern must reference the specific dates that support it.
+- Be explicit about uncertainty (e.g. "may be associated with", never
+  "causes").
+- If the log is too short or too noisy to find anything reliable, say so
+  instead of inventing a pattern.
+- Always end your output by suggesting the person discuss findings with a
+  doctor before changing any medication or routine.
+
+Respond with JSON only, matching this shape:
+{
+  "patterns": [
+    { "factor": string, "confidence": "low" | "medium" | "high",
+      "supportingDates": string[], "note": string }
+  ],
+  "summary": string
+}\`;
+
+export { SYSTEM_PROMPT };
+`,"/src/data/code-examples/cheatsheets/llmIntegration/06-ask-for-structured-output-json.js":`function buildUserPrompt(entries) {
+  return \`Here is the migraine log, one entry per line:\\n\\n\${formatEntriesForPrompt(
+    entries,
+  )}\\n\\nFind any patterns worth flagging.\`;
+}
+
+app.post('/api/migraines/analyze', async (req, res) => {
+  const { entries } = req.body;
+
+  if (!Array.isArray(entries) || entries.length === 0) {
+    return res.status(400).json({ error: 'entries must be a non-empty array' });
+  }
+
+  const message = await anthropic.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1000,
+    system: SYSTEM_PROMPT,
+    messages: [{ role: 'user', content: buildUserPrompt(entries) }],
+  });
+
+  // Handled in the next step.
+  res.json({ raw: message });
+});
+`,"/src/data/code-examples/cheatsheets/llmIntegration/07-parse-validate-the-response.js":`function extractJson(text) {
+  // Models sometimes wrap JSON in \`\`\`json fences even when asked not to -
+  // strip those before parsing rather than trusting the raw string.
+  const cleaned = text.replace(/^\`\`\`(?:json)?\\n?/, '').replace(/\\n?\`\`\`$/, '');
+  return JSON.parse(cleaned);
+}
+
+app.post('/api/migraines/analyze', async (req, res) => {
+  const { entries } = req.body;
+  if (!Array.isArray(entries) || entries.length === 0) {
+    return res.status(400).json({ error: 'entries must be a non-empty array' });
+  }
+
+  try {
+    const message = await anthropic.messages.create({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1000,
+      system: SYSTEM_PROMPT,
+      messages: [
+        { role: 'user', content: buildUserPrompt(entries) },
+      ],
+    });
+
+    const textBlock = message.content.find((block) => block.type === 'text');
+    const result = extractJson(textBlock?.text ?? '');
+
+    if (!Array.isArray(result.patterns) || typeof result.summary !== 'string') {
+      throw new Error('Response did not match the expected shape');
+    }
+
+    res.json(result);
+  } catch (err) {
+    console.error('LLM analysis failed:', err);
+    res.status(502).json({ error: 'Analysis is temporarily unavailable' });
+  }
+});
+`,"/src/data/code-examples/cheatsheets/llmIntegration/08-call-the-endpoint-from-react.jsx":`function MigrainePatternInsights({ entries }) {
+  const [status, setStatus] = useState('idle'); // idle | loading | done | error
+  const [result, setResult] = useState(null);
+
+  async function runAnalysis() {
+    setStatus('loading');
+    try {
+      const res = await fetch('/api/migraines/analyze', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ entries }),
+      });
+      if (!res.ok) throw new Error(\`Server responded \${res.status}\`);
+      setResult(await res.json());
+      setStatus('done');
+    } catch {
+      setStatus('error');
+    }
+  }
+
+  return (
+    <div>
+      <button onClick={runAnalysis} disabled={status === 'loading' || entries.length < 5}>
+        {status === 'loading' ? 'Analyzing…' : 'Find patterns'}
+      </button>
+
+      {status === 'error' && <p>Something went wrong - try again shortly.</p>}
+
+      {status === 'done' && (
+        <ul>
+          {result.patterns.map((p) => (
+            <li key={p.factor}>
+              <strong>{p.factor}</strong> ({p.confidence} confidence) - {p.note}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+`,"/src/data/code-examples/cheatsheets/llmIntegration/09-handle-rate-limits-caching-cost.js":`import crypto from 'node:crypto';
+
+// Cache by a hash of the data being analyzed, not by user id - if nothing
+// in the log changed, the answer wouldn't either, so don't pay for (or
+// wait on) a repeat call.
+const cache = new Map(); // swap for Redis/your DB in production
+const CACHE_TTL_MS = 1000 * 60 * 30;
+
+function cacheKeyFor(entries) {
+  return crypto.createHash('sha256').update(JSON.stringify(entries)).digest('hex');
+}
+
+app.post('/api/migraines/analyze', async (req, res) => {
+  const { entries } = req.body;
+  const key = cacheKeyFor(entries);
+  const cached = cache.get(key);
+  if (cached && Date.now() - cached.at < CACHE_TTL_MS) {
+    return res.json(cached.result);
+  }
+
+  try {
+    const result = await analyzeWithRetry(entries);
+    cache.set(key, { result, at: Date.now() });
+    res.json(result);
+  } catch (err) {
+    if (err.status === 429) {
+      return res.status(429).json({ error: 'Rate limited - try again in a minute' });
+    }
+    throw err;
+  }
+});
+
+// The SDK throws on 429s/5xxs - retry once with backoff instead of
+// failing the whole request on a transient blip.
+async function analyzeWithRetry(entries, attempt = 1) {
+  try {
+    return await callModel(entries);
+  } catch (err) {
+    if (attempt < 3 && (err.status === 429 || err.status >= 500)) {
+      await new Promise((r) => setTimeout(r, attempt * 500));
+      return analyzeWithRetry(entries, attempt + 1);
+    }
+    throw err;
+  }
+}
+`,"/src/data/code-examples/cheatsheets/llmIntegration/10-common-errors-fixes.sh":`# "Access-Control-Allow-Origin" / CORS error in the browser console
+#   → You called api.anthropic.com directly from the frontend, or forgot
+#     app.use(cors()) on your Express server. Fix: only call your own
+#     backend route from the browser (see Step 1).
+
+# 401 { "type": "authentication_error" }
+#   → ANTHROPIC_API_KEY is missing, wrong, or the .env file isn't loaded.
+#     Confirm \`import 'dotenv/config'\` runs before you construct the
+#     Anthropic client.
+
+# SyntaxError: Unexpected token '\`' in JSON.parse
+#   → The model wrapped its answer in \`\`\`json fences despite being told
+#     not to. Strip fences before parsing (see Step 7's extractJson).
+
+# 400 { "type": "invalid_request_error", ... max_tokens ... }
+#   → max_tokens is required, and your prompt + expected answer must fit
+#     the model's context window. Trim or summarize very long logs before
+#     sending them.
+
+# The model gives a diagnosis / medical advice instead of a correlation
+#   → The system prompt isn't strict enough. Repeat the constraint in the
+#     user message too, and lower temperature for more consistent, less
+#     "creative" phrasing.
+
+# Requests are fast locally but time out in production
+#   → Set an explicit fetch/client timeout, and don't block the response
+#     path on the LLM call for anything real-time - kick it off async and
+#     poll, or use streaming (message.stream) for long analyses.
 `,"/src/data/code-examples/cheatsheets/mongodb/01-create-mongodb-atlas-account-cluster.sh":`1. Go to https://www.mongodb.com/cloud/atlas
 2. Click "Sign Up" and create an account
 3. Create a new project
@@ -2273,46 +2552,46 @@ function useScrollReveal({ threshold = 0.2, rootMargin = "0px 0px -10% 0px" } = 
 }
 
 export default useScrollReveal;
-`,"/src/data/code-examples/cheatsheets/textReveal/03-add-the-reveal-component-content-reveal.jsx":`// src/components/motion/Reveal.jsx
-import useScrollReveal from "../../hooks/useScrollReveal";
-
-function Reveal({
-  children,
-  as: Tag = "div",
-  direction = "up",
-  variant = "default",
-  index = 0,
-  className = "",
-  ...rest
-}) {
-  const { ref, isVisible } = useScrollReveal();
-
-  if (variant === "fade") {
-    return (
-      <Tag
-        ref={ref}
-        className={\`reveal-fade \${isVisible ? "is-visible" : ""} \${className}\`}
-        style={{ "--stagger-index": index }}
-        {...rest}
-      >
-        {children}
-      </Tag>
-    );
-  }
-
-  return (
-    <Tag
-      ref={ref}
-      className={\`reveal reveal-\${direction} \${isVisible ? "is-visible" : ""} \${className}\`}
-      style={{ "--stagger-index": index }}
-      {...rest}
-    >
-      {children}
-    </Tag>
-  );
-}
-
-export default Reveal;
+`,"/src/data/code-examples/cheatsheets/textReveal/03-add-the-reveal-component-content-reveal.jsx":`// src/components/motion/Reveal.jsx\r
+import useScrollReveal from "../../hooks/useScrollReveal";\r
+\r
+function Reveal({\r
+  children,\r
+  as: Tag = "div",\r
+  direction = "up",\r
+  variant = "default",\r
+  index = 0,\r
+  className = "",\r
+  ...rest\r
+}) {\r
+  const { ref, isVisible } = useScrollReveal();\r
+\r
+  if (variant === "fade") {\r
+    return (\r
+      <Tag\r
+        ref={ref}\r
+        className={\`reveal-fade \${isVisible ? "is-visible" : ""} \${className}\`}\r
+        style={{ "--stagger-index": index }}\r
+        {...rest}\r
+      >\r
+        {children}\r
+      </Tag>\r
+    );\r
+  }\r
+\r
+  return (\r
+    <Tag\r
+      ref={ref}\r
+      className={\`reveal reveal-\${direction} \${isVisible ? "is-visible" : ""} \${className}\`}\r
+      style={{ "--stagger-index": index }}\r
+      {...rest}\r
+    >\r
+      {children}\r
+    </Tag>\r
+  );\r
+}\r
+\r
+export default Reveal;\r
 `,"/src/data/code-examples/cheatsheets/textReveal/04-add-the-textreveal-component-word-by-word-text-r.jsx":`// src/components/motion/TextReveal.jsx
 import useScrollReveal from "../../hooks/useScrollReveal";
 
@@ -2555,6 +2834,84 @@ jobs:
         run: npx vercel deploy --prod --token=$VERCEL_TOKEN
         env:
           VERCEL_TOKEN: \${{ secrets.VERCEL_TOKEN }}
+`,"/src/data/code-examples/learning/docker/Dockerfile":`# ---- Stage 1: build the React app ----
+FROM node:20-alpine AS build
+WORKDIR /app
+
+# Copy only the dependency manifests first - Docker caches each layer,
+# so this layer (and npm ci below) is skipped on rebuilds unless
+# package.json/package-lock.json actually changed
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# Now bring in the rest of the source and build the production bundle
+COPY . .
+RUN npm run build
+
+# ---- Stage 2: serve the built files with nginx ----
+FROM nginx:1.27-alpine AS runtime
+
+# Custom config so client-side routes (React Router) don't 404 on refresh
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy ONLY the compiled output from the build stage - node_modules,
+# source files, and the whole Node toolchain never reach this image
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+# Run nginx in the foreground so it is PID 1 and receives SIGTERM directly
+CMD ["nginx", "-g", "daemon off;"]
+`,"/src/data/code-examples/learning/docker/docker-compose.yml":`services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: ./server
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgres://app:app@db:5432/app
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+    # Named volume, not a bind mount: keeps the image's own node_modules
+    # instead of letting the host's (possibly missing/wrong-OS) copy win
+    volumes:
+      - api_node_modules:/app/node_modules
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:
+  api_node_modules:
+`,"/src/data/code-examples/learning/docker/dockerignore":`node_modules
+dist
+.git
+.env
+npm-debug.log
+Dockerfile
+docker-compose.yml
 `,"/src/data/code-examples/learning/express/example.js":`const express = require("express");
 const app = express();
 
