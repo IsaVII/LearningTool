@@ -417,7 +417,7 @@ src/data/
   sv/
     cheatsheets/
       myTopic.json        ← Swedish content (same shape)
-`,"/src/data/code-examples/cheatsheets/i18n/09-register-the-new-cheatsheet-in-the-app.js":`// 1. src/data/cheatsheets.json – add an entry to the topics array
+`,"/src/data/code-examples/cheatsheets/i18n/09-register-the-new-cheatsheet-in-the-app.js":`// 1. src/data/en/cheatsheets.json – add an entry to the topics array
 {
   "id": 7,
   "key": "mytopic",
@@ -587,7 +587,7 @@ const response = await fetch('https://api.anthropic.com/v1/messages', {
     'content-type': 'application/json',
   },
   body: JSON.stringify({
-    model: 'claude-sonnet-4-6',
+    model: 'claude-sonnet-5', // check docs.claude.com for the current model ID - these change over time
     max_tokens: 1000,
     messages: [{ role: 'user', content: 'Find patterns in my migraine log' }],
   }),
@@ -697,7 +697,7 @@ app.post('/api/migraines/analyze', async (req, res) => {
   }
 
   const message = await anthropic.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: 'claude-sonnet-5', // check docs.claude.com for the current model ID - these change over time
     max_tokens: 1000,
     system: SYSTEM_PROMPT,
     messages: [{ role: 'user', content: buildUserPrompt(entries) }],
@@ -721,7 +721,7 @@ app.post('/api/migraines/analyze', async (req, res) => {
 
   try {
     const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
+      model: 'claude-sonnet-5', // check docs.claude.com for the current model ID - these change over time
       max_tokens: 1000,
       system: SYSTEM_PROMPT,
       messages: [
@@ -2190,7 +2190,7 @@ app.delete('/posts/:id', (req, res) => {
 `,"/src/data/code-examples/cheatsheets/projectSetup/02-navigate-to-project-install-dependencies.sh":`cd frontend
 npm install
 `,"/src/data/code-examples/cheatsheets/projectSetup/03-install-redux-state-management.sh":`npm install @reduxjs/toolkit react-redux
-`,"/src/data/code-examples/cheatsheets/projectSetup/04-install-tailwind-css-with-vite-plugin-optional.sh":`npm install tailwindcss postcss autoprefixer @tailwindcss/vite
+`,"/src/data/code-examples/cheatsheets/projectSetup/04-install-tailwind-css-with-vite-plugin-optional.sh":`npm install tailwindcss @tailwindcss/vite
 `,"/src/data/code-examples/cheatsheets/projectSetup/05-configure-tailwind-in-vite-config-js-optional.js":`import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
@@ -2198,9 +2198,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [tailwindcss(), react()],
 })
-`,"/src/data/code-examples/cheatsheets/projectSetup/06-add-tailwind-directives-to-css-optional.css":`@tailwind base;
-@tailwind components;
-@tailwind utilities;
+`,"/src/data/code-examples/cheatsheets/projectSetup/06-add-tailwind-directives-to-css-optional.css":`@import "tailwindcss";
 `,"/src/data/code-examples/cheatsheets/projectSetup/07-install-react-router-for-navigation.sh":`npm install react-router-dom
 `,"/src/data/code-examples/cheatsheets/projectSetup/08-create-redux-store-structure.js":`// src/redux/store.js
 import { configureStore } from '@reduxjs/toolkit';
@@ -2788,7 +2786,7 @@ function TextReveal({ text, as: Tag = "h2", className = "", wordDelay = 40 }) {
 }
 
 export default TextReveal;
-`,"/src/data/code-examples/cheatsheets/textReveal/05-add-the-css-tokens-reveal-text-reveal-rules.jsx":`/* src/styles/reveal.css */
+`,"/src/data/code-examples/cheatsheets/textReveal/05-add-the-css-tokens-reveal-text-reveal-rules.jsx":`/* src/styles/motion.css */
 :root {
   --duration-base: 280ms; /* used for the reduced-motion opacity fallback */
   --duration-moderate: 420ms; /* reveal + text-reveal transition length */
@@ -2883,7 +2881,7 @@ export default TextReveal;
   }
 }
 `,"/src/data/code-examples/cheatsheets/textReveal/06-import-the-css-once.js":`// src/main.jsx (or App.jsx)
-import "./styles/reveal.css";
+import "./styles/motion.css";
 `,"/src/data/code-examples/cheatsheets/textReveal/07-use-textreveal-for-headings.jsx":`import TextReveal from "./components/motion/TextReveal";
 
 function Hero() {
