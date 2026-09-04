@@ -16,12 +16,12 @@ on:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: "24"
           cache: "npm"
 `,"/src/data/code-examples/cheatsheets/cicd/04-install-lint-test.yml":`      - name: Install dependencies
         run: npm ci
@@ -36,11 +36,11 @@ on:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18, 20, 22]
+        node-version: [20, 22, 24]
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: \${{ matrix.node-version }}
           cache: "npm"
@@ -72,16 +72,47 @@ on:
   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
   runs-on: ubuntu-latest
   permissions:
+    contents: write
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v5
+      with:
+        node-version: "24"
+        cache: "npm"
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build app
+      run: npm run build
+
+    - name: Deploy to gh-pages branch
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: \${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
+`,"/src/data/code-examples/cheatsheets/cicd/09b-optional-deploy-with-official-pages-action.yml":`# Optional alternative to peaceiris/actions-gh-pages: serve Pages directly
+# from an Actions run instead of publishing a gh-pages branch. Requires
+# Settings > Pages > Source = "GitHub Actions" (not "Deploy from a branch").
+deploy:
+  needs: build-and-test
+  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  runs-on: ubuntu-latest
+  permissions:
     pages: write
     id-token: write
   environment:
     name: github-pages
     url: \${{ steps.deployment.outputs.page_url }}
   steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - uses: actions/checkout@v5
+    - uses: actions/setup-node@v5
       with:
-        node-version: "20"
+        node-version: "24"
+        cache: "npm"
     - run: npm ci && npm run build
     - uses: actions/upload-pages-artifact@v3
       with:
@@ -101,9 +132,13 @@ Error: Workflow doesn't trigger at all
 Cause: The file isn't under .github/workflows/, has a YAML syntax error, or the branch name in on.push.branches doesn't match your default branch.
 Fix: Check the Actions tab's "All workflows" list - if yours isn't listed, GitHub couldn't parse the file; check YAML indentation first.
 
-Error: "Resource not accessible by integration" on deploy
-Cause: The job is missing the permissions block (pages: write / id-token: write) that actions/deploy-pages needs.
-Fix: Add the permissions block shown in step 9 to the deploy job.
+Error: "remote: Permission to <owner>/<repo>.git denied" / 403 when pushing gh-pages
+Cause: The deploy job is missing permissions: contents: write, so the default GITHUB_TOKEN isn't allowed to push the gh-pages branch that peaceiris/actions-gh-pages creates.
+Fix: Add permissions: contents: write to the deploy job, as shown in step 9.
+
+Error: "Resource not accessible by integration" on deploy (only if using the optional actions/deploy-pages job)
+Cause: The job is missing the permissions block (pages: write / id-token: write) that actions/deploy-pages needs, or the repo's Pages source is still set to "Deploy from a branch" instead of "GitHub Actions".
+Fix: Add that permissions block to the deploy job, and switch the Pages source to "GitHub Actions" - see the optional sub-step under step 9.
 
 Error: Secret shows up as an empty string in the log
 Cause: Referencing secrets.NAME from a pull_request-triggered workflow on a fork, where secrets are withheld intentionally.
@@ -120,9 +155,13 @@ Fel: Workflowen triggas inte alls
 Orsak: Filen ligger inte under .github/workflows/, har ett YAML-syntaxfel, eller så matchar branchnamnet i on.push.branches inte din standardbranch.
 Fix: Kontrollera "All workflows"-listan i Actions-fliken - om din inte finns med kunde GitHub inte parsa filen; kontrollera YAML-indenteringen först.
 
-Fel: "Resource not accessible by integration" vid deploy
-Orsak: Jobbet saknar permissions-blocket (pages: write / id-token: write) som actions/deploy-pages behöver.
-Fix: Lägg till permissions-blocket som visas i steg 9 i deploy-jobbet.
+Fel: "remote: Permission to <owner>/<repo>.git denied" / 403 vid push till gh-pages
+Orsak: Deploy-jobbet saknar permissions: contents: write, så standard-GITHUB_TOKEN får inte pusha den gh-pages-branch som peaceiris/actions-gh-pages skapar.
+Fix: Lägg till permissions: contents: write i deploy-jobbet, som visas i steg 9.
+
+Fel: "Resource not accessible by integration" vid deploy (endast om du använder det valfria actions/deploy-pages-jobbet)
+Orsak: Jobbet saknar permissions-blocket (pages: write / id-token: write) som actions/deploy-pages behöver, eller så är repots Pages-källa fortfarande satt till "Deploy from a branch" istället för "GitHub Actions".
+Fix: Lägg till det permissions-blocket i deploy-jobbet, och byt Pages-källa till "GitHub Actions" - se det valfria understeget under steg 9.
 
 Fel: En secret visas som en tom sträng i loggen
 Orsak: Referens till secrets.NAME från en pull_request-triggad workflow på en fork, där secrets medvetet hålls tillbaka.
