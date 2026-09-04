@@ -1,6 +1,133 @@
 import{n as e}from"./rolldown-runtime-CbXtAM7H.js";import{c as t,i as n}from"./TextReveal-BmuH47v_.js";var r=n(),i=new Set(`const.let.var.function.class.extends.new.typeof.instanceof.delete.void.in.of.static.async.await.this.super.interface.type.enum.namespace.declare.abstract.readonly.public.private.protected.implements.keyof.as.satisfies`.split(`.`)),a=new Set([`import`,`export`,`from`,`default`,`return`,`if`,`else`,`for`,`while`,`do`,`switch`,`case`,`break`,`continue`,`try`,`catch`,`finally`,`throw`,`yield`]),o=new Set([`true`,`false`,`null`,`undefined`]),s={comment:`text-syntax-comment italic`,string:`text-syntax-string`,number:`text-syntax-number`,control:`text-syntax-control`,declaration:`text-syntax-declaration`,literal:`text-syntax-declaration`,tag:`text-syntax-declaration`,component:`text-syntax-component`,call:`text-syntax-call`,attribute:`text-syntax-attribute`,plain:`text-syntax-plain`},c=new RegExp([`(?<comment>//[^\\n]*|/\\*[\\s\\S]*?\\*/)`,`(?<string>"(?:\\\\.|[^"\\\\])*"|'(?:\\\\.|[^'\\\\])*'|\`(?:\\\\.|[^\`\\\\])*\`)`,`(?<number>\\b\\d+\\.?\\d*\\b)`,`(?<word>\\b[A-Za-z_$][\\w$]*\\b)`,`(?<lt><\\/?)`,`(?<gt>\\/?>)`].join(`|`),`g`);function l(e){let t=[],n=0,r=!1,s=!1,l;for(;l=c.exec(e);){l.index>n&&t.push({text:e.slice(n,l.index),type:`plain`});let u=l.groups;if(u.comment)t.push({text:u.comment,type:`comment`}),s=!1;else if(u.string)t.push({text:u.string,type:`string`}),s=!1;else if(u.number)t.push({text:u.number,type:`number`}),s=!1;else if(u.lt)r=!0,t.push({text:u.lt,type:`plain`});else if(u.gt)r=!1,t.push({text:u.gt,type:`plain`});else if(u.word){let n=u.word,l=e.slice(c.lastIndex,c.lastIndex+20),d;r?(d=/^[A-Z]/.test(n)?`component`:`tag`,r=!1):d=a.has(n)?`control`:i.has(n)?`declaration`:o.has(n)?`literal`:s&&/^\s*\(/.test(l)?`component`:/^\s*\(/.test(l)?`call`:/^[A-Z]/.test(n)?`component`:/^\s*=(?!=|>)/.test(l)?`attribute`:`plain`,t.push({text:n,type:d}),s=n===`function`||n===`class`}n=c.lastIndex}return n<e.length&&t.push({text:e.slice(n),type:`plain`}),t}function u({code:e}){return l(e).map((e,t)=>(0,r.jsx)(`span`,{className:s[e.type],children:e.text},t))}var d=e(t(),1);function f({text:e,className:t=``}){let[n,i]=(0,d.useState)(!1),a=(0,d.useRef)(null);(0,d.useEffect)(()=>()=>clearTimeout(a.current),[]);let o=e=>{let t=document.createElement(`textarea`);t.value=e,t.style.position=`fixed`,t.style.top=`-9999px`,t.style.left=`-9999px`,document.body.appendChild(t),t.focus(),t.select();try{document.execCommand(`copy`)}finally{document.body.removeChild(t)}};return(0,r.jsx)(`button`,{type:`button`,onClick:async()=>{try{navigator.clipboard&&window.isSecureContext?await navigator.clipboard.writeText(e):o(e),i(!0),clearTimeout(a.current),a.current=setTimeout(()=>i(!1),2e3)}catch{try{o(e),i(!0),clearTimeout(a.current),a.current=setTimeout(()=>i(!1),2e3)}catch{}}},"aria-label":n?`Copied to clipboard`:`Copy code to clipboard`,title:n?`Copied!`:`Copy`,className:`inline-flex items-center gap-1.5 rounded border border-line bg-surface/90 px-2 py-1 text-xs font-mono text-muted backdrop-blur-sm transition-colors hover:text-heading hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${t}`,children:n?(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)(`svg`,{xmlns:`http://www.w3.org/2000/svg`,viewBox:`0 0 20 20`,fill:`currentColor`,className:`w-3.5 h-3.5 text-green-500`,"aria-hidden":`true`,children:(0,r.jsx)(`path`,{fillRule:`evenodd`,d:`M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z`,clipRule:`evenodd`})}),(0,r.jsx)(`span`,{className:`text-green-500`,children:`Copied!`})]}):(0,r.jsxs)(r.Fragment,{children:[(0,r.jsxs)(`svg`,{xmlns:`http://www.w3.org/2000/svg`,viewBox:`0 0 20 20`,fill:`currentColor`,className:`w-3.5 h-3.5`,"aria-hidden":`true`,children:[(0,r.jsx)(`path`,{d:`M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z`}),(0,r.jsx)(`path`,{d:`M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h8a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z`})]}),(0,r.jsx)(`span`,{children:`Copy`})]})})}function p({children:e,showLineNumbers:t=!1,highlightLines:n=[]}){let i=Array.isArray(e)?e:String(e??``).split(`
 `),a=new Set(n),o=i.join(`
-`);return(0,r.jsxs)(`div`,{className:`relative group`,children:[(0,r.jsx)(f,{text:o,className:`absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 focus-visible:opacity-100`}),(0,r.jsx)(`pre`,{className:` border border-line rounded p-4 overflow-x-auto text-sm font-mono whitespace-pre text-left`,children:(0,r.jsx)(`code`,{style:{display:`block`,width:`fit-content`},children:i.map((e,n)=>{let i=n+1,o=a.has(i);return(0,r.jsxs)(`div`,{className:`flex w-fit min-w-full ${o?`bg-white/10 -mx-4 px-4 border-l-2 border-accent`:``}`,children:[t&&(0,r.jsx)(`span`,{className:`select-none text-right pr-4 mr-2 text-syntax-line-number w-7 shrink-0`,children:i}),(0,r.jsx)(`span`,{className:`flex-1 block`,children:(0,r.jsx)(u,{code:e.length?e:` `})})]},i)})})})]})}function m({children:e}){return(0,r.jsx)(`section`,{className:` bg-surface rounded-lg p-8 shadow-sm`,children:e})}var h=Object.fromEntries(Object.entries(Object.assign({"/src/data/code-examples/cheatsheets/githubPages/01-install-gh-pages.sh":`npm install gh-pages --save-dev
+`);return(0,r.jsxs)(`div`,{className:`relative group`,children:[(0,r.jsx)(f,{text:o,className:`absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 focus-visible:opacity-100`}),(0,r.jsx)(`pre`,{className:` border border-line rounded p-4 overflow-x-auto text-sm font-mono whitespace-pre text-left`,children:(0,r.jsx)(`code`,{style:{display:`block`,width:`fit-content`},children:i.map((e,n)=>{let i=n+1,o=a.has(i);return(0,r.jsxs)(`div`,{className:`flex w-fit min-w-full ${o?`bg-white/10 -mx-4 px-4 border-l-2 border-accent`:``}`,children:[t&&(0,r.jsx)(`span`,{className:`select-none text-right pr-4 mr-2 text-syntax-line-number w-7 shrink-0`,children:i}),(0,r.jsx)(`span`,{className:`flex-1 block`,children:(0,r.jsx)(u,{code:e.length?e:` `})})]},i)})})})]})}function m({children:e}){return(0,r.jsx)(`section`,{className:` bg-surface rounded-lg p-8 shadow-sm`,children:e})}var h=Object.fromEntries(Object.entries(Object.assign({"/src/data/code-examples/cheatsheets/cicd/01-create-the-workflow-file-folder-structure.sh":`mkdir -p .github/workflows
+touch .github/workflows/ci.yml
+`,"/src/data/code-examples/cheatsheets/cicd/02-choose-your-triggers.yml":`name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+`,"/src/data/code-examples/cheatsheets/cicd/03-check-out-code-set-up-node.yml":`jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+`,"/src/data/code-examples/cheatsheets/cicd/04-install-lint-test.yml":`      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+`,"/src/data/code-examples/cheatsheets/cicd/05-matrix-builds-across-node-versions.yml":`jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: \${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm test
+`,"/src/data/code-examples/cheatsheets/cicd/06-cache-dependencies-for-faster-runs.yml":`      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-\${{ runner.os }}-\${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-\${{ runner.os }}-
+`,"/src/data/code-examples/cheatsheets/cicd/07-store-secrets-environment-variables.yml":`      - name: Build with environment variables
+        run: npm run build
+        env:
+          VITE_API_URL: \${{ secrets.VITE_API_URL }}
+          NODE_ENV: production
+`,"/src/data/code-examples/cheatsheets/cicd/08-build-upload-artifacts.yml":`      - name: Build
+        run: npm run build
+
+      - name: Upload build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+`,"/src/data/code-examples/cheatsheets/cicd/09-deploy-to-github-pages-on-merge-cd.yml":`deploy:
+  needs: build-and-test
+  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  runs-on: ubuntu-latest
+  permissions:
+    pages: write
+    id-token: write
+  environment:
+    name: github-pages
+    url: \${{ steps.deployment.outputs.page_url }}
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+    - run: npm ci && npm run build
+    - uses: actions/upload-pages-artifact@v3
+      with:
+        path: dist
+    - id: deployment
+      uses: actions/deploy-pages@v4
+`,"/src/data/code-examples/cheatsheets/cicd/10-add-a-status-badge.md":`![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)
+`,"/src/data/code-examples/cheatsheets/cicd/11-common-errors-fixes.sh":`Error: "Process completed with exit code 1" (no more detail)
+Cause: A step failed but the real error is buried above the generic summary line.
+Fix: Expand the failing step's log, not just the final summary block - the actual stack trace is usually a few lines up.
+
+Error: "Dependencies lock file is not found" / npm ci fails
+Cause: No package-lock.json committed, or setup-node's cache: "npm" can't find one to hash.
+Fix: Commit package-lock.json - npm ci refuses to run without an exact lockfile, by design.
+
+Error: Workflow doesn't trigger at all
+Cause: The file isn't under .github/workflows/, has a YAML syntax error, or the branch name in on.push.branches doesn't match your default branch.
+Fix: Check the Actions tab's "All workflows" list - if yours isn't listed, GitHub couldn't parse the file; check YAML indentation first.
+
+Error: "Resource not accessible by integration" on deploy
+Cause: The job is missing the permissions block (pages: write / id-token: write) that actions/deploy-pages needs.
+Fix: Add the permissions block shown in step 9 to the deploy job.
+
+Error: Secret shows up as an empty string in the log
+Cause: Referencing secrets.NAME from a pull_request-triggered workflow on a fork, where secrets are withheld intentionally.
+Fix: Use pull_request_target with caution, or restructure so the step needing the secret only runs on push to your own repo.
+`,"/src/data/code-examples/cheatsheets/cicd-sv/override-common-errors-fixes.sh":`Fel: "Process completed with exit code 1" (ingen mer detalj)
+Orsak: Ett steg misslyckades men det verkliga felet ligger dolt ovanför den generiska sammanfattningsraden.
+Fix: Expandera loggen för det misslyckade steget, inte bara den sista sammanfattningsblocket - den faktiska stacktracen finns vanligtvis några rader upp.
+
+Fel: "Dependencies lock file is not found" / npm ci misslyckas
+Orsak: Ingen package-lock.json är committad, eller så kan setup-nodes cache: "npm" inte hitta någon att hasha.
+Fix: Committa package-lock.json - npm ci vägrar köra utan en exakt lockfil, med avsikt.
+
+Fel: Workflowen triggas inte alls
+Orsak: Filen ligger inte under .github/workflows/, har ett YAML-syntaxfel, eller så matchar branchnamnet i on.push.branches inte din standardbranch.
+Fix: Kontrollera "All workflows"-listan i Actions-fliken - om din inte finns med kunde GitHub inte parsa filen; kontrollera YAML-indenteringen först.
+
+Fel: "Resource not accessible by integration" vid deploy
+Orsak: Jobbet saknar permissions-blocket (pages: write / id-token: write) som actions/deploy-pages behöver.
+Fix: Lägg till permissions-blocket som visas i steg 9 i deploy-jobbet.
+
+Fel: En secret visas som en tom sträng i loggen
+Orsak: Referens till secrets.NAME från en pull_request-triggad workflow på en fork, där secrets medvetet hålls tillbaka.
+Fix: Använd pull_request_target med försiktighet, eller strukturera om så att steget som behöver secreten bara körs vid push till ditt eget repo.
+`,"/src/data/code-examples/cheatsheets/githubPages/01-install-gh-pages.sh":`npm install gh-pages --save-dev
 `,"/src/data/code-examples/cheatsheets/githubPages/02-add-a-homepage-property-to-package-json.json":`{
   "name": "my-app",
   "version": "0.1.0",
@@ -2552,46 +2679,46 @@ function useScrollReveal({ threshold = 0.2, rootMargin = "0px 0px -10% 0px" } = 
 }
 
 export default useScrollReveal;
-`,"/src/data/code-examples/cheatsheets/textReveal/03-add-the-reveal-component-content-reveal.jsx":`// src/components/motion/Reveal.jsx\r
-import useScrollReveal from "../../hooks/useScrollReveal";\r
-\r
-function Reveal({\r
-  children,\r
-  as: Tag = "div",\r
-  direction = "up",\r
-  variant = "default",\r
-  index = 0,\r
-  className = "",\r
-  ...rest\r
-}) {\r
-  const { ref, isVisible } = useScrollReveal();\r
-\r
-  if (variant === "fade") {\r
-    return (\r
-      <Tag\r
-        ref={ref}\r
-        className={\`reveal-fade \${isVisible ? "is-visible" : ""} \${className}\`}\r
-        style={{ "--stagger-index": index }}\r
-        {...rest}\r
-      >\r
-        {children}\r
-      </Tag>\r
-    );\r
-  }\r
-\r
-  return (\r
-    <Tag\r
-      ref={ref}\r
-      className={\`reveal reveal-\${direction} \${isVisible ? "is-visible" : ""} \${className}\`}\r
-      style={{ "--stagger-index": index }}\r
-      {...rest}\r
-    >\r
-      {children}\r
-    </Tag>\r
-  );\r
-}\r
-\r
-export default Reveal;\r
+`,"/src/data/code-examples/cheatsheets/textReveal/03-add-the-reveal-component-content-reveal.jsx":`// src/components/motion/Reveal.jsx
+import useScrollReveal from "../../hooks/useScrollReveal";
+
+function Reveal({
+  children,
+  as: Tag = "div",
+  direction = "up",
+  variant = "default",
+  index = 0,
+  className = "",
+  ...rest
+}) {
+  const { ref, isVisible } = useScrollReveal();
+
+  if (variant === "fade") {
+    return (
+      <Tag
+        ref={ref}
+        className={\`reveal-fade \${isVisible ? "is-visible" : ""} \${className}\`}
+        style={{ "--stagger-index": index }}
+        {...rest}
+      >
+        {children}
+      </Tag>
+    );
+  }
+
+  return (
+    <Tag
+      ref={ref}
+      className={\`reveal reveal-\${direction} \${isVisible ? "is-visible" : ""} \${className}\`}
+      style={{ "--stagger-index": index }}
+      {...rest}
+    >
+      {children}
+    </Tag>
+  );
+}
+
+export default Reveal;
 `,"/src/data/code-examples/cheatsheets/textReveal/04-add-the-textreveal-component-word-by-word-text-r.jsx":`// src/components/motion/TextReveal.jsx
 import useScrollReveal from "../../hooks/useScrollReveal";
 
